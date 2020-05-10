@@ -10,6 +10,6 @@ This README would normally document whatever steps are necessary to get your app
 
 ### How do I get set up? ###
 
-1) Clone the repo into your preferred directory: 'git clone git@bitbucket.org:hii-digital/ctby-web.git public'
-2)
+1) Clone the repo into your preferred directory: `git clone git@bitbucket.org:hii-digital/ctby-web.git public`
+2) Inside `ctby` directory, run `yarn start` to run website locally
 
