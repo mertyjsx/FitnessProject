@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { Form } from 'semantic-ui-react'
 
-class SignUp extends Component {
+class SignIn extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			firstName: '',
-			lastName: '',
 			email: '',
 			password: ''
 		}
@@ -27,18 +25,10 @@ class SignUp extends Component {
 		return (
 			<div>
 				<Form onSubmit={this.handleSubmit}>
-					<h2>Sign Up</h2>
-					<Form.Field>
-						<label htmlFor="firstName">First Name</label>
-						<input type="text" name="firstName" id="firstName" placeholder="Enter your first name" onChange={this.handleChange}></input>
-					</Form.Field>
-					<Form.Field>
-						<label htmlFor="lastName">Last Name</label>
-						<input type="text" name="lastName" id="lastName" placeholder="Enter your last name" onChange={this.handleChange}></input>
-					</Form.Field>
+					<h2>Sign In</h2>
 					<Form.Field>
 						<label htmlFor="email">Email</label>
-						<input type="email" name="email" id="email" placeholder="Enter your email" onChange={this.handleChange}></input>
+						<input type="email" name="email" id="email" placeholder="Enter email" onChange={this.handleChange}></input>
 					</Form.Field>
 					<Form.Field>
 						<label htmlFor="password">Password</label>
@@ -53,4 +43,4 @@ class SignUp extends Component {
 	}
 }
 
-export default SignUp
+export default SignIn
