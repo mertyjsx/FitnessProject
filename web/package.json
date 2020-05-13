@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^7.1.2",
     "canvasjs": "^1.8.3",
     "firebase": "^7.14.3",
+    "firebase-tools": "^8.2.0",
+    "moment": "^2.25.3",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

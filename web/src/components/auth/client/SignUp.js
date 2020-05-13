@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Form } from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { signUp } from '../../../store/actions/authActions'
 
 class SignUp extends Component {
 	constructor(props) {
@@ -20,10 +23,13 @@ class SignUp extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(this.state);
+		this.props.signUp(this.state)
 	}
 
 	render() {
+		const { auth, authError } = this.props
+		if (auth.uid) return <Redirect to='/' />
+
 		return (
 			<div>
 				<Form onSubmit={this.handleSubmit}>
@@ -46,6 +52,9 @@ class SignUp extends Component {
 					</Form.Field>
 					<Form.Field>
 						<button type="submit">Login</button>
+						<div className="warning">
+							{authError ? <p>{authError}</p> : null}
+						</div>
 					</Form.Field>
 				</Form>
 			</div>
@@ -53,4 +62,17 @@ class SignUp extends Component {
 	}
 }
 
-export default SignUp
+const mapStateToProps = (state) => {
+	return {
+		auth: state.firebase.auth,
+		authError: state.auth.authError
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		signUp: (newUser) => dispatch(signUp(newUser))
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
