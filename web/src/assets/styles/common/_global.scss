@@ -5,7 +5,7 @@ html {
 body,
 #root {
 	// background-color: black;
-	// font-family: $font-primary;
+	font-family: $font-primary;
 	font-weight: normal;
 	// font-size: $font-size;
 	min-height: 100%;
@@ -15,4 +15,33 @@ body,
 	margin: 0;
 	// background-color: $body-bg;
 	line-height: 1.4;
+}
+
+.container {
+	padding: 0 $gutter;
+}
+
+.row {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.col {
+	display: flex;
+	flex: auto;
+	&__2 {
+		// flex: ;
+	}
+	&--justify-right {
+		justify-content: flex-end;
+	}
+}
+
+.hide {
+	display: none;
+}
+
+.inactive {
+	pointer-events: none;
+	opacity: 0.5;
 }

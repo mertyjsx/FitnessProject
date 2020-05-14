@@ -1,0 +1,16 @@
+$button-border-radius: 10px;
+
+.button {
+	display: flex;
+	border-radius: $button-border-radius;
+	text-decoration: none;
+	&--primary {
+		border: $black solid 1px;
+		color: $white;
+		background-color: $theme-black;
+		padding: 10px 25px;
+		&:hover {
+			background-color: $green;
+		}
+	}
+}
