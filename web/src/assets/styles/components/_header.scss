@@ -110,6 +110,9 @@ $hamburger-color-hover: $primary;
 
 	&__nav-settings-results {
 		display: none;
+		&--active {
+			display: block;
+		}
 	}
 
 	&__secondary {

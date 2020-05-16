@@ -32,6 +32,11 @@ body,
 	&__2 {
 		// flex: ;
 	}
+	&__6 {
+		@media screen and (min-width: $md-min) {
+			flex: 0 1 50%;
+		}
+	}
 	&--justify-right {
 		justify-content: flex-end;
 	}
@@ -44,4 +49,26 @@ body,
 .inactive {
 	pointer-events: none;
 	opacity: 0.5;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+// Reset
+h1,
+h2,
+h3,
+h4,
+h5 {
+	margin-top: 0;
+	margin-bottom: 10px;
+	font-family: $font-heading;
+}
+p {
+	margin-top: 0;
+}
+a {
+	text-decoration: none;
 }

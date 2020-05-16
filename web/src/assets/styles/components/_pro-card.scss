@@ -1,0 +1,27 @@
+.pro-card {
+	color: $gray-dark;
+	padding: $gutter;
+	&:hover {
+		.pro-card__inner {
+			background-color: $gray-lighter;
+			border: $primary solid 1px;
+		}
+	}
+
+	&__inner {
+		display: flex;
+		border: $gray-dark solid 1px;
+		padding: 25px;
+		transition: 500ms;
+	}
+
+	&__image {
+		flex: 0 1 205px;
+	}
+
+	&__content {
+		flex: auto;
+		font-family: $font-primary;
+		padding-left: $gutter;
+	}
+}

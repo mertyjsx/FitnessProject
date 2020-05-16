@@ -19,3 +19,7 @@ $font-heading: $font-secondary;
 
 // Spacing
 $gutter: 20px;
+
+// Breakpoints
+$md-max: 768px;
+$md-min: $md-max - 1;
