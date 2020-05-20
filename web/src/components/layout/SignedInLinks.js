@@ -11,7 +11,7 @@ const SignedInLinks = (props) => {
 			<ul>
 				{/* <li><NavLink to="/create-project" className="header__nav-link">New Project</NavLink></li> */}
 				<li><NavLink to="/dashboard" className="header__nav-link">Dashboard</NavLink></li>
-				<li><NavLink to="/" className="header__nav-link inactive">Inbox</NavLink></li>
+				<li><NavLink to="/inbox" className="header__nav-link">Inbox</NavLink></li>
 				<li><NavLink to="/" className="header__nav-link inactive">Bookings</NavLink></li>
 				<li><NavLink to="/" className="header__nav-link inactive">Profile</NavLink></li>
 				<li><NavLink to="/" className="header__nav-link inactive">Calendar</NavLink></li>

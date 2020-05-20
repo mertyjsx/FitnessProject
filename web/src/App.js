@@ -8,8 +8,11 @@ import SignIn from './components/auth/SignIn'
 import SignUp from "./components/auth/client/SignUp"
 import CreateProject from "./components/projects/CreateProject"
 import FindAPro from "./components/modules/FindAPro"
+import './vendor/fontawesome'
+import Inbox from "./components/inbox/Inbox"
+import Profile from "./components/profile/Profile"
 
-function App() {
+function App(props) {
   return (
     <BrowserRouter>
       <div className="App">
@@ -22,6 +25,8 @@ function App() {
           <Route path="/signup" component={SignUp} />
           <Route path="/create-project" component={CreateProject} />
           <Route path="/find-a-pro" component={FindAPro} />
+          <Route path="/inbox" component={Inbox} />
+          <Route exact path="/pro/:uid" component={Profile} />
         </Switch>
       </div>
     </BrowserRouter>

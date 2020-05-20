@@ -7,11 +7,11 @@ const ProList = ({ pros }) => {
 	return (
 		<div className="pro-list row">
 			{pros && pros.map(pro => {
-				console.log(pro);
+				// console.log(pro);
 				const profileUrl = pro.username ? pro.username : pro.id;
-				if (pro.isPro === false || pro.isApproved === false) { return null }
+				if (pro.isPro !== true || pro.isApproved !== true) { return null }
 				return (
-					<Link className={`pro-list__card col__6`} to={'/pro/' + profileUrl} key={pro.id}>
+					<Link className={`pro-list__card col col--6`} to={'/pro/' + pro.uid} key={pro.id}>
 						<ProCard pro={pro} />
 					</Link>
 				)

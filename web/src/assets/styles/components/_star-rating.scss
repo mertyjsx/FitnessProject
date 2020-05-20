@@ -1,0 +1,19 @@
+.star-rating {
+	margin-bottom: 5px;
+
+	&--yellow {
+		color: $yellow;
+	}
+	ul {
+		display: flex;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		margin-right: 3px;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}

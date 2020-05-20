@@ -1,0 +1,21 @@
+.dashboard {
+	&__head {
+	}
+	&__glance {
+		background-color: $gray-lighter;
+		border: $theme-black solid 1px;
+		border-radius: 10px;
+		padding: $gutter * 3 $gutter * 1.5;
+		width: 100%;
+		&--standout {
+			@extend %text--lg, %text--primary-darker, %text--font-secondary;
+			line-height: 1;
+		}
+		&--rating {
+			&:after {
+				content: "/5";
+				font-size: 50%;
+			}
+		}
+	}
+}

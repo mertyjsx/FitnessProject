@@ -1,0 +1,32 @@
+.profile {
+	&__booking {
+		background-color: $gray-lighter;
+		border: $gray-light solid 1px;
+		border-radius: 10px;
+		width: 100%;
+	}
+	&__booking-price {
+		padding: $gutter * 3 $gutter;
+		text-align: center;
+		text-transform: uppercase;
+	}
+	&__booking-price-number {
+		&:after {
+			content: " / hr";
+			font-size: 16px;
+		}
+	}
+	&__nav,
+	&__about,
+	&__professional-background,
+	&__credentials,
+	&__reviews {
+		width: 100%;
+	}
+	&__image {
+		width: 35%;
+	}
+	&__meta {
+		width: 65%;
+	}
+}
