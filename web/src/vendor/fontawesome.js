@@ -1,5 +1,5 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faStarHalfAlt, faGrin, faQuoteLeft, faFilter, faList } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarRegular } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -15,5 +15,9 @@ library.add(
 	faStarHalfAlt,
 	faGoogle,
 	faFacebook,
-	faTwitter
+	faTwitter,
+	faGrin,
+	faQuoteLeft,
+	faFilter,
+	faList
 );

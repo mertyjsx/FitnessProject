@@ -29,7 +29,7 @@ const profileSpecificProps = {
 
 const rrfProps = {
   firebase,
-  config: fbConfig,
+  // config: fbConfig,
   config: profileSpecificProps,
   dispatch: store.dispatch,
   createFirestoreInstance,
@@ -37,6 +37,9 @@ const rrfProps = {
   presence: 'presence', // where list of online users is stored in database
   sessions: 'sessions'
 };
+
+// console.log('index props', rrfProps);
+
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector(state => state.firebase.auth)

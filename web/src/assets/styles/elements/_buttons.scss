@@ -4,13 +4,35 @@ $button-border-radius: 10px;
 	display: flex;
 	border-radius: $button-border-radius;
 	text-decoration: none;
+	padding: 10px 25px;
+	justify-content: center;
+	&:hover {
+		transition: 300ms;
+	}
 	&--primary {
 		border: $black solid 1px;
 		color: $white;
 		background-color: $theme-black;
-		padding: 10px 25px;
 		&:hover {
 			background-color: $green;
+		}
+	}
+	&--secondary {
+		border: $theme-black solid 1px;
+		background-color: $primary-darker;
+		color: $white;
+		text-align: center;
+		&:hover {
+			background-color: $primary;
+		}
+	}
+	&--inverted {
+		border: $theme-black solid 1px;
+		background-color: $gray-lighter;
+		color: $primary-darker;
+		text-align: center;
+		&:hover {
+			background-color: $gray-light;
 		}
 	}
 }

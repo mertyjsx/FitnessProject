@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 
 const ProjectSummary = ({ project }) => {
-	console.log(project.createdAt);
+	// console.log(project.createdAt);
 
 	return (
 		<div className="card">

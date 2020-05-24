@@ -6,6 +6,7 @@ import Dashboard from './components/dashboard/Dashboard'
 import ProjectDetails from './components/projects/ProjectDetails'
 import SignIn from './components/auth/SignIn'
 import SignUp from "./components/auth/client/SignUp"
+import SignUpPro from "./components/auth/pro/SignUpPro"
 import CreateProject from "./components/projects/CreateProject"
 import FindAPro from "./components/modules/FindAPro"
 import './vendor/fontawesome'
@@ -23,6 +24,7 @@ function App(props) {
           <Route path="/project/:id" component={ProjectDetails} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
+          <Route path="/join-as-pro" component={SignUpPro} />
           <Route path="/create-project" component={CreateProject} />
           <Route path="/find-a-pro" component={FindAPro} />
           <Route path="/inbox" component={Inbox} />

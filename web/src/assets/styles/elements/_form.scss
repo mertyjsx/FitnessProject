@@ -1,0 +1,75 @@
+$select-padding: 15px;
+
+%select-style {
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	width: 100%;
+	padding: $select-padding;
+	font-size: inherit;
+	font-family: inherit;
+	background-color: $white;
+	border: $gray-light solid 1px;
+	border-radius: 10px;
+	color: $theme-black;
+	background-image: url(../../images/chevron-down.png);
+	background-position: center right $select-padding;
+	background-repeat: no-repeat;
+}
+
+select {
+	@extend %select-style;
+}
+
+.react-datepicker-wrapper {
+	width: 100%;
+	input {
+		@extend %select-style;
+	}
+}
+
+.react-datepicker {
+	&__input-container {
+		display: flex !important;
+	}
+}
+
+.form {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+}
+
+.field {
+	flex: 0 1 100%;
+	margin-bottom: $gutter;
+	> label {
+		@extend .screen-reader-text;
+	}
+	.button {
+		justify-content: center;
+		padding: $gutter;
+		width: 100%;
+	}
+	&--half {
+		flex: 0 1 49%;
+	}
+	&--inline {
+		display: flex;
+		.checkbox {
+			flex: 0 1 49%;
+		}
+	}
+	&--review {
+		padding-top: $gutter;
+		p {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+		}
+	}
+	&--review-total {
+		border-top: $gray-light solid 1px;
+		padding-top: $gutter;
+	}
+}

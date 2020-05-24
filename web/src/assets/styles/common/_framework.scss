@@ -4,6 +4,8 @@
 
 .container {
 	padding: 0 $gutter;
+	max-width: 1180px;
+	margin: 0 auto;
 	&--top-bottom-padding {
 		padding: $gutter * 4 $gutter;
 	}

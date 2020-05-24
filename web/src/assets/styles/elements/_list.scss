@@ -1,0 +1,15 @@
+.list {
+	display: flex;
+	&--inline {
+		flex-flow: row wrap;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		li {
+			margin-right: $gutter;
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
+}
