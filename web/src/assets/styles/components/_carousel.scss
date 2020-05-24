@@ -1,0 +1,44 @@
+.carousel-content {
+	width: 100%;
+	.carousel {
+		width: 100%;
+		max-width: 480px;
+		margin: 0 auto !important;
+		.slide {
+			background-color: transparent;
+		}
+		.control-dots .dot {
+			background-color: $primary;
+		}
+		.control-prev.control-arrow:before {
+			border-right: 8px solid $primary;
+		}
+		.control-next.control-arrow:before {
+			border-left: 8px solid $primary;
+		}
+		&.carousel-slider .control-prev.control-arrow:hover {
+			background: transparent;
+			&:before {
+				border-right: 8px solid $primary-darker;
+			}
+		}
+		&.carousel-slider .control-next.control-arrow:hover {
+			background: transparent;
+			&:before {
+				border-left: 8px solid $primary-darker;
+			}
+		}
+	}
+	.control-dots {
+		padding: 0;
+	}
+	&__slide {
+		padding: $gutter;
+		p {
+			padding: $gutter;
+		}
+		svg {
+			color: $primary-darker;
+		}
+	}
+}

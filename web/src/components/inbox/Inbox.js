@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
+import InteractionList from '../interactions/InteractionList'
+import { firestoreConnect } from 'react-redux-firebase'
 
 class Inbox extends Component {
 
 	render() {
 		// console.log(this.props)
-		const { projects, auth, profile, notifications } = this.props
+		const { interactions, auth, profile, notifications } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
 
 		return (
@@ -25,9 +27,7 @@ class Inbox extends Component {
 
 					<div className="row">
 						<div className="col">
-							<div className={`inbox__group`}>
-								Inbox
-							</div>
+							<InteractionList auth={auth} interactions={interactions} />
 						</div>
 					</div>
 
@@ -38,19 +38,17 @@ class Inbox extends Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log(state);
+	// console.log(state);
 	return {
-		// projects: state.firestore.ordered.projects,
+		interactions: state.firestore.ordered.interactions,
 		auth: state.firebase.auth,
-		// notifications: state.firestore.ordered.notifications,
 		profile: state.firebase.profile
 	}
 }
 
 export default compose(
 	connect(mapStateToProps),
-	// firestoreConnect([
-	// 	{ collection: 'projects', orderBy: ['createdAt', 'desc'] },
-	// 	{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
-	// ])
+	firestoreConnect([
+		{ collection: 'interactions', orderBy: ['createdAt', 'desc'] }
+	])
 )(Inbox)

@@ -1,20 +1,24 @@
 import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
 import { Form, Radio, Button } from 'semantic-ui-react'
-
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import { setSeconds, setMinutes, setHours } from "date-fns";
 import { db } from '../../config/fbConfig';
 import TimeRange from 'react-time-range';
 import moment from 'moment'
-// import { signUpPro } from '../../../store/actions/authActions'
+import { createInteraction } from '../../store/actions/interactionActions'
+import { Redirect } from 'react-router-dom';
 
-class Booking extends Component {
+class Inquiry extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
+			interactionType: 'inquiry',
+			proFirstName: this.props.pro.firstName,
+			proLastName: this.props.pro.lastName,
+			proUID: this.props.pro.uid,
 			profession: '',
 			bookingType: '',
 			startDate: '',
@@ -24,6 +28,13 @@ class Booking extends Component {
 			rate: this.getStartingRates(),
 			total: 0
 		}
+	}
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+		// console.log(this.state);
+		this.props.createInteraction(this.state)
+		return <Redirect to="/inbox" />
 	}
 
 	renderPriceChange = (profession) => {
@@ -136,7 +147,7 @@ class Booking extends Component {
 	render() {
 
 		return (
-			<div className={`profile__booking`}>
+			<div className={`profile__booking profile__booking--inquiry`}>
 				<div className={`profile__booking-price`}>
 					<p className={`mb--0`}>Starting at</p>
 					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.state.rate}</p>
@@ -161,13 +172,6 @@ class Booking extends Component {
 								dateFormat="MMMM d, yyyy"
 							/>
 						</Form.Field>
-						{/* <Form.Field>
-							<TimeRange
-								startMoment={this.state.startTime}
-								endMoment={this.state.endTime}
-								onChange={this.returnFunction}
-							/>
-						</Form.Field> */}
 						<Form.Field className="field--half">
 							<DatePicker
 								className="time-picker"
@@ -206,13 +210,11 @@ class Booking extends Component {
 							// ]}
 							/>
 						</Form.Field>
-						<div className={'field field--review text--left'}>
-							<h3 className="text--uppercase">Price</h3>
-							<p>${this.state.rate} x {this.state.requestedTime} <span>${this.state.total}</span></p>
-							<p className="field--review-total text--uppercase text--bold">Total<span>${this.state.total}</span></p>
-						</div>
 						<Form.Field>
-							<Button className={'button button--primary text--uppercase text--font-secondary text--sm'}>Request to book</Button>
+							<textarea name="message" id="message" onChange={this.handleChange}></textarea>
+						</Form.Field>
+						<Form.Field>
+							<Button className={'button button--primary text--uppercase text--font-secondary text--sm'}>Send Inquiry</Button>
 						</Form.Field>
 					</Form>
 				</div>
@@ -222,8 +224,6 @@ class Booking extends Component {
 }
 
 const mapStateToProps = (state) => {
-	// console.log(state);
-
 	return {
 		auth: state.firebase.auth,
 		authError: state.auth.authError
@@ -232,8 +232,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		// booking: (newUser) => dispatch(signUpPro(newUser))
+		createInteraction: (interaction) => dispatch(createInteraction(interaction))
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Booking)
+export default connect(mapStateToProps, mapDispatchToProps)(Inquiry)

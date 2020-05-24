@@ -28,7 +28,7 @@ $pro-card-spacing-margin: 25px;
 		margin: $pro-card-spacing-margin;
 		width: 100%;
 		@media screen and (min-width: $md-min) {
-			max-width: 200px;
+			flex: 0 1 calc(200px - #{$pro-card-spacing-margin * 2});
 		}
 	}
 

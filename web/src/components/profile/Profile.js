@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { firestore, firestoreConnect } from 'react-redux-firebase'
+import { Form, Radio, Button, Modal } from 'semantic-ui-react'
 import { compose } from 'redux'
 import { Redirect, Link } from 'react-router-dom'
 import Booking from './Booking'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Inquiry from './Inquiry'
 
 const Profile = (props) => {
 	const { auth, user } = props;
@@ -13,7 +15,7 @@ const Profile = (props) => {
 	if (!auth.uid) return <Redirect to='/signin' />
 
 	const renderProfileNav = (about, background, credentials, reviews) => {
-		console.log(typeof credentials);
+		// console.log(typeof credentials);
 
 		var navItems = [];
 		if (typeof about === 'string') { navItems.push(<li key={'about'}><a href="#about">About</a></li>) }
@@ -71,6 +73,15 @@ const Profile = (props) => {
 		)
 	}
 
+	const sendMessage = () => (
+		<Modal trigger={<Button className="button--inverted">Message Pro</Button>}>
+			<Modal.Content>
+				<Modal.Description>
+					<Inquiry pro={user} user={auth} />
+				</Modal.Description>
+			</Modal.Content>
+		</Modal>
+	)
 
 	const renderCredentials = (cred) => {
 		// if (typeof cred !== 'string') { return null }
@@ -117,7 +128,7 @@ const Profile = (props) => {
 									<p>star rating</p>
 									<div className={`profile__meta-btns`}>
 										<div className="profile__meta-btn">
-											<a href="#" className="button button--inverted">Message Pro</a>
+											{sendMessage()}
 										</div>
 										<div className="profile__meta-btn">
 											<a href="#" className="button button--secondary">Share Profile</a>

@@ -1,5 +1,17 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faStar, faStarHalfAlt, faGrin, faQuoteLeft, faFilter, faList } from '@fortawesome/free-solid-svg-icons'
+import {
+	faStar,
+	faStarHalfAlt,
+	faGrin,
+	faQuoteLeft,
+	faFilter, faList,
+	faUser, faUsers,
+	faDollarSign,
+	faCheckCircle,
+	faBook,
+	faHandshake,
+	faHandPeace
+} from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarRegular } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -21,5 +33,12 @@ library.add(
 	faQuoteLeft,
 	faFilter,
 	faList,
-	faYoutube
+	faYoutube,
+	faUser,
+	faUsers,
+	faDollarSign,
+	faCheckCircle,
+	faBook,
+	faHandshake,
+	faHandPeace
 );

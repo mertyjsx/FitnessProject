@@ -13,6 +13,7 @@ import './vendor/fontawesome'
 import Inbox from "./components/inbox/Inbox"
 import Profile from "./components/profile/Profile"
 import Footer from "./components/layout/Footer"
+import InteractionDetails from "./components/interactions/InteractionDetails"
 
 function App(props) {
   return (
@@ -28,7 +29,8 @@ function App(props) {
           <Route path="/join-as-pro" component={SignUpPro} />
           <Route path="/create-project" component={CreateProject} />
           <Route path="/find-a-pro" component={FindAPro} />
-          <Route path="/inbox" component={Inbox} />
+          <Route exact path="/inbox" component={Inbox} />
+          <Route path="/inbox/:id" component={InteractionDetails} />
           <Route exact path="/pro/:uid" component={Profile} />
         </Switch>
         <Footer />

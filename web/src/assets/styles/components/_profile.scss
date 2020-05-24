@@ -4,6 +4,10 @@
 		border: $gray-light solid 1px;
 		border-radius: 10px;
 		width: 100%;
+		&--inquiry {
+			border: none;
+			background-color: transparent;
+		}
 	}
 	&__booking-price {
 		padding: $gutter * 3 $gutter * 1.5;
