@@ -1,0 +1,33 @@
+.footer {
+	&__top {
+		background-color: $gray-lighter;
+		border-top: $theme-black solid 1px;
+		padding: $gutter * 5 $gutter;
+		li {
+			margin-bottom: $gutter;
+		}
+	}
+	&__bottom {
+		background-color: $primary-darker;
+		color: $gray-light;
+		padding: $gutter * 2 $gutter;
+		text-align: center;
+	}
+	&__col {
+		a {
+			color: $gray-dark;
+			&:hover {
+				color: $theme-black;
+			}
+		}
+		&--alt {
+			a {
+				color: $primary-darker;
+				text-decoration: underline;
+				&:hover {
+					color: $theme-black;
+				}
+			}
+		}
+	}
+}

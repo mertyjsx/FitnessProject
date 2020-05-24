@@ -4,8 +4,9 @@ import { faStar as faStarRegular } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
 import {
 	faGoogle,
-	faFacebook,
-	faTwitter
+	faFacebookF,
+	faTwitter,
+	faYoutube
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
@@ -14,10 +15,11 @@ library.add(
 	faStarSolid,
 	faStarHalfAlt,
 	faGoogle,
-	faFacebook,
+	faFacebookF,
 	faTwitter,
 	faGrin,
 	faQuoteLeft,
 	faFilter,
-	faList
+	faList,
+	faYoutube
 );

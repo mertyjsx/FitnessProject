@@ -12,6 +12,7 @@ import FindAPro from "./components/modules/FindAPro"
 import './vendor/fontawesome'
 import Inbox from "./components/inbox/Inbox"
 import Profile from "./components/profile/Profile"
+import Footer from "./components/layout/Footer"
 
 function App(props) {
   return (
@@ -30,6 +31,7 @@ function App(props) {
           <Route path="/inbox" component={Inbox} />
           <Route exact path="/pro/:uid" component={Profile} />
         </Switch>
+        <Footer />
       </div>
     </BrowserRouter>
   );
