@@ -19,20 +19,20 @@ class Inquiry extends Component {
 			proFirstName: this.props.pro.firstName,
 			proLastName: this.props.pro.lastName,
 			proUID: this.props.pro.uid,
+			proImage: this.props.pro.photoURL,
 			profession: '',
 			bookingType: '',
 			startDate: '',
 			startTime: '',
 			endTime: '',
-			requestedTime: 0,
 			rate: this.getStartingRates(),
+			duration: 0,
 			total: 0
 		}
 	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		// console.log(this.state);
 		this.props.createInteraction(this.state)
 		return <Redirect to="/inbox" />
 	}

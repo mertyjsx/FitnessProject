@@ -85,7 +85,7 @@ class Home extends Component {
 				</div>
 
 
-				<div className="container hide">
+				<div className="container">
 					<div className="row">
 						<div className="col">
 							<ProjectList projects={projects} />

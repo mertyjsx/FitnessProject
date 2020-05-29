@@ -1,25 +1,23 @@
 import React, { Component } from 'react'
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
 import InteractionList from '../interactions/InteractionList'
 import { firestoreConnect } from 'react-redux-firebase'
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
-class Inbox extends Component {
-
+class Bookings extends Component {
 	render() {
-		// console.log(this.props)
-		const { interactions, auth, profile, notifications } = this.props
+		const { interactions, auth } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
 
 		return (
-			<div className="inbox">
+			<div className="bookings">
 				<div className="container container--top-bottom-padding container--small">
 					<div className="row">
 						<div className="col">
-							<div className={`inbox__head`}>
-								<h1 className={`text--lg text--uppercase`}>Inbox</h1>
+							<div className={`bookings__head`}>
+								<h1 className={`text--lg text--uppercase`}>Bookings</h1>
 							</div>
 						</div>
 					</div>
@@ -30,19 +28,26 @@ class Inbox extends Component {
 						<div className="col">
 							<Tabs>
 								<TabList>
-									<Tab>Inquiry</Tab>
-									<Tab>Archived</Tab>
+									<Tab>Active</Tab>
+									<Tab>Pending</Tab>
+									<Tab>Completed</Tab>
+									<Tab>Cancelled</Tab>
 								</TabList>
 								<TabPanel>
-									<InteractionList auth={auth} interactions={interactions} interactionType={'inquiry'} status={'active'} />
+									<InteractionList auth={auth} interactions={interactions} interactionType={'booking'} status={'active'} />
 								</TabPanel>
 								<TabPanel>
-									<InteractionList auth={auth} interactions={interactions} interactionType={'inquiry'} status={'archived'} />
+									<InteractionList auth={auth} interactions={interactions} interactionType={'booking'} status={'pending'} />
+								</TabPanel>
+								<TabPanel>
+									<InteractionList auth={auth} interactions={interactions} interactionType={'booking'} status={'completed'} />
+								</TabPanel>
+								<TabPanel>
+									<InteractionList auth={auth} interactions={interactions} interactionType={'booking'} status={'cancelled'} />
 								</TabPanel>
 							</Tabs>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		)
@@ -54,7 +59,7 @@ const mapStateToProps = (state) => {
 	return {
 		interactions: state.firestore.ordered.interactions,
 		auth: state.firebase.auth,
-		profile: state.firebase.profile
+		// interactionType: interactions.interactionType
 	}
 }
 
@@ -63,4 +68,4 @@ export default compose(
 	firestoreConnect([
 		{ collection: 'interactions', orderBy: ['createdAt', 'desc'] }
 	])
-)(Inbox)
+)(Bookings)

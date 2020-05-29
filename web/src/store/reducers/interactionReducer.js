@@ -8,9 +8,14 @@ const interactionReducer = (state = initState, action) => {
 		case 'CREATE_INTERACTION_ERROR':
 			console.log('create interaction error', action.error);
 			return state;
+		case 'CLOSE_INQUIRY':
+			console.log('create interaction error', action.interaction);
+			return state;
+		case 'CLOSE_INQUIRY_ERROR':
+			console.log('create interaction error', action.error);
+			return state;
 		default:
 			return state;
-
 	}
 }
 

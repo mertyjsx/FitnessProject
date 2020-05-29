@@ -1,6 +1,7 @@
 import React from 'react'
 import imageDefaultUser from '../../assets/images/default-user.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { renderProfileImage } from '../helpers/HelpersProfile'
 
 const ProCard = ({ pro }) => {
 
@@ -66,7 +67,7 @@ const ProCard = ({ pro }) => {
 		<div className={`pro-card`}>
 			<div className={`pro-card__inner`}>
 				<div className={`pro-card__image`}>
-					{renderImageURL(pro.photoURL, pro.firstName, pro.lastName)}
+					{renderProfileImage(pro.photoURL, `Image of user ${pro.firstName} + ${pro.lastName}`)}
 				</div>
 				<div className={`pro-card__content`}>
 					<h2 className={`pro-card__content-name mb--0`}>{pro.firstName} {pro.lastName}</h2>

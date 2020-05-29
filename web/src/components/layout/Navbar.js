@@ -15,7 +15,7 @@ const Navbar = (props) => {
 
 	return (
 		<header className="header">
-			<div className="container">
+			<div className="container container--full">
 				<div className="row">
 					<div className="col col__2">
 						<Link to="/" className="header__brand">

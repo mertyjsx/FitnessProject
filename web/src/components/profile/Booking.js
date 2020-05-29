@@ -1,28 +1,34 @@
 import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
 import { Form, Radio, Button } from 'semantic-ui-react'
-
+import { withRouter } from 'react-router-dom';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-import { setSeconds, setMinutes, setHours } from "date-fns";
-import { db } from '../../config/fbConfig';
-import TimeRange from 'react-time-range';
+import { addDays } from "date-fns";
 import moment from 'moment'
-// import { signUpPro } from '../../../store/actions/authActions'
+import { createInteraction } from '../../store/actions/interactionActions'
+import spinner from '../../assets/images/spinner.gif'
 
 class Booking extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
+			interactionType: 'pending',
+			proFirstName: this.props.pro.firstName,
+			proLastName: this.props.pro.lastName,
+			proUID: this.props.pro.uid,
+			proImage: this.props.pro.photoURL,
 			profession: '',
 			bookingType: '',
 			startDate: '',
 			startTime: '',
 			endTime: '',
-			requestedTime: 0,
 			rate: this.getStartingRates(),
-			total: 0
+			duration: 0,
+			total: 0,
+			formSubmitting: false
+
 		}
 	}
 
@@ -93,16 +99,39 @@ class Booking extends Component {
 	};
 
 	handleStartTimeChange = time => {
-		var newTime = moment(time).format("kk:mm");
-		// console.log(newTime);
-
 		this.setState({
-			startTime: String(newTime)
+			startTime: time
 		});
 	}
 
-	handleEndTimeChange = time => {
-		var newTime = moment(time).format("kk:mm");
+	renderStartTime = () => {
+		const { startTime } = this.state
+		if (startTime === '') { return null }
+		var time = moment(startTime).format('hh:mm a')
+		console.log(time);
+		return 0
+		// return moment(time).format()
+	}
+
+	handleDurationChange = (e) => {
+		this.setState({
+			duration: e.target.value
+		})
+	}
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+		let $this = this
+		this.setState({
+			total: this.calculateTotal(),
+			formSubmitting: true
+		})
+
+		setTimeout(function () {
+			// console.log('wait 3 secs', $this.props);
+			$this.props.createInteraction(this.state)
+			$this.props.history.push('/bookings')
+		}, 3000)
 	}
 
 	getStartingRates = () => {
@@ -133,10 +162,30 @@ class Booking extends Component {
 		return (servicesArray.splice(''))
 	}
 
+	calculateDuration = () => {
+		const { duration } = this.state
+		if (duration === 0) { return 0 }
+		const hours = (duration / 60);
+		return hours;
+	}
+
+	calculateTotal = () => {
+		// console.log('entered');
+		const { rate, duration } = this.state;
+		if (typeof rate === 'undefined' || rate === 0) { return 0 }
+		const perMinute = rate / 60
+		const total = perMinute * duration
+		return total
+	}
+
 	render() {
 
 		return (
-			<div className={`profile__booking`}>
+			<div className={`profile__booking ${this.state.formSubmitting ? 'profile__booking--submitting' : ''}`}>
+				<div className={`loading ${this.state.formSubmitting ? 'loading--active' : ''}`}>
+					<img src={spinner} />
+				</div>
+
 				<div className={`profile__booking-price`}>
 					<p className={`mb--0`}>Starting at</p>
 					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.state.rate}</p>
@@ -147,7 +196,7 @@ class Booking extends Component {
 						</Form.Field>
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>
-							<select name="profession" id="profession" onChange={this.handleChange}>
+							<select name="profession" id="profession" onChange={this.handleChange} required>
 								<option value="">Choose Service</option>
 								{this.renderServices(this.props.pro.professions)}
 							</select>
@@ -158,16 +207,11 @@ class Booking extends Component {
 								selected={this.state.startDate}
 								onChange={this.handleDateChange}
 								placeholderText={'Select Date'}
+								minDate={addDays(new Date(), 1)}
 								dateFormat="MMMM d, yyyy"
+								required={true}
 							/>
 						</Form.Field>
-						{/* <Form.Field>
-							<TimeRange
-								startMoment={this.state.startTime}
-								endMoment={this.state.endTime}
-								onChange={this.returnFunction}
-							/>
-						</Form.Field> */}
 						<Form.Field className="field--half">
 							<DatePicker
 								className="time-picker"
@@ -177,8 +221,10 @@ class Booking extends Component {
 								showTimeSelectOnly
 								timeIntervals={30}
 								timeCaption="Time"
-								dateFormat="HH:mm"
+								dateFormat="hh:mm a"
 								placeholderText={'Start Time'}
+								required={true}
+							// excludeDates={[new Date(), subDays(new Date(), 1)]}
 							// excludeTimes={[
 							// 	setHours(setMinutes(new Date(), 0), 17),
 							// 	setHours(setMinutes(new Date(), 30), 18),
@@ -188,42 +234,32 @@ class Booking extends Component {
 							/>
 						</Form.Field>
 						<Form.Field className="field--half">
-							<DatePicker
-								className="time-picker"
-								selected={this.state.endTime}
-								onChange={this.handleEndTimeChange}
-								showTimeSelect
-								showTimeSelectOnly
-								timeIntervals={30}
-								timeCaption="Time"
-								dateFormat="HH:mm"
-								placeholderText={'End Time'}
-							// excludeTimes={[
-							// 	setHours(setMinutes(new Date(), 0), 17),
-							// 	setHours(setMinutes(new Date(), 30), 18),
-							// 	setHours(setMinutes(new Date(), 30), 19),
-							// 	setHours(setMinutes(new Date(), 30), 17)
-							// ]}
-							/>
+							<select name="profession" id="profession" onChange={this.handleDurationChange} required>
+								<option value="">Duration</option>
+								<option value="30">30 Minutes</option>
+								<option value="60">1 Hour</option>
+								<option value="90">1.5 Hours</option>
+								<option value="120">2 Hours</option>
+							</select>
 						</Form.Field>
 						<div className={'field field--review text--left'}>
-							<h3 className="text--uppercase">Price</h3>
-							<p>${this.state.rate} x {this.state.requestedTime} <span>${this.state.total}</span></p>
-							<p className="field--review-total text--uppercase text--bold">Total<span>${this.state.total}</span></p>
+							<div style={{ width: '100%' }}>
+								<h3 className="text--uppercase">Price</h3>
+								<p><span className="text--lowercase">${this.state.rate} x {this.calculateDuration()} hours</span> <span>${this.calculateTotal()}</span></p>
+								<p className="field--review-total text--uppercase text--bold">Total<span>${this.calculateTotal()}</span></p>
+							</div>
 						</div>
 						<Form.Field>
-							<Button className={'button button--primary text--uppercase text--font-secondary text--sm'}>Request to book</Button>
+							<Button className={'button button--primary text--uppercase text--font-secondary text--sm'} >Request to book</Button>
 						</Form.Field>
 					</Form>
 				</div>
-			</div>
+			</div >
 		)
 	}
 }
 
 const mapStateToProps = (state) => {
-	// console.log(state);
-
 	return {
 		auth: state.firebase.auth,
 		authError: state.auth.authError
@@ -232,8 +268,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		// booking: (newUser) => dispatch(signUpPro(newUser))
+		createInteraction: (interaction) => dispatch(createInteraction(interaction))
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Booking)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Booking))

@@ -12,12 +12,32 @@ $select-padding: 15px;
 	border: $gray-light solid 1px;
 	border-radius: 10px;
 	color: $theme-black;
+}
+
+select {
+	@extend %select-style;
 	background-image: url(../../images/chevron-down.png);
 	background-position: center right $select-padding;
 	background-repeat: no-repeat;
 }
 
-select {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+	@extend %select-style;
+	&.input--filled {
+		border: $green solid 1px;
+	}
+	&.input--error {
+		border: $red solid 1px;
+		~ .error-span {
+			top: 100%;
+			opacity: 1;
+		}
+	}
+}
+
+textarea {
 	@extend %select-style;
 }
 
@@ -25,6 +45,9 @@ select {
 	width: 100%;
 	input {
 		@extend %select-style;
+		background-image: url(../../images/chevron-down.png);
+		background-position: center right $select-padding;
+		background-repeat: no-repeat;
 	}
 }
 
@@ -34,22 +57,47 @@ select {
 	}
 }
 
-.form {
+.form,
+.form__inner {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-between;
 }
 
 .field {
+	display: flex;
+	flex-flow: row wrap;
 	flex: 0 1 100%;
 	margin-bottom: $gutter;
-	> label {
-		@extend .screen-reader-text;
+	position: relative;
+	> input {
+		position: relative;
+		z-index: 1;
+	}
+	.error-span {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		transition: 300ms;
+		font-size: 12px;
 	}
 	.button {
 		justify-content: center;
 		padding: $gutter;
 		width: 100%;
+	}
+	.ui.labeled {
+		display: flex;
+		flex-flow: row wrap;
+		width: 100%;
+		.label {
+			margin-bottom: $gutter/2;
+		}
+		.label,
+		input {
+			flex: 0 1 100%;
+		}
 	}
 	&--half {
 		flex: 0 1 49%;

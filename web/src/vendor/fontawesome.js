@@ -10,7 +10,8 @@ import {
 	faCheckCircle,
 	faBook,
 	faHandshake,
-	faHandPeace
+	faHandPeace,
+	faChevronDown
 } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarRegular } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
@@ -40,5 +41,6 @@ library.add(
 	faCheckCircle,
 	faBook,
 	faHandshake,
-	faHandPeace
+	faHandPeace,
+	faChevronDown
 );

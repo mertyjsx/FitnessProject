@@ -1,0 +1,54 @@
+.message {
+	width: 100%;
+	&__history {
+	}
+	&__create {
+		form {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: flex-end;
+		}
+		textarea {
+			border: $gray solid 1px;
+			border-radius: 10px;
+			flex: 0 1 100%;
+			font-family: $font-primary;
+			font-size: $font-size;
+			padding: $gutter;
+			width: 100%;
+			margin-bottom: $gutter/2;
+		}
+	}
+	&__content {
+		flex: 0 1 calc(89% - #{$gutter});
+	}
+	&__content-time {
+		padding-top: $gutter/2;
+		color: $gray;
+		font-size: 12px;
+		flex: 0 1 100%;
+	}
+	&__content-sent {
+		background-color: $gray-lighter;
+		border-radius: 10px;
+		padding: $gutter;
+	}
+	&__item {
+		margin-bottom: $gutter * 4;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		align-items: flex-start;
+		&--receiver {
+			flex-flow: row-reverse wrap;
+		}
+	}
+	&__sender {
+		flex: 0 1 10%;
+		font-size: 12px;
+		img {
+			border-radius: 50%;
+			border: $red solid 1px;
+		}
+	}
+}

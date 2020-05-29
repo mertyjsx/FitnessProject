@@ -1,0 +1,103 @@
+.interaction {
+	border: $gray-light solid 1px;
+	border-radius: 10px;
+	background-color: $gray-lighter;
+	color: $theme-black;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	padding: $gutter $gutter * 2;
+	width: 100%;
+
+	&__user {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: flex-start;
+		align-items: center;
+		flex: auto;
+	}
+	&__user-img {
+		margin-right: $gutter;
+		img {
+			width: 100%;
+			max-width: 80px;
+			border-radius: 50%;
+			border: $gray-light solid 1px;
+		}
+	}
+	&__user-name {
+	}
+	&__snippet {
+		flex: 0 1 60%;
+		display: flex;
+		align-items: center;
+		flex-flow: row wrap;
+	}
+	&__type {
+		flex: 0 1 20%;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		text-transform: uppercase;
+	}
+	&--inquiry {
+		.interaction__type {
+			color: $yellow-darker;
+		}
+	}
+	&--booking {
+		.interaction__type {
+			color: $green;
+		}
+	}
+}
+
+.interaction-list {
+	width: 100%;
+}
+
+.interaction-details {
+	h3,
+	p {
+		margin-bottom: 0;
+	}
+	&__summary {
+		border: $theme-black solid 1px;
+		border-radius: 10px;
+		background-color: $gray-lighter;
+		padding: $gutter * 4;
+		width: 100%;
+		margin-bottom: $gutter;
+		> div {
+			margin-bottom: $gutter * 2;
+		}
+	}
+	&__summary-meta {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		align-items: center;
+	}
+	&__summary-image {
+		flex: 0 1 20%;
+		img {
+			border-radius: 50%;
+		}
+	}
+	&__summary-pricing {
+		p {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+		}
+	}
+	&__summary-name {
+		flex: 0 1 75%;
+	}
+	&__buttons {
+		flex: 0 1 100%;
+		.link {
+			margin: 0 auto $gutter;
+		}
+	}
+}

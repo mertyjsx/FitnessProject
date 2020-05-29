@@ -1,4 +1,5 @@
 import firebase, { firestore, storage } from 'firebase/app'
+import * as firebaseRoot from 'firebase';
 import 'firebase/firestore'
 import 'firebase/auth'
 
@@ -24,3 +25,5 @@ const db = firebase.firestore();
 
 export { db }
 export default firebase
+export const auth = firebase.auth;
+export const rtdb = firebaseRoot.database();

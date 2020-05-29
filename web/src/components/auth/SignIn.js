@@ -29,24 +29,26 @@ class SignIn extends Component {
 		if (auth.uid) return <Redirect to='/' />
 
 		return (
-			<div>
-				<Form onSubmit={this.handleSubmit}>
-					<h2>Sign In</h2>
-					<Form.Field>
-						<label htmlFor="email">Email</label>
-						<input type="email" name="email" id="email" placeholder="Enter email" onChange={this.handleChange}></input>
-					</Form.Field>
-					<Form.Field>
-						<label htmlFor="password">Password</label>
-						<input type="password" name="password" id="password" placeholder="Enter password" onChange={this.handleChange}></input>
-					</Form.Field>
-					<Form.Field>
-						<button type="submit">Login</button>
-						<div className="warning">
-							{authError ? <p>authError</p> : null}
-						</div>
-					</Form.Field>
-				</Form>
+			<div className={'signin'}>
+				<div className="container container--small container--top-bottom-padding">
+					<h1 className="text--bold text--center">Sign In</h1>
+					<Form onSubmit={this.handleSubmit}>
+						<Form.Field>
+							<label htmlFor="email">Email</label>
+							<input type="email" name="email" id="email" placeholder="Enter email" onChange={this.handleChange}></input>
+						</Form.Field>
+						<Form.Field>
+							<label htmlFor="password">Password</label>
+							<input type="password" name="password" id="password" placeholder="Enter password" onChange={this.handleChange}></input>
+						</Form.Field>
+						<Form.Field>
+							<button type="submit" className={`button button--secondary text--uppercase text--bold text--font-secondary`}>Login</button>
+							<div className="warning">
+								{authError ? <p>authError</p> : null}
+							</div>
+						</Form.Field>
+					</Form>
+				</div>
 			</div>
 		)
 	}

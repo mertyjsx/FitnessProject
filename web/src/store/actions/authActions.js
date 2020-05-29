@@ -46,14 +46,28 @@ export const signUpPro = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
+		// console.log(newUser);
 		firebase.auth().createUserWithEmailAndPassword(
-			newUser.email,
-			newUser.password
+			newUser.email, newUser.password
 		).then((response) => {
+			// console.log('chef', newUser, newUser.professionChef);
 			return firestore.collection('users').doc(response.user.uid).set({
 				firstName: newUser.firstName,
 				lastName: newUser.lastName,
-				initials: newUser.firstName[0] + newUser.lastName[0]
+				initials: newUser.firstName[0] + newUser.lastName[0],
+				city: newUser.city,
+				state: newUser.state,
+				zip: newUser.zip,
+				isPro: true,
+				isApproved: false,
+				uid: response.user.uid,
+				onboardingCompleted: false,
+				professions: {
+					chef: newUser.professionChef,
+					fitnessTrainer: newUser.professionFitnessTrainer,
+					massageTherapist: newUser.professionMassageTherapist,
+					nutritionist: newUser.professionNutritionist
+				}
 			})
 		}).then(() => {
 			dispatch({ type: 'SIGNUP_SUCCESS' })

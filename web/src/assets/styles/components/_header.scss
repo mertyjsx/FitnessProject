@@ -59,6 +59,12 @@ $hamburger-color-hover: $primary;
 		}
 	}
 
+	&__nav-container {
+		height: 100%;
+		display: flex;
+		align-items: center;
+	}
+
 	&__nav-link {
 		color: $theme-black;
 		padding: 5px 15px;
@@ -101,23 +107,89 @@ $hamburger-color-hover: $primary;
 		}
 	}
 
+	&__nav-profile {
+		background: none;
+		border: none;
+		display: flex;
+		align-items: center;
+		padding: 0;
+		outline: none;
+		> svg {
+			transition: 300ms;
+			color: $red;
+		}
+	}
+
+	&__nav-profile-image {
+		margin-right: $gutter/2;
+		img {
+			border: $red solid 1px;
+			border-radius: 50%;
+			width: 50px;
+			height: 50px;
+			object-fit: center;
+		}
+	}
+
 	&__nav-settings {
 		position: relative;
+		border-left: $theme-black solid 1px;
+		padding-left: $gutter;
+		&--active {
+			.header {
+				&__nav-profile {
+					> svg {
+						transform-origin: center;
+						transform: rotate(180deg);
+					}
+				}
+				&__nav-link {
+					padding: $gutter/2 $gutter * 2;
+					display: inline-block;
+					&:hover {
+						color: $white;
+					}
+				}
+				&__nav-settings-results {
+					border: $theme-black solid 1px;
+					li {
+						&:hover {
+							background-color: $theme-black;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	&__nav-settings-btn {
+		height: 100%;
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
 	}
 
 	&__nav-settings-results {
 		display: none;
+		position: absolute;
+		top: 100%;
+		right: -$gutter;
+		z-index: 1;
+		background-color: $gray-lighter;
 		&--active {
 			display: block;
+		}
+		> ul {
+			li {
+				white-space: nowrap;
+			}
 		}
 	}
 
 	&__secondary {
 		display: flex;
 		justify-content: center;
+		height: 100%;
 	}
 }
 

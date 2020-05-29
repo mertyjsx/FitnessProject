@@ -7,8 +7,13 @@ a.button,
 	text-decoration: none;
 	padding: 10px 25px;
 	justify-content: center;
+	transition: 300ms;
+	cursor: pointer;
 	&:hover {
-		transition: 300ms;
+		// transition: 300ms;
+	}
+	&.link {
+		@extend %link;
 	}
 	&--primary {
 		border: $black solid 1px;
@@ -35,5 +40,10 @@ a.button,
 		&:hover {
 			background-color: $gray-light;
 		}
+	}
+	&--inactive {
+		cursor: no-drop;
+		pointer-events: none;
+		opacity: 0.5;
 	}
 }

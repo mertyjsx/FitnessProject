@@ -114,7 +114,7 @@ const Profile = (props) => {
 		return (
 			<div className="profile">
 				<div className="container container--top-bottom-padding">
-					<div className="row">
+					<div className="row row--flex-start">
 						<div className="col col--8">
 							<div className={`profile__nav`}>
 								{renderProfileNav(user.about, user.background, user.credentials, user.reviews)}
@@ -195,7 +195,7 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
 	connect(mapStateToProps),
 	firestoreConnect((props, store) => {
-		const uid = props.user.uid;
+		// const uid = props.user.uid;
 		return [{
 			collection: 'users'
 		}]
