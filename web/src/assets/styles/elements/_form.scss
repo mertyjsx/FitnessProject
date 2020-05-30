@@ -1,0 +1,163 @@
+$select-padding: 15px;
+
+%select-style {
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	width: 100%;
+	padding: $select-padding;
+	font-size: inherit;
+	font-family: inherit;
+	background-color: $white;
+	border: $gray-light solid 1px;
+	border-radius: 10px;
+	color: $theme-black;
+}
+
+select {
+	@extend %select-style;
+	background-image: url(../../images/chevron-down.png);
+	background-position: center right $select-padding;
+	background-repeat: no-repeat;
+}
+
+input[type="checkbox"] {
+	@extend %select-style;
+	width: 16px;
+	height: 16px;
+	padding: 10px;
+	border-radius: 3px;
+	&:checked {
+		border: $green solid 1px;
+		background-image: url(../../images/check.png);
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+}
+
+.checkbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: row nowrap;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"] {
+	@extend %select-style;
+	&.input--filled {
+		border: $green solid 1px;
+	}
+	&.input--error {
+		border: $red solid 1px;
+		~ .error-span {
+			top: 100%;
+			opacity: 1;
+		}
+	}
+}
+
+textarea {
+	@extend %select-style;
+}
+
+.react-datepicker-wrapper {
+	width: 100%;
+	input {
+		@extend %select-style;
+		background-image: url(../../images/chevron-down.png);
+		background-position: center right $select-padding;
+		background-repeat: no-repeat;
+	}
+}
+
+.react-datepicker {
+	&__input-container {
+		display: flex !important;
+	}
+}
+
+.form,
+.form__inner {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+}
+
+.field {
+	display: flex;
+	flex-flow: row wrap;
+	flex: 0 1 100%;
+	margin-bottom: $gutter;
+	position: relative;
+	&--cols {
+		padding: $gutter * 4 0;
+		.checkbox {
+			flex: 0 1 30%;
+			justify-content: flex-start;
+			margin-bottom: $gutter;
+		}
+	}
+	&--justify-center {
+		justify-content: center;
+	}
+	> input {
+		position: relative;
+		z-index: 1;
+	}
+	.checkbox {
+		margin-right: $gutter;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+	.error-span {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		transition: 300ms;
+		font-size: 12px;
+	}
+	.button {
+		justify-content: center;
+		padding: $gutter;
+		width: 100%;
+	}
+	.ui.labeled {
+		display: flex;
+		flex-flow: row wrap;
+		width: 100%;
+		.label {
+			margin-bottom: $gutter/2;
+		}
+		.label,
+		input {
+			flex: 0 1 100%;
+		}
+	}
+	&--half {
+		flex: 0 1 49%;
+	}
+	&--inline {
+		display: flex;
+		.checkbox {
+			flex: 0 1 calc(49% - 15px);
+		}
+	}
+	&--review {
+		padding-top: $gutter;
+		p {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+		}
+	}
+	&--review-total {
+		border-top: $gray-light solid 1px;
+		padding-top: $gutter;
+	}
+}

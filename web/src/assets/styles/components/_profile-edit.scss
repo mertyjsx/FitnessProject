@@ -1,0 +1,17 @@
+.profile-edit {
+	&__image {
+		width: 100%;
+		max-width: 580px;
+		margin: 0 auto;
+		.profile-image__current {
+			margin-bottom: $gutter * 2;
+		}
+	}
+	&__specialties {
+		.field--inline .checkbox {
+			flex-basis: calc(25% - 20px);
+			padding: 10px;
+			margin: 0;
+		}
+	}
+}

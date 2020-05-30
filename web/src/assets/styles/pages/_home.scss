@@ -1,0 +1,41 @@
+.home {
+	&__hero {
+		background-image: url(../../images/hero.jpg);
+		background-repeat: no-repeat;
+		background-size: cover;
+		position: relative;
+		&:after {
+			content: "";
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+			position: absolute;
+		}
+	}
+	&__hero-inner {
+		min-height: 600px;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		z-index: 1;
+	}
+	&__hero-content {
+		color: $white;
+		font-weight: bold;
+	}
+	&__works {
+		padding-bottom: $gutter * 12;
+	}
+	&__works-content {
+		width: 100%;
+		padding: $gutter * 12 $gutter $gutter * 5;
+		h2 {
+			@extend %text--uppercase, %text--lg;
+			font-weight: bold;
+		}
+	}
+}

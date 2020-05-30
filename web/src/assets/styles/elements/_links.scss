@@ -1,0 +1,10 @@
+%link,
+.link {
+	background: none;
+	border: none;
+	color: $primary-darker;
+	text-decoration: underline;
+	&:hover {
+		color: $theme-black;
+	}
+}

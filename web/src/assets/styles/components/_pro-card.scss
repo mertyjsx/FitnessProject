@@ -1,0 +1,61 @@
+$pro-card-spacing-padding: 20px;
+$pro-card-spacing-margin: 25px;
+
+.pro-card {
+	color: $gray-dark;
+	padding: 0 0 $pro-card-spacing-padding/2;
+	width: 100%;
+	@media screen and (min-width: $md-min) {
+		padding: $pro-card-spacing-padding;
+	}
+	&:hover {
+		.pro-card__inner {
+			background-color: $gray-lighter;
+			border: $primary solid 1px;
+		}
+	}
+
+	&__inner {
+		display: flex;
+		flex-flow: row wrap;
+		border: $gray-dark solid 1px;
+		height: 100%;
+		transition: 500ms;
+	}
+
+	&__image {
+		flex: auto;
+		margin: $pro-card-spacing-margin;
+		width: 100%;
+		height: 0;
+		padding-top: 150px;
+		position: relative;
+		@media screen and (min-width: $md-min) {
+			flex: 0 1 calc(200px - #{$pro-card-spacing-margin * 2});
+		}
+		img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	&__content {
+		flex: auto;
+		font-family: $font-primary;
+		margin: 0 $pro-card-spacing-margin $pro-card-spacing-margin;
+		@media screen and (min-width: $md-min) {
+			margin: $pro-card-spacing-margin $pro-card-spacing-margin
+				$pro-card-spacing-margin 0;
+		}
+		h3 {
+			font-family: $font-primary;
+		}
+	}
+	&__content-name {
+		line-height: 1.1;
+	}
+}

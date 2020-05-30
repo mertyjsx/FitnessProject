@@ -1,0 +1,39 @@
+.dashboard {
+	&__head {
+	}
+	&__glance {
+		background-color: $gray-lighter;
+		border: $theme-black solid 1px;
+		border-radius: 10px;
+		padding: $gutter * 3 $gutter * 1.5;
+		width: 100%;
+		&--standout {
+			@extend %text--lg, %text--primary-darker, %text--font-secondary;
+			line-height: 1;
+		}
+		&--rating {
+			&:after {
+				content: "/5";
+				font-size: 50%;
+			}
+		}
+	}
+}
+
+.profile-image {
+	&__upload {
+		display: flex;
+		flex-flow: row wrap;
+		width: 100%;
+		margin-bottom: $gutter * 2;
+		progress {
+			width: 100%;
+		}
+		input {
+			margin-bottom: $gutter * 2;
+			width: 100%;
+		}
+	}
+	&__current {
+	}
+}

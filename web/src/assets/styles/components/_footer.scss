@@ -1,0 +1,55 @@
+.footer {
+	&__newsletter {
+		background-color: $theme-black;
+		padding: $gutter * 5 $gutter * 2;
+
+		.form {
+			max-width: 900px;
+		}
+
+		.form__row {
+			align-items: center;
+			justify-content: space-between;
+			> div {
+				flex: 0 1 100%;
+				@media screen and (min-width: $md-min) {
+					flex: 0 1 24%;
+				}
+			}
+			input {
+				width: 100%;
+			}
+		}
+	}
+	&__top {
+		background-color: $gray-lighter;
+		border-top: $theme-black solid 1px;
+		padding: $gutter * 5 $gutter;
+		li {
+			margin-bottom: $gutter;
+		}
+	}
+	&__bottom {
+		background-color: $primary-darker;
+		color: $gray-light;
+		padding: $gutter * 2 $gutter;
+		text-align: center;
+	}
+	&__col {
+		a {
+			color: $gray-dark;
+			&:hover {
+				color: $theme-black;
+			}
+		}
+		&--alt {
+			a {
+				color: $primary-darker;
+				text-decoration: underline;
+				&:hover {
+					color: $theme-black;
+				}
+			}
+		}
+	}
+}
