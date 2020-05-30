@@ -8,7 +8,7 @@ import Booking from './Booking'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Inquiry from './Inquiry'
 
-const Profile = (props) => {
+const Profile = (props, state) => {
 	const { auth, user } = props;
 	// console.log(user);
 
@@ -74,8 +74,11 @@ const Profile = (props) => {
 	}
 
 	const sendMessage = () => (
-		<Modal trigger={<Button className="button--inverted">Message Pro</Button>}>
+		<Modal trigger={<Button className="button button--inverted">Message Pro</Button>}>
 			<Modal.Content>
+				<Modal.Actions>
+					<Button class="button__close" >X</Button>
+				</Modal.Actions>
 				<Modal.Description>
 					<Inquiry pro={user} user={auth} />
 				</Modal.Description>
@@ -84,7 +87,7 @@ const Profile = (props) => {
 	)
 
 	const renderCredentials = (cred) => {
-		// if (typeof cred !== 'string') { return null }
+		if (typeof cred !== 'string') { return null }
 		return (
 			<div id="credentials" className={`profile__credentials`}>
 				<h2 className={`text--uppercase`}>Credentials</h2>
@@ -94,7 +97,7 @@ const Profile = (props) => {
 	}
 
 	const renderReviews = (reviews) => {
-		// if (typeof cred !== 'string') { return null }
+		if (typeof cred !== 'string') { return null }
 		return (
 			<div id="reviews" className={`profile__reviews`}>
 				<h2 className={`text--uppercase`}>Reviews</h2>

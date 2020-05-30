@@ -18,13 +18,13 @@ class ProfileUpdate extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(this.state);
+		this.props.updateProfile(this.state);
 	}
 
 	render() {
 
 		return (
-			<div className={`edit__specialties`}>
+			<div className={`profile-edit__profile`}>
 
 				<h2>Update Profile</h2>
 
@@ -35,18 +35,44 @@ class ProfileUpdate extends Component {
 					<Form.Field className="field--half">
 						<Input id="lastName" type="text" label="Last Name" defaultValue={this.props.profile.lastName} onChange={this.onChange} />
 					</Form.Field>
-					<Form.Field>
-						<div className="ui labeled">
-							<Label>About</Label>
-							<TextArea id="about" defaultValue={this.props.profile.about} onChange={this.onChange} />
+					{this.props.profile.isPro ?
+						<div className="form__inner">
+							<Form.Field>
+								<div className="ui labeled">
+									<Label>About</Label>
+									<TextArea id="about" defaultValue={this.props.profile.about} onChange={this.onChange} />
+								</div>
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="funFact" type="text" label="Fun Fact" defaultValue={this.props.profile.funFact} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="favQuote" type="text" label="Favorite Quote" defaultValue={this.props.profile.favQuote} onChange={this.onChange} />
+							</Form.Field>
+							<div className="field">
+								<h2>Business Info</h2>
+							</div>
+							<Form.Field>
+								<Input id="businessName" type="text" label="Business Name" defaultValue={this.props.profile.businessName} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field>
+								<Input id="businessAddress1" type="text" label="Business Address 1" defaultValue={this.props.profile.businessAddress1} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="businessAddress2" type="text" label="Business Address 2" defaultValue={this.props.profile.businessAddress2} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="city" type="text" label="City" defaultValue={this.props.profile.city} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="state" type="text" label="State" defaultValue={this.props.profile.state} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="zip" type="text" label="Zip Code" defaultValue={this.props.profile.zip} onChange={this.onChange} />
+							</Form.Field>
 						</div>
-					</Form.Field>
-					<Form.Field className="field--half">
-						<Input id="funFact" type="text" label="Fun Fact" defaultValue={this.props.profile.funFact} onChange={this.onChange} />
-					</Form.Field>
-					<Form.Field className="field--half">
-						<Input id="favQuote" type="text" label="Favorite Quote" defaultValue={this.props.profile.favQuote} onChange={this.onChange} />
-					</Form.Field>
+						: null
+					}
 					<Form.Field>
 						<Button className={'button button--secondary text--uppercase text--font-secondary text--sm'}>Update Profile</Button>
 					</Form.Field>
@@ -57,7 +83,7 @@ class ProfileUpdate extends Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log(state);
+	// console.log(state);
 	return {
 		auth: state.firebase.auth,
 		profile: state.firebase.profile,

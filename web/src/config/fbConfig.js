@@ -27,3 +27,4 @@ export { db }
 export default firebase
 export const auth = firebase.auth;
 export const rtdb = firebaseRoot.database();
+export const fileStorage = firebase.storage()

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Form } from 'semantic-ui-react'
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect, Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signUpPro } from '../../../store/actions/authActions'
 import { postcodeValidator, postcodeValidatorExists } from 'postcode-validator';
@@ -101,8 +101,8 @@ class SignUpPro extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		// this.zipValidator(this.state.zip)
-		console.log(this.state);
-		this.props.signUpPro(this.state)
+		// console.log(this.state);
+		this.props.signUpPro(this.state, this.props)
 	}
 
 	renderDataList = () => {
@@ -129,12 +129,12 @@ class SignUpPro extends Component {
 
 	render() {
 		const { auth, authError } = this.props
-		if (auth.uid) return <Redirect to='/' />
+		if (auth.uid) return <Redirect to='/dashboard' />
 
 		return (
 			<div className="signup">
 				<div className="container container--small container--top-bottom-padding">
-					<h1 className={'text--center text-bbold'}>Join As Pro</h1>
+					<h1 className={'text--center text--bold'}>Join As Pro</h1>
 					<Form onSubmit={this.handleSubmit}>
 						{this.state.pageTwoActive !== true ?
 							<div className={'form__inner'}>
@@ -226,4 +226,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpPro)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUpPro))

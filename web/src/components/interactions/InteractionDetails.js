@@ -43,8 +43,8 @@ const InteractionDetails = (props) => {
 	}
 
 	const confirmSession = () => {
-		// console.log(this, props)
-		props.confirmBookingInteraction(iid)
+		console.log('authorize')
+		// props.confirmBookingInteraction(iid)
 		// console.log('session has been cancelled')
 	}
 
@@ -114,7 +114,7 @@ const InteractionDetails = (props) => {
 								</div>
 								:
 								<div className="interaction-details__buttons">
-									{interaction.interactionType === 'pending' ? <Button className={'link'} onClick={confirmSession}>Confirm Booking</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'link'} onClick={confirmSession}>Confirm Booking</Button> : null}
 									{interaction.interactionType === 'pending' ? <Button className={'link'}>Add Service</Button> : null}
 								</div>
 							}

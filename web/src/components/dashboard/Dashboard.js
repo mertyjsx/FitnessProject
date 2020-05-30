@@ -4,7 +4,7 @@ import ProjectList from '../projects/ProjectList'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts'
 
 class Dashboard extends Component {
@@ -22,6 +22,7 @@ class Dashboard extends Component {
 		// console.log(this.props)
 		const { projects, auth, profile, notifications } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
+		if (!profile.onboardingCompleted) return <Redirect to='/onboarding' />
 
 		const data = [
 			{ name: 'Jan', uv: 5, pv: 25, amt: 25 },
@@ -38,9 +39,15 @@ class Dashboard extends Component {
 			{ name: 'Dec', uv: 9, pv: 25, amt: 25 },
 		];
 
-
 		return (
 			<div className="dashboard">
+				{profile.isApproved !== true ?
+					<div className="status status--warning">
+						<div className="container">
+							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
+						</div>
+					</div>
+					: null}
 				<div className="container container--top-bottom-padding">
 					<div className="row">
 						<div className="col">

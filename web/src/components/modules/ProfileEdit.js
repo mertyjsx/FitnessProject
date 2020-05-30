@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import SpecialtiesEdit from '../profileEdit/SpecialtiesEdit';
 import ProfileUpdate from '../profileEdit/ProfileUpdate';
+import RenderImage from '../profileEdit/imageUpload/RenderImage'
+import ImageUpload from '../profileEdit/imageUpload/ImageUpload'
+import SocialUpdate from '../profileEdit/SocialUpdate';
+import FAQUpdate from '../profileEdit/FAQUpdate';
 
 class ProfileEdit extends Component {
 	render() {
@@ -11,7 +15,7 @@ class ProfileEdit extends Component {
 		if (!auth.uid) return <Redirect to='/signin' />
 
 		return (
-			<div className="bookings">
+			<div className="profile-edit">
 				<div className="container container--top-bottom-padding container--small">
 					<div className="row">
 						<div className="col">
@@ -35,16 +39,19 @@ class ProfileEdit extends Component {
 									<ProfileUpdate />
 								</TabPanel>
 								<TabPanel>
-									<SpecialtiesEdit auth={auth} profile={profile} />
+									<SpecialtiesEdit />
 								</TabPanel>
 								<TabPanel>
-									image
+									<div className="profile-edit__image">
+										<RenderImage />
+										<ImageUpload />
+									</div>
 								</TabPanel>
 								<TabPanel>
-									social
+									<SocialUpdate />
 								</TabPanel>
 								<TabPanel>
-									faq
+									<FAQUpdate />
 								</TabPanel>
 							</Tabs>
 						</div>

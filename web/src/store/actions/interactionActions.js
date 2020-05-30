@@ -12,6 +12,7 @@ export const createInteraction = (interaction) => {
 			userFirstName: profile.firstName,
 			userLastName: profile.lastName,
 			userUID: userID,
+			userImage: profile.photoURL,
 			createdAt: new Date()
 		}).then(() => {
 			console.log('success');

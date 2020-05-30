@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import { Form, Radio, Button } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-import { setSeconds, setMinutes, setHours } from "date-fns";
 import { db } from '../../config/fbConfig';
+import { withRouter } from 'react-router-dom';
+import { addDays } from "date-fns";
 import TimeRange from 'react-time-range';
 import moment from 'moment'
 import { createInteraction } from '../../store/actions/interactionActions'
@@ -16,6 +17,7 @@ class Inquiry extends Component {
 		super(props)
 		this.state = {
 			interactionType: 'inquiry',
+			status: 'active',
 			proFirstName: this.props.pro.firstName,
 			proLastName: this.props.pro.lastName,
 			proUID: this.props.pro.uid,
@@ -27,14 +29,15 @@ class Inquiry extends Component {
 			endTime: '',
 			rate: this.getStartingRates(),
 			duration: 0,
-			total: 0
+			total: 0,
+			formSubmitting: false,
 		}
 	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.createInteraction(this.state)
-		return <Redirect to="/inbox" />
+		this.props.history.push('/inbox')
 	}
 
 	renderPriceChange = (profession) => {
@@ -104,16 +107,18 @@ class Inquiry extends Component {
 	};
 
 	handleStartTimeChange = time => {
-		var newTime = moment(time).format("kk:mm");
-		// console.log(newTime);
-
 		this.setState({
-			startTime: String(newTime)
+			startTime: time
 		});
 	}
 
-	handleEndTimeChange = time => {
-		var newTime = moment(time).format("kk:mm");
+	renderStartTime = () => {
+		const { startTime } = this.state
+		if (startTime === '') { return null }
+		var time = moment(startTime).format('hh:mm a')
+		console.log(time);
+		return 0
+		// return moment(time).format()
 	}
 
 	getStartingRates = () => {
@@ -158,7 +163,7 @@ class Inquiry extends Component {
 						</Form.Field>
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>
-							<select name="profession" id="profession" onChange={this.handleChange}>
+							<select name="profession" id="profession" onChange={this.handleChange} required>
 								<option value="">Choose Service</option>
 								{this.renderServices(this.props.pro.professions)}
 							</select>
@@ -169,7 +174,9 @@ class Inquiry extends Component {
 								selected={this.state.startDate}
 								onChange={this.handleDateChange}
 								placeholderText={'Select Date'}
+								minDate={addDays(new Date(), 1)}
 								dateFormat="MMMM d, yyyy"
+								required={true}
 							/>
 						</Form.Field>
 						<Form.Field className="field--half">
@@ -181,8 +188,10 @@ class Inquiry extends Component {
 								showTimeSelectOnly
 								timeIntervals={30}
 								timeCaption="Time"
-								dateFormat="HH:mm"
+								dateFormat="hh:mm a"
 								placeholderText={'Start Time'}
+								required={true}
+							// excludeDates={[new Date(), subDays(new Date(), 1)]}
 							// excludeTimes={[
 							// 	setHours(setMinutes(new Date(), 0), 17),
 							// 	setHours(setMinutes(new Date(), 30), 18),
@@ -192,26 +201,16 @@ class Inquiry extends Component {
 							/>
 						</Form.Field>
 						<Form.Field className="field--half">
-							<DatePicker
-								className="time-picker"
-								selected={this.state.endTime}
-								onChange={this.handleEndTimeChange}
-								showTimeSelect
-								showTimeSelectOnly
-								timeIntervals={30}
-								timeCaption="Time"
-								dateFormat="HH:mm"
-								placeholderText={'End Time'}
-							// excludeTimes={[
-							// 	setHours(setMinutes(new Date(), 0), 17),
-							// 	setHours(setMinutes(new Date(), 30), 18),
-							// 	setHours(setMinutes(new Date(), 30), 19),
-							// 	setHours(setMinutes(new Date(), 30), 17)
-							// ]}
-							/>
+							<select name="duration" id="duration" onChange={this.handleDurationChange} required>
+								<option value="">Duration</option>
+								<option value="30">30 Minutes</option>
+								<option value="60">1 Hour</option>
+								<option value="90">1.5 Hours</option>
+								<option value="120">2 Hours</option>
+							</select>
 						</Form.Field>
 						<Form.Field>
-							<textarea name="message" id="message" onChange={this.handleChange}></textarea>
+							<textarea name="message" id="message" onChange={this.handleChange} required></textarea>
 						</Form.Field>
 						<Form.Field>
 							<Button className={'button button--primary text--uppercase text--font-secondary text--sm'}>Send Inquiry</Button>
@@ -236,4 +235,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Inquiry)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Inquiry))

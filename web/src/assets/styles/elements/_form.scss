@@ -21,9 +21,32 @@ select {
 	background-repeat: no-repeat;
 }
 
+input[type="checkbox"] {
+	@extend %select-style;
+	width: 16px;
+	height: 16px;
+	padding: 10px;
+	border-radius: 3px;
+	&:checked {
+		border: $green solid 1px;
+		background-image: url(../../images/check.png);
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+}
+
+.checkbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: row nowrap;
+}
+
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="number"],
+input[type="url"] {
 	@extend %select-style;
 	&.input--filled {
 		border: $green solid 1px;
@@ -70,9 +93,26 @@ textarea {
 	flex: 0 1 100%;
 	margin-bottom: $gutter;
 	position: relative;
+	&--cols {
+		padding: $gutter * 4 0;
+		.checkbox {
+			flex: 0 1 30%;
+			justify-content: flex-start;
+			margin-bottom: $gutter;
+		}
+	}
+	&--justify-center {
+		justify-content: center;
+	}
 	> input {
 		position: relative;
 		z-index: 1;
+	}
+	.checkbox {
+		margin-right: $gutter;
+		&:last-child {
+			margin-right: 0;
+		}
 	}
 	.error-span {
 		position: absolute;
@@ -105,7 +145,7 @@ textarea {
 	&--inline {
 		display: flex;
 		.checkbox {
-			flex: 0 1 49%;
+			flex: 0 1 calc(49% - 15px);
 		}
 	}
 	&--review {

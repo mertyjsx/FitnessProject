@@ -27,8 +27,19 @@ $pro-card-spacing-margin: 25px;
 		flex: auto;
 		margin: $pro-card-spacing-margin;
 		width: 100%;
+		height: 0;
+		padding-top: 150px;
+		position: relative;
 		@media screen and (min-width: $md-min) {
 			flex: 0 1 calc(200px - #{$pro-card-spacing-margin * 2});
+		}
+		img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
 		}
 	}
 
@@ -37,7 +48,8 @@ $pro-card-spacing-margin: 25px;
 		font-family: $font-primary;
 		margin: 0 $pro-card-spacing-margin $pro-card-spacing-margin;
 		@media screen and (min-width: $md-min) {
-			margin: $pro-card-spacing-margin;
+			margin: $pro-card-spacing-margin $pro-card-spacing-margin
+				$pro-card-spacing-margin 0;
 		}
 		h3 {
 			font-family: $font-primary;

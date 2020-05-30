@@ -24,8 +24,8 @@ class Home extends Component {
 							<div className="col">
 								<div className="home__hero-inner">
 									<div className="home__hero-content">
-										<h2 className="text--uppercase text--lg">We send health &amp; fitness pros<br />
-										right to your door</h2>
+										<h2 className="text--uppercase text--lg">Work on being a better you.</h2>
+										<p className="text--uppercase text--sm">Connect with local health &amp; wellness pros</p>
 									</div>
 									<div className="home__hero-search">
 
@@ -85,7 +85,7 @@ class Home extends Component {
 				</div>
 
 
-				<div className="container">
+				{/* <div className="container">
 					<div className="row">
 						<div className="col">
 							<ProjectList projects={projects} />
@@ -96,7 +96,7 @@ class Home extends Component {
 							<Notifications notifications={notifications} />
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</div>
 		)
 	}

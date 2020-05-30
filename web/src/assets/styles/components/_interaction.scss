@@ -21,6 +21,8 @@
 		img {
 			width: 100%;
 			max-width: 80px;
+			height: 80px;
+			object-fit: cover;
 			border-radius: 50%;
 			border: $gray-light solid 1px;
 		}
@@ -79,9 +81,12 @@
 		align-items: center;
 	}
 	&__summary-image {
-		flex: 0 1 20%;
+		flex: 0 1 80px;
 		img {
 			border-radius: 50%;
+			width: 80px;
+			height: 80px;
+			object-fit: cover;
 		}
 	}
 	&__summary-pricing {

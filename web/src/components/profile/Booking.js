@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
-import { Form, Radio, Button } from 'semantic-ui-react'
+import { Form, Radio, Button, Modal } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,13 +8,15 @@ import { addDays } from "date-fns";
 import moment from 'moment'
 import { createInteraction } from '../../store/actions/interactionActions'
 import spinner from '../../assets/images/spinner.gif'
+import { PayPalButton } from "react-paypal-button-v2";
 
 class Booking extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			interactionType: 'pending',
+			interactionType: 'booking',
+			status: 'pending',
 			proFirstName: this.props.pro.firstName,
 			proLastName: this.props.pro.lastName,
 			proUID: this.props.pro.uid,
@@ -27,10 +29,14 @@ class Booking extends Component {
 			rate: this.getStartingRates(),
 			duration: 0,
 			total: 0,
-			formSubmitting: false
-
+			formSubmitting: false,
+			modalOpen: false
 		}
 	}
+
+	handleOpen = () => this.setState({ modalOpen: true })
+
+	handleClose = () => this.setState({ modalOpen: false })
 
 	renderPriceChange = (profession) => {
 		const bookingType = this.state.bookingType
@@ -119,17 +125,29 @@ class Booking extends Component {
 		})
 	}
 
-	handleSubmit = (e) => {
-		e.preventDefault();
+	validate = () => {
+	}
+
+	handleSubmit = (details, data) => {
+		// console.log('inside func', details, data);
 		let $this = this
 		this.setState({
 			total: this.calculateTotal(),
-			formSubmitting: true
+			formSubmitting: true,
+			paypal: {
+				timeCreated: details.create_time,
+				id: details.id,
+				email: details.payer.email_address,
+				firstName: details.payer.name.given_name,
+				lastName: details.payer.name.surname,
+				payerID: details.payer.payer_id,
+				status: details.status
+			}
 		})
 
 		setTimeout(function () {
 			// console.log('wait 3 secs', $this.props);
-			$this.props.createInteraction(this.state)
+			$this.props.createInteraction($this.state)
 			$this.props.history.push('/bookings')
 		}, 3000)
 	}
@@ -189,7 +207,7 @@ class Booking extends Component {
 				<div className={`profile__booking-price`}>
 					<p className={`mb--0`}>Starting at</p>
 					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.state.rate}</p>
-					<Form onSubmit={this.handleSubmit}>
+					<Form onSubmit={this.validate()}>
 						<Form.Field className={'field--inline'}>
 							<Radio className="field--half" id={'bookingType'} label={'Online'} name={'bookingType'} value='online' checked={this.state.bookingType === 'online'} onChange={this.handleBookingTypeChange} />
 							<Radio className="field--half" id={'bookingType'} label={'In person'} name={'bookingType'} value='inPerson' checked={this.state.bookingType === 'inPerson'} onChange={this.handleBookingTypeChange} />
@@ -234,7 +252,7 @@ class Booking extends Component {
 							/>
 						</Form.Field>
 						<Form.Field className="field--half">
-							<select name="profession" id="profession" onChange={this.handleDurationChange} required>
+							<select name="duration" id="duration" onChange={this.handleDurationChange} required>
 								<option value="">Duration</option>
 								<option value="30">30 Minutes</option>
 								<option value="60">1 Hour</option>
@@ -249,8 +267,40 @@ class Booking extends Component {
 								<p className="field--review-total text--uppercase text--bold">Total<span>${this.calculateTotal()}</span></p>
 							</div>
 						</div>
-						<Form.Field>
-							<Button className={'button button--primary text--uppercase text--font-secondary text--sm'} >Request to book</Button>
+						<Form.Field className="field--justify-center">
+							{this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? null : <p style={{ marginBottom: '10px' }}>Please enter all the fields</p>}
+							<Modal
+								trigger={
+									<Button
+										type="submit"
+										onClick={this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? this.handleOpen : null}
+										className={`button button--primary text--uppercase text--font-secondary text--sm ${this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? 'button--active' : 'button--inactive'}`} >Request to book</Button>}
+								open={this.state.modalOpen}
+								onClose={this.handleClose}
+							>
+								<Modal.Content>
+									<Modal.Actions>
+										<Button class="button__close" onClick={this.handleClose}>X</Button>
+									</Modal.Actions>
+									<Modal.Description className="modal-description__container">
+										<h2>Complete Booking</h2>
+										<p>Your total of ${this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
+										<p>Please choose your preferred method of payment below.</p>
+										<PayPalButton
+											amount={'0.01'}
+											shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+											onSuccess={(details, data) => {
+												// alert("Transaction completed by " + details.payer.name.given_name);
+												this.handleSubmit(details, data)
+											}}
+											options={{
+												clientId: "AdnGkXFLEzUBky5CsXg-LToFxF9xTiJFH6jEz5vBXffma53lY5JVu4wzKPM1B1AlEZWYAlCpZDc25Dnu"
+											}}
+										/>
+									</Modal.Description>
+								</Modal.Content>
+							</Modal>
+
 						</Form.Field>
 					</Form>
 				</div>

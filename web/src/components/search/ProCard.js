@@ -13,26 +13,6 @@ const ProCard = ({ pro }) => {
 		return (<img src={photoURL} alt={`Portrait of ${firstName} ${lastName}`} />)
 	}
 
-	const renderStartingCost = (online, inPerson) => {
-		var onlineRate, inPersonRate;
-
-		if (typeof online !== 'undefined' && online.length >= 1) {
-			onlineRate = `$` + online + ` Online`;
-		}
-		if (typeof inPerson !== 'undefined') {
-			if (inPerson.length >= 1) {
-				inPersonRate = `$` + inPerson + ` In Person`;
-			}
-		}
-
-		return (
-			<div>
-				<h3 className={`mb--0`}><strong>Starting Cost Per Hour</strong></h3>
-				<p>{onlineRate} {inPersonRate}</p>
-			</div>
-		)
-	}
-
 	const renderStarRating = () => {
 		return (
 			<div className={`star-rating`}>
@@ -72,9 +52,9 @@ const ProCard = ({ pro }) => {
 				<div className={`pro-card__content`}>
 					<h2 className={`pro-card__content-name mb--0`}>{pro.firstName} {pro.lastName}</h2>
 					{renderStarRating()}
+					<p>{pro.city}{pro.state ? ', ' + pro.state : ''}</p>
 					{renderProfessions(pro.professions)}
 					<p>{pro.about ? pro.about.substring(0, 24) + '...' : null}</p>
-					{renderStartingCost(pro.ratesOnline, pro.ratesInPerson)}
 				</div>
 			</div>
 		</div>

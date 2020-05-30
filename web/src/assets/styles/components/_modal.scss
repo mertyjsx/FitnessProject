@@ -1,3 +1,5 @@
+$button-close-size: 45px;
+
 body.dimmed {
 	overflow: hidden;
 }
@@ -16,9 +18,36 @@ body.dimmed {
 .modal {
 	width: 50%;
 	height: 75%;
-	overflow: scroll;
 	padding: 1em;
 	border-radius: 10px;
 	border: $theme-black solid 1px;
 	background: $gray-lighter;
+	position: relative;
+	.description {
+		padding: $gutter;
+		// overflow: scroll;
+	}
+	.content {
+		overflow: scroll;
+		height: 100%;
+	}
+	.actions {
+		.button {
+			background-color: $theme-black;
+			position: absolute;
+			font-size: 16px;
+			font-weight: bold;
+			color: white;
+			width: $button-close-size;
+			height: $button-close-size;
+			border-radius: 50%;
+			border: $theme-black solid 1px;
+			padding: 0;
+			bottom: calc(100% - #{$button-close-size/2});
+			left: calc(100% - #{$button-close-size/2});
+			&:hover {
+				background-color: $primary-darker;
+			}
+		}
+	}
 }

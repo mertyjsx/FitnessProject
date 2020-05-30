@@ -42,7 +42,7 @@ export const signUp = (newUser) => {
 	}
 }
 
-export const signUpPro = (newUser) => {
+export const signUpPro = (newUser, props) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
@@ -74,5 +74,25 @@ export const signUpPro = (newUser) => {
 		}).catch(err => {
 			dispatch({ type: 'SIGNUP_ERROR', err })
 		})
+	}
+}
+
+export const completeOnboarding = (newInfo, uid) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		// console.log(newInfo);
+		firestore.collection('users').doc(uid).update({
+			...newInfo,
+		})
+			.then(function () {
+				// console.log("Booking successfully cancelled!");
+				dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+			})
+			.catch(function (error) {
+				// The document probably doesn't exist.
+				// console.error("Error cancelling document: ", error);
+				dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
+			})
 	}
 }

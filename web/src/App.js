@@ -9,6 +9,7 @@ import SignUp from "./components/auth/client/SignUp"
 import SignUpPro from "./components/auth/pro/SignUpPro"
 import CreateProject from "./components/projects/CreateProject"
 import FindAPro from "./components/modules/FindAPro"
+import Onboarding from "./components/onboarding/index"
 import './vendor/fontawesome'
 import Inbox from "./components/inbox/Inbox"
 import Profile from "./components/profile/Profile"
@@ -42,6 +43,7 @@ function App(props) {
           <Route exact path="/about" component={About} />
           <Route exact path="/terms-of-use" component={Terms} />
           <Route exact path="/privacy-policy" component={Privacy} />
+          <Route exact path="/onboarding" component={Onboarding} />
         </Switch>
         <Footer />
       </div>
