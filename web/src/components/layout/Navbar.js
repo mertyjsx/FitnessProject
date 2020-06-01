@@ -8,7 +8,7 @@ import imageLogo from '../../assets/images/logo-emblem.png'
 
 
 const Navbar = (props) => {
-	const { auth, profile } = props
+	const { auth, profile, splash } = props
 	const links = auth.uid ? <SignedInLinks profile={profile} /> : <SignedOutLinks />
 	const headerType = auth.uid ? 'logged-in' : 'logged-out';
 	const [menuActive, setMenuState] = useState(false);
@@ -23,16 +23,22 @@ const Navbar = (props) => {
 						</Link>
 					</div>
 					<div className="col col__10 col--justify-right">
-						<nav className={`header__nav ${menuActive ? 'header__nav--active' : ''}`}>
-							<div className={`header__nav-container header__nav-container--${headerType}`}>
-								{auth.isLoaded && links}
-							</div>
-						</nav>
-						<div className={`header__nav-btn-wrapper`}>
-							<button onClick={() => setMenuState(!menuActive)} className={`header__nav-btn ${menuActive ? 'header__nav-btn--active' : ''}`}>
-								<div className={`hamburger ${menuActive ? 'hamburger--active' : ''}`}></div>
-							</button>
-						</div>
+						{splash === true ?
+							null
+							:
+							<>
+								<nav className={`header__nav ${menuActive ? 'header__nav--active' : ''}`}>
+									<div className={`header__nav-container header__nav-container--${headerType}`}>
+										{auth.isLoaded && links}
+									</div>
+								</nav>
+								<div className={`header__nav-btn-wrapper`}>
+									<button onClick={() => setMenuState(!menuActive)} className={`header__nav-btn ${menuActive ? 'header__nav-btn--active' : ''}`}>
+										<div className={`hamburger ${menuActive ? 'hamburger--active' : ''}`}></div>
+									</button>
+								</div>
+							</>
+						}
 					</div>
 				</div>
 			</div>

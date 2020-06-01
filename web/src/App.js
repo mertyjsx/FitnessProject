@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from "react"
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Home from './components/modules/Home'
 import Navbar from './components/layout/Navbar'
@@ -20,35 +20,54 @@ import ProfileEdit from "./components/modules/ProfileEdit"
 import About from "./components/modules/About"
 import Terms from "./components/modules/Terms"
 import Privacy from "./components/modules/Privacy"
+import Social from "./components/landing/Social"
 
-function App(props) {
-  return (
-    <BrowserRouter>
-      <div className="App">
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/project/:id" component={ProjectDetails} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/join-as-pro" component={SignUpPro} />
-          <Route path="/create-project" component={CreateProject} />
-          <Route path="/find-a-pro" component={FindAPro} />
-          <Route exact path="/inbox" component={Inbox} />
-          <Route path="/session/:id" component={InteractionDetails} />
-          <Route exact path="/bookings" component={Bookings} />
-          <Route exact path="/pro/:uid" component={Profile} />
-          <Route exact path="/profile-edit" component={ProfileEdit} />
-          <Route exact path="/about" component={About} />
-          <Route exact path="/terms-of-use" component={Terms} />
-          <Route exact path="/privacy-policy" component={Privacy} />
-          <Route exact path="/onboarding" component={Onboarding} />
-        </Switch>
-        <Footer />
-      </div>
-    </BrowserRouter>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      splash: true
+    }
+  }
+  render() {
+    return (
+      <BrowserRouter>
+        <div className="App">
+          <Navbar splash={this.state.splash} />
+          <Switch>
+            {this.state.splash === true ?
+              <>
+                <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
+                <Route exact path="/social" component={Social} />
+              </>
+              :
+              <>
+                <Route exact path="/" component={Home} />
+                <Route path="/dashboard" component={Dashboard} />
+                <Route path="/project/:id" component={ProjectDetails} />
+                <Route path="/signin" component={SignIn} />
+                <Route path="/signup" component={SignUp} />
+                <Route path="/join-as-pro" component={SignUpPro} />
+                <Route path="/create-project" component={CreateProject} />
+                <Route path="/find-a-pro" component={FindAPro} />
+                <Route exact path="/inbox" component={Inbox} />
+                <Route path="/session/:id" component={InteractionDetails} />
+                <Route exact path="/bookings" component={Bookings} />
+                <Route exact path="/pro/:uid" component={Profile} />
+                <Route exact path="/profile-edit" component={ProfileEdit} />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/terms-of-use" component={Terms} />
+                <Route exact path="/privacy-policy" component={Privacy} />
+                <Route exact path="/onboarding" component={Onboarding} />
+                <Route exact path="/social" component={Social} />
+              </>
+            }
+          </Switch>
+          <Footer splash={this.state.splash} />
+        </div>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
