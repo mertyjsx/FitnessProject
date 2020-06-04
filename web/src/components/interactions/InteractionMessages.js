@@ -10,6 +10,7 @@ import TimeRange from 'react-time-range';
 import moment from 'moment'
 import { createInteraction } from '../../store/actions/interactionActions'
 import { renderProfileImage } from '../helpers/HelpersProfile'
+import RenderImage from '../profileEdit/imageUpload/RenderImage';
 
 class InteractionMessages extends Component {
 
@@ -86,12 +87,12 @@ class InteractionMessages extends Component {
 				<div className="message__sender">
 					{this.props.meta.userUID === senderUID ?
 						<div>
-							{renderProfileImage()}
+							<RenderImage />
 							<p className="text--capitalize">{this.props.meta.userFirstName + ' ' + this.props.meta.userLastName[0] + '.'}</p>
 						</div>
 						:
 						<div>
-							{renderProfileImage(this.props.meta.proImage, `${this.props.meta.proFirstName} + ${this.props.meta.proLastName[0]}`)}
+							<RenderImage />
 							<p className="text--capitalize">{this.props.meta.proFirstName + ' ' + this.props.meta.proLastName[0] + '.'}</p>
 						</div>
 					}
@@ -105,11 +106,22 @@ class InteractionMessages extends Component {
 		return (
 			<div className={`message`}>
 				<div className={`message__history`}>
+					{this.props.meta.message && (
+						<div className={`message__item message__item--init`}>
+							<div className="message__content-sent">
+								<h2><span className={'text--capitalize'}>{this.props.meta.userFirstName}</span> has inquired about {this.props.meta.proFirstName}'s services:</h2>
+								<p>{this.props.meta.message}</p>
+							</div>
+							<div className="message__content-time">
+								<p>{moment.unix(this.props.meta.createdAt.seconds + '.' + this.props.meta.createdAt.nanoseconds).format("dddd, MMMM Do YYYY h:mm A")}</p>
+							</div>
+						</div>
+					)}
 					{this.state.chats.map(chat => {
 						return this.renderMessage(chat.timestamp, chat.content, chat.uid)
 					})}
 				</div>
-				{this.props.meta.interactionType !== 'cancelled' ?
+				{this.props.meta.interactionType !== 'cancelled' && this.props.meta.status !== 'archived' ?
 					<div className={`message__create`}>
 						<form onSubmit={this.handleSubmit}>
 							<textarea onChange={this.handleChange} value={this.state.content} placeholder={`Message`}></textarea>
@@ -117,7 +129,7 @@ class InteractionMessages extends Component {
 							<button className="button button--secondary text--uppercase" type="submit">Send</button>
 						</form>
 					</div>
-					: null}
+					: 'Session Closed'}
 			</div>
 		)
 	}

@@ -31,6 +31,7 @@ class Inquiry extends Component {
 			duration: 0,
 			total: 0,
 			formSubmitting: false,
+			message: ''
 		}
 	}
 
@@ -59,9 +60,15 @@ class Inquiry extends Component {
 		})
 	}
 
+	handleMessage = (e) => {
+		this.setState({
+			message: e.target.value
+		})
+	}
+
 	handleChange = (e) => {
 		const bookingType = this.state.bookingType
-		console.log('handle change activated', e.target.value, bookingType);
+		// console.log('handle change activated', e.target.value, bookingType);
 		if (bookingType === '') {
 			alert('Choose a booking Type')
 		}
@@ -210,7 +217,7 @@ class Inquiry extends Component {
 							</select>
 						</Form.Field>
 						<Form.Field>
-							<textarea name="message" id="message" onChange={this.handleChange} required></textarea>
+							<textarea name="message" id="message" onChange={this.handleMessage} required></textarea>
 						</Form.Field>
 						<Form.Field>
 							<Button className={'button button--primary text--uppercase text--font-secondary text--sm'}>Send Inquiry</Button>

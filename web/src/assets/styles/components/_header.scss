@@ -9,6 +9,7 @@ $bar-height: 2px;
 $bar-spacing: 7px;
 $hamburger-color: $theme-black;
 $hamburger-color-hover: $primary;
+$nav-profile-image-size: 50px;
 
 .header {
 	background-color: $gray-lighter;
@@ -125,9 +126,9 @@ $hamburger-color-hover: $primary;
 		img {
 			border: $red solid 1px;
 			border-radius: 50%;
-			width: 50px;
-			height: 50px;
-			object-fit: center;
+			width: $nav-profile-image-size;
+			height: $nav-profile-image-size;
+			object-position: center;
 		}
 	}
 
@@ -191,6 +192,21 @@ $hamburger-color-hover: $primary;
 		justify-content: center;
 		height: 100%;
 	}
+}
+
+.initials {
+	width: $nav-profile-image-size;
+	height: $nav-profile-image-size;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	background: $primary-darker;
+	border-radius: 50%;
+	color: $white;
+	font-size: 150%;
+	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .hamburger {

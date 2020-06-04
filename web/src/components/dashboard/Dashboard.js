@@ -22,7 +22,7 @@ class Dashboard extends Component {
 		// console.log(this.props)
 		const { projects, auth, profile, notifications } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
-		if (!profile.onboardingCompleted) return <Redirect to='/onboarding' />
+		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
 
 		const data = [
 			{ name: 'Jan', uv: 5, pv: 25, amt: 25 },
@@ -41,7 +41,7 @@ class Dashboard extends Component {
 
 		return (
 			<div className="dashboard">
-				{profile.isApproved !== true ?
+				{profile.isApproved !== true && profile.isPro ?
 					<div className="status status--warning">
 						<div className="container">
 							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
@@ -69,65 +69,70 @@ class Dashboard extends Component {
 					</div>
 
 					<div className="row">
-						<div className="col col--3">
+						<div className="col">
 							{/* <ProjectList projects={projects} /> */}
-							<div className={`dashboard__glance`}>
+							<a href={'/inbox'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-messages`}>
 									<div className={`dashboard__glance--standout`}>1</div>
-									Unread Messages
+									Active Messages
 								</div>
-							</div>
+							</a>
 						</div>
-						<div className="col col--3">
-							<div className={`dashboard__glance`}>
+						<div className="col">
+							<a href={'/bookings'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-requests`}>
 									<div className={`dashboard__glance--standout`}>1</div>
-									Unread Booking Requests
+									Active Bookings
 								</div>
-							</div>
+							</a>
 						</div>
-						<div className="col col--3">
-							<div className={`dashboard__glance`}>
+						<div className="col">
+							<a href={'/bookings'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-bookings`}>
 									<div className={`dashboard__glance--standout`}>2</div>
-									Approved Bookings
+									Pending Bookings
 								</div>
-							</div>
+							</a>
 						</div>
-						<div className="col col--3">
-							<div className={`dashboard__glance`}>
-								<div className={`dashboard__glance-rating`}>
-									<div className={`dashboard__glance--standout dashboard__glance--rating`}>4</div>
+						{profile.isPro && (
+							<div className="col">
+								<div className={`dashboard__glance`}>
+									<div className={`dashboard__glance-rating`}>
+										<div className={`dashboard__glance--standout dashboard__glance--rating`}>4</div>
 									Current Rating
 								</div>
+								</div>
 							</div>
-						</div>
+						)}
 					</div>
 
-					<div className={`divider`}></div>
-
-					<div className="row">
-						<div className="col">
-							{/* <Notifications notifications={notifications} /> */}
-							<div className={`dashboard__bookings-title`}>
-								<h2 className={`text--md text--uppercase`}>Bookings</h2>
-								<p>Last 12 months</p>
+					{profile.isPro && (
+						<>
+							<div className={`divider`}></div>
+							<div className="row">
+								<div className="col">
+									{/* <Notifications notifications={notifications} /> */}
+									<div className={`dashboard__bookings-title`}>
+										<h2 className={`text--md text--uppercase`}>Bookings</h2>
+										<p>Last 12 months</p>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
 
-					<div className="row">
-						<div className="col">
-							<div className={`dashboard__bookings-content`}>
-								<LineChart width={600} height={300} data={data}>
-									<Line type="monotone" dataKey="uv" stroke="#8884d8" />
-									<CartesianGrid stroke="#ccc" />
-									<XAxis dataKey="name" />
-									<YAxis />
-								</LineChart>
+							<div className="row">
+								<div className="col">
+									<div className={`dashboard__bookings-content`}>
+										<LineChart width={600} height={300} data={data}>
+											<Line type="monotone" dataKey="uv" stroke="#8884d8" />
+											<CartesianGrid stroke="#ccc" />
+											<XAxis dataKey="name" />
+											<YAxis />
+										</LineChart>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
+						</>
+					)}
 				</div>
 			</div>
 		)

@@ -30,7 +30,13 @@ const SignedInLinks = (props) => {
 					<div className={`header__nav-settings-btn`}>
 						<button onClick={() => setMenuState(!menuActive)} className="header__nav-profile">
 							<div className="header__nav-profile-image">
-								<RenderImage />
+								{props.profile.photoURL ?
+									<RenderImage />
+									:
+									<div className={'initials'}>
+										{props.profile.initials}
+									</div>
+								}
 							</div>
 							<FontAwesomeIcon icon={["fa", "chevron-down"]} />
 						</button>

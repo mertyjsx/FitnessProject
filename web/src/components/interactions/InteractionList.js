@@ -4,14 +4,21 @@ import InteractionSummary from './InteractionSummary'
 
 const InteractionList = ({ interactions, auth, interactionType, status }) => {
 	// if (interactionType !== '') {
+
+	// const interactionCount = (interaction) => {
+	// 	const count = interaction.length
+	// 	// count.push(interaction)
+	// 	console.log('length', count);
+	// }
+
 	return (
 		<div className="interaction-list">
 
 			{interactions && interactions.map(interaction => {
 				// console.log(interaction, auth);
 				if (interaction.proUID !== auth.uid && interaction.userUID !== auth.uid) return null
-				if (interaction.interactionType === interactionType && interaction.status === status) {
 
+				if (interaction.interactionType === interactionType && interaction.status === status) {
 					return (
 						<Link to={'/session/' + interaction.id} iid={interaction.id} key={interaction.id} className={'row'} style={{ marginBottom: 25 }}>
 							<InteractionSummary iid={interaction.id} auth={auth} interaction={interaction} />

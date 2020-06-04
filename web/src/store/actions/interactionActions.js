@@ -60,16 +60,16 @@ export const confirmBookingInteraction = (bookingID) => {
 
 		firestore.collection('interactions').doc(bookingID).update({
 			status: 'active',
-			interactionType: 'booked'
+			interactionType: 'booking'
 		})
 			.then(function () {
 				console.log("Booking successfully cancelled!");
-				dispatch({ type: 'CANCEL_INTERACTION', bookingID });
+				dispatch({ type: 'CONFIRM_BOOKING', bookingID });
 			})
 			.catch(function (error) {
 				// The document probably doesn't exist.
 				console.error("Error cancelling document: ", error);
-				dispatch({ type: 'CANCEL_INTERACTION_ERROR', error })
+				dispatch({ type: 'CONFIRM_BOOKING_ERROR', error })
 			})
 	}
 }
@@ -103,5 +103,50 @@ export const updateInteractionToBooked = (interaction) => {
 	return (dispatch, getState, { getFirestore }) => {
 		const firestore = getFirestore()
 		console.log('update interaction activated');
+	}
+}
+
+export const sendBookingRequestFromInquiry = (iid) => {
+	return (dispatch, getState, { getFirestore }) => {
+		// console.log('inside action', bookingID, interaction);
+		const firestore = getFirestore()
+		const profile = getState().firebase.profile
+		const userID = getState().firebase.auth.uid
+		// console.log('inside action', iid);
+
+		firestore.collection('interactions').doc(iid).update({
+			status: 'pending',
+			interactionType: 'booking'
+		}).then(function () {
+			// console.log("Booking successfully cancelled!");
+			dispatch({ type: 'SEND_BOOKING_REQ_FROM_INQUIRY', iid });
+		}).catch(function (error) {
+			// The document probably doesn't exist.
+			// console.error("Error cancelling document: ", error);
+			dispatch({ type: 'SEND_BOOKING_REQ_FROM_INQUIRY_ERROR', error })
+		})
+	}
+}
+
+export const completeInteraction = (iid) => {
+	return (dispatch, getState, { getFirestore }) => {
+		console.log('complete session');
+
+		const firestore = getFirestore()
+		const profile = getState().firebase.profile
+		const userID = getState().firebase.auth.uid
+		// console.log('inside action', iid);
+
+		firestore.collection('interactions').doc(iid).update({
+			status: 'completed',
+			interactionType: 'booking'
+		}).then(function () {
+			// console.log("Booking successfully cancelled!");
+			dispatch({ type: 'COMPLETED', iid });
+		}).catch(function (error) {
+			// The document probably doesn't exist.
+			// console.error("Error cancelling document: ", error);
+			dispatch({ type: 'COMPLETED_ERROR', error })
+		})
 	}
 }

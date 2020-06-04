@@ -30,16 +30,13 @@ class ProfileEdit extends Component {
 							<Tabs>
 								<TabList>
 									<Tab>Profile</Tab>
-									<Tab>Specialties</Tab>
 									<Tab>Image</Tab>
-									<Tab>Social</Tab>
-									<Tab>FAQ</Tab>
+									{profile.isPro && (<Tab>Specialties</Tab>)}
+									{profile.isPro && (<Tab>Social</Tab>)}
+									{profile.isPro && (<Tab>FAQ</Tab>)}
 								</TabList>
 								<TabPanel>
 									<ProfileUpdate />
-								</TabPanel>
-								<TabPanel>
-									<SpecialtiesEdit />
 								</TabPanel>
 								<TabPanel>
 									<div className="profile-edit__image">
@@ -47,12 +44,21 @@ class ProfileEdit extends Component {
 										<ImageUpload />
 									</div>
 								</TabPanel>
-								<TabPanel>
-									<SocialUpdate />
-								</TabPanel>
-								<TabPanel>
-									<FAQUpdate />
-								</TabPanel>
+								{profile.isPro && (
+									<TabPanel>
+										<SpecialtiesEdit />
+									</TabPanel>
+								)}
+								{profile.isPro && (
+									<TabPanel>
+										<SocialUpdate />
+									</TabPanel>
+								)}
+								{profile.isPro && (
+									<TabPanel>
+										<FAQUpdate />
+									</TabPanel>
+								)}
 							</Tabs>
 						</div>
 					</div>

@@ -2,14 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { firestore, firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import moment from 'moment'
 import { Button } from 'semantic-ui-react'
 import {
 	updateInteractionToBooked,
 	cancelBookingInteraction,
 	closeInquiry,
-	confirmBookingInteraction
+	completeInteraction,
+	confirmBookingInteraction,
+	sendBookingRequestFromInquiry
 } from '../../store/actions/interactionActions'
 import InteractionMessages from './InteractionMessages'
 import { renderProfileImage } from '../helpers/HelpersProfile'
@@ -43,9 +45,21 @@ const InteractionDetails = (props) => {
 	}
 
 	const confirmSession = () => {
-		console.log('authorize')
-		// props.confirmBookingInteraction(iid)
+		// console.log('authorize')
+		props.confirmBookingInteraction(iid)
 		// console.log('session has been cancelled')
+	}
+
+	const completeSession = () => {
+		// console.log('complete session');
+		props.completeInteraction(iid)
+	}
+
+	const sendBookingRequestFromInquiry = () => {
+		// console.log('send booking request', iid);
+		// setTimeout(function () {
+		props.sendBookingRequestFromInquiry(iid)
+		// }, 3000)
 	}
 
 	const closeInquiry = () => {
@@ -81,6 +95,15 @@ const InteractionDetails = (props) => {
 							<InteractionMessages groupID={iid} meta={interaction} />
 						</div>
 						<div className="col col--5">
+
+							{interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && (
+								<div className="rating">
+									<div className="rating__inner">
+										<h2 className="text--uppercase text--bold">Leave a review for {interaction.proFirstName} {interaction.proLastName[0]}.</h2>
+									</div>
+								</div>
+							)}
+
 							<div className="interaction-details__summary">
 								<h2 className="text--uppercase mn--double">{interaction.interactionType} Details</h2>
 								<div className="interaction-details__summary-meta">
@@ -108,14 +131,20 @@ const InteractionDetails = (props) => {
 							</div>
 
 							{interaction.userUID === auth.uid ?
-								<div className="interaction-details__buttons">
-									{interaction.interactionType === 'booking' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
-									{interaction.interactionType === 'inquiry' ? <Button className={'link'} onClick={closeInquiry}>Close Inquiry</Button> : null}
+								<div className="interaction-details__buttons text--center">
+									<p>Person Booking</p>
+									{/* <Link to={'/pro/' + interaction.proUID}>Start a new inquiry</Link> */}
+									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'link'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'archived' ? <Button className={'link'} onClick={closeInquiry}>Close Inquiry</Button> : null}
 								</div>
 								:
-								<div className="interaction-details__buttons">
+								<div className="interaction-details__buttons text--center">
+									<p>THe Pro</p>
+									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'link'} onClick={closeInquiry}>Close Inquiry</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status === 'active' ? <Button className={'link'} onClick={completeSession}>Complete Session</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'link'} onClick={confirmSession}>Confirm Booking</Button> : null}
-									{interaction.interactionType === 'pending' ? <Button className={'link'}>Add Service</Button> : null}
 								</div>
 							}
 						</div>
@@ -148,7 +177,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		cancelBookingInteraction: (interaction) => dispatch(cancelBookingInteraction(interaction)),
 		confirmBookingInteraction: (interaction) => dispatch(confirmBookingInteraction(interaction)),
-		closeInquiry: (interaction) => dispatch(closeInquiry(interaction))
+		completeInteraction: (interaction) => dispatch(completeInteraction(interaction)),
+		closeInquiry: (interaction) => dispatch(closeInquiry(interaction)),
+		sendBookingRequestFromInquiry: (interaction) => dispatch(sendBookingRequestFromInquiry(interaction))
 	}
 }
 

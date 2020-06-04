@@ -42,6 +42,16 @@
 		&--receiver {
 			flex-flow: row-reverse wrap;
 		}
+		&--init {
+			// width: 100%;
+			.message {
+				&__content-sent {
+					width: 100%;
+					padding: $gutter * 2;
+					background-color: $yellow;
+				}
+			}
+		}
 	}
 	&__sender {
 		flex: 0 1 10%;
