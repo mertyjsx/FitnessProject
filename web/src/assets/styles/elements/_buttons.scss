@@ -43,6 +43,18 @@ a.button,
 			background-color: $gray-light;
 		}
 	}
+	&--accent {
+		background-color: $green;
+		color: $white;
+		width: 100%;
+		font-size: $font-size;
+		font-family: $font-secondary;
+		text-transform: uppercase;
+		padding: 20px 10px 15px;
+		&:hover {
+			background-color: $green-darker;
+		}
+	}
 	&--inactive {
 		cursor: no-drop;
 		pointer-events: none;

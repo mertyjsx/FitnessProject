@@ -17,3 +17,37 @@
 		}
 	}
 }
+
+.rating {
+	margin-bottom: $gutter * 5;
+	&__stars {
+		.dv-star-rating {
+			font-size: 200%;
+			flex: 0 1 auto;
+			margin-bottom: $gutter;
+		}
+		.dv-star-rating-star {
+			margin-right: 10px;
+		}
+	}
+	&__message {
+		display: flex;
+	}
+	form {
+		display: flex;
+		flex-flow: row wrap;
+		> div {
+			flex: 0 1 100%;
+		}
+	}
+	textarea {
+		border: $gray solid 1px;
+		border-radius: 10px;
+		flex: 0 1 100%;
+		font-family: $font-primary;
+		font-size: $font-size;
+		padding: $gutter;
+		width: 100%;
+		margin-bottom: $gutter/2;
+	}
+}

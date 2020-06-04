@@ -5,6 +5,7 @@ import { compose } from 'redux'
 import { Redirect, Link } from 'react-router-dom'
 import moment from 'moment'
 import { Button } from 'semantic-ui-react'
+import SetRating from '../rating/SetRating'
 import {
 	updateInteractionToBooked,
 	cancelBookingInteraction,
@@ -100,6 +101,7 @@ const InteractionDetails = (props) => {
 								<div className="rating">
 									<div className="rating__inner">
 										<h2 className="text--uppercase text--bold">Leave a review for {interaction.proFirstName} {interaction.proLastName[0]}.</h2>
+										<SetRating iid={iid} />
 									</div>
 								</div>
 							)}
