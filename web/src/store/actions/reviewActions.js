@@ -1,18 +1,21 @@
-export const completeReview = (review, iid) => {
+export const completeReview = (review) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		// Make async call to db
-		console.log('inside review', review, iid);
+		console.log('inside review', review);
 
-		// const firestore = getFirestore()
+		const firestore = getFirestore()
 		// const profile = getState().firebase.profile
 		// const authorId = getState().firebase.auth.uid
 
-		// firestore.collection('users').add({
-		// 	...user
-		// }).then(() => {
-		// 	dispatch({ type: 'CREATE_REVIEW', user });
-		// }).catch((error) => {
-		// 	dispatch({ type: 'CREATE_REVIEW_ERROR', error })
-		// })
+		firestore.collection('reviews').doc(review.ratingID).set({
+			...review
+		}).then(() => {
+			firestore.collection('interactions').doc(review.ratingID).update({
+				ratingCompleted: true
+			})
+			dispatch({ type: 'CREATE_REVIEW', review });
+		}).catch((error) => {
+			dispatch({ type: 'CREATE_REVIEW_ERROR', error })
+		})
 	}
 }

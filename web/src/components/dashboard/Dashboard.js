@@ -6,6 +6,7 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { Redirect, Link } from 'react-router-dom'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts'
+import GetRating from '../rating/GetRating'
 
 class Dashboard extends Component {
 
@@ -60,17 +61,17 @@ class Dashboard extends Component {
 
 					<div className={`divider`}></div>
 
-					<div className="row">
+					{/* <div className="row">
 						<div className="col">
 							<div className={`dashboard__head mb--double`}>
 								<h2 className={`text--md text--uppercase`}>At a glance</h2>
 							</div>
 						</div>
-					</div>
+					</div> */}
+					{/* <ProjectList projects={projects} /> */}
 
 					<div className="row">
-						<div className="col">
-							{/* <ProjectList projects={projects} /> */}
+						{/* <div className="col">
 							<a href={'/inbox'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-messages`}>
 									<div className={`dashboard__glance--standout`}>1</div>
@@ -93,25 +94,29 @@ class Dashboard extends Component {
 									Pending Bookings
 								</div>
 							</a>
-						</div>
+						</div> */}
 						{profile.isPro && (
 							<div className="col">
 								<div className={`dashboard__glance`}>
 									<div className={`dashboard__glance-rating`}>
-										<div className={`dashboard__glance--standout dashboard__glance--rating`}>4</div>
-									Current Rating
-								</div>
+										<div className={`dashboard__glance--standout dashboard__glance--rating`}>
+											<GetRating proInteractions={profile.proInteractions} />
+										</div>
+										Current Rating
+									</div>
 								</div>
 							</div>
 						)}
 					</div>
 
-					{profile.isPro && (
+					{/* <Notifications notifications={notifications} /> */}
+
+
+					{/* {profile.isPro && (
 						<>
 							<div className={`divider`}></div>
 							<div className="row">
 								<div className="col">
-									{/* <Notifications notifications={notifications} /> */}
 									<div className={`dashboard__bookings-title`}>
 										<h2 className={`text--md text--uppercase`}>Bookings</h2>
 										<p>Last 12 months</p>
@@ -132,7 +137,7 @@ class Dashboard extends Component {
 								</div>
 							</div>
 						</>
-					)}
+					)} */}
 				</div>
 			</div>
 		)

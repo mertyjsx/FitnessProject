@@ -52,8 +52,12 @@ class Booking extends Component {
 	}
 
 	handleBookingTypeChange = (e) => {
+		// e.preventDefault()
+		console.log(e.target.id);
+
 		this.setState({
-			bookingType: e.target.value
+			bookingType: e.target.id,
+			profession: ' '
 		})
 	}
 
@@ -62,39 +66,40 @@ class Booking extends Component {
 		console.log('handle change activated', e.target.value, bookingType);
 		if (bookingType === '') {
 			alert('Choose a booking Type')
+			return
 		}
 
 		if (e.target.value === 'chef' && bookingType === 'online') {
 			console.log('chef & online checked');
-			this.setState({ rate: this.props.pro.rates.chef.online, [e.target.id]: e.target.value, });
+			this.setState({ rate: this.props.pro.ratesOnlineChef, [e.target.id]: e.target.value, });
 		}
 		if (e.target.value === 'chef' && bookingType === 'inPerson') {
 			console.log('chef & inPerson checked');
-			this.setState({ rate: this.props.pro.rates.chef.inPerson, [e.target.id]: e.target.value, });
+			this.setState({ rate: this.props.pro.ratesInPersonChef, [e.target.id]: e.target.value, });
 		}
 		if (e.target.value === 'nutritionist' && bookingType === 'online') {
 			console.log('nutritionist & online checked');
-			this.setState({ rate: this.props.pro.rates.nutritionist.online, [e.target.id]: e.target.value, });
+			this.setState({ rate: this.props.pro.ratesOnlineNutritionist, profession: e.target.value, });
 		}
 		if (e.target.value === 'nutritionist' && bookingType === 'inPerson') {
 			console.log('nutritionist & inPerson checked');
-			this.setState({ rate: this.props.pro.rates.nutritionist.inPerson, [e.target.id]: e.target.value, });
+			this.setState({ rate: this.props.pro.ratesInPersonNutritionist, profession: e.target.value, });
 		}
 		if (e.target.value === 'massageTherapist' && bookingType === 'online') {
 			console.log('massageTherapist & online checked');
-			this.setState({ rate: this.props.pro.rates.massageTherapist.online, [e.target.id]: e.target.value, });
+			this.setState({ rate: this.props.pro.ratesOnlineMassageTherapist, [e.target.id]: e.target.value, });
 		}
 		if (e.target.value === 'massageTherapist' && bookingType === 'inPerson') {
 			console.log('massageTherapist & inPerson checked');
-			this.setState({ rate: this.props.pro.rates.massageTherapist.inPerson, [e.target.id]: e.target.value, });
+			this.setState({ rate: this.props.pro.ratesInPersonMassageTherapist, [e.target.id]: e.target.value, });
 		}
 		if (e.target.value === 'fitnessTrainer' && bookingType === 'online') {
 			console.log('fitnessTrainer & online checked');
-			this.setState({ rate: this.props.pro.rates.fitnessTrainer.online, [e.target.id]: e.target.value, });
+			this.setState({ rate: this.props.pro.ratesOnlineFitnessTrainer, [e.target.id]: e.target.value, });
 		}
 		if (e.target.value === 'fitnessTrainer' && bookingType === 'inPerson') {
 			console.log('fitnessTrainer & inPerson checked');
-			this.setState({ rate: this.props.pro.rates.fitnessTrainer.inPerson, [e.target.id]: e.target.value, });
+			this.setState({ rate: this.props.pro.ratesInPersonFitnessTrainer, [e.target.id]: e.target.value, });
 		}
 	}
 
@@ -153,17 +158,17 @@ class Booking extends Component {
 	}
 
 	getStartingRates = () => {
-		const rates = this.props.pro.rates
+		const pro = this.props.pro
 		const ratesArray = []
 
-		if (rates.chef && rates.chef.inPerson) (ratesArray.push(rates.chef.inPerson))
-		if (rates.chef && rates.chef.online) (ratesArray.push(rates.chef.online))
-		if (rates.fitnessTrainer && rates.fitnessTrainer.inPerson) (ratesArray.push(rates.fitnessTrainer.inPerson))
-		if (rates.fitnessTrainer && rates.fitnessTrainer.online) (ratesArray.push(rates.fitnessTrainer.online))
-		if (rates.nutritionist && rates.nutritionist.inPerson) (ratesArray.push(rates.nutritionist.inPerson))
-		if (rates.nutritionist && rates.nutritionist.online) (ratesArray.push(rates.nutritionist.inPerson))
-		if (rates.massageTherapist && rates.massageTherapist.inPerson) (ratesArray.push(rates.massageTherapist.inPerson))
-		if (rates.massageTherapist && rates.massageTherapist.online) (ratesArray.push(rates.massageTherapist.online))
+		if (pro.ratesInPersonChef) (ratesArray.push(pro.ratesInPersonChef))
+		if (pro.ratesOnlineChef) (ratesArray.push(pro.ratesOnlineChef))
+		if (pro.ratesInPersonFitnessTrainer) (ratesArray.push(pro.ratesInPersonFitnessTrainer))
+		if (pro.ratesOnlineFitnessTrainer) (ratesArray.push(pro.ratesOnlineFitnessTrainer))
+		if (pro.ratesInPersonNutritionist) (ratesArray.push(pro.ratesInPersonNutritionist))
+		if (pro.ratesOnlineNutritionist) (ratesArray.push(pro.ratesOnlineNutritionist))
+		if (pro.ratesInPersonMassageTherapist) (ratesArray.push(pro.ratesInPersonMassageTherapist))
+		if (pro.rateOnlineMassageTherapist) (ratesArray.push(pro.rateOnlineMassageTherapist))
 
 		ratesArray.sort((a, b) => a - b);
 		return ratesArray[0]
@@ -209,8 +214,8 @@ class Booking extends Component {
 					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.state.rate}</p>
 					<Form onSubmit={this.validate()}>
 						<Form.Field className={'field--inline'}>
-							<Radio className="field--half" id={'bookingType'} label={'Online'} name={'bookingType'} value='online' checked={this.state.bookingType === 'online'} onChange={this.handleBookingTypeChange} />
-							<Radio className="field--half" id={'bookingType'} label={'In person'} name={'bookingType'} value='inPerson' checked={this.state.bookingType === 'inPerson'} onChange={this.handleBookingTypeChange} />
+							<Radio className="field--half" id={'online'} label={'Online'} name={'bookingType'} onChange={this.handleBookingTypeChange} />
+							<Radio className="field--half" id={'inPerson'} label={'In person'} name={'bookingType'} onChange={this.handleBookingTypeChange} />
 						</Form.Field>
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>

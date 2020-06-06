@@ -21,6 +21,9 @@ $pro-card-spacing-margin: 25px;
 		border: $gray-dark solid 1px;
 		height: 100%;
 		transition: 500ms;
+		@media screen and (min-width: $md-min) {
+			flex-flow: row nowrap;
+		}
 	}
 
 	&__image {
@@ -31,7 +34,7 @@ $pro-card-spacing-margin: 25px;
 		padding-top: 150px;
 		position: relative;
 		@media screen and (min-width: $md-min) {
-			flex: 0 1 calc(200px - #{$pro-card-spacing-margin * 2});
+			flex: 0 0 calc(200px - #{$pro-card-spacing-margin * 2});
 		}
 		img {
 			position: absolute;

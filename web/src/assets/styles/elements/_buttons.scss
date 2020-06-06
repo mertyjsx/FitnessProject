@@ -60,6 +60,9 @@ a.button,
 		pointer-events: none;
 		opacity: 0.5;
 	}
+	&--md {
+		max-width: 320px;
+	}
 }
 
 .paypal-buttons {

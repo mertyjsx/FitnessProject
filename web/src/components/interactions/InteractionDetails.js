@@ -6,6 +6,7 @@ import { Redirect, Link } from 'react-router-dom'
 import moment from 'moment'
 import { Button } from 'semantic-ui-react'
 import SetRating from '../rating/SetRating'
+import Loading from '../modules/Loading'
 import {
 	updateInteractionToBooked,
 	cancelBookingInteraction,
@@ -97,7 +98,7 @@ const InteractionDetails = (props) => {
 						</div>
 						<div className="col col--5">
 
-							{interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && (
+							{interaction.ratingCompleted === false && interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && (
 								<div className="rating">
 									<div className="rating__inner">
 										<h2 className="text--uppercase text--bold">Leave a review for {interaction.proFirstName} {interaction.proLastName[0]}.</h2>
@@ -156,9 +157,7 @@ const InteractionDetails = (props) => {
 		)
 	} else {
 		return (
-			<div className={'container'}>
-				..Loading
-			</div>
+			<Loading />
 		)
 	}
 }

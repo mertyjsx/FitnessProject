@@ -51,3 +51,16 @@
 		margin-bottom: $gutter/2;
 	}
 }
+
+.stars {
+	display: flex;
+	flex-flow: row wrap;
+	color: $yellow-darker;
+	font-weight: bold;
+	&__rating {
+		margin-right: $gutter/2;
+	}
+	&__none {
+		color: $theme-black;
+	}
+}

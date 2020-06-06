@@ -4,7 +4,7 @@ import ProjectList from '../projects/ProjectList'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -45,9 +45,9 @@ class Home extends Component {
 										<div className="home__hero-content">
 											<h2 className="text--uppercase text--lg">Work on being a better you.</h2>
 											<p className="text--uppercase text--sm">Connect with local health &amp; wellness pros</p>
-										</div>
-										<div className="home__hero-search">
-
+											<div className="home__hero-search">
+												<Link to={'/find-a-pro'} className={'button button--accent button--md'}>Search Pros</Link>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -71,33 +71,55 @@ class Home extends Component {
 									<Carousel className="carousel-content" showStatus={false} showThumbs={false} showArrows={true} autoPlay={true}>
 										<div key="slide1" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="user" />
-											<p className="text--md">Find nearby fitness professionals in your area</p>
+											<p className="text--md text--bold">Search for a health &amp; wellness service in your zip code or city.</p>
+											<p className="text--sm">Find nearby fitness professionals in your area</p>
 										</div>
 										<div key="slide2" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="dollar-sign" />
-											<p className="text--md">The Right Pro, For the Right Price</p>
+											<p className="text--md text--bold">Choose the right pro for you.</p>
+											<p className="text--sm">You can browse different profiles, compare prices, bookmark your favorites, and use filters to find pros who match your needs</p>
 										</div>
 										<div key="slide3" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="users" />
-											<p className="text--md">Community You Can Rely On</p>
+											<p className="text--md text--bold">Check availability and book pros right through our platform.</p>
+											<p className="text--sm">You can message or call your pro to discuss more details.</p>
 										</div>
 										<div key="slide4" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="check-circle" />
-											<p className="text--md">C2B Certified</p>
-										</div>
-										<div key="slide5" className="carousel-content__slide">
-											<FontAwesomeIcon size="4x" icon="book" />
-											<p className="text--md">Resources to Support Your Fitness Journey</p>
-										</div>
-										<div key="slide6" className="carousel-content__slide">
-											<FontAwesomeIcon size="4x" icon="handshake" />
-											<p className="text--md">Security Through Using Our Platform</p>
-										</div>
-										<div key="slide7" className="carousel-content__slide">
-											<FontAwesomeIcon size="4x" icon="hand-peace" />
-											<p className="text--md">Positivity, Always</p>
+											<p className="text--md text--bold">Get ready to experience a positive, motivating lifestyle.</p>
+											<p className="text--sm">You can earn “points” towards bonuses like free sessions, vacation trips, and fresh gear, every time you book through us</p>
 										</div>
 									</Carousel>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div className="home__pro">
+						<div className="container">
+							<div className="row">
+								<div className="col col--5"></div>
+								<div className="col col--7">
+									<h2 className="text--lg text--uppercase">Are you a five-star pro?</h2>
+									<p className="text--sm" style={{ flex: '0 1 100%' }}>List your business to reach thousands of potential clients.</p>
+									<Link to="/join-as-pro" className="button button--accent button--md">Learn More</Link>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div className="home__about">
+						<div className="container">
+							<div className="row">
+								<div className="col col--1"></div>
+								<div className="col col--10 text--center">
+									<h2 className="text--lg text--uppercase" style={{ flex: '0 1 100%' }}>Who We Are</h2>
+									<p className="text--sm">We created Choose To Be You (C2Byou) to help people lead a healthier
+									lifestyle -- and we haven’t stopped building since. C2Byou is a platform
+									where you can book health &amp; wellness pros instantly online, based on
+									your convenience, and get the resources you need to live a healthy &amp;
+									happy life.</p>
+									<Link to="/about" style={{ margin: 'auto' }} className="button button--accent button--md">About C2Byou</Link>
 								</div>
 							</div>
 						</div>

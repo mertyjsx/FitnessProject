@@ -1,0 +1,17 @@
+.table {
+	margin-bottom: $gutter * 4;
+	th {
+		background-color: $primary-darker;
+		color: $white;
+		padding: $gutter;
+	}
+	tr {
+		background-color: $gray-lighter;
+		&:nth-child(even) {
+			background-color: $gray-light;
+		}
+	}
+	td {
+		padding: $gutter;
+	}
+}

@@ -40,16 +40,6 @@ class FindAPro extends Component {
 	render() {
 		const { users, auth, profile } = this.props
 
-		// const profiles = users && users.map(pro => {
-		// 	const profileUrl = pro.username ? pro.username : pro.id;
-		// 	if (pro.isPro !== true || pro.isApproved !== true) { return null }
-		// 	return (
-		// 		<Link className={`pro-list__card col col--6`} to={'/pro/' + pro.uid} key={pro.id}>
-		// 			<ProCard pro={pro} />
-		// 		</Link>
-		// 	)
-		// })
-
 		return (
 			<div className="find-pro">
 				<div className="container">
@@ -57,11 +47,14 @@ class FindAPro extends Component {
 						<ProActiveListingsConsumer>
 							{({ proActiveListings, allListings, updateFilter }) => (
 								<>
-									<Filter
+									{/* <Filter
 										updateFilter={updateFilter}
-										// count={proActiveListings.length}
+										count={proActiveListings.length}
+										businessCity={proActiveListings
+											.map(pro => pro.businessCity)
+											.filter((item, i, arr) => arr.indexOf(item) === i)}
 										pph={allListings.filter(item => item.rates)}
-									/>
+									/> */}
 									<div className="row">
 										{proActiveListings && proActiveListings.map(pro => (
 											<Link className={`pro-list__card col col--6`} to={'/pro/' + pro.uid} key={pro.uid}>

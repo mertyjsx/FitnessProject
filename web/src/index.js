@@ -11,6 +11,7 @@ import { reduxFirestore, getFirestore, createFirestoreInstance } from 'redux-fir
 import { ReactReduxFirebaseProvider, getFirebase, isLoaded } from 'react-redux-firebase'
 import fbConfig from './config/fbConfig'
 import firebase from "firebase/app";
+import Loading from './components/modules/Loading';
 
 const store = createStore(
   rootReducer,
@@ -35,7 +36,8 @@ const rrfProps = {
   createFirestoreInstance,
   userProfile: 'users', // where profiles are stored in database
   presence: 'presence', // where list of online users is stored in database
-  sessions: 'sessions'
+  sessions: 'sessions',
+  reviews: 'reviews'
 };
 
 // console.log('index props', rrfProps);
@@ -43,7 +45,7 @@ const rrfProps = {
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector(state => state.firebase.auth)
-  if (!isLoaded(auth)) return <div>Loading...</div>
+  if (!isLoaded(auth)) return <Loading />
   return children
 }
 

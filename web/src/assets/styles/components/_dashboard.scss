@@ -12,9 +12,17 @@
 			line-height: 1;
 		}
 		&--rating {
-			&:after {
-				content: "/5";
-				font-size: 50%;
+			.dv-star-rating {
+				display: none !important;
+			}
+
+			.stars {
+				&__rating {
+					&:after {
+						content: "/5";
+						font-size: 50%;
+					}
+				}
 			}
 		}
 	}

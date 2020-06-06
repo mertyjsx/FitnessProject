@@ -2,31 +2,9 @@ import React from 'react'
 import imageDefaultUser from '../../assets/images/default-user.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { renderProfileImage } from '../helpers/HelpersProfile'
+import GetRating from '../rating/GetRating'
 
 const ProCard = ({ pro }) => {
-
-	const renderImageURL = (photoURL, firstName, lastName) => {
-		var pattern = /^((http|https|ftp):\/\/)/;
-		if (!pattern.test(photoURL)) {
-			return (<img src={imageDefaultUser} alt={`No self portrait picture provided`} />)
-		}
-		return (<img src={photoURL} alt={`Portrait of ${firstName} ${lastName}`} />)
-	}
-
-	const renderStarRating = () => {
-		return (
-			<div className={`star-rating`}>
-				<ul>
-					<li className={`star-rating--yellow`}>3.0</li>
-					<li className={`star-rating--yellow`}><FontAwesomeIcon icon={["fa", "star"]} /></li>
-					<li className={`star-rating--yellow`}><FontAwesomeIcon icon={["fa", "star"]} /></li>
-					<li className={`star-rating--yellow`}><FontAwesomeIcon icon={["fa", "star"]} /></li>
-					<li><FontAwesomeIcon icon="star" /></li>
-					<li><FontAwesomeIcon icon={["fas", "star"]} /></li>
-				</ul>
-			</div>
-		)
-	}
 
 	const renderProfessions = (professions) => {
 		if (typeof professions === 'undefined') {
@@ -51,10 +29,10 @@ const ProCard = ({ pro }) => {
 				</div>
 				<div className={`pro-card__content`}>
 					<h2 className={`pro-card__content-name mb--0`}>{pro.firstName} {pro.lastName}</h2>
-					{renderStarRating()}
+					<GetRating proInteractions={pro.proInteractions} />
 					<p>{pro.city}{pro.state ? ', ' + pro.state : ''}</p>
 					{renderProfessions(pro.professions)}
-					<p>{pro.about ? pro.about.substring(0, 24) + '...' : null}</p>
+					<p>{pro.about ? pro.about.substring(0, 48) + '...' : null}</p>
 				</div>
 			</div>
 		</div>

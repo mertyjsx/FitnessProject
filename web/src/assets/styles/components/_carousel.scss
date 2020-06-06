@@ -2,13 +2,16 @@
 	width: 100%;
 	.carousel {
 		width: 100%;
-		max-width: 480px;
+		max-width: 750px;
 		margin: 0 auto !important;
 		.slide {
 			background-color: transparent;
 		}
-		.control-dots .dot {
-			background-color: $primary;
+		.control-dots {
+			position: relative;
+			.dot {
+				background-color: $primary;
+			}
 		}
 		.control-prev.control-arrow:before {
 			border-right: 8px solid $primary;
@@ -16,16 +19,19 @@
 		.control-next.control-arrow:before {
 			border-left: 8px solid $primary;
 		}
-		&.carousel-slider .control-prev.control-arrow:hover {
-			background: transparent;
-			&:before {
-				border-right: 8px solid $primary-darker;
+		&.carousel-slider {
+			padding: 0 $gutter * 2;
+			.control-prev.control-arrow:hover {
+				background: transparent;
+				&:before {
+					border-right: 8px solid $primary-darker;
+				}
 			}
-		}
-		&.carousel-slider .control-next.control-arrow:hover {
-			background: transparent;
-			&:before {
-				border-left: 8px solid $primary-darker;
+			.control-next.control-arrow:hover {
+				background: transparent;
+				&:before {
+					border-left: 8px solid $primary-darker;
+				}
 			}
 		}
 	}
@@ -35,10 +41,27 @@
 	&__slide {
 		padding: $gutter;
 		p {
-			padding: $gutter;
+			margin: 0;
 		}
 		svg {
 			color: $primary-darker;
+		}
+	}
+}
+
+.carousel-about {
+	.carousel.carousel-slider {
+		padding: $gutter * 4 0;
+		.slide {
+			background-color: transparent;
+			text-align: left;
+		}
+		.control-dots {
+			.dot {
+				background: $primary;
+				width: 10px;
+				height: 10px;
+			}
 		}
 	}
 }

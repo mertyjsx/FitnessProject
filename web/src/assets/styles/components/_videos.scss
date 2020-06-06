@@ -1,0 +1,10 @@
+.video {
+	width: 100%;
+	margin: $gutter auto;
+	&--small {
+		max-width: 768px;
+	}
+	&__source {
+		width: 100%;
+	}
+}

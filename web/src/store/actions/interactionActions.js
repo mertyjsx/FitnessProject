@@ -13,12 +13,21 @@ export const createInteraction = (interaction) => {
 			userLastName: profile.lastName,
 			userUID: userID,
 			userImage: profile.photoURL,
-			createdAt: new Date()
-		}).then(() => {
-			console.log('success');
+			createdAt: new Date(),
+			ratingCompleted: false
+		}).then((docRef) => {
+			// console.log('success', docRef.id);
 			dispatch({ type: 'CREATE_INTERACTION', interaction });
+			// if it's a pro, add interaction
+			firestore.collection('users').doc(interaction.proUID).update({
+				proInteractions: firestore.FieldValue.arrayUnion(docRef.id)
+			})
+			// if it's a user, add interaction
+			firestore.collection('users').doc(userID).update({
+				userInteractions: firestore.FieldValue.arrayUnion(docRef.id)
+			})
 		}).catch((error) => {
-			console.log('nah');
+			// console.log('nah');
 			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
 		})
 	}

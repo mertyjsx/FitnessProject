@@ -21,7 +21,7 @@ class Footer extends Component {
 							<div className="form__inner">
 								<Form.Field style={{ display: 'block', color: 'white' }}>
 									<h2 className="text--lg">Join Our Community</h2>
-									<p className={'text-center text-white'}>Be the first to know when we expand to new cities and release life-changing health tips. <br />Also, don’t miss out on our exclusive discounts and latest updates.</p>
+									<p className={'text-center text-white'}>Be the first to know when we expand to new cities and release life-changing health tips. Also, don’t miss out on our exclusive discounts and latest updates.</p>
 								</Form.Field>
 								<Form.Field className="field--half">
 									<label className={'screen-reader-text'} htmlFor='mce-FNAME'>First Name*</label>
@@ -74,9 +74,9 @@ class Footer extends Component {
 											<li><Link to="/how-it-works">How It Works</Link></li>
 											<li><Link to="/find-a-pro">Find A Pro</Link></li>
 											<li><Link to="/join-as-pro">Join as a Pro</Link></li>
-											<li><Link to="/pro-faq">Pro FAQs</Link></li>
-											<li><Link to="/client-faq">Client FAQs</Link></li>
-											<li><Link to="/blog">Blog</Link></li>
+											{/* <li><Link to="/pro-faq">Pro FAQs</Link></li> */}
+											{/* <li><Link to="/client-faq">Client FAQs</Link></li> */}
+											{/* <li><Link to="/blog">Blog</Link></li> */}
 										</ul>
 									</div>
 								</div>

@@ -10,9 +10,9 @@ class SignUpPro extends Component {
 		super(props)
 		this.state = {
 			professionChef: '',
-			city: '',
-			state: '',
-			zip: '',
+			businessCity: '',
+			businessState: '',
+			businessZip: '',
 			firstName: '',
 			lastName: '',
 			email: '',
@@ -36,7 +36,7 @@ class SignUpPro extends Component {
 		$this.setState({
 			pageTwoActive: true
 		})
-		fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${$this.state.zip}&sensor=true&key=AIzaSyBffpI8hvEPuICCsaEkV6dIl-gOW-4E49w`)
+		fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${$this.state.businessZip}&sensor=true&key=AIzaSyBffpI8hvEPuICCsaEkV6dIl-gOW-4E49w`)
 			.then(function (response) {
 				if (response.status !== 200) {
 					console.log('Looks like there was a problem. Status Code: ' + response.status);
@@ -46,8 +46,8 @@ class SignUpPro extends Component {
 					data.results.map(res => {
 						console.log(res.address_components);
 						$this.setState({
-							city: res.address_components[1].long_name,
-							state: res.address_components[2].short_name.length === 2 ? res.address_components[2].short_name : res.address_components[3].short_name.length === 2 ? res.address_components[3].short_name : res.address_components[4].short_name
+							businessCity: res.address_components[1].long_name,
+							businessState: res.address_components[2].short_name.length === 2 ? res.address_components[2].short_name : res.address_components[3].short_name.length === 2 ? res.address_components[3].short_name : res.address_components[4].short_name
 						})
 					})
 				});
@@ -155,7 +155,7 @@ class SignUpPro extends Component {
 								</Form.Field>
 								<Form.Field>
 									<label htmlFor="zip">Enter your zipcode</label>
-									<input type="text" name="zip" id="zip" placeholder="e.g. 32801" onChange={this.handleChange}></input>
+									<input type="text" name="zip" id="businessZip" placeholder="e.g. 32801" onChange={this.handleChange}></input>
 								</Form.Field>
 								<Form.Field>
 									<button className={`button button--secondary text--uppercase text--bold text--font-secondary ${this.state.profession === '' ? 'button--inactive' : ''}`} onClick={this.zipValidator}>Proceed</button>
@@ -168,7 +168,7 @@ class SignUpPro extends Component {
 								</Form.Field>
 								<Form.Field className={'field--half field--inactive'}>
 									<label htmlFor="password">City</label>
-									<input className="input--filled" readOnly={true} type="text" value={this.state.city}></input>
+									<input className="input--filled" type="text" value={this.state.city} />
 								</Form.Field>
 								<Form.Field className={'field--half field--inactive'}>
 									<label htmlFor="password">State</label>
@@ -199,7 +199,7 @@ class SignUpPro extends Component {
 									<p className="text--center">By clicking <strong>Create Account</strong>, you agree to the <Link to={'/terms-of-use'}>Terms of Use</Link> and <Link to={'/privacy-policy'}>Privacy Policy</Link>.</p>
 								</Form.Field>
 								<Form.Field>
-									<button type="submit" className={`button button--secondary text--uppercase text--bold text--font-secondary ${this.state.email === '' && this.state.password === '' ? 'button--inactive' : ''}`}>Login</button>
+									<button type="submit" className={`button button--secondary text--uppercase text--bold text--font-secondary ${this.state.email === '' && this.state.password === '' ? 'button--inactive' : ''}`}>Join</button>
 									<div className="warning">
 										{authError ? <p>{authError}</p> : null}
 									</div>

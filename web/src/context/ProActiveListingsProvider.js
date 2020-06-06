@@ -11,12 +11,20 @@ const ProActiveListingsContext = createContext(DefaultState)
 export const ProActiveListingsConsumer = ProActiveListingsContext.Consumer
 
 export class ProActiveListingsProvider extends Component {
+
 	static applyFilter(listings, filter) {
-		const { pph, sortOrder } = filter
+		const { businessCity, pph, sortOrder } = filter
 		let result = listings
 		if (pph) {
 			console.log('here', pph, result);
 			// result = result.filter(item => item.pph.startsWith(pph))
+		}
+		if (businessCity) {
+			// console.log('city', businessCity, result);
+			result = result.filter(item => {
+				// console.log(item.businessCity);
+				item.businessCity.toLowerCase().startsWith(businessCity)
+			})
 		}
 		if (sortOrder) {
 			if (sortOrder === 'highestfirst') {
@@ -56,9 +64,9 @@ export class ProActiveListingsProvider extends Component {
 			});
 	}
 
-	getProByUID = proUID => {
+	getProByCity = city => {
 		const { proActiveListings } = this.state
-		return proActiveListings.find(listing => listing.id === Number(proUID))
+		return proActiveListings.find(pro => pro.businessCity === city)
 	}
 
 	updateFilter = filter => {
@@ -82,7 +90,7 @@ export class ProActiveListingsProvider extends Component {
 					allListings: proActiveListings,
 					proActiveListings: filteredListings,
 					updateFilter: this.updateFilter,
-					getProByUID: this.getProByUID
+					getProByCity: this.getProByCity
 				}}
 			>
 				{children}
