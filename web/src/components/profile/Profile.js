@@ -126,9 +126,9 @@ const Profile = (props, state) => {
 										<div className="profile__meta-btn">
 											{sendMessage()}
 										</div>
-										<div className="profile__meta-btn">
+										{/* <div className="profile__meta-btn">
 											<a href="#" className="button button--secondary">Share Profile</a>
-										</div>
+										</div> */}
 									</div>
 									<div className={`profile__meta-specialties`}>
 										<h2 className="text--uppercase"><FontAwesomeIcon icon="list" /> Specialties</h2>
@@ -137,7 +137,7 @@ const Profile = (props, state) => {
 											{renderMainSpecialties(user.professions)}
 										</div>
 										<div className="profile__meta-spec">
-											<h3 className="mb--0"><strong>Specializing In:</strong></h3>
+											{/* <h3 className="mb--0"><strong>Specializing In:</strong></h3> */}
 											{/* {renderMainSpecialties()} */}
 										</div>
 									</div>
