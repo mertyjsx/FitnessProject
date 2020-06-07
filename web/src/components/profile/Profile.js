@@ -12,6 +12,7 @@ import GetFullReviews from '../rating/GetFullReviews'
 import Loading from '../modules/Loading'
 
 const Profile = (props, state) => {
+
 	const { auth, user } = props;
 	// console.log(user);
 
@@ -106,6 +107,12 @@ const Profile = (props, state) => {
 		)
 	}
 
+	// const handleClose = () => {
+	// 	this.setState({
+	// 		modalOpen: false
+	// 	})
+	// }
+
 	if (user) {
 		return (
 			<div className="profile">
@@ -126,9 +133,18 @@ const Profile = (props, state) => {
 										<div className="profile__meta-btn">
 											{sendMessage()}
 										</div>
-										{/* <div className="profile__meta-btn">
-											<a href="#" className="button button--secondary">Share Profile</a>
-										</div> */}
+										<div className="profile__meta-btn">
+											<Modal trigger={<Button className="button button--secondary" style={{ width: '100%' }}>Share Profile</Button>}>
+												<Modal.Content>
+													<Modal.Actions>
+														<Button class="button__close">X</Button>
+													</Modal.Actions>
+													<Modal.Description>
+														<Inquiry pro={user} user={auth} />
+													</Modal.Description>
+												</Modal.Content>
+											</Modal>
+										</div>
 									</div>
 									<div className={`profile__meta-specialties`}>
 										<h2 className="text--uppercase"><FontAwesomeIcon icon="list" /> Specialties</h2>

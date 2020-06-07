@@ -29,7 +29,7 @@ class SignUpPro extends Component {
 	zipValidator = (e) => {
 		e.preventDefault();
 		let $this = this;
-		if (postcodeValidator($this.state.zip, 'US') === false) {
+		if (postcodeValidator($this.state.businessZip, 'US') === false) {
 			alert('Enter a valid zip code')
 			return null
 		}
@@ -99,7 +99,7 @@ class SignUpPro extends Component {
 	}
 
 	handleSubmit = (e) => {
-		e.preventDefault();
+		// e.preventDefault();
 		// this.zipValidator(this.state.zip)
 		// console.log(this.state);
 		this.props.signUpPro(this.state, this.props)
@@ -168,11 +168,11 @@ class SignUpPro extends Component {
 								</Form.Field>
 								<Form.Field className={'field--half field--inactive'}>
 									<label htmlFor="password">City</label>
-									<input className="input--filled" type="text" value={this.state.city} />
+									<input className="input--filled" type="text" value={this.state.businessCity} />
 								</Form.Field>
 								<Form.Field className={'field--half field--inactive'}>
 									<label htmlFor="password">State</label>
-									<input className="input--filled" readOnly={true} type="text" value={this.state.state}></input>
+									<input className="input--filled" readOnly={true} type="text" value={this.state.businessState}></input>
 								</Form.Field>
 								<Form.Field>
 									<label htmlFor="firstName">First Name <sup className="red">*</sup></label>
