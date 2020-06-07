@@ -49,6 +49,7 @@ class ProfileUpdate extends Component {
 							<Form.Field className="field--half">
 								<Input id="favQuote" type="text" label="Favorite Quote" defaultValue={this.props.profile.favQuote} onChange={this.onChange} />
 							</Form.Field>
+							<div style={{ marginBottom: '50px' }} className={'col col--12'}></div>
 							<div className="field">
 								<h2>Business Info</h2>
 							</div>
@@ -62,13 +63,13 @@ class ProfileUpdate extends Component {
 								<Input id="businessAddress2" type="text" label="Business Address 2" defaultValue={this.props.profile.businessAddress2} onChange={this.onChange} />
 							</Form.Field>
 							<Form.Field className="field--half">
-								<Input id="city" type="text" label="City" defaultValue={this.props.profile.city} onChange={this.onChange} />
+								<Input id="city" type="text" label="City" defaultValue={this.props.profile.businssCity} onChange={this.onChange} />
 							</Form.Field>
 							<Form.Field className="field--half">
-								<Input id="state" type="text" label="State" defaultValue={this.props.profile.state} onChange={this.onChange} />
+								<Input id="state" type="text" label="State" defaultValue={this.props.profile.businessState} onChange={this.onChange} />
 							</Form.Field>
 							<Form.Field className="field--half">
-								<Input id="zip" type="text" label="Zip Code" defaultValue={this.props.profile.zip} onChange={this.onChange} />
+								<Input id="zip" type="text" label="Zip Code" defaultValue={this.props.profile.businessZip} onChange={this.onChange} />
 							</Form.Field>
 						</div>
 						: null

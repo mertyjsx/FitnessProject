@@ -21,48 +21,55 @@ import About from "./components/modules/About"
 import Terms from "./components/modules/Terms"
 import Privacy from "./components/modules/Privacy"
 import Social from "./components/landing/Social"
+import NotFound from './components/modules/NotFound'
+import ScrollToTop from 'react-router-scroll-top'
+import HowItWorks from './components/modules/HowItWorks'
+import ThankYouConvertKit from "./components/promo/ThankYouConvertKit"
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      splash: true
+      splash: false
     }
   }
   render() {
     return (
       <BrowserRouter>
+        <ScrollToTop />
         <div className="App">
           <Navbar splash={this.state.splash} />
+
           <Switch>
-            {this.state.splash === true ?
-              <>
-                <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
-                <Route exact path="/social" component={Social} />
-              </>
-              :
+            <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
+            <Route exact path="/social" component={Social} />
+            <Route path="/thank-you-for-subscribing" component={ThankYouConvertKit} />
+            <Route path="*" component={NotFound} />
+            {this.state.splash === false ?
               <>
                 <Route exact path="/" component={Home} />
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/project/:id" component={ProjectDetails} />
-                <Route path="/signin" component={SignIn} />
-                <Route path="/signup" component={SignUp} />
-                <Route path="/join-as-pro" component={SignUpPro} />
-                <Route path="/create-project" component={CreateProject} />
+                <Route exact path="/dashboard" component={Dashboard} />
+                <Route exact path="/project/:id" component={ProjectDetails} />
+                <Route exact path="/signin" component={SignIn} />
+                <Route exact path="/signup" component={SignUp} />
+                <Route exact path="/join-as-pro" component={SignUpPro} />
+                <Route exact path="/create-project" component={CreateProject} />
                 <Route path="/find-a-pro" component={FindAPro} />
                 <Route exact path="/inbox" component={Inbox} />
-                <Route path="/session/:id" component={InteractionDetails} />
+                <Route exact path="/session/:id" component={InteractionDetails} />
                 <Route exact path="/bookings" component={Bookings} />
                 <Route exact path="/pro/:uid" component={Profile} />
                 <Route exact path="/profile-edit" component={ProfileEdit} />
-                <Route exact path="/about" component={About} />
+                <Route path="/about" component={About} />
                 <Route exact path="/terms-of-use" component={Terms} />
                 <Route exact path="/privacy-policy" component={Privacy} />
                 <Route exact path="/onboarding" component={Onboarding} />
                 <Route exact path="/social" component={Social} />
-              </>
+                <Route path="/how-it-works" component={HowItWorks} />
+              </> : null
             }
           </Switch>
+
           <Footer splash={this.state.splash} />
         </div>
       </BrowserRouter>

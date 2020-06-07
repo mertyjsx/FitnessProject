@@ -14,6 +14,7 @@ function getPropertiesDisplayText(count) {
 const DefaultState = {
 	priceFrom: '',
 	pph: '',
+	businessCity: '',
 	sortOrder: '',
 	sortOrders: ['Highest First', 'Lowest First']
 }
@@ -29,7 +30,7 @@ class Filter extends Component {
 	}
 
 	render() {
-		const { pph } = this.state
+		const { pph, businessCity } = this.state
 		const { pphs, postcodes, count, updateFilter } = this.props
 
 		return (
@@ -40,33 +41,19 @@ class Filter extends Component {
 						noValidate
 					>
 						<div className="row">
-							<div className={`col`}>
-								<button
-									data-cy="clear-button"
-									type="button"
-									onClick={() => {
-										this.setState(Object.assign({}, DefaultState))
-										updateFilter({})
-									}}
-								>Clear</button>
-							</div>
 							<div className="col">
-								<label htmlFor="name">Price from</label>
-								<input id={`name`}
-									value={``}
+								<label htmlFor="name">Where?</label>
+								<input id={`businessCity`}
+									defaultValue={this.state.businessCity}
 									type="text"
-									placeholder="Who are you searching for?"
-									onChange={(e) => this.searchByName(e)} />
-							</div>
-							<div className="col">
-								<input type="text" placeholder="Where?" onChange={(e) => this.searchByName(e)} />
+									placeholder="Where?"
+									onChange={(e) => this.handleChange('businessCity', e.target.value)} />
 							</div>
 							<div className="col">
 								<select
 									id={`pph`}
-									onChange={e =>
-										this.handleChange('pph', e.target.value)
-									}>
+									value={this.state.pph}
+									onChange={e => this.handleChange('pph', e.target.value)}>
 									<option value="">Price Per Hour</option>
 									<option value="49">Up to $49</option>
 									<option value="50">$50 - $74</option>
@@ -87,6 +74,19 @@ class Filter extends Component {
 										</option>
 									))}
 								</select>
+							</div>
+							<div className="col">
+								<button>Filters</button>
+								<div>
+									<button
+										data-cy="clear-button"
+										type="button"
+										onClick={() => {
+											this.setState(Object.assign({}, DefaultState))
+											updateFilter({})
+										}}
+									>Clear</button>
+								</div>
 							</div>
 						</div>
 					</form>

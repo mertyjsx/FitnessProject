@@ -38,4 +38,16 @@
 			font-weight: bold;
 		}
 	}
+	&__pro {
+		background-image: url(../../images/chef-001.png);
+		background-position: top left;
+		// background-size: contain;
+		background-color: $theme-black;
+		color: $white;
+		background-repeat: no-repeat;
+		padding: $gutter * 10 $gutter;
+	}
+	&__about {
+		padding: $gutter * 10 $gutter;
+	}
 }

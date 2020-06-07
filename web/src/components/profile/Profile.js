@@ -7,8 +7,12 @@ import { Redirect, Link } from 'react-router-dom'
 import Booking from './Booking'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Inquiry from './Inquiry'
+import GetRating from '../rating/GetRating'
+import GetFullReviews from '../rating/GetFullReviews'
+import Loading from '../modules/Loading'
 
 const Profile = (props, state) => {
+
 	const { auth, user } = props;
 	// console.log(user);
 
@@ -21,7 +25,7 @@ const Profile = (props, state) => {
 		if (typeof about === 'string') { navItems.push(<li key={'about'}><a href="#about">About</a></li>) }
 		if (typeof background === 'string') { navItems.push(<li key={'background'}><a href="#background">Background</a></li>) }
 		if (typeof credentials === 'string') { navItems.push(<li key={'credentials'}><a href="#credentials">Credentials</a></li>) }
-		if (typeof reviews === 'string') { navItems.push(<li key={'reviews'}><a href="#reviews">Reviews</a></li>) }
+		if (reviews === true) { navItems.push(<li key={'reviews'}><a href="#reviews">Reviews</a></li>) }
 		return (<ul className="list list--inline">{navItems.splice('')}</ul>)
 	}
 
@@ -96,22 +100,18 @@ const Profile = (props, state) => {
 		)
 	}
 
-	const renderReviews = (reviews) => {
-		if (typeof cred !== 'string') { return null }
-		return (
-			<div id="reviews" className={`profile__reviews`}>
-				<h2 className={`text--uppercase`}>Reviews</h2>
-				<p>{reviews}</p>
-			</div>
-		)
-	}
-
 	const renderImage = (image) => {
 		if (typeof image !== 'string') { return null }
 		return (
 			<img src={image} />
 		)
 	}
+
+	// const handleClose = () => {
+	// 	this.setState({
+	// 		modalOpen: false
+	// 	})
+	// }
 
 	if (user) {
 		return (
@@ -120,21 +120,30 @@ const Profile = (props, state) => {
 					<div className="row row--flex-start">
 						<div className="col col--8">
 							<div className={`profile__nav`}>
-								{renderProfileNav(user.about, user.background, user.credentials, user.reviews)}
+								{renderProfileNav(user.about, user.background, user.credentials, true)}
 							</div>
 							<div className={`profile__image`}>
 								{renderImage(user.photoURL)}
 							</div>
 							<div className={`profile__meta`}>
 								<div className={`profile__meta-inner`}>
-									<h1>{`${user.firstName} ${user.lastName}`}</h1>
-									<p>star rating</p>
+									<h1 className={`text--no-margin`}>{`${user.firstName} ${user.lastName}`}</h1>
+									<GetRating proInteractions={user.proInteractions} />
 									<div className={`profile__meta-btns`}>
 										<div className="profile__meta-btn">
 											{sendMessage()}
 										</div>
 										<div className="profile__meta-btn">
-											<a href="#" className="button button--secondary">Share Profile</a>
+											<Modal trigger={<Button className="button button--secondary" style={{ width: '100%' }}>Share Profile</Button>}>
+												<Modal.Content>
+													<Modal.Actions>
+														<Button class="button__close">X</Button>
+													</Modal.Actions>
+													<Modal.Description>
+														<Inquiry pro={user} user={auth} />
+													</Modal.Description>
+												</Modal.Content>
+											</Modal>
 										</div>
 									</div>
 									<div className={`profile__meta-specialties`}>
@@ -144,7 +153,7 @@ const Profile = (props, state) => {
 											{renderMainSpecialties(user.professions)}
 										</div>
 										<div className="profile__meta-spec">
-											<h3 className="mb--0"><strong>Specializing In:</strong></h3>
+											{/* <h3 className="mb--0"><strong>Specializing In:</strong></h3> */}
 											{/* {renderMainSpecialties()} */}
 										</div>
 									</div>
@@ -153,7 +162,12 @@ const Profile = (props, state) => {
 							{renderAbout(user.about, user.funFact, user.favQuote)}
 							{renderBackground(user.background)}
 							{renderCredentials(user.credentials)}
-							{renderReviews(user.reviews)}
+
+							<div id="reviews" className={`profile__reviews`}>
+								<h2 className={`text--uppercase`}>Reviews</h2>
+								<GetFullReviews proInteractions={user.proInteractions} />
+							</div>
+
 						</div>
 						<div className={`col col--4`}>
 							<Booking pro={user} user={auth} />
@@ -167,9 +181,7 @@ const Profile = (props, state) => {
 		)
 	} else {
 		return (
-			<div className={'container'}>
-				..Loading
-			</div>
+			<Loading />
 		)
 	}
 }

@@ -5,14 +5,16 @@ import { firestoreReducer } from 'redux-firestore'
 import { firebaseReducer } from 'react-redux-firebase'
 import interactionReducer from './interactionReducer'
 import profileReducer from './profileReducer'
+import reviewReducer from './reviewReducer'
 
 const rootReducer = combineReducers({
 	auth: authReducer,
-	project: projectReducer,
+	firebase: firebaseReducer,
+	firestore: firestoreReducer,
 	interaction: interactionReducer,
 	profile: profileReducer,
-	firestore: firestoreReducer,
-	firebase: firebaseReducer
+	project: projectReducer,
+	review: reviewReducer
 })
 
 export default rootReducer

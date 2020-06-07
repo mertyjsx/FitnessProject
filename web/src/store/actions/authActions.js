@@ -65,6 +65,7 @@ export const signUpPro = (newUser, props) => {
 				isApproved: false,
 				uid: response.user.uid,
 				onboardingCompleted: false,
+				proInteractions: [],
 				professions: {
 					chef: newUser.professionChef,
 					fitnessTrainer: newUser.professionFitnessTrainer,
@@ -80,12 +81,14 @@ export const signUpPro = (newUser, props) => {
 	}
 }
 
-export const completeOnboarding = (newInfo, uid) => {
+export const completeOnboarding = (newInfo) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
-		// console.log(newInfo);
-		firestore.collection('users').doc(uid).update({
+		const userID = getState().firebase.auth.uid
+
+		console.log(newInfo);
+		firestore.collection('users').doc(userID).update({
 			...newInfo,
 		})
 			.then(function () {

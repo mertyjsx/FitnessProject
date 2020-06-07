@@ -5,9 +5,11 @@ a.button,
 	display: flex;
 	border-radius: $button-border-radius;
 	text-decoration: none;
-	padding: 10px 25px;
+	padding: 14px 25px 10px;
 	justify-content: center;
 	transition: 300ms;
+	font-size: $font-size;
+	font-family: $font-secondary;
 	cursor: pointer;
 	&:hover {
 		// transition: 300ms;
@@ -43,10 +45,25 @@ a.button,
 			background-color: $gray-light;
 		}
 	}
+	&--accent {
+		background-color: $green;
+		color: $white;
+		width: 100%;
+		font-size: $font-size;
+		font-family: $font-secondary;
+		text-transform: uppercase;
+		padding: 20px 10px 15px;
+		&:hover {
+			background-color: $green-darker;
+		}
+	}
 	&--inactive {
 		cursor: no-drop;
 		pointer-events: none;
 		opacity: 0.5;
+	}
+	&--md {
+		max-width: 320px;
 	}
 }
 

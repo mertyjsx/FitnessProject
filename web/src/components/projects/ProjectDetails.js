@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { firestore, firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
+import Loading from '../modules/Loading'
 
 const ProjectDetails = (props) => {
 	const { project, auth } = props;
@@ -24,9 +25,7 @@ const ProjectDetails = (props) => {
 		)
 	} else {
 		return (
-			<div className={'container'}>
-				..Loading
-			</div>
+			<Loading />
 		)
 	}
 }

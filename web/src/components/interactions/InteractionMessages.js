@@ -121,7 +121,7 @@ class InteractionMessages extends Component {
 						return this.renderMessage(chat.timestamp, chat.content, chat.uid)
 					})}
 				</div>
-				{this.props.meta.interactionType !== 'cancelled' && this.props.meta.status !== 'archived' ?
+				{this.props.meta.status !== 'completed' ?
 					<div className={`message__create`}>
 						<form onSubmit={this.handleSubmit}>
 							<textarea onChange={this.handleChange} value={this.state.content} placeholder={`Message`}></textarea>
