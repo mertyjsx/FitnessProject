@@ -30,7 +30,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      splash: false
+      splash: true
     }
   }
   render() {

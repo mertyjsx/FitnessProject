@@ -13,7 +13,9 @@ class Footer extends Component {
 	}
 
 	handleSubmit = () => {
-		document.getElementById("form").reset();
+		setTimeout(function () {
+			document.getElementById("form").reset();
+		}, 3000)
 	}
 
 	render() {
@@ -45,7 +47,7 @@ class Footer extends Component {
 								<div className={'form__submit'}>
 									<input style={{ paddingTop: '15px' }} className={'button button--inverted text--uppercase text--sm text--font-secondary'} type='submit' value='Subscribe' name='subscribe' id="mc-embedded-subscribe" />
 								</div>
-							</div>v
+							</div>
 						</form>
 					</div>
 				</div>
