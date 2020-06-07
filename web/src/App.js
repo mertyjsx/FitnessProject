@@ -24,6 +24,7 @@ import Social from "./components/landing/Social"
 import NotFound from './components/modules/NotFound'
 import ScrollToTop from 'react-router-scroll-top'
 import HowItWorks from './components/modules/HowItWorks'
+import ThankYouConvertKit from "./components/promo/ThankYouConvertKit"
 
 class App extends Component {
   constructor() {
@@ -40,12 +41,11 @@ class App extends Component {
           <Navbar splash={this.state.splash} />
 
           <Switch>
-            {this.state.splash === true ?
-              <>
-                <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
-                <Route exact path="/social" component={Social} />
-              </>
-              :
+            <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
+            <Route exact path="/social" component={Social} />
+            <Route path="/thank-you-for-subscribing" component={ThankYouConvertKit} />
+            <Route path="*" component={NotFound} />
+            {this.state.splash === false ?
               <>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/dashboard" component={Dashboard} />
@@ -66,9 +66,8 @@ class App extends Component {
                 <Route exact path="/onboarding" component={Onboarding} />
                 <Route exact path="/social" component={Social} />
                 <Route path="/how-it-works" component={HowItWorks} />
-              </>
+              </> : null
             }
-            <Route component={NotFound} />
           </Switch>
 
           <Footer splash={this.state.splash} />
