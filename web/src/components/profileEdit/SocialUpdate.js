@@ -3,11 +3,15 @@ import { connect } from 'react-redux'
 import { Form, Radio, Button, Checkbox, Input, TextArea, Label } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { updateProfile } from '../../store/actions/profileActions'
+import ellipses from '../../assets/images/ellipsis.gif'
+
 
 class SocialUpdate extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {}
+		this.state = {
+			submitting: false
+		}
 	}
 
 	onChange = e => {
@@ -18,7 +22,16 @@ class SocialUpdate extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.props.updateProfile(this.state);
+		var $this = this
+		$this.setState({
+			submitting: true
+		});
+		setTimeout(function () {
+			$this.setState({
+				submitting: false
+			});
+			$this.props.updateProfile($this.state);
+		}, 3000)
 	}
 
 	render() {
@@ -29,22 +42,28 @@ class SocialUpdate extends Component {
 				<h2>Update Social Accounts</h2>
 
 				<Form onSubmit={this.handleSubmit}>
+					<div className={this.state.submitting ? `form__loading active` : `form__loading`}>
+						<div style={{ textAlign: 'center' }}>
+							<img src={ellipses} />
+							<p>Updating</p>
+						</div>
+					</div>
 					<Form.Field className="field--half">
-						<Input id="facebook" type="url" label="Facebook" onChange={this.onChange} />
+						<Input id="socialFacebook" type="url" label="Facebook" placeholder="Enter your Facebook profile url" defaultValue={this.props.profile.socialFacebook} onChange={this.onChange} />
 					</Form.Field>
 					<Form.Field className="field--half">
-						<Input id="twitter" type="url" label="Twitter" onChange={this.onChange} />
+						<Input id="socialTwitter" type="url" placeholder="Enter your Twitter profile url" label="Twitter" defaultValue={this.props.profile.socialTwitter} onChange={this.onChange} />
 					</Form.Field>
 					<Form.Field className="field--half">
-						<Input id="instagram" type="url" label="Instagram" onChange={this.onChange} />
+						<Input id="socialInstagram" type="url" placeholder="Enter your Instagram profile url" label="Instagram" defaultValue={this.props.profile.socialInstagram} onChange={this.onChange} />
 					</Form.Field>
 					<Form.Field className="field--half">
-						<Input id="pinterest" type="url" label="Pinterest" onChange={this.onChange} />
+						<Input id="socialPinterest" type="url" placeholder="Enter your Pinterest profile url" label="Pinterest" defaultValue={this.props.profile.socialPinterest} onChange={this.onChange} />
 					</Form.Field>
 
-					{/* <Form.Field>
-						<Button className={'button button--secondary text--uppercase text--font-secondary text--sm'}>Update Profile</Button>
-					</Form.Field> */}
+					<Form.Field>
+						<Button className={'button button--secondary text--uppercase text--font-secondary text--sm'}>Update Social Accounts</Button>
+					</Form.Field>
 				</Form>
 			</div>
 		)

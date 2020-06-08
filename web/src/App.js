@@ -30,7 +30,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      splash: true
+      splash: false
     }
   }
   render() {
@@ -44,7 +44,6 @@ class App extends Component {
             <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
             <Route exact path="/social" component={Social} />
             <Route path="/thank-you-for-subscribing" component={ThankYouConvertKit} />
-            <Route path="*" component={NotFound} />
             {this.state.splash === false ?
               <>
                 <Route exact path="/" component={Home} />
@@ -66,7 +65,11 @@ class App extends Component {
                 <Route exact path="/onboarding" component={Onboarding} />
                 <Route exact path="/social" component={Social} />
                 <Route path="/how-it-works" component={HowItWorks} />
-              </> : null
+                <Route path="*" component={NotFound} />
+              </> :
+              <>
+                <Route path="*" component={NotFound} />
+              </>
             }
           </Switch>
 

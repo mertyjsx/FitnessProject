@@ -51,6 +51,8 @@ input[type="url"] {
 	&.input--filled {
 		border: $green solid 1px;
 	}
+	&.input--inactive {
+	}
 	&.input--error {
 		border: $red solid 1px;
 		~ .error-span {
@@ -77,6 +79,34 @@ textarea {
 .react-datepicker {
 	&__input-container {
 		display: flex !important;
+	}
+}
+
+.form {
+	position: relative;
+	&__loading {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(255, 255, 255, 0.5);
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		align-items: center;
+		z-index: 0;
+		opacity: 0;
+		&.active {
+			z-index: 1;
+			opacity: 1;
+		}
+		p {
+			flex: 0 1 100%;
+			font-weight: bold;
+			text-transform: uppercase;
+			transform: translateY(-50px);
+		}
 	}
 }
 

@@ -20,7 +20,6 @@ const Profile = (props, state) => {
 
 	const renderProfileNav = (about, background, credentials, reviews) => {
 		// console.log(typeof credentials);
-
 		var navItems = [];
 		if (typeof about === 'string') { navItems.push(<li key={'about'}><a href="#about">About</a></li>) }
 		if (typeof background === 'string') { navItems.push(<li key={'background'}><a href="#background">Background</a></li>) }
@@ -127,7 +126,16 @@ const Profile = (props, state) => {
 							</div>
 							<div className={`profile__meta`}>
 								<div className={`profile__meta-inner`}>
-									<h1 className={`text--no-margin`}>{`${user.firstName} ${user.lastName}`}</h1>
+									<div className={`profile__meta-title`}>
+										<h1 className={`text--no-margin`}>{`${user.firstName} ${user.lastName}`}</h1>
+										<ul className={'list list--inline'}>
+											<li>{user.socialFacebook ? <div><a href={user.socialFacebook} target="_blank"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></div> : null}</li>
+											<li>{user.socialTwitter ? <div><a href={user.socialTwitter} target="_blank"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></div> : null}</li>
+											<li>{user.socialInstagram ? <div><a href={user.socialInstagram} target="_blank"><FontAwesomeIcon icon={["fab", "instagram"]} /></a></div> : null}</li>
+											<li>{user.socialPinterest ? <div><a href={user.socialPinterest} target="_blank"><FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a></div> : null}</li>
+										</ul>
+									</div>
+
 									<GetRating proInteractions={user.proInteractions} />
 									<div className={`profile__meta-btns`}>
 										<div className="profile__meta-btn">
@@ -135,12 +143,14 @@ const Profile = (props, state) => {
 										</div>
 										<div className="profile__meta-btn">
 											<Modal trigger={<Button className="button button--secondary" style={{ width: '100%' }}>Share Profile</Button>}>
-												<Modal.Content>
-													<Modal.Actions>
-														<Button class="button__close">X</Button>
-													</Modal.Actions>
+												<Modal.Content style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 													<Modal.Description>
-														<Inquiry pro={user} user={auth} />
+														<p className="text--sm" style={{ textAlign: 'center' }}>Share {user.firstName}'s profile on your favorite social medium</p>
+														<div className="share__btns">
+															<a href={'http://www.facebook.com/sharer/sharer.php?u=' + window.location.href} target="_blank" className="share__btn">Share on Facebook <FontAwesomeIcon icon={["fab", "facebook-f"]} /></a>
+															<a href={'https://twitter.com/intent/tweet?text=Choose%20To%20Be%20You&url=' + window.location.href} target="_blank" className="share__btn">Share on Twitter <FontAwesomeIcon icon={["fab", "twitter"]} /></a>
+															<a href={'http://pinterest.com/pin/create/button/?url=' + window.location.href} target="_blank" className="share__btn">Share on Pinterest <FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a>
+														</div>
 													</Modal.Description>
 												</Modal.Content>
 											</Modal>

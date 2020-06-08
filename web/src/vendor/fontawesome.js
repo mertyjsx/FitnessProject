@@ -19,7 +19,9 @@ import {
 	faGoogle,
 	faFacebookF,
 	faTwitter,
-	faYoutube
+	faYoutube,
+	faInstagram,
+	faPinterestP
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
@@ -42,5 +44,7 @@ library.add(
 	faBook,
 	faHandshake,
 	faHandPeace,
-	faChevronDown
+	faChevronDown,
+	faInstagram,
+	faPinterestP
 );

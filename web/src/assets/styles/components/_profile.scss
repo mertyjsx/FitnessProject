@@ -90,6 +90,14 @@
 	&__meta-inner {
 		padding-left: 20px;
 	}
+	&__meta-title {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
+		h1 {
+			margin-right: $gutter;
+		}
+	}
 	&__meta-spec {
 		margin-bottom: $gutter;
 	}
@@ -98,7 +106,7 @@
 		flex-flow: row wrap;
 		justify-content: space-between;
 		align-items: center;
-		margin: $gutter/2 0 $gutter;
+		margin: $gutter 0 $gutter * 2;
 	}
 	&__meta-btn {
 		flex: 0 1 49%;
@@ -125,6 +133,30 @@
 		}
 		&--secondary {
 			background-color: $red;
+		}
+	}
+}
+
+.share {
+	&__btns {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
+		justify-content: center;
+	}
+	&__btn {
+		@extend %button;
+		display: flex;
+		align-items: center;
+		flex: 0 1 100%;
+		background-color: $primary;
+		color: white;
+		margin-bottom: $gutter;
+		&:hover {
+			background-color: $primary-darker;
+		}
+		svg {
+			margin-left: $gutter;
 		}
 	}
 }
