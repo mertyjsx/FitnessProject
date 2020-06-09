@@ -53,22 +53,22 @@ class App extends Component {
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/join-as-pro" component={SignUpPro} />
                 <Route exact path="/create-project" component={CreateProject} />
-                <Route path="/find-a-pro" component={FindAPro} />
+                <Route exact path="/find-a-pro" component={FindAPro} />
                 <Route exact path="/inbox" component={Inbox} />
                 <Route exact path="/session/:id" component={InteractionDetails} />
                 <Route exact path="/bookings" component={Bookings} />
                 <Route exact path="/pro/:uid" component={Profile} />
                 <Route exact path="/profile-edit" component={ProfileEdit} />
-                <Route path="/about" component={About} />
+                <Route exact path="/about" component={About} />
                 <Route exact path="/terms-of-use" component={Terms} />
                 <Route exact path="/privacy-policy" component={Privacy} />
                 <Route exact path="/onboarding" component={Onboarding} />
                 <Route exact path="/social" component={Social} />
-                <Route path="/how-it-works" component={HowItWorks} />
-                <Route path="*" component={NotFound} />
+                <Route exact path="/how-it-works" component={HowItWorks} />
+                {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>
-                <Route path="*" component={NotFound} />
+                {/* <Route path="*" component={NotFound} /> */}
               </>
             }
           </Switch>

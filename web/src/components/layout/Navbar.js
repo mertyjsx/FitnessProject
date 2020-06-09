@@ -9,9 +9,15 @@ import imageLogo from '../../assets/images/logo-emblem.png'
 
 const Navbar = (props) => {
 	const { auth, profile, splash } = props
-	const links = auth.uid ? <SignedInLinks profile={profile} /> : <SignedOutLinks />
-	const headerType = auth.uid ? 'logged-in' : 'logged-out';
 	const [menuActive, setMenuState] = useState(false);
+	const headerType = auth.uid ? 'logged-in' : 'logged-out';
+	const toggleMenu = () => {
+		setMenuState(!menuActive)
+		// console.log(menuActive, document.body);
+		menuActive ? document.body.classList.remove('no-scroll') : document.body.classList.add('no-scroll')
+	}
+
+	const links = auth.uid ? <SignedInLinks profile={profile} menuActive={toggleMenu} /> : <SignedOutLinks menuActive={toggleMenu} />
 
 	return (
 		<header className="header">
@@ -33,7 +39,7 @@ const Navbar = (props) => {
 									</div>
 								</nav>
 								<div className={`header__nav-btn-wrapper`}>
-									<button onClick={() => setMenuState(!menuActive)} className={`header__nav-btn ${menuActive ? 'header__nav-btn--active' : ''}`}>
+									<button onClick={toggleMenu} className={`header__nav-btn ${menuActive ? 'header__nav-btn--active' : ''}`}>
 										<div className={`hamburger ${menuActive ? 'hamburger--active' : ''}`}></div>
 									</button>
 								</div>

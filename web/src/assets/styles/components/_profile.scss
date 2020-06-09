@@ -67,7 +67,16 @@
 	&__professional-background,
 	&__credentials,
 	&__reviews {
-		margin-bottom: $gutter * 3;
+		margin-bottom: $gutter * 2;
+		@media screen and (min-width: $md-min) {
+			margin-bottom: $gutter * 3;
+		}
+		h2 {
+			font-size: 20px;
+			@media screen and (min-width: $md-min) {
+				font-size: 24px;
+			}
+		}
 	}
 	&__nav {
 		border-bottom: $gray-light solid 1px;
@@ -75,25 +84,38 @@
 		a {
 			color: $gray;
 			font-family: $font-secondary;
-			@extend %text--sm;
+			font-size: 14px;
+			@media screen and (min-width: $md-min) {
+				font-size: $font-size;
+			}
 			&:hover {
 				color: $theme-black;
 			}
 		}
 	}
 	&__image {
-		width: 35%;
+		@media screen and (min-width: $md-min) {
+			width: 35%;
+		}
 	}
 	&__meta {
-		width: 65%;
+		@media screen and (min-width: $md-min) {
+			width: 65%;
+		}
 	}
 	&__meta-inner {
-		padding-left: 20px;
+		@media screen and (min-width: $md-min) {
+			padding-left: 20px;
+		}
 	}
 	&__meta-title {
 		display: flex;
 		flex-flow: row wrap;
 		align-items: center;
+		margin-bottom: $gutter;
+		@media screen and (min-width: $md-min) {
+			margin-bottom: 0;
+		}
 		h1 {
 			margin-right: $gutter;
 		}
@@ -109,8 +131,10 @@
 		margin: $gutter 0 $gutter * 2;
 	}
 	&__meta-btn {
-		flex: 0 1 49%;
-		.button {
+		flex: 0 1 100%;
+		margin-bottom: $gutter;
+		@media screen and (min-width: $md-min) {
+			flex: 0 1 49%;
 		}
 	}
 }

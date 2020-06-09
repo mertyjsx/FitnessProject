@@ -4,17 +4,23 @@
 	background-color: $gray-lighter;
 	color: $theme-black;
 	display: flex;
-	flex-flow: row nowrap;
+	flex-flow: row wrap;
 	justify-content: space-between;
 	padding: $gutter $gutter * 2;
 	width: 100%;
+	@media screen and (min-width: $md-min) {
+		flex-flow: row nowrap;
+	}
 
 	&__user {
 		display: flex;
 		flex-flow: row nowrap;
-		justify-content: flex-start;
+		justify-content: center;
 		align-items: center;
 		flex: auto;
+		@media screen and (min-width: $md-min) {
+			justify-content: flex-start;
+		}
 	}
 	&__user-img {
 		margin-right: $gutter;
@@ -67,9 +73,13 @@
 		border: $theme-black solid 1px;
 		border-radius: 10px;
 		background-color: $gray-lighter;
-		padding: $gutter * 4;
+		padding: $gutter * 2;
 		width: 100%;
 		margin-bottom: $gutter;
+		@media screen and (min-width: $md-min) {
+			padding: $gutter * 4;
+		}
+
 		> div {
 			margin-bottom: $gutter * 2;
 		}

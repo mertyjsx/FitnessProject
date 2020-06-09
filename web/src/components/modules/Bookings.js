@@ -7,8 +7,23 @@ import InteractionList from '../interactions/InteractionList'
 import { firestoreConnect } from 'react-redux-firebase'
 
 class Bookings extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {}
+		this.getUrlTabIndex = this.getUrlTabIndex.bind(this)
+	}
+
+	getUrlTabIndex = (hash) => {
+		var initHash = hash
+		if (initHash.startsWith('#')) {
+			var removeHash = initHash.replace('#', '')
+			return removeHash
+		}
+		return initHash
+	}
+
 	render() {
-		const { interactions, auth } = this.props
+		const { interactions, auth, history } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
 
 		return (
@@ -26,7 +41,7 @@ class Bookings extends Component {
 
 					<div className="row">
 						<div className="col">
-							<Tabs>
+							<Tabs defaultIndex={this.getUrlTabIndex(history.location.hash)}>
 								<TabList>
 									<Tab>Active</Tab>
 									<Tab>Pending</Tab>

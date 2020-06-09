@@ -67,7 +67,7 @@ class Home extends Component {
 								</div>
 							</div>
 							<div className="row">
-								<div className="col">
+								<div className="col" style={{ width: '100%', padding: '0' }}>
 									<Carousel className="carousel-content" showStatus={false} showThumbs={false} showArrows={true} autoPlay={true}>
 										<div key="slide1" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="user" />

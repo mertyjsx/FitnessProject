@@ -20,7 +20,9 @@
 			border-left: 8px solid $primary;
 		}
 		&.carousel-slider {
-			padding: 0 $gutter * 2;
+			@media screen and (min-width: $md-min) {
+				padding: 0 $gutter * 2;
+			}
 			.control-prev.control-arrow:hover {
 				background: transparent;
 				&:before {

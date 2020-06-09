@@ -153,7 +153,7 @@ class Booking extends Component {
 		setTimeout(function () {
 			// console.log('wait 3 secs', $this.props);
 			$this.props.createInteraction($this.state)
-			$this.props.history.push('/bookings')
+			$this.props.history.push('/bookings#1')
 		}, 3000)
 	}
 

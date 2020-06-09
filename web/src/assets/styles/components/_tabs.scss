@@ -10,23 +10,41 @@
 
 	&__tab {
 		display: inline-block;
-		border: 1px solid transparent;
-		border-bottom: none;
 		bottom: -1px;
+		background-color: $primary;
+		color: white;
 		position: relative;
+		padding: $gutter/1.25 0;
+		text-align: center;
 		list-style: none;
-		padding: $gutter/2 $gutter * 2;
 		cursor: pointer;
+		width: 100%;
 		transition: 300ms;
+		@media screen and (min-width: $md-min) {
+			padding: $gutter/2 $gutter * 2;
+			width: auto;
+			border: 1px solid transparent;
+			border-bottom: none;
+			background-color: transparent;
+			color: $theme-black;
+		}
 		&:hover {
-			color: $primary;
+			background-color: $primary-darker;
+			@media screen and (min-width: $md-min) {
+				background-color: transparent;
+				color: $primary;
+			}
 		}
 
 		&--selected {
-			background: $white;
+			background-color: $primary-darker;
 			border-color: $gray-light;
-			color: $theme-black;
+			color: $white;
 			border-radius: 5px 5px 0 0;
+			@media screen and (min-width: $md-min) {
+				background-color: $white;
+				color: $theme-black;
+			}
 		}
 
 		&--disabled {

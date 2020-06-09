@@ -10,15 +10,30 @@ class GetFullReviews extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {}
-		this.renderReview = this.renderReview.bind(this)
+		this.renderReviews = this.renderReviews.bind(this)
 	}
 
-	renderReview = (review) => {
-		console.log(review);
+	renderReviews = (reviews, proInteractions) => {
+		// console.log(reviews);
+		var allReviews = []
+
+		// console.log(allReviews);
+
 
 		return (
 			<div>
-				{review.message}
+
+				{/* {reviews && reviews.map((review) => proInteractions.map((interaction) => {
+					if (review.ratingID === interaction) {
+						// allReviews.push(
+						return (
+							<div key={review.id}>
+								{review.message}
+							</div>
+						)
+						// )
+					}
+				}))} */}
 			</div>
 		)
 	}
@@ -29,11 +44,17 @@ class GetFullReviews extends Component {
 		if (reviews) {
 			return (
 				<div>
-					{reviews && reviews.forEach((review) => proInteractions.forEach((pro) => {
-						if (review.ratingID === pro) {
-							this.renderReview(review)
-						}
-					}))}
+					{reviews && reviews.map(review => (
+						proInteractions.map(interaction => {
+							if (review.id === interaction) {
+								return (
+									<div>
+										{review.id}
+									</div>
+								)
+							}
+						})
+					))}
 				</div>
 			)
 		} else {
