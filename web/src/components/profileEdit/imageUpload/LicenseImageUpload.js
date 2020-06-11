@@ -28,9 +28,11 @@ class LicenseImageUpload extends Component {
 	}
 
 	handleUpload = (e) => {
+		e.preventDefault()
 		const { image } = this.state;
 		const imageOwner = this.props.auth.uid;
 		const uploadTask = fileStorage.ref(`users/${imageOwner}/license/${image.name}`).put(image);
+		// console.log(image);
 		uploadTask.on('state_changed',
 			(snapshot) => {
 				// Progress
@@ -46,10 +48,15 @@ class LicenseImageUpload extends Component {
 				fileStorage.ref(`users/${imageOwner}/license`).child(image.name).getDownloadURL().then(url => {
 					// console.log(url);
 					this.setState({ url });
+					db.collection(`users`).doc(imageOwner).update({
+						licenseURL: url
+					});
+					return
+				}).catch((error) => {
+					console.log('inside error', error);
+					return null
 				})
-				db.collection(`users`).doc(imageOwner).update({
-					photoLicenseURL: image.name
-				});
+
 			});
 	}
 
@@ -58,7 +65,7 @@ class LicenseImageUpload extends Component {
 			<form onSubmit={this.handleUpload} className={'profile-image__upload'}>
 				<progress value={this.state.progress} max="100" />
 				<input type="file" onChange={this.handleChange} required />
-				<button className={'button button--primary text--uppercase'}>Upload Image</button>
+				<button className={`button button--primary text--uppercase ${this.state.progress === 100 ? 'button--inactive' : ''}`}>{this.state.progress === 100 ? 'License Successfully Uploaded' : 'Upload License'}</button>
 			</form>
 		);
 	}

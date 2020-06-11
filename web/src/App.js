@@ -25,6 +25,7 @@ import NotFound from './components/modules/NotFound'
 import ScrollToTop from 'react-router-scroll-top'
 import HowItWorks from './components/modules/HowItWorks'
 import ThankYouConvertKit from "./components/promo/ThankYouConvertKit"
+import Settings from "./components/dashboard/Settings"
 
 class App extends Component {
   constructor() {
@@ -65,6 +66,7 @@ class App extends Component {
                 <Route exact path="/onboarding" component={Onboarding} />
                 <Route exact path="/social" component={Social} />
                 <Route exact path="/how-it-works" component={HowItWorks} />
+                <Route exact path="/settings" component={Settings} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>

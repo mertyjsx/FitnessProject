@@ -122,35 +122,35 @@ class SpecialtiesEdit extends Component {
 								<div className={`divider`} style={{ margin: '50px 0' }}></div>
 								<legend className="text--uppercase text--bold">Select Your Chef Specialties</legend>
 								<Form.Field className={'field--cols'} style={{ padding: '20px 0' }}>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="seafood" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="seafood">Seafood</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="american" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="american">American</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="breakfastOrBrunch" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="breakfastOrBrunch">Breakfast or Brunch</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="international" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="international">International</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="southern" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="southern">Southern</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="healthy" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="healthy">Healthy</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="desserts" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="desserts">Desserts</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="juicesAndSmoothies" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="juicesAndSmoothies">Juices and Smoothies</label>
 									</div>
@@ -168,35 +168,35 @@ class SpecialtiesEdit extends Component {
 								<div className={`divider`} style={{ margin: '50px 0' }}></div>
 								<legend className="text--uppercase text--bold">Select Your Fitness Specialties</legend>
 								<Form.Field className={'field--cols'} style={{ padding: '20px 0' }}>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="seafood" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="seafood">Seafood</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="american" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="american">American</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="breakfastOrBrunch" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="breakfastOrBrunch">Breakfast or Brunch</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="international" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="international">International</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="southern" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="southern">Southern</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="healthy" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="healthy">Healthy</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="desserts" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="desserts">Desserts</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="juicesAndSmoothies" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="juicesAndSmoothies">Juices and Smoothies</label>
 									</div>
@@ -214,43 +214,43 @@ class SpecialtiesEdit extends Component {
 								<div className={`divider`} style={{ margin: '50px 0' }}></div>
 								<legend className="text--uppercase text--bold">Select Your Nutritionist Specialties</legend>
 								<Form.Field className={'field--cols'} style={{ padding: '20px 0' }}>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="normalNutrition" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="normalNutrition">Normal Nutrition</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="veganOrVegetarian" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="veganOrVegetarian">Vegan or Vegetarian</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="paleo" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="paleo">Paleo</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="publicHealth" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="publicHealth">Public Health</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="sports" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="sports">Sports</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="pediatric" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="pediatric">Pediatric</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="diabetes" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="diabetes">Diabetes</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="heartHealth" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="heartHealth">Heart Health</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="autoimmuneDisease" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="autoimmuneDisease">Autoimmune Disease</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="foodAllergies" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="foodAllergies">Food Allergies</label>
 									</div>
@@ -268,27 +268,27 @@ class SpecialtiesEdit extends Component {
 								<div className={`divider`} style={{ margin: '50px 0' }}></div>
 								<legend className="text--uppercase text--bold">Select Your Massage Therapist Specialties</legend>
 								<Form.Field className={'field--cols'} style={{ padding: '20px 0' }}>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="deepTissue" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="deepTissue">Deep Tissue</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="swedish" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="swedish">Swedish</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="stone" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="stone">Stone</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="pregnancy" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="pregnancy">Pregnancy</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="sports" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="sports">Sports</label>
 									</div>
-									<div class="ui checkbox">
+									<div className="ui checkbox">
 										<input id="reflexology" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
 										<label for="reflexology">Reflexology</label>
 									</div>

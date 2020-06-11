@@ -44,7 +44,7 @@ export const cancelBookingInteraction = (bookingID) => {
 
 		firestore.collection('interactions').doc(bookingID).update({
 			status: 'cancelled',
-			interactionType: 'booked'
+			interactionType: 'booking'
 		})
 			.then(function () {
 				console.log("Booking successfully cancelled!");

@@ -88,6 +88,29 @@ class Onboarding extends Component {
 						<h1 className="text--bold">Onboarding</h1>
 						<h2>Hi <span className="text--capitalize">{profile.firstName}</span>,</h2>
 						<p>Welcome to the onboarding process! Please fill out as much information as possible so out admins can approve your profile as soon as possible.  <Link to="/contact">Contact us</Link> if you have any questions.</p>
+
+						<div className={'form__inner--2'}>
+							<div className="form__inner">
+								<Form.Field>
+									<h2>Media</h2>
+								</Form.Field>
+								<Form.Field className={'field--half'}>
+									<div>
+										<h2>Profile Image</h2>
+										<p>Upload your profile image below.</p>
+									</div>
+									<ImageUpload />
+								</Form.Field>
+								<Form.Field className={'field--half'}>
+									<div>
+										<h2>License Image</h2>
+										<p>Upload an image of any certification you'd like displayed in your profile.</p>
+									</div>
+									<LicenseImageUpload />
+								</Form.Field>
+							</div>
+						</div>
+
 						<Form onSubmit={this.handleSubmit}>
 
 							<div className={'form__inner--1'}>
@@ -355,28 +378,6 @@ class Onboarding extends Component {
 									</Form.Field>
 									<Form.Field className="field--half">
 										<Input id="businessZip" type="text" label="Zip Code" defaultValue={this.props.profile.businessZip} onChange={this.handleChange} />
-									</Form.Field>
-								</div>
-							</div>
-
-							<div className={'form__inner--2'}>
-								<div className="form__inner">
-									<Form.Field>
-										<h2>Media</h2>
-									</Form.Field>
-									<Form.Field className={'field--half'}>
-										<div>
-											<h2>Profile Image</h2>
-											<p>Upload your profile image below.</p>
-										</div>
-										<ImageUpload />
-									</Form.Field>
-									<Form.Field className={'field--half'}>
-										<div>
-											<h2>License Image</h2>
-											<p>Upload an image of any certification you'd like displayed in your profile.</p>
-										</div>
-										<LicenseImageUpload />
 									</Form.Field>
 								</div>
 							</div>

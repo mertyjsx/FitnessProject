@@ -42,24 +42,31 @@ input[type="checkbox"] {
 	flex-flow: row nowrap;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-input[type="url"] {
-	@extend %select-style;
-	&.input--filled {
+.input {
+	&--field {
+		@extend %select-style;
+	}
+	&--filled {
 		border: $green solid 1px;
 	}
-	&.input--inactive {
-	}
-	&.input--error {
+	&--error {
 		border: $red solid 1px;
 		~ .error-span {
 			top: 100%;
 			opacity: 1;
 		}
 	}
+	&--inactive {
+		opacity: 0.5;
+	}
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"] {
+	@extend %select-style;
 }
 
 textarea {

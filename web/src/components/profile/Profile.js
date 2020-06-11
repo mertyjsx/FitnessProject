@@ -94,7 +94,7 @@ const Profile = (props, state) => {
 		return (
 			<div id="credentials" className={`profile__credentials`}>
 				<h2 className={`text--uppercase`}>Credentials</h2>
-				<p>{cred}</p>
+				<p><FontAwesomeIcon icon={["fa", "file"]} className="yellow" /> <a href={cred} target="_blank" style={{ fontWeight: 'bold' }}>License</a></p>
 			</div>
 		)
 	}
@@ -169,9 +169,12 @@ const Profile = (props, state) => {
 									</div>
 								</div>
 							</div>
+
 							{renderAbout(user.about, user.funFact, user.favQuote)}
+
 							{renderBackground(user.background)}
-							{renderCredentials(user.credentials)}
+
+							{renderCredentials(user.licenseURL)}
 
 							<div id="reviews" className={`profile__reviews`}>
 								<h2 className={`text--uppercase`}>Reviews</h2>

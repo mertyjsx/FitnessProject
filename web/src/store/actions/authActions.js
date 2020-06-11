@@ -34,6 +34,7 @@ export const signUp = (newUser) => {
 				lastName: newUser.lastName,
 				initials: newUser.firstName[0] + newUser.lastName[0],
 				isPro: false,
+				isProPremium: false,
 				emailVerified: false
 			})
 		}).then(() => {
@@ -62,6 +63,7 @@ export const signUpPro = (newUser, props) => {
 				state: newUser.state,
 				zip: newUser.zip,
 				isPro: true,
+				isProPremium: false,
 				isApproved: false,
 				uid: response.user.uid,
 				onboardingCompleted: false,
@@ -102,3 +104,34 @@ export const completeOnboarding = (newInfo) => {
 			})
 	}
 }
+
+export const deleteAccount = () => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const user = firebase.auth().currentUser
+		// console.log(user);
+		user.delete().then((response) => {
+			// User deleted
+			console.log(response);
+		}).catch(err => {
+			// user error
+			dispatch({ type: 'SIGNUP_ERROR', err })
+		})
+	}
+}
+
+export const upgrade = () => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const user = firebase.auth().currentUser
+		console.log('upgrade called');
+		// user.delete().then((response) => {
+		// 	// User deleted
+		// 	console.log(response);
+		// }).catch(err => {
+		// 	// user error
+		// 	dispatch({ type: 'SIGNUP_ERROR', err })
+		// })
+	}
+}
+

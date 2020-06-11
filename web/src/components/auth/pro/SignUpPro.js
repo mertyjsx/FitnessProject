@@ -10,9 +10,9 @@ class SignUpPro extends Component {
 		super(props)
 		this.state = {
 			professionChef: '',
-			businessCity: '',
-			businessState: '',
-			businessZip: '',
+			city: '',
+			state: '',
+			zip: '',
 			firstName: '',
 			lastName: '',
 			email: '',
@@ -29,25 +29,26 @@ class SignUpPro extends Component {
 	zipValidator = (e) => {
 		e.preventDefault();
 		let $this = this;
-		if (postcodeValidator($this.state.businessZip, 'US') === false) {
+		if (postcodeValidator($this.state.zip, 'US') === false) {
 			alert('Enter a valid zip code')
 			return null
 		}
 		$this.setState({
 			pageTwoActive: true
 		})
-		fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${$this.state.businessZip}&sensor=true&key=AIzaSyBffpI8hvEPuICCsaEkV6dIl-gOW-4E49w`)
+		fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${$this.state.zip}&sensor=true&key=AIzaSyBffpI8hvEPuICCsaEkV6dIl-gOW-4E49w`)
 			.then(function (response) {
 				if (response.status !== 200) {
 					console.log('Looks like there was a problem. Status Code: ' + response.status);
 					return;
 				}
+
 				response.json().then(function (data) {
 					data.results.map(res => {
-						console.log(res.address_components);
+						console.log(res.address_components, res.address_components[1].long_name);
 						$this.setState({
-							businessCity: res.address_components[1].long_name,
-							businessState: res.address_components[2].short_name.length === 2 ? res.address_components[2].short_name : res.address_components[3].short_name.length === 2 ? res.address_components[3].short_name : res.address_components[4].short_name
+							city: res.address_components[1].long_name,
+							state: res.address_components[2].short_name.length === 2 ? res.address_components[2].short_name : res.address_components[3].short_name.length === 2 ? res.address_components[3].short_name : res.address_components[4].short_name
 						})
 					})
 				});
@@ -147,15 +148,10 @@ class SignUpPro extends Component {
 										<option value={'nutritionist'}>Nutrionist</option>
 										<option value={'massageTherapist'}>Massage Therapist</option>
 									</select>
-									{/*<input list="professions" name="profession" id="profession" placeholder="e.g. Fitness Trainer, Chef, Nutrionist, Massage Therapist" onChange={this.handleChange}></input>
-										<datalist id="professions">
-											{this.renderDataList()}
-										</datalist>
-									*/}
 								</Form.Field>
 								<Form.Field>
 									<label htmlFor="zip">Enter your zipcode</label>
-									<input type="text" name="zip" id="businessZip" placeholder="e.g. 32801" onChange={this.handleChange}></input>
+									<input type="text" name="zip" id="zip" placeholder="e.g. 32801" onChange={this.handleChange}></input>
 								</Form.Field>
 								<Form.Field>
 									<button className={`button button--secondary text--uppercase text--bold text--font-secondary ${this.state.profession === '' ? 'button--inactive' : ''}`} onClick={this.zipValidator}>Proceed</button>
@@ -167,12 +163,16 @@ class SignUpPro extends Component {
 									<p><small>(*) All fields are required</small></p>
 								</Form.Field>
 								<Form.Field className={'field--half field--inactive'}>
-									<label htmlFor="password">City</label>
-									<input className="input--filled" type="text" value={this.state.businessCity} />
+									<label htmlFor="city">City</label>
+									<div name="city" className="input--field input--filled">
+										{this.state.city}
+									</div>
 								</Form.Field>
 								<Form.Field className={'field--half field--inactive'}>
-									<label htmlFor="password">State</label>
-									<input className="input--filled" readOnly={true} type="text" value={this.state.businessState}></input>
+									<label htmlFor="state">State</label>
+									<div name="state" className="input--field input--filled">
+										{this.state.state}
+									</div>
 								</Form.Field>
 								<Form.Field>
 									<label htmlFor="firstName">First Name <sup className="red">*</sup></label>

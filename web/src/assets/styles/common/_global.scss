@@ -75,6 +75,10 @@ a {
 	z-index: 99;
 }
 
+.yellow {
+	color: $yellow;
+}
+
 %text,
 .text {
 	&--sm {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import SpecialtiesEdit from '../profileEdit/SpecialtiesEdit';
 import ProfileUpdate from '../profileEdit/ProfileUpdate';
 import RenderImage from '../profileEdit/imageUpload/RenderImage'
@@ -16,6 +16,13 @@ class ProfileEdit extends Component {
 
 		return (
 			<div className="profile-edit">
+				{profile.isApproved !== true && profile.isPro ?
+					<div className="status status--warning">
+						<div className="container">
+							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
+						</div>
+					</div>
+					: null}
 				<div className="container container--top-bottom-padding container--small">
 					<div className="row">
 						<div className="col">

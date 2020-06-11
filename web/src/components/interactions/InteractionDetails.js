@@ -35,8 +35,9 @@ const InteractionDetails = (props) => {
 		// console.log('entered');
 		const duration = interaction.duration
 		const rate = interaction.rate
+		const perMinute = duration / 60
 		if (typeof rate === 'undefined' || rate === 0) { return 0 }
-		const total = rate * duration
+		const total = rate * perMinute
 		return total
 	}
 
@@ -111,11 +112,24 @@ const InteractionDetails = (props) => {
 								<h2 className="text--uppercase mn--double">{interaction.interactionType} Details</h2>
 								<div className="interaction-details__summary-meta">
 									<div className="interaction-details__summary-image">
-										{renderProfileImage(interaction.proImage)}
+										{props.auth.uid !== interaction.proUID ?
+											renderProfileImage(interaction.proImage)
+											:
+											interaction.userImage ?
+												renderProfileImage(interaction.userImage)
+												:
+												<div className={'initials'}>
+													{interaction.userFirstName[0] + interaction.userLastName[0]}
+												</div>
+										}
 									</div>
 									<div className="interaction-details__summary-name">
 										<p className="text--capitalize">{renderName()}</p>
 									</div>
+								</div>
+								<div className="interaction-details__location">
+									<h3>Location</h3>
+									{interaction.bookingType === 'online' ? 'Online' : ''}
 								</div>
 								<div className="interaction-details__summary-date">
 									<h3>Date &amp; Time</h3>
@@ -128,7 +142,7 @@ const InteractionDetails = (props) => {
 								</div>
 								<div className="interaction-details__summary-pricing">
 									<h3 className="text--uppercase">Price</h3>
-									<p className="mb--double pb--double"><span className="text--lowercase">${interaction.rate} x {interaction.duration} hours</span> <span>${calculateTotal()}</span></p>
+									<p className="mb--double pb--double"><span className="text--lowercase">${interaction.rate} x {interaction.duration / 60} hours</span> <span>${calculateTotal()}</span></p>
 									<p className="field--review-total text--uppercase text--bold"><span>Total</span> <span>${calculateTotal()}</span></p>
 								</div>
 							</div>

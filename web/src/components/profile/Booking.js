@@ -53,21 +53,20 @@ class Booking extends Component {
 
 	handleBookingTypeChange = (e) => {
 		// e.preventDefault()
-		console.log(e.target.id);
-
+		// console.log(e.target.id);
 		this.setState({
 			bookingType: e.target.id,
-			profession: ' '
+			profession: ''
 		})
 	}
 
 	handleChange = (e) => {
 		const bookingType = this.state.bookingType
-		console.log('handle change activated', e.target.value, bookingType);
-		if (bookingType === '') {
-			alert('Choose a booking Type')
-			return
-		}
+		// console.log('handle change activated', e.target.value, bookingType);
+		// if (bookingType === '') {
+		// 	alert('Choose a booking Type')
+		// 	return
+		// }
 
 		if (e.target.value === 'chef' && bookingType === 'online') {
 			console.log('chef & online checked');
@@ -214,19 +213,25 @@ class Booking extends Component {
 					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.state.rate}</p>
 					<Form onSubmit={this.validate()}>
 						<Form.Field className={'field--inline'}>
-							<Radio className="field--half" id={'online'} label={'Online'} name={'bookingType'} onChange={this.handleBookingTypeChange} />
-							<Radio className="field--half" id={'inPerson'} label={'In person'} name={'bookingType'} onChange={this.handleBookingTypeChange} />
+							<div className="field--half">
+								<input type="radio" id="online" defaultValue="online" name="bookingType" onChange={this.handleBookingTypeChange} />
+								<label>Online</label>
+							</div>
+							<div className="field--half">
+								<input type="radio" id="inPerson" defaultValue="inPerson" name="bookingType" onChange={this.handleBookingTypeChange} />
+								<label>In Person</label>
+							</div>
 						</Form.Field>
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>
-							<select name="profession" id="profession" onChange={this.handleChange} required>
+							<select className={this.state.bookingType === '' ? 'inactive' : ''} name="profession" id="profession" value={this.state.profession ? this.state.profession : ''} onChange={this.handleChange} required>
 								<option value="">Choose Service</option>
 								{this.renderServices(this.props.pro.professions)}
 							</select>
 						</Form.Field>
 						<Form.Field>
 							<DatePicker
-								className="date-picker"
+								className={this.state.profession === '' ? 'inactive date-picker' : 'date-picker'}
 								selected={this.state.startDate}
 								onChange={this.handleDateChange}
 								placeholderText={'Select Date'}
@@ -237,7 +242,7 @@ class Booking extends Component {
 						</Form.Field>
 						<Form.Field className="field--half">
 							<DatePicker
-								className="time-picker"
+								className={this.state.startDate === '' ? 'inactive time-picker' : 'time-picker'}
 								selected={this.state.startTime}
 								onChange={this.handleStartTimeChange}
 								showTimeSelect
@@ -257,7 +262,7 @@ class Booking extends Component {
 							/>
 						</Form.Field>
 						<Form.Field className="field--half">
-							<select name="duration" id="duration" onChange={this.handleDurationChange} required>
+							<select className={this.state.startTime === '' ? 'inactive' : ''} name="duration" id="duration" onChange={this.handleDurationChange} required>
 								<option value="">Duration</option>
 								<option value="30">30 Minutes</option>
 								<option value="60">1 Hour</option>

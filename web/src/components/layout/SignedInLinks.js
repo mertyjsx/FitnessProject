@@ -44,6 +44,7 @@ const SignedInLinks = (props) => {
 					<div className={`header__nav-settings-results ${profileActive ? 'header__nav-settings-results--active' : ''}`}>
 						<ul>
 							<li><NavLink onClick={navClick} to="/find-a-pro" className="header__nav-link">Find a Pro</NavLink></li>
+							<li><NavLink onClick={navClick} to="/settings" className="header__nav-link">Settings</NavLink></li>
 							<li><a onClick={navClick} href="#" className="header__nav-link" onClick={props.signOut}>Logout</a></li>
 						</ul>
 					</div>

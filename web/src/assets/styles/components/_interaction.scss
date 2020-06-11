@@ -92,6 +92,10 @@
 	}
 	&__summary-image {
 		flex: 0 1 80px;
+		.initials {
+			width: 70px;
+			height: 70px;
+		}
 		img {
 			border-radius: 50%;
 			width: 80px;

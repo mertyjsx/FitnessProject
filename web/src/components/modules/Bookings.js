@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import InteractionList from '../interactions/InteractionList'
 import { firestoreConnect } from 'react-redux-firebase'
 
@@ -17,17 +17,24 @@ class Bookings extends Component {
 		var initHash = hash
 		if (initHash.startsWith('#')) {
 			var removeHash = initHash.replace('#', '')
-			return removeHash
+			return parseInt(removeHash)
 		}
-		return initHash
+		return parseInt(initHash)
 	}
 
 	render() {
-		const { interactions, auth, history } = this.props
+		const { interactions, auth, history, profile } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
 
 		return (
 			<div className="bookings">
+				{profile.isApproved !== true && profile.isPro ?
+					<div className="status status--warning">
+						<div className="container">
+							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
+						</div>
+					</div>
+					: null}
 				<div className="container container--top-bottom-padding container--small">
 					<div className="row">
 						<div className="col">
@@ -74,6 +81,7 @@ const mapStateToProps = (state) => {
 	return {
 		interactions: state.firestore.ordered.interactions,
 		auth: state.firebase.auth,
+		profile: state.firebase.profile
 		// interactionType: interactions.interactionType
 	}
 }

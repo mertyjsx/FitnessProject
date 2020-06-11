@@ -14,7 +14,7 @@ const Navbar = (props) => {
 	const toggleMenu = () => {
 		setMenuState(!menuActive)
 		// console.log(menuActive, document.body);
-		menuActive ? document.body.classList.remove('no-scroll') : document.body.classList.add('no-scroll')
+		// menuActive ? document.body.classList.remove('no-scroll') : document.body.classList.add('no-scroll')
 	}
 
 	const links = auth.uid ? <SignedInLinks profile={profile} menuActive={toggleMenu} /> : <SignedOutLinks menuActive={toggleMenu} />

@@ -9,6 +9,7 @@ import {
 	faDollarSign,
 	faCheckCircle,
 	faBook,
+	faFile,
 	faHandshake,
 	faHandPeace,
 	faChevronDown
@@ -33,6 +34,7 @@ library.add(
 	faFacebookF,
 	faTwitter,
 	faGrin,
+	faFile,
 	faQuoteLeft,
 	faFilter,
 	faList,

@@ -64,3 +64,34 @@
 		color: $theme-black;
 	}
 }
+
+.reviews {
+	padding: $gutter 0;
+}
+
+.review {
+	display: flex;
+	padding-bottom: $gutter * 2;
+	&__image {
+		flex: 0 1 90px;
+
+		img {
+			width: 80px;
+			height: 80px;
+			border-radius: 50%;
+			border: $gray solid 1px;
+		}
+	}
+	&__content {
+		flex: 1;
+		padding-left: $gutter;
+		h2 {
+			margin: 0;
+			font-size: 20px;
+			font-weight: bold;
+		}
+		p {
+			margin-bottom: 0;
+		}
+	}
+}

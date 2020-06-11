@@ -59,6 +59,9 @@
 		img {
 			border-radius: 50%;
 			border: $red solid 1px;
+			width: 68px;
+			height: 68px;
+			object-fit: cover;
 		}
 	}
 }
