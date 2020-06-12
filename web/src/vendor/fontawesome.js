@@ -7,12 +7,13 @@ import {
 	faFilter, faList,
 	faUser, faUsers,
 	faDollarSign,
-	faCheckCircle,
+	faCheckCircle, faTimesCircle,
 	faBook,
 	faFile,
 	faHandshake,
 	faHandPeace,
-	faChevronDown
+	faChevronDown,
+	faPencilAlt
 } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarRegular } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
@@ -43,7 +44,9 @@ library.add(
 	faUsers,
 	faDollarSign,
 	faCheckCircle,
+	faTimesCircle,
 	faBook,
+	faPencilAlt,
 	faHandshake,
 	faHandPeace,
 	faChevronDown,

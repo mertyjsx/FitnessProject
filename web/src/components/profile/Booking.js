@@ -4,11 +4,11 @@ import { Form, Radio, Button, Modal } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-import { addDays } from "date-fns";
+import { addDays, setMinutes, setHours } from "date-fns";
 import moment from 'moment'
 import { createInteraction } from '../../store/actions/interactionActions'
 import spinner from '../../assets/images/spinner.gif'
-import { PayPalButton } from "react-paypal-button-v2";
+import { PayPalButton } from 'react-paypal-button-v2'
 
 class Booking extends Component {
 
@@ -252,13 +252,13 @@ class Booking extends Component {
 								dateFormat="hh:mm a"
 								placeholderText={'Start Time'}
 								required={true}
-							// excludeDates={[new Date(), subDays(new Date(), 1)]}
-							// excludeTimes={[
-							// 	setHours(setMinutes(new Date(), 0), 17),
-							// 	setHours(setMinutes(new Date(), 30), 18),
-							// 	setHours(setMinutes(new Date(), 30), 19),
-							// 	setHours(setMinutes(new Date(), 30), 17)
-							// ]}
+								// excludeDates={[new Date(), subDays(new Date(), 1)]}
+								excludeTimes={[
+									setHours(setMinutes(new Date(), 0), 17),
+									setHours(setMinutes(new Date(), 30), 18),
+									setHours(setMinutes(new Date(), 30), 19),
+									setHours(setMinutes(new Date(), 30), 17)
+								]}
 							/>
 						</Form.Field>
 						<Form.Field className="field--half">

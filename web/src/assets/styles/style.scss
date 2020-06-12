@@ -7,8 +7,10 @@
 @import "./elements/form";
 @import "./elements/list";
 @import "./elements/tables";
+@import "./components/accordion";
 @import "./components/header";
 @import "./components/tabs";
+@import "./components/calendar";
 @import "./components/dashboard";
 @import "./components/pro-list";
 @import "./components/pro-card";
@@ -16,13 +18,16 @@
 @import "./components/profile-edit";
 @import "./components/star-rating";
 @import "./components/interaction";
+@import "./components/filter";
 @import "./components/messages";
 @import "./components/modal";
 @import "./components/carousel";
+@import "./components/notifications";
 @import "./components/callouts";
 @import "./components/status";
 @import "./components/footer";
 @import "./components/videos";
+@import "./components/beta";
 @import "./pages/onboarding";
 @import "./pages/home";
 @import "./pages/signup";

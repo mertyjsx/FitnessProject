@@ -1,0 +1,30 @@
+.filter {
+	padding: $gutter;
+	border-bottom: $theme-black solid 1px;
+	input,
+	select {
+		border: $theme-black solid 1px;
+	}
+	input {
+		background-repeat: no-repeat;
+		background-position: center left 10px;
+		padding-left: 45px;
+	}
+	.button {
+		align-items: center;
+		width: 100%;
+		border: $theme-black solid 1px;
+		&:hover {
+			background-color: $primary-darker;
+			color: $white;
+		}
+	}
+	.col {
+		@media screen and (max-width: $md-max) {
+			margin-bottom: $gutter;
+		}
+		&:last-child {
+			flex: 0 1 140px;
+		}
+	}
+}

@@ -15,7 +15,7 @@ class About extends Component {
 					</div>
 					<div className="row">
 						<div className="col">
-							<Carousel className="carousel-about" showStatus={false} showThumbs={false} showArrows={false} autoPlay={true} infiniteLoop={true}>
+							<Carousel className="carousel-about" interval={5000} showStatus={false} showThumbs={false} showArrows={false} autoPlay={true} infiniteLoop={true}>
 								<div key="slide1" className="carousel-about">
 									<p className="text--sm">With a passion for health &amp; wellness, we realized how much our lives and
 									those of others were impacted, mentally and physically, and we wanted to

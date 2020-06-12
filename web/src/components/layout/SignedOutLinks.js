@@ -10,7 +10,7 @@ const SignedOutLinks = (props) => {
 			<li><NavLink onClick={navClick} to="/how-it-works" className="header__nav-link">How It Works</NavLink></li>
 			<li><NavLink onClick={navClick} to="/signup" className="header__nav-link">Sign Up</NavLink></li>
 			<li><NavLink onClick={navClick} to="/signin" className="header__nav-link">Login</NavLink></li>
-			<li><NavLink onClick={navClick} to="/join-as-pro" className="header__nav-link-btn button button--primary">Join as Pro</NavLink></li>
+			<li><NavLink onClick={navClick} to="/how-ctby-works-for-pros" className="header__nav-link-btn button button--primary">Join as Pro</NavLink></li>
 		</ul>
 	)
 }

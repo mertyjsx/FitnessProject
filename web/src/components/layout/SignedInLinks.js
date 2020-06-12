@@ -20,11 +20,12 @@ const SignedInLinks = (props) => {
 			<div className={`header__secondary`}>
 				<ul>
 					{/* <li><NavLink to="/create-project" className="header__nav-link">New Project</NavLink></li> */}
+					<li><NavLink onClick={navClick} to="/admin" className="header__nav-link">Admin</NavLink></li>
 					<li><NavLink onClick={navClick} to="/dashboard" className="header__nav-link">Dashboard</NavLink></li>
 					<li><NavLink onClick={navClick} to="/inbox" className="header__nav-link">Inbox</NavLink></li>
 					<li><NavLink onClick={navClick} to="/bookings" className="header__nav-link">Bookings</NavLink></li>
 					<li><NavLink onClick={navClick} to="/profile-edit" className="header__nav-link">Profile</NavLink></li>
-					<li><NavLink onClick={navClick} to="/" className="header__nav-link inactive">Calendar</NavLink></li>
+					{/* <li><NavLink onClick={navClick} to="/calendar" className="header__nav-link">Calendar</NavLink></li> */}
 				</ul>
 				<div className={`header__nav-settings ${profileActive ? 'header__nav-settings--active' : ''}`}>
 					<div className={`header__nav-settings-btn`}>

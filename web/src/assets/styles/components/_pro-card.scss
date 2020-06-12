@@ -3,10 +3,10 @@ $pro-card-spacing-margin: 25px;
 
 .pro-card {
 	color: $gray-dark;
-	padding: 0 0 $pro-card-spacing-padding/2;
+	padding: $pro-card-spacing-padding/2 0;
 	width: 100%;
 	@media screen and (min-width: $md-min) {
-		padding: $pro-card-spacing-padding;
+		padding: $pro-card-spacing-padding 0;
 	}
 	&:hover {
 		.pro-card__inner {

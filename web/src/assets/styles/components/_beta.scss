@@ -1,0 +1,13 @@
+.beta {
+	&__feedback-btn {
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		background-color: $primary-darker;
+		border: white solid 1px;
+		color: $white;
+		padding: $gutter/2;
+		z-index: 99;
+		border-radius: 0;
+	}
+}

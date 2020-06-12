@@ -1,0 +1,29 @@
+.accordion {
+	.title {
+		@extend .text--md, .text--bold;
+		cursor: pointer;
+		svg {
+			margin-left: $gutter;
+			transition: 300ms;
+		}
+		&.active {
+			svg {
+				transform-origin: center;
+				transform: rotate(180deg);
+			}
+		}
+	}
+	.content {
+		@extend .text--sm;
+		max-height: 0;
+		transition: 300ms;
+		overflow: hidden;
+		width: 100%;
+		&.active {
+			max-height: max-content;
+		}
+	}
+	.col {
+		margin-bottom: $gutter * 2;
+	}
+}

@@ -5,13 +5,15 @@ const Notifications = (props) => {
 	const { notifications } = props
 
 	return (
-		<div>
-			Notifications
+		<div className="notifications">
+			<h2 className="mb--0">Notifications</h2>
+			<small>5 Most Recent</small>
 			<ul>
 				{notifications && notifications.map(item => {
 					return (
 						<li key={item.id}>
-							{item.user} - {item.content} - {item.time.toDate().toDateString()}
+							<div className="name text--capitalize">{item.user}</div>
+							<div className="content">{item.content} on {item.time.toDate().toDateString()}</div>
 						</li>
 					)
 				})}

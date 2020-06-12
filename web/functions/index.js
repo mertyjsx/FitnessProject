@@ -32,7 +32,7 @@ exports.userJoined = functions.auth.user()
 			.then(doc => {
 				const newUser = doc.data();
 				const notification = {
-					content: 'Joined the party',
+					content: `Joined CTBY as ${newUser.isPro ? 'a Pro' : 'a Client'}`,
 					user: `${newUser.firstName} ${newUser.lastName}`,
 					time: admin.firestore.FieldValue.serverTimestamp()
 				}

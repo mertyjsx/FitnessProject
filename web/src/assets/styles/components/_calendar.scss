@@ -1,0 +1,24 @@
+.calendar {
+	&__block {
+		width: 100%;
+		.divider {
+			margin: 50px 0;
+		}
+	}
+}
+
+.calendar-wrapper {
+	width: 100%;
+	> div {
+		width: 100%;
+	}
+	.react-datepicker {
+		width: 100%;
+		&__month-container {
+			width: 100%;
+		}
+		&__day {
+			width: 12%;
+		}
+	}
+}

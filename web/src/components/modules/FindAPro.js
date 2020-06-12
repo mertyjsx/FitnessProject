@@ -42,19 +42,19 @@ class FindAPro extends Component {
 
 		return (
 			<div className="find-pro">
-				<div className="container">
-					<ProActiveListingsProvider>
-						<ProActiveListingsConsumer>
-							{({ proActiveListings, allListings, updateFilter }) => (
-								<>
-									{/* <Filter
-										updateFilter={updateFilter}
-										count={proActiveListings.length}
-										businessCity={proActiveListings
-											.map(pro => pro.businessCity)
-											.filter((item, i, arr) => arr.indexOf(item) === i)}
-										pph={allListings.filter(item => item.rates)}
-									/> */}
+				<ProActiveListingsProvider>
+					<ProActiveListingsConsumer>
+						{({ proActiveListings, allListings, updateFilter }) => (
+							<>
+								<Filter
+									updateFilter={updateFilter}
+									count={proActiveListings.length}
+									businessCity={proActiveListings
+										.map(pro => pro.businessCity)
+										.filter((item, i, arr) => arr.indexOf(item) === i)}
+									pph={allListings.filter(item => item.rates)}
+								/>
+								<div className="container">
 									<div className="row">
 										{proActiveListings && proActiveListings.map(pro => (
 											<Link className={`pro-list__card col col--6`} to={'/pro/' + pro.uid} key={pro.uid}>
@@ -62,11 +62,11 @@ class FindAPro extends Component {
 											</Link>
 										))}
 									</div>
-								</>
-							)}
-						</ProActiveListingsConsumer>
-					</ProActiveListingsProvider>
-				</div>
+								</div>
+							</>
+						)}
+					</ProActiveListingsConsumer>
+				</ProActiveListingsProvider>
 			</div >
 		)
 	}

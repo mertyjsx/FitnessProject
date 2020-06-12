@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import search from '../../assets/images/search.png'
+import where from '../../assets/images/where.png'
+import dollar from '../../assets/images/dollar.png'
+
 
 function getSortOrderValue(sortOrder) {
 	return sortOrder.replace(' ', '').toLowerCase()
@@ -12,11 +16,11 @@ function getPropertiesDisplayText(count) {
 }
 
 const DefaultState = {
-	priceFrom: '',
+	name: '',
 	pph: '',
 	businessCity: '',
-	sortOrder: '',
-	sortOrders: ['Highest First', 'Lowest First']
+	// sortOrder: '',
+	// sortOrders: ['Highest First', 'Lowest First']
 }
 
 class Filter extends Component {
@@ -30,63 +34,64 @@ class Filter extends Component {
 	}
 
 	render() {
-		const { pph, businessCity } = this.state
+		const { pph, name, businessCity } = this.state
 		const { pphs, postcodes, count, updateFilter } = this.props
 
 		return (
 			<aside className="filter">
-				<div className="container container--full">
+				<div className="container">
 					<form
+						autoComplete={false}
 						onChange={() => setTimeout(() => updateFilter(this.state), 0)}
 						noValidate
 					>
 						<div className="row">
 							<div className="col">
-								<label htmlFor="name">Where?</label>
-								<input id={`businessCity`}
-									defaultValue={this.state.businessCity}
+								<label htmlFor="name" className="screen-reader-text">Search By Name</label>
+								<input id={`name`}
+									style={{ backgroundImage: `url(${search})` }}
+									autoComplete={false}
+									value={this.state.name}
 									type="text"
-									placeholder="Where?"
+									name="name"
+									placeholder="Search By Name"
+									onChange={(e) => this.handleChange('name', e.target.value)} />
+							</div>
+							<div className="col">
+								<label htmlFor="businessCity" className="screen-reader-text">Search By City</label>
+								<input id={`businessCity`}
+									style={{ backgroundImage: `url(${where})` }}
+									value={this.state.businessCity}
+									type="text"
+									name="businessCity"
+									placeholder="Search By City"
 									onChange={(e) => this.handleChange('businessCity', e.target.value)} />
 							</div>
 							<div className="col">
+								<label htmlFor="pph" className="screen-reader-text">Search By Price</label>
 								<select
 									id={`pph`}
+									// style={{ backgroundImage: `url(${dollar})` }}
 									value={this.state.pph}
 									onChange={e => this.handleChange('pph', e.target.value)}>
 									<option value="">Price Per Hour</option>
-									<option value="49">Up to $49</option>
-									<option value="50">$50 - $74</option>
-									<option value="75">$75 - $99</option>
-									<option value="100">$100 +</option>
+									<option value="25">Up to $25</option>
+									<option value="50">Up to $50</option>
+									<option value="75">Up to $75</option>
+									<option value="100">Up to $100</option>
+									<option value="10000">$101 +</option>
 								</select>
 							</div>
 							<div className="col">
-								{/* <input type="text" placeholder="Enter item to be searched" onChange={(e) => this.searchByName(e)} /> */}
-								<select
-									id="sortorder"
-									value={this.state.sortOrder}
-									onChange={e => this.setState({ sortOrder: e.target.value })} >
-									<option value="">Choose...</option>
-									{this.state.sortOrders.map(order => (
-										<option key={order} value={order.replace(' ', '').toLowerCase()}>
-											{order}
-										</option>
-									))}
-								</select>
-							</div>
-							<div className="col">
-								<button>Filters</button>
-								<div>
-									<button
-										data-cy="clear-button"
-										type="button"
-										onClick={() => {
-											this.setState(Object.assign({}, DefaultState))
-											updateFilter({})
-										}}
-									>Clear</button>
-								</div>
+								<button
+									className="button"
+									data-cy="clear-button"
+									type="button"
+									onClick={() => {
+										this.setState(Object.assign({}, DefaultState))
+										updateFilter({})
+									}}
+								>Reset Filter</button>
 							</div>
 						</div>
 					</form>

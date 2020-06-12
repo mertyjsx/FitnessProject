@@ -1,0 +1,27 @@
+.notifications {
+	padding: $gutter * 2;
+	width: 100%;
+	background-color: $gray-lighter;
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	li {
+		margin-bottom: $gutter;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.pending-profiles {
+	width: 100%;
+	padding: $gutter * 2;
+	background-color: $gray-lighter;
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+}

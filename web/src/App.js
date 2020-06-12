@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { loadReCaptcha } from 'react-recaptcha-google'
 import Home from './components/modules/Home'
 import Navbar from './components/layout/Navbar'
 import Dashboard from './components/dashboard/Dashboard'
@@ -26,14 +27,26 @@ import ScrollToTop from 'react-router-scroll-top'
 import HowItWorks from './components/modules/HowItWorks'
 import ThankYouConvertKit from "./components/promo/ThankYouConvertKit"
 import Settings from "./components/dashboard/Settings"
+import UserTest from './components/beta/UserTest'
+import HowProWorks from "./components/modules/HowProWorks"
+import CalenderView from "./components/calendar/CalenderView"
+import AdminView from "./components/admin/AdminView"
+import FAQPro from "./components/modules/FAQPro"
+import FAQClient from "./components/modules/FAQClient"
 
 class App extends Component {
+
   constructor() {
     super();
     this.state = {
       splash: false
     }
   }
+
+  componentDidMount() {
+    loadReCaptcha();
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -45,6 +58,7 @@ class App extends Component {
             <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
             <Route exact path="/social" component={Social} />
             <Route path="/thank-you-for-subscribing" component={ThankYouConvertKit} />
+            <Route exact path="/admin" component={AdminView} />
             {this.state.splash === false ?
               <>
                 <Route exact path="/" component={Home} />
@@ -66,7 +80,11 @@ class App extends Component {
                 <Route exact path="/onboarding" component={Onboarding} />
                 <Route exact path="/social" component={Social} />
                 <Route exact path="/how-it-works" component={HowItWorks} />
+                <Route exact path="/how-ctby-works-for-pros" component={HowProWorks} />
                 <Route exact path="/settings" component={Settings} />
+                <Route exact path="/calendar" component={CalenderView} />
+                <Route exact path="/pro-faq" component={FAQPro} />
+                <Route exact path="/client-faq" component={FAQClient} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>

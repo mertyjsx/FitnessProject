@@ -120,18 +120,41 @@ export const deleteAccount = () => {
 	}
 }
 
-export const upgrade = () => {
+export const upgrade = (upgradeParams) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
-		const firebase = getFirebase()
-		const user = firebase.auth().currentUser
-		console.log('upgrade called');
-		// user.delete().then((response) => {
-		// 	// User deleted
-		// 	console.log(response);
-		// }).catch(err => {
-		// 	// user error
-		// 	dispatch({ type: 'SIGNUP_ERROR', err })
-		// })
+		const firestore = getFirestore()
+		const userID = getState().firebase.auth.uid
+
+		console.log('upgrade called', upgradeParams);
+
+		firestore.collection('users').doc(userID).update({
+			...upgradeParams,
+		}).then(() => {
+			console.log('success');
+			dispatch({ type: 'CREATE_INTERACTION', upgradeParams });
+		}).catch((error) => {
+			console.log('nah');
+			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
+		})
+	}
+}
+
+export const approveProfile = (proUID) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firestore = getFirestore()
+		const userID = proUID
+
+		console.log('approval called', proUID);
+
+		firestore.collection('users').doc(userID).update({
+			isApproved: true,
+		}).then(() => {
+			console.log('success');
+			dispatch({ type: 'CREATE_INTERACTION', proUID });
+		}).catch((error) => {
+			console.log('nah');
+			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
+		})
 	}
 }
 

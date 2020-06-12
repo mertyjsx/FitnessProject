@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form } from 'semantic-ui-react';
-
-
+import UserTest from '../beta/UserTest'
 
 class Footer extends Component {
 	constructor(props) {
@@ -23,6 +22,8 @@ class Footer extends Component {
 
 		return (
 			<footer className="footer">
+				<UserTest />
+
 				<div className={'footer__newsletter'}>
 					<div className={'footer__newsletter-container container container--small'}>
 
@@ -74,8 +75,8 @@ class Footer extends Component {
 												<li><Link to="/how-it-works">How It Works</Link></li>
 												<li><Link to="/find-a-pro">Find A Pro</Link></li>
 												<li><Link to="/join-as-pro">Join as a Pro</Link></li>
-												{/* <li><Link to="/pro-faq">Pro FAQs</Link></li> */}
-												{/* <li><Link to="/client-faq">Client FAQs</Link></li> */}
+												<li><Link to="/pro-faq">Pro FAQs</Link></li>
+												<li><Link to="/client-faq">Client FAQs</Link></li>
 												{/* <li><Link to="/blog">Blog</Link></li> */}
 											</ul>
 										</div>
