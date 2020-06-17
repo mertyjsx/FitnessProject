@@ -44,9 +44,13 @@ class UpgradeProPremium extends Component {
 			<h2>Confirm Upgrade</h2>
 			{/* <button onClick={this.handleSubmit}>test</button> */}
 			<PayPalButton
+				options={{
+					clientId: "AXZo-2NNpO_ZB4UcXu5Acw4B6cyHDuOe6xkEalFeEviIUzfiu3B7dN37P9EK09SVzh9i31DeyTF8x4Ok",
+					vault: true
+				}}
 				createSubscription={(data, actions) => {
 					return actions.subscription.create({
-						plan_id: 'P-8AN10913427866211L2VW5WI'
+						plan_id: 'PROD-97A271950K7441738'
 					});
 				}}
 				onApprove={(data, actions) => {
@@ -54,10 +58,6 @@ class UpgradeProPremium extends Component {
 					return actions.subscription.get().then(function (details) {
 						this.handleSubmit(details, data)
 					});
-				}}
-				options={{
-					clientId: "AdnGkXFLEzUBky5CsXg-LToFxF9xTiJFH6jEz5vBXffma53lY5JVu4wzKPM1B1AlEZWYAlCpZDc25Dnu",
-					vault: true
 				}}
 			/>
 		</>
