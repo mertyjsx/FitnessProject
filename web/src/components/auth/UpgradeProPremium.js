@@ -50,7 +50,8 @@ class UpgradeProPremium extends Component {
 				}}
 				createSubscription={(data, actions) => {
 					return actions.subscription.create({
-						plan_id: 'PROD-97A271950K7441738'
+						// plan_id: 'PROD-97A271950K7441738' // This has the product ID instead of plan ID
+						plan_id: "P-8AN10913427866211L2VW5WI"
 					});
 				}}
 				onApprove={(data, actions) => {
