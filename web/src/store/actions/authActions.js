@@ -139,6 +139,25 @@ export const upgrade = (upgradeParams) => {
 	}
 }
 
+export const downgrade = (downgradeParams) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firestore = getFirestore()
+		const userID = getState().firebase.auth.uid
+
+		console.log('downgrade called', downgradeParams);
+
+		firestore.collection('users').doc(userID).update({
+			...downgradeParams,
+		}).then(() => {
+			console.log('success');
+			dispatch({ type: 'CREATE_INTERACTION', downgradeParams });
+		}).catch((error) => {
+			console.log('nah');
+			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
+		})
+	}
+}
+
 export const approveProfile = (proUID) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firestore = getFirestore()

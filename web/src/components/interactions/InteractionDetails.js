@@ -17,6 +17,7 @@ import {
 } from '../../store/actions/interactionActions'
 import InteractionMessages from './InteractionMessages'
 import { renderProfileImage } from '../helpers/HelpersProfile'
+import axios from 'axios'
 
 const InteractionDetails = (props) => {
 	const { interaction, auth } = props;
@@ -42,8 +43,12 @@ const InteractionDetails = (props) => {
 	}
 
 	const cancelSession = () => {
-		// console.log('cancel btn clicked')
-		props.cancelBookingInteraction(iid)
+		console.log('cancel btn clicked')
+		axios({
+			url: `https://api.paypal.com/v2/payments/captures/2GG279541U471931P/refund`,
+			method: 'post',
+		})
+		// props.cancelBookingInteraction(iid)
 		// console.log('session has been cancelled')
 	}
 
@@ -149,7 +154,7 @@ const InteractionDetails = (props) => {
 
 							{interaction.userUID === auth.uid ?
 								<div className="interaction-details__buttons text--center">
-									<p>Person Booking</p>
+									{/* <p>Person Booking</p> */}
 									{/* <Link to={'/pro/' + interaction.proUID}>Start a new inquiry</Link> */}
 									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'link'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}

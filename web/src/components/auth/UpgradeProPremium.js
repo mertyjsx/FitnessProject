@@ -2,9 +2,10 @@ import React, { Component } from "react"
 import { Button } from "semantic-ui-react"
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { upgrade } from '../../store/actions/authActions'
+import { upgrade, downgrade } from '../../store/actions/authActions'
 import Modal from '../modal/Modal'
 import { PayPalButton } from 'react-paypal-button-v2'
+import axios from 'axios'
 
 class UpgradeProPremium extends Component {
 
@@ -13,21 +14,56 @@ class UpgradeProPremium extends Component {
 		this.state = {
 			isProPremium: false
 		}
+		this.handleSubmit = this.handleSubmit.bind(this)
+		this.cancelSubscription = this.cancelSubscription.bind(this)
 	}
-	// const { isProPremium } = props
+
+	cancelSubscription = () => {
+		console.log('btn clicked')
+		let $this = this
+		axios({
+			url: `https://api.paypal.com/v1/billing/subscriptions/${this.props.profile.paypalPremium.id}/cancel`,
+			method: 'post',
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${this.props.profile.paypalPremium.facilitatorAccessToken}`
+			},
+			data: { "reason": "test -- Not satisfied with the service" }
+		})
+			.then(res => {
+				console.log(`Axios Call completed: ${res}`)
+				this.setState({
+					isProPremium: false,
+				})
+				setTimeout(function () {
+					// console.log('please', $this.props, $this.state);
+					$this.props.downgrade($this.state)
+					document.body.style.overflow = 'unset'
+					$this.props.history.push('/profile-edit')
+				}, 3000)
+			});
+	}
 
 	handleSubmit = (details, data) => {
 		let $this = this
 		this.setState({
 			isProPremium: true,
 			paypalPremium: {
+				billing_info: {
+					next_billing_time: details.billing_info.next_billing_time
+				},
 				timeCreated: details.create_time,
 				id: details.id,
-				email: details.payer.email_address,
-				firstName: details.payer.name.given_name,
-				lastName: details.payer.name.surname,
-				payerID: details.payer.payer_id,
-				status: details.status
+				plan_id: details.plan_id,
+				email: details.subscriber.email_address,
+				firstName: details.subscriber.name.given_name,
+				lastName: details.subscriber.name.surname,
+				payerID: details.subscriber.payer_id,
+				status: details.status,
+				billingToken: data.billingToken,
+				facilitatorAccessToken: data.facilitatorAccessToken,
+				orderID: data.orderID,
+				subscriptionID: data.subscriptionID
 			}
 		})
 
@@ -39,51 +75,8 @@ class UpgradeProPremium extends Component {
 		}, 3000)
 	}
 
-	modalContent = (
-		<>
-			<h2>Confirm Upgrade</h2>
-			{/* <button onClick={this.handleSubmit}>test</button> */}
-			<PayPalButton
-				options={{
-					clientId: "AXZo-2NNpO_ZB4UcXu5Acw4B6cyHDuOe6xkEalFeEviIUzfiu3B7dN37P9EK09SVzh9i31DeyTF8x4Ok",
-					vault: true
-				}}
-				createSubscription={(data, actions) => {
-					return actions.subscription.create({
-						// plan_id: 'PROD-97A271950K7441738' // This has the product ID instead of plan ID
-						plan_id: "P-8AN10913427866211L2VW5WI"
-					});
-				}}
-				onApprove={(data, actions) => {
-					// Capture the funds from the transaction
-					return actions.subscription.get().then(function (details) {
-						this.handleSubmit(details, data)
-					});
-				}}
-			/>
-		</>
-
-	)
-
-	modalContentDowngrade = (
-		<>
-			<h2>Confirm Downgrade</h2>
-			<button onClick={this.handleDowngrade}>test</button>
-			{/* <PayPalButton
-				amount={'0.01'}
-				shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-				onSuccess={(details, data) => {
-					// alert("Transaction completed by " + details.payer.name.given_name);
-					this.handleSubmit(details, data)
-				}}
-				options={{
-					clientId: "AdnGkXFLEzUBky5CsXg-LToFxF9xTiJFH6jEz5vBXffma53lY5JVu4wzKPM1B1AlEZWYAlCpZDc25Dnu"
-				}}
-			/> */}
-		</>
-	)
-
 	render() {
+		const { handleSubmit } = this
 		return (
 			<div className={'pro-premium'}>
 				<h3>Pro Premium</h3>
@@ -92,13 +85,41 @@ class UpgradeProPremium extends Component {
 					<Modal
 						buttonText={'Downgrade'}
 						buttonStyle={'button button--md button--secondary'}
-						content={this.modalContentDowngrade}
+						content={(
+							<>
+								<h2>Confirm Downgrade</h2>
+								<button onClick={this.cancelSubscription}>Downgrade</button>
+							</>
+						)}
 					/>
 					:
 					<Modal
 						buttonText={'Upgrade'}
 						buttonStyle={'button button--md button--secondary'}
-						content={this.modalContent}
+						content={(
+							<>
+								<h2>Confirm Upgrade</h2>
+								<PayPalButton
+									options={{
+										clientId: "AR5NGMdDDS5r5ppii1xubgv3F-Ek9VGqss7yt2WJ1JpTZ3Tr7dwgxcyoLtmvr7DyZ5YMeLEWx8hrDvn-",
+										vault: true
+									}}
+									createSubscription={(data, actions) => {
+										return actions.subscription.create({
+											// plan_id: 'PROD-97A271950K7441738' // This has the product ID instead of plan ID
+											plan_id: "P-8AN10913427866211L2VW5WI"
+										});
+									}}
+									onApprove={(data, actions) => {
+										// Capture the funds from the transaction
+										return actions.subscription.get().then(function (details) {
+											// console.log(details, data);
+											handleSubmit(details, data)
+										});
+									}}
+								/>
+							</>
+						)}
 					/>
 				}
 			</div>
@@ -112,13 +133,15 @@ const mapStateToProps = (state) => {
 		// projects: state.firestore.ordered.projects,
 		auth: state.firebase.auth,
 		// notifications: state.firestore.ordered.notifications,
-		profile: state.firebase.profile
+		profile: state.firebase.profile,
+		settings: state.firebase.settings
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		upgrade: (upgradeParams) => dispatch(upgrade(upgradeParams))
+		upgrade: (upgradeParams) => dispatch(upgrade(upgradeParams)),
+		downgrade: (downgradeParams) => dispatch(downgrade(downgradeParams))
 	}
 }
 

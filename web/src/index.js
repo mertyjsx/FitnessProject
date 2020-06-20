@@ -30,14 +30,12 @@ const profileSpecificProps = {
 
 const rrfProps = {
   firebase,
-  // config: fbConfig,
   config: profileSpecificProps,
   dispatch: store.dispatch,
   createFirestoreInstance,
   userProfile: 'users', // where profiles are stored in database
   presence: 'presence', // where list of online users is stored in database
   sessions: 'sessions',
-  reviews: 'reviews'
 };
 
 // console.log('index props', rrfProps);

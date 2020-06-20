@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
-import { Form, Radio, Button, Modal } from 'semantic-ui-react'
+import Modal from '../modal/Modal'
+import { Form, Radio, Button } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
@@ -33,10 +34,6 @@ class Booking extends Component {
 			modalOpen: false
 		}
 	}
-
-	handleOpen = () => this.setState({ modalOpen: true })
-
-	handleClose = () => this.setState({ modalOpen: false })
 
 	renderPriceChange = (profession) => {
 		const bookingType = this.state.bookingType
@@ -152,6 +149,7 @@ class Booking extends Component {
 		setTimeout(function () {
 			// console.log('wait 3 secs', $this.props);
 			$this.props.createInteraction($this.state)
+			document.body.style.overflow = 'unset'
 			$this.props.history.push('/bookings#1')
 		}, 3000)
 	}
@@ -280,19 +278,10 @@ class Booking extends Component {
 						<Form.Field className="field--justify-center">
 							{this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? null : <p style={{ marginBottom: '10px' }}>Please enter all the fields</p>}
 							<Modal
-								trigger={
-									<Button
-										type="submit"
-										onClick={this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? this.handleOpen : null}
-										className={`button button--primary text--uppercase text--font-secondary text--sm ${this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? 'button--active' : 'button--inactive'}`} >Request to book</Button>}
-								open={this.state.modalOpen}
-								onClose={this.handleClose}
-							>
-								<Modal.Content>
-									<Modal.Actions>
-										<Button class="button__close" onClick={this.handleClose}>X</Button>
-									</Modal.Actions>
-									<Modal.Description className="modal-description__container">
+								buttonText={'Request to book'}
+								buttonStyle={`button button--primary text--uppercase text--font-secondary text--sm ${this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? 'button--active' : 'button--inactive'}`}
+								content={(
+									<div style={{ textTransform: 'none' }}>
 										<h2>Complete Booking</h2>
 										<p>Your total of ${this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
 										<p>Please choose your preferred method of payment below.</p>
@@ -307,9 +296,9 @@ class Booking extends Component {
 												clientId: "AdnGkXFLEzUBky5CsXg-LToFxF9xTiJFH6jEz5vBXffma53lY5JVu4wzKPM1B1AlEZWYAlCpZDc25Dnu"
 											}}
 										/>
-									</Modal.Description>
-								</Modal.Content>
-							</Modal>
+									</div>
+								)}
+							/>
 
 						</Form.Field>
 					</Form>

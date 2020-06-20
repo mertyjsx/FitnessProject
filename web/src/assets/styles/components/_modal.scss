@@ -87,6 +87,11 @@ body.dimmed {
 		}
 	}
 
+	// Older
+	.visible {
+		opacity: 1;
+		display: flex;
+	}
 	.description {
 		padding: $gutter;
 		// overflow: scroll;
