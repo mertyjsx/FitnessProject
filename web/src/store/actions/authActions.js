@@ -58,6 +58,7 @@ export const signUpPro = (newUser, props) => {
 			return firestore.collection('users').doc(response.user.uid).set({
 				firstName: newUser.firstName,
 				lastName: newUser.lastName,
+				phoneNumber: newUser.phoneNumber,
 				initials: newUser.firstName[0] + newUser.lastName[0],
 				city: newUser.city,
 				state: newUser.state,
@@ -88,6 +89,7 @@ export const completeOnboarding = (newInfo) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
 		const userID = getState().firebase.auth.uid
+		const currentUser = firebase.auth().currentUser;
 
 		console.log(newInfo);
 		firestore.collection('users').doc(userID).update({
@@ -95,7 +97,13 @@ export const completeOnboarding = (newInfo) => {
 		})
 			.then(function () {
 				// console.log("Booking successfully cancelled!");
-				dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+				currentUser.sendEmailVerification().then(function () {
+					// Email sent.
+					dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+				}).catch(function (error) {
+					// An error happened.
+					console.log('error');
+				});
 			})
 			.catch(function (error) {
 				// The document probably doesn't exist.
