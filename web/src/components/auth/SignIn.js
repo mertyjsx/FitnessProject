@@ -3,6 +3,7 @@ import { Form } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { signIn } from '../../store/actions/authActions'
 import { Redirect } from 'react-router-dom'
+import PasswordReset from './PasswordReset'
 
 class SignIn extends Component {
 	constructor(props) {
@@ -44,10 +45,11 @@ class SignIn extends Component {
 						<Form.Field>
 							<button type="submit" className={`button button--secondary text--uppercase text--bold text--font-secondary`}>Login</button>
 							<div className="warning">
-								{authError ? <p>authError</p> : null}
+								{authError ? <p>{authError}</p> : null}
 							</div>
 						</Form.Field>
 					</Form>
+					<PasswordReset />
 				</div>
 			</div>
 		)

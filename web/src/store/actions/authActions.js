@@ -113,6 +113,24 @@ export const completeOnboarding = (newInfo) => {
 	}
 }
 
+export const passwordReset = (email) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const currentUser = firebase.auth();
+		console.log('action', email);
+
+		currentUser.sendPasswordResetEmail(email).then(function () {
+			// Email sent.
+			console.log('Reset password sent');
+
+		}).catch(function (error) {
+			// An error happened.
+			console.log('error', error);
+
+		});
+	}
+}
+
 export const deleteAccount = () => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
