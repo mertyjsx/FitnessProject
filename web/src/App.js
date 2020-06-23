@@ -33,6 +33,7 @@ import CalenderView from "./components/calendar/CalenderView"
 import AdminView from "./components/admin/AdminView"
 import FAQPro from "./components/modules/FAQPro"
 import FAQClient from "./components/modules/FAQClient"
+import InteractionCron from "./components/interactions/interactionCron";
 
 class App extends Component {
 
@@ -85,6 +86,7 @@ class App extends Component {
                 <Route exact path="/calendar" component={CalenderView} />
                 <Route exact path="/pro-faq" component={FAQPro} />
                 <Route exact path="/client-faq" component={FAQClient} />
+                <Route exact path="/cron" component={InteractionCron} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>
