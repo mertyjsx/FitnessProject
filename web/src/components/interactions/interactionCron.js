@@ -13,7 +13,8 @@ import {
 	closeInquiry,
 	completeInteraction,
 	confirmBookingInteraction,
-	sendBookingRequestFromInquiry
+	sendBookingRequestFromInquiry,
+	completeInteractionPayout
 } from '../../store/actions/interactionActions'
 import InteractionMessages from './InteractionMessages'
 import { renderProfileImage } from '../helpers/HelpersProfile'
@@ -32,6 +33,12 @@ let payoutDelayTime = 1000*60*15 // auto payout in 15 minutes;
 // End Development Setup //
 
 let payoutrate = 0.75;
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		completeInteractionPayout: (interaction) => dispatch(completeInteractionPayout(interaction))
+	}
+}
 
 export default compose(
 	firestoreConnect([
@@ -58,15 +65,19 @@ export default compose(
 			auth: state.firebase.auth,
 			users: users
 		}
-	})
+	},mapDispatchToProps)
 )((props)=>{
 	const { interactions, auth, users } = props;
+	let status = "";
+
 	if (interactions && users) {
+		status = "running";
 		for (let id in interactions) {
 			let interaction = interactions[id];
 			let firebase = getFirebase();
+			// console.log(interaction)
 
-			if (interaction.status == 'completed' && interaction.endTime + payoutDelayTime >= new Date().getTime()) {
+			if (interaction && interaction.status == 'completed' && interaction.endTime + payoutDelayTime >= new Date().getTime()) {
 				let paypal_base_uri = `https://api.paypal.com/`;
 				if (PaypalConfig.sandbox) paypal_base_uri = `https://api.sandbox.paypal.com/`;
 				axios.post(paypal_base_uri + 'v1/oauth2/token',
@@ -119,6 +130,7 @@ export default compose(
 				   		}).then((response)=>{
 				   			if (response.data.hasOwnProperty('batch_header')) {
 				   				// TODO: update booking status
+				   				// props.completeInteractionPayout(id);
 				   			}
 				   		})
 				   })
@@ -128,5 +140,5 @@ export default compose(
 
 	}
 
-	return (<></>);
+	return (<div className={"cron " + status}></div>);
 });

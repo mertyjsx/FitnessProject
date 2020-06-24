@@ -86,7 +86,6 @@ class App extends Component {
                 <Route exact path="/calendar" component={CalenderView} />
                 <Route exact path="/pro-faq" component={FAQPro} />
                 <Route exact path="/client-faq" component={FAQClient} />
-                <Route exact path="/cron" component={InteractionCron} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>
@@ -96,6 +95,7 @@ class App extends Component {
           </Switch>
 
           <Footer splash={this.state.splash} />
+          <InteractionCron />
         </div>
       </BrowserRouter>
     );
