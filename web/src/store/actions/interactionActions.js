@@ -9,10 +9,10 @@ export const createInteraction = (interaction) => {
 
 		firestore.collection('interactions').add({
 			...interaction,
-			userFirstName: profile.firstName,
-			userLastName: profile.lastName,
+			userFirstName: profile.firstName?profile.firstName:'',
+			userLastName: profile.lastName?profile.lastName:'',
 			userUID: userID,
-			userImage: profile.photoURL,
+			userImage: profile.photoURL?profile.photoURL:'',
 			createdAt: new Date(),
 			ratingCompleted: false
 		}).then((docRef) => {
@@ -148,6 +148,30 @@ export const completeInteraction = (iid) => {
 
 		firestore.collection('interactions').doc(iid).update({
 			status: 'completed',
+			interactionType: 'booking',
+			endTime: new Date().getTime()
+		}).then(function () {
+			// console.log("Booking successfully cancelled!");
+			dispatch({ type: 'COMPLETED', iid });
+		}).catch(function (error) {
+			// The document probably doesn't exist.
+			// console.error("Error cancelling document: ", error);
+			dispatch({ type: 'COMPLETED_ERROR', error })
+		})
+	}
+}
+
+export const completeInteractionPayout = (iid) => {
+	return (dispatch, getState, { getFirestore }) => {
+		console.log('complete session payout');
+
+		const firestore = getFirestore()
+		const profile = getState().firebase.profile
+		const userID = getState().firebase.auth.uid
+		// console.log('inside action', iid);
+
+		firestore.collection('interactions').doc(iid).update({
+			status: 'payoutcompleted',
 			interactionType: 'booking'
 		}).then(function () {
 			// console.log("Booking successfully cancelled!");

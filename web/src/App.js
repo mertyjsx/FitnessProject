@@ -33,6 +33,7 @@ import CalenderView from "./components/calendar/CalenderView"
 import AdminView from "./components/admin/AdminView"
 import FAQPro from "./components/modules/FAQPro"
 import FAQClient from "./components/modules/FAQClient"
+import InteractionCron from "./components/interactions/interactionCron";
 
 class App extends Component {
 
@@ -94,6 +95,7 @@ class App extends Component {
           </Switch>
 
           <Footer splash={this.state.splash} />
+          <InteractionCron />
         </div>
       </BrowserRouter>
     );
