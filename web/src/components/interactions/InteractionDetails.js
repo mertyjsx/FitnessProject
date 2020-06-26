@@ -1,25 +1,24 @@
+import axios from 'axios'
+import moment from 'moment'
 import React from 'react'
 import { connect } from 'react-redux'
-import { firestore, firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect } from 'react-redux-firebase'
+import { Redirect } from 'react-router-dom'
 import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import moment from 'moment'
 import { Button } from 'semantic-ui-react'
-import SetRating from '../rating/SetRating'
-import Loading from '../modules/Loading'
+import PaypalConfig from '../../config/paypal.json'
 import {
-	updateInteractionToBooked,
 	cancelBookingInteraction,
 	closeInquiry,
 	completeInteraction,
 	confirmBookingInteraction,
 	sendBookingRequestFromInquiry
 } from '../../store/actions/interactionActions'
-import InteractionMessages from './InteractionMessages'
 import { renderProfileImage } from '../helpers/HelpersProfile'
-import axios from 'axios'
+import Loading from '../modules/Loading'
+import SetRating from '../rating/SetRating'
+import InteractionMessages from './InteractionMessages'
 
-import PaypalConfig from '../../config/paypal.json';
 
 const InteractionDetails = (props) => {
 	const { interaction, auth } = props;

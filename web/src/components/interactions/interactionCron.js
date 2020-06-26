@@ -1,26 +1,11 @@
+import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
-import { firestore, firestoreConnect, getFirebase } from 'react-redux-firebase'
+import { firestoreConnect, getFirebase } from 'react-redux-firebase'
 import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import moment from 'moment'
-import { Button } from 'semantic-ui-react'
-import SetRating from '../rating/SetRating'
-import Loading from '../modules/Loading'
-import {
-	updateInteractionToBooked,
-	cancelBookingInteraction,
-	closeInquiry,
-	completeInteraction,
-	confirmBookingInteraction,
-	sendBookingRequestFromInquiry,
-	completeInteractionPayout
-} from '../../store/actions/interactionActions'
-import InteractionMessages from './InteractionMessages'
-import { renderProfileImage } from '../helpers/HelpersProfile'
-import axios from 'axios'
+import PaypalConfig from '../../config/paypal.json'
+import { completeInteractionPayout } from '../../store/actions/interactionActions'
 
-import PaypalConfig from '../../config/paypal.json';
 
 // Real setup //
 // let interactionCompletionTime = 1000*60*60*48 // 48 hours;
@@ -32,7 +17,7 @@ let interactionCompletionTime = 1000*60*15 // auto Complete in 15 minutes;
 let payoutDelayTime = 1000*60*15 // auto payout in 15 minutes;
 // End Development Setup //
 
-let payoutrate = 0.75;
+let payoutrate = 0.75; // 75%
 
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -57,9 +42,7 @@ export default compose(
 	connect((state) => {
 		let interactions = state.firestore.data.interactions;
 		let users = state.firestore.data.users;
-
 		// console.log(users);
-
 		return {
 			interactions: interactions,
 			auth: state.firebase.auth,
