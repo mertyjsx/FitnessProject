@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { Link } from 'react-router-dom'
 import { compose } from 'redux'
+import AccordionView from '../accordion/AccordionView'
 import SignIn from '../auth/SignIn'
 import Modal from '../modal/Modal'
 import Loading from '../modules/Loading'
@@ -19,12 +20,13 @@ const Profile = (props, state) => {
 
 	// if (!auth.uid) return <Redirect to='/signin' />
 
-	const renderProfileNav = (about, background, credentials, reviews) => {
+	const renderProfileNav = (about, background, credentials, faq, reviews) => {
 		// console.log(typeof credentials);
 		var navItems = [];
 		if (typeof about === 'string') { navItems.push(<li key={'about'}><a href="#about">About</a></li>) }
 		if (typeof background === 'string') { navItems.push(<li key={'background'}><a href="#background">Background</a></li>) }
 		if (typeof credentials === 'string') { navItems.push(<li key={'credentials'}><a href="#credentials">Credentials</a></li>) }
+		if (typeof faq === 'string') { navItems.push(<li key={'faq'}><a href="#faq">FAQs</a></li>) }
 		if (reviews === true) { navItems.push(<li key={'reviews'}><a href="#reviews">Reviews</a></li>) }
 		return (<ul className="list list--inline">{navItems.splice('')}</ul>)
 	}
@@ -78,12 +80,7 @@ const Profile = (props, state) => {
 	}
 	
 	const sendMessage = () => (
-		<Modal
-			buttonStyle="button button--inverted"
-			buttonText={`Message Pro`}
-			content={(
-				<Inquiry pro={user} user={auth} />
-			)} />
+		<Modal buttonStyle="button button--inverted" buttonText={`Message Pro`} content={( <Inquiry pro={user} user={auth} /> )} />
 	)
 
 	const renderCredentials = (cred) => {
@@ -102,6 +99,21 @@ const Profile = (props, state) => {
 			<img src={image} />
 		)
 	}
+	
+	const renderFAQ = () => {
+		return (
+			<div id="faq" className={`profile__faq`}>
+				<h2 className={`text--uppercase`}>FAQs</h2>
+				<AccordionView
+					qa_1={[user.faq1Question, user.faq1Answer]}
+					qa_2={[user.faq2Question, user.faq2Answer]}
+					qa_3={[user.faq3Question, user.faq3Answer]}
+					qa_4={[user.faq4Question, user.faq4Answer]}
+					qa_5={[user.faq5Question, user.faq5Answer]}
+				/>
+			</div>
+		)
+	}
 
 	if (user) {
 		return (
@@ -110,7 +122,7 @@ const Profile = (props, state) => {
 					<div className="row row--flex-start">
 						<div className="col col--8">
 							<div className={`profile__nav`}>
-								{renderProfileNav(user.about, user.background, user.credentials, true)}
+								{renderProfileNav(user.about, user.background, user.credentials, user.faq1Question, true)}
 							</div>
 							<div className={`profile__image`}>
 								{renderImage(user.photoURL)}
@@ -171,6 +183,8 @@ const Profile = (props, state) => {
 							{renderBackground(user.background)}
 
 							{renderCredentials(user.licenseURL)}
+
+							{renderFAQ()}
 
 							<div id="reviews" className={`profile__reviews`}>
 								<h2 className={`text--uppercase`}>Reviews</h2>
