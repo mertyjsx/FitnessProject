@@ -1,39 +1,38 @@
 import React, { Component } from "react"
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { loadReCaptcha } from 'react-recaptcha-google'
-import Home from './components/modules/Home'
-import Navbar from './components/layout/Navbar'
-import Dashboard from './components/dashboard/Dashboard'
-import ProjectDetails from './components/projects/ProjectDetails'
-import SignIn from './components/auth/SignIn'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import ScrollToTop from 'react-router-scroll-top'
+import AdminView from "./components/admin/AdminView"
 import SignUp from "./components/auth/client/SignUp"
 import SignUpPro from "./components/auth/pro/SignUpPro"
-import CreateProject from "./components/projects/CreateProject"
-import FindAPro from "./components/modules/FindAPro"
-import Onboarding from "./components/onboarding/index"
-import './vendor/fontawesome'
-import Inbox from "./components/inbox/Inbox"
-import Profile from "./components/profile/Profile"
-import Footer from "./components/layout/Footer"
-import InteractionDetails from "./components/interactions/InteractionDetails"
-import Bookings from "./components/modules/Bookings"
-import ProfileEdit from "./components/modules/ProfileEdit"
-import About from "./components/modules/About"
-import Terms from "./components/modules/Terms"
-import Privacy from "./components/modules/Privacy"
-import Social from "./components/landing/Social"
-import NotFound from './components/modules/NotFound'
-import ScrollToTop from 'react-router-scroll-top'
-import HowItWorks from './components/modules/HowItWorks'
-import ThankYouConvertKit from "./components/promo/ThankYouConvertKit"
-import Settings from "./components/dashboard/Settings"
-import UserTest from './components/beta/UserTest'
-import HowProWorks from "./components/modules/HowProWorks"
+import SignIn from './components/auth/SignIn'
 import CalenderView from "./components/calendar/CalenderView"
-import AdminView from "./components/admin/AdminView"
-import FAQPro from "./components/modules/FAQPro"
+import FileClaim from "./components/claims/FileClaim"
+import Dashboard from './components/dashboard/Dashboard'
+import Settings from "./components/dashboard/Settings"
+import Inbox from "./components/inbox/Inbox"
+import InteractionCron from "./components/interactions/interactionCron"
+import InteractionDetails from "./components/interactions/InteractionDetails"
+import Social from "./components/landing/Social"
+import Footer from "./components/layout/Footer"
+import Navbar from './components/layout/Navbar'
+import About from "./components/modules/About"
+import Bookings from "./components/modules/Bookings"
 import FAQClient from "./components/modules/FAQClient"
-import InteractionCron from "./components/interactions/interactionCron";
+import FAQPro from "./components/modules/FAQPro"
+import FindAPro from "./components/modules/FindAPro"
+import Home from './components/modules/Home'
+import HowItWorks from './components/modules/HowItWorks'
+import HowProWorks from "./components/modules/HowProWorks"
+import Privacy from "./components/modules/Privacy"
+import ProfileEdit from "./components/modules/ProfileEdit"
+import Terms from "./components/modules/Terms"
+import Onboarding from "./components/onboarding/index"
+import Profile from "./components/profile/Profile"
+import CreateProject from "./components/projects/CreateProject"
+import ProjectDetails from './components/projects/ProjectDetails'
+import ThankYouConvertKit from "./components/promo/ThankYouConvertKit"
+import './vendor/fontawesome'
 
 class App extends Component {
 
@@ -86,6 +85,7 @@ class App extends Component {
                 <Route exact path="/calendar" component={CalenderView} />
                 <Route exact path="/pro-faq" component={FAQPro} />
                 <Route exact path="/client-faq" component={FAQClient} />
+                <Route exact path="/file-claim" component={FileClaim} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>

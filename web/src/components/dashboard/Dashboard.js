@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
-import Notifications from './Notifications'
-import ProjectList from '../projects/ProjectList'
 import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
+import { Link, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts'
 import GetRating from '../rating/GetRating'
 
 class Dashboard extends Component {
@@ -52,7 +48,7 @@ class Dashboard extends Component {
 				{auth.emailVerified !== true ?
 					<div className="status status--warning">
 						<div className="container">
-							<p>Check your inbox. Please confirm you email. <Link to="/contact">Resend Verification</Link></p>
+							<p>Check your inbox. Please confirm you email.</p>
 						</div>
 					</div>
 					: null}

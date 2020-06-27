@@ -1,9 +1,8 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import * as emailjs from 'emailjs-com'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import * as emailjs from 'emailjs-com'
-import { ReCaptcha } from 'react-recaptcha-google'
 
 
 class UserTest extends Component {
@@ -106,21 +105,7 @@ class UserTest extends Component {
 								<h2>User Experience / Feedback</h2>
 								<p>As we build this website / app, we need your help.  If there is a feature you'd like added or a bug to report, let us know.  Your experience is vital and we strive to deliever the most user friendly web app possible.</p>
 								<form encType="multipart/form-data" className="modal__form" onSubmit={this.handleSubmit}>
-									{/* <input type="email"
-										name="email"
-										id="email"
-										value={this.state.email}
-										onChange={this.handleChange}
-										placeholder="Enter email" /> */}
 
-									{/* <input
-										type="text"
-										name="name"
-										id="name"
-										value={this.state.name}
-										onChange={this.handleChange}
-										placeholder="Name"
-									/> */}
 									<div className="field">
 										<label>Enter the subject</label>
 										<input
@@ -144,11 +129,6 @@ class UserTest extends Component {
 											placeholder="Enter description"
 										></textarea>
 									</div>
-
-									{/* <div className="field">
-										<label htmlFor="attachment">Attach Image / Screenshot</label>
-										<input type="file" id="attachment" name="attachment" onChange={this.handleChange} />
-									</div> */}
 
 									<button type="submit" className="button button--accent">Report Bug</button>
 								</form>
