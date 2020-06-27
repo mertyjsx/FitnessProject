@@ -18,6 +18,7 @@ import Footer from "./components/layout/Footer"
 import Navbar from './components/layout/Navbar'
 import About from "./components/modules/About"
 import Bookings from "./components/modules/Bookings"
+import ContactUs from "./components/modules/ContactUs"
 import FAQClient from "./components/modules/FAQClient"
 import FAQPro from "./components/modules/FAQPro"
 import FindAPro from "./components/modules/FindAPro"
@@ -86,6 +87,7 @@ class App extends Component {
                 <Route exact path="/pro-faq" component={FAQPro} />
                 <Route exact path="/client-faq" component={FAQClient} />
                 <Route exact path="/file-claim" component={FileClaim} />
+                <Route exact path="/contact" component={ContactUs} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>
