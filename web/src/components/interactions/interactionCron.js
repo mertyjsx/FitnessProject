@@ -8,13 +8,13 @@ import { completeInteractionPayout } from '../../store/actions/interactionAction
 
 
 // Real setup //
-// let interactionCompletionTime = 1000*60*60*48 // 48 hours;
-// let payoutDelayTime = 1000*60*60*24*7 // 7 days;
+let interactionCompletionTime = 1000*60*60*48 // 48 hours;
+let payoutDelayTime = 1000*60*60*24*7 // 7 days;
 // End Real setup //
 
 // Development Setup //
-let interactionCompletionTime = 1000*60*15 // auto Complete in 15 minutes;
-let payoutDelayTime = 1000*60*15 // auto payout in 15 minutes;
+// let interactionCompletionTime = 1000*60*15 // auto Complete in 15 minutes;
+// let payoutDelayTime = 1000*60*15 // auto payout in 15 minutes;
 // End Development Setup //
 
 let payoutrate = 0.75; // 75%
