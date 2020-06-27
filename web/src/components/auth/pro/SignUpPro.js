@@ -183,6 +183,10 @@ class SignUpPro extends Component {
 									<input className={this.state.lastName !== '' ? 'input--filled' : ''} type="text" name="lastName" id="lastName" placeholder="Enter your last name" onChange={this.handleChange} required></input>
 								</Form.Field>
 								<Form.Field>
+									<label htmlFor="phoneNumber">Phone Number <sup className="red">*</sup>(ex. ###-###-####)</label>
+									<input className={this.state.phoneNumber !== '' ? 'input--filled' : ''} type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone (ex. ###-###-####)" onChange={this.handleChange} required></input>
+								</Form.Field>
+								<Form.Field>
 									<label htmlFor="email">Email <sup className="red">*</sup></label>
 									<input className={this.state.email !== '' ? 'input--filled' : ''} type="email" name="email" id="email" placeholder="Enter your email" onChange={this.handleChange} required></input>
 								</Form.Field>
