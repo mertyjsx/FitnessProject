@@ -1,8 +1,9 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, withRouter } from 'react-router-dom'
 import { Form } from 'semantic-ui-react'
-import { signUp, signUpClientWithFacebook } from '../../../store/actions/authActions'
+import { signUp, signUpClientWithFacebook, signUpClientWithGoogle } from '../../../store/actions/authActions'
 
 class SignUp extends Component {
 	constructor(props) {
@@ -31,6 +32,12 @@ class SignUp extends Component {
 		console.log('handleFacebookSubmit works');
 		
 		this.props.signUpClientWithFacebook(this.state)
+	}
+
+	handleGoogleSubmit = (e) => {
+		e.preventDefault()
+		console.log('handleGoogleSubmit works');
+		this.props.signUpClientWithGoogle(this.state)
 	}
 
 	render() {
@@ -73,9 +80,26 @@ class SignUp extends Component {
 							</div>
 						</Form.Field>
 					</Form>
+
+					<p style={{width: '100%', textAlign:'center'}}>OR</p>
+
 					<Form onSubmit={this.handleFacebookSubmit}>
 						<Form.Field>
-							<button className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">Create Account with Facebook</button>
+							<button className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
+								Create Account with Facebook 
+								<FontAwesomeIcon style={{marginLeft: '10px', transform: 'translateY(-2px)'}} icon={["fab", "facebook-f"]} />
+							</button>
+							<div className="warning">
+								{authError ? <p>{authError}</p> : null}
+							</div>
+						</Form.Field>
+					</Form>
+					<Form onSubmit={this.handleGoogleSubmit}>
+						<Form.Field>
+							<button className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
+								Create Account with Google 
+								<FontAwesomeIcon style={{marginLeft: '10px', transform: 'translateY(-2px)'}} icon={["fab", "google"]} />
+							</button>
 							<div className="warning">
 								{authError ? <p>{authError}</p> : null}
 							</div>
@@ -98,7 +122,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		signUp: (newUser) => dispatch(signUp(newUser)),
 		signUpClientWithFacebook: (newUser) => dispatch(signUpClientWithFacebook(newUser)),
+		signUpClientWithGoogle: (newUser) => dispatch(signUpClientWithGoogle(newUser))
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUp))

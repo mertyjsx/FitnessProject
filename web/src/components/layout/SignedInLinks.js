@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { signOut } from '../../store/actions/authActions'
-import { renderProfileImage } from '../helpers/HelpersProfile'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+import { signOut } from '../../store/actions/authActions'
 import RenderImage from '../profileEdit/imageUpload/RenderImage'
 
 const SignedInLinks = (props) => {
@@ -20,7 +19,9 @@ const SignedInLinks = (props) => {
 			<div className={`header__secondary`}>
 				<ul>
 					{/* <li><NavLink to="/create-project" className="header__nav-link">New Project</NavLink></li> */}
-					<li><NavLink onClick={navClick} to="/admin" className="header__nav-link">Admin</NavLink></li>
+					{ props.profile.isAdmin && props.profile.isAdmin === true (
+						<li><NavLink onClick={navClick} to="/admin" className="header__nav-link">Admin</NavLink></li>
+					)}
 					<li><NavLink onClick={navClick} to="/dashboard" className="header__nav-link">Dashboard</NavLink></li>
 					<li><NavLink onClick={navClick} to="/inbox" className="header__nav-link">Inbox</NavLink></li>
 					<li><NavLink onClick={navClick} to="/bookings" className="header__nav-link">Bookings</NavLink></li>
