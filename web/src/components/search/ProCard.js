@@ -1,7 +1,5 @@
 import React from 'react'
-import imageDefaultUser from '../../assets/images/default-user.jpg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { renderProfileImage } from '../helpers/HelpersProfile'
+import { renderBlueCheck, renderProfileImage } from '../helpers/HelpersProfile'
 import GetRating from '../rating/GetRating'
 
 const ProCard = ({ pro }) => {
@@ -45,7 +43,7 @@ const ProCard = ({ pro }) => {
 					{renderProfileImage(pro.photoURL, `Image of user ${pro.firstName} + ${pro.lastName}`)}
 				</div>
 				<div className={`pro-card__content`}>
-					<h2 className={`pro-card__content-name mb--0 text--capitalize`}>{pro.firstName} {pro.lastName}</h2>
+					<h2 className={`pro-card__content-name mb--0 text--capitalize`}>{pro.firstName} {pro.lastName} {renderBlueCheck(pro)}</h2>
 					<GetRating proInteractions={pro.proInteractions} />
 					{renderCosts()}
 					<p>{pro.businessCity}{pro.businessState ? ', ' + pro.businessState[0] + pro.businessState[1] : ''}</p>

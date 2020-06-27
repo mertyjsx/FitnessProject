@@ -1,5 +1,6 @@
-import React from 'react'
-import imageDefaultUser from '../../assets/images/default-user.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import imageDefaultUser from '../../assets/images/default-user.jpg';
 
 export function renderProfileImage(image, alt) {
 	// console.log('test');
@@ -11,4 +12,18 @@ export function renderProfileImage(image, alt) {
 		return (<img src={imageDefaultUser} alt={`No self portrait picture provided`} />)
 	}
 	return (<img src={image} alt={altTag} />)
+}
+
+export function renderBlueCheck(profile) {
+	if(
+		profile.about === '',
+		profile.background === '',
+		profile.businessCity === '',
+		profile.firstName === '',
+		profile.isApproved !== true,
+		profile.isPro !== true,
+		profile.isProPremium !== true 
+	) return null
+	
+	return <span className="blue-check"><FontAwesomeIcon size={'xs'} icon={["fa", "user-check"]} /></span>
 }

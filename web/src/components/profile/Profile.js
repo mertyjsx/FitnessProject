@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { compose } from 'redux'
 import AccordionView from '../accordion/AccordionView'
 import SignIn from '../auth/SignIn'
+import { renderBlueCheck } from '../helpers/HelpersProfile'
 import Modal from '../modal/Modal'
 import Loading from '../modules/Loading'
 import GetFullReviews from '../rating/GetFullReviews'
@@ -101,6 +102,7 @@ const Profile = (props, state) => {
 	}
 	
 	const renderFAQ = () => {
+		if (typeof user.faq1Question !== 'string') { return null }
 		return (
 			<div id="faq" className={`profile__faq`}>
 				<h2 className={`text--uppercase`}>FAQs</h2>
@@ -130,8 +132,8 @@ const Profile = (props, state) => {
 							<div className={`profile__meta`}>
 								<div className={`profile__meta-inner`}>
 									<div className={`profile__meta-title`}>
-										<h1 className={`text--no-margin text--capitalize`}>{`${user.firstName} ${user.lastName}`}</h1>
-										<ul className={'list list--inline'}>
+										<h1 className={`text--no-margin text--capitalize`}>{`${user.firstName} ${user.lastName}`} { renderBlueCheck(user)}</h1>
+										<ul className={'list list--inline'} style={{width:'100%'}}> 
 											<li>{user.socialFacebook ? <div><a href={user.socialFacebook} target="_blank"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></div> : null}</li>
 											<li>{user.socialTwitter ? <div><a href={user.socialTwitter} target="_blank"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></div> : null}</li>
 											<li>{user.socialInstagram ? <div><a href={user.socialInstagram} target="_blank"><FontAwesomeIcon icon={["fab", "instagram"]} /></a></div> : null}</li>
