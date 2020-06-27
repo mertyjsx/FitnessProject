@@ -29,17 +29,25 @@ export const signUp = (newUser) => {
 			newUser.email,
 			newUser.password
 		).then((response) => {
-			return firestore.collection('users').doc(response.user.uid).set({
-				firstName: newUser.firstName,
-				lastName: newUser.lastName,
-				initials: newUser.firstName[0] + newUser.lastName[0],
-				isPro: false,
-				isProPremium: false,
-				emailVerified: false
-			})
-		}).then(() => {
-			dispatch({ type: 'SIGNUP_SUCCESS' })
-			// return firebase.doSendEmailVerification()
+			const currentUser = response.user
+			console.log('current user', currentUser);
+
+			currentUser.sendEmailVerification()
+				.then(function () {
+					dispatch({ type: 'SIGNUP_SUCCESS' });
+					// Email sent.
+					return firestore.collection('users').doc(response.user.uid).set({
+						firstName: newUser.firstName,
+						lastName: newUser.lastName,
+						initials: newUser.firstName[0] + newUser.lastName[0],
+						isPro: false,
+						isProPremium: false,
+						emailVerified: false
+					})
+				}).catch(function (error) {
+					// An error happened.
+					console.log('error');
+				});
 		}).catch(err => {
 			dispatch({ type: 'SIGNUP_ERROR', err })
 		})

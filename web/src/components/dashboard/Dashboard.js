@@ -49,6 +49,13 @@ class Dashboard extends Component {
 						</div>
 					</div>
 					: null}
+				{auth.emailVerified !== true ?
+					<div className="status status--warning">
+						<div className="container">
+							<p>Check your inbox. Please confirm you email. <Link to="/contact">Resend Verification</Link></p>
+						</div>
+					</div>
+					: null}
 				<div className="container container--top-bottom-padding">
 					<div className="row">
 						<div className="col">
