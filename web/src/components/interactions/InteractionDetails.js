@@ -16,9 +16,9 @@ import {
 } from '../../store/actions/interactionActions'
 import { renderProfileImage } from '../helpers/HelpersProfile'
 import Loading from '../modules/Loading'
+import GetSingleReview from '../rating/GetSingleReview'
 import SetRating from '../rating/SetRating'
 import InteractionMessages from './InteractionMessages'
-
 
 const InteractionDetails = (props) => {
 	const { interaction, auth } = props;
@@ -154,6 +154,15 @@ const InteractionDetails = (props) => {
 									<div className="rating__inner">
 										<h2 className="text--uppercase text--bold">Leave a review for {interaction.proFirstName} {interaction.proLastName[0]}.</h2>
 										<SetRating iid={iid} />
+									</div>
+								</div>
+							)}
+
+							{ interaction.ratingCompleted === true && (
+								<div className="rating">
+									<div className="rating__inner">
+										<h2 className="text--uppercase text--bold">Rating Completed</h2>
+										<GetSingleReview iid={iid} />
 									</div>
 								</div>
 							)}

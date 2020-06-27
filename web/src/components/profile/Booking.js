@@ -1,15 +1,15 @@
-import React, { Component, useState } from 'react'
-import { connect } from 'react-redux'
-import Modal from '../modal/Modal'
-import { Form, Radio, Button } from 'semantic-ui-react'
-import { withRouter } from 'react-router-dom';
-import DatePicker from 'react-datepicker'
+import { addDays, setHours, setMinutes } from "date-fns";
+import moment from 'moment';
+import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { addDays, setMinutes, setHours } from "date-fns";
-import moment from 'moment'
-import { createInteraction } from '../../store/actions/interactionActions'
-import spinner from '../../assets/images/spinner.gif'
-import { PayPalButton } from 'react-paypal-button-v2'
+import { PayPalButton } from 'react-paypal-button-v2';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Form } from 'semantic-ui-react';
+import spinner from '../../assets/images/spinner.gif';
+import { createInteraction } from '../../store/actions/interactionActions';
+import Modal from '../modal/Modal';
 
 class Booking extends Component {
 
@@ -150,7 +150,7 @@ class Booking extends Component {
 			// console.log('wait 3 secs', $this.props);
 			$this.props.createInteraction($this.state)
 			document.body.style.overflow = 'unset'
-			$this.props.history.push('/bookings#1')
+			$this.props.history.push('/bookings')
 		}, 3000)
 	}
 
