@@ -1,15 +1,12 @@
-import React, { Component, useState } from 'react'
-import { connect } from 'react-redux'
-import { Form, Radio, Button } from 'semantic-ui-react'
-import DatePicker from 'react-datepicker'
-import "react-datepicker/dist/react-datepicker.css";
-import { db } from '../../config/fbConfig';
-import { withRouter } from 'react-router-dom';
 import { addDays } from "date-fns";
-import TimeRange from 'react-time-range';
-import moment from 'moment'
-import { createInteraction } from '../../store/actions/interactionActions'
-import { Redirect } from 'react-router-dom';
+import moment from 'moment';
+import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Button, Form, Radio } from 'semantic-ui-react';
+import { createInteraction } from '../../store/actions/interactionActions';
 
 class Inquiry extends Component {
 
@@ -129,17 +126,17 @@ class Inquiry extends Component {
 	}
 
 	getStartingRates = () => {
-		const rates = this.props.pro.rates
+		const pro = this.props.pro
 		const ratesArray = []
 
-		if (rates.chef && rates.chef.inPerson) (ratesArray.push(rates.chef.inPerson))
-		if (rates.chef && rates.chef.online) (ratesArray.push(rates.chef.online))
-		if (rates.fitnessTrainer && rates.fitnessTrainer.inPerson) (ratesArray.push(rates.fitnessTrainer.inPerson))
-		if (rates.fitnessTrainer && rates.fitnessTrainer.online) (ratesArray.push(rates.fitnessTrainer.online))
-		if (rates.nutritionist && rates.nutritionist.inPerson) (ratesArray.push(rates.nutritionist.inPerson))
-		if (rates.nutritionist && rates.nutritionist.online) (ratesArray.push(rates.nutritionist.inPerson))
-		if (rates.massageTherapist && rates.massageTherapist.inPerson) (ratesArray.push(rates.massageTherapist.inPerson))
-		if (rates.massageTherapist && rates.massageTherapist.online) (ratesArray.push(rates.massageTherapist.online))
+		if (pro.ratesInPersonChef) (ratesArray.push(pro.ratesInPersonChef))
+		if (pro.ratesOnlineChef) (ratesArray.push(pro.ratesOnlineChef))
+		if (pro.ratesInPersonFitnessTrainer) (ratesArray.push(pro.ratesInPersonFitnessTrainer))
+		if (pro.ratesOnlineFitnessTrainer) (ratesArray.push(pro.ratesOnlineFitnessTrainer))
+		if (pro.ratesInPersonNutritionist) (ratesArray.push(pro.ratesInPersonNutritionist))
+		if (pro.ratesOnlineNutritionist) (ratesArray.push(pro.ratesOnlineNutritionist))
+		if (pro.ratesInPersonMassageTherapist) (ratesArray.push(pro.ratesInPersonMassageTherapist))
+		if (pro.rateOnlineMassageTherapist) (ratesArray.push(pro.rateOnlineMassageTherapist))
 
 		ratesArray.sort((a, b) => a - b);
 		return ratesArray[0]

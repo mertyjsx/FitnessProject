@@ -1,22 +1,23 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { connect } from 'react-redux'
-import { firestore, firestoreConnect } from 'react-redux-firebase'
-import { Form, Radio, Button, Modal } from 'semantic-ui-react'
+import { firestoreConnect } from 'react-redux-firebase'
+import { Link } from 'react-router-dom'
 import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import Booking from './Booking'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Inquiry from './Inquiry'
-import GetRating from '../rating/GetRating'
-import GetFullReviews from '../rating/GetFullReviews'
+import SignIn from '../auth/SignIn'
+import Modal from '../modal/Modal'
 import Loading from '../modules/Loading'
+import GetFullReviews from '../rating/GetFullReviews'
+import GetRating from '../rating/GetRating'
+import Booking from './Booking'
+import Inquiry from './Inquiry'
 
 const Profile = (props, state) => {
 
 	const { auth, user } = props;
 	// console.log(user);
 
-	if (!auth.uid) return <Redirect to='/signin' />
+	// if (!auth.uid) return <Redirect to='/signin' />
 
 	const renderProfileNav = (about, background, credentials, reviews) => {
 		// console.log(typeof credentials);
@@ -75,18 +76,14 @@ const Profile = (props, state) => {
 			</div>
 		)
 	}
-
+	
 	const sendMessage = () => (
-		<Modal trigger={<Button className="button button--inverted">Message Pro</Button>}>
-			<Modal.Content>
-				<Modal.Actions>
-					<Button class="button__close" >X</Button>
-				</Modal.Actions>
-				<Modal.Description>
-					<Inquiry pro={user} user={auth} />
-				</Modal.Description>
-			</Modal.Content>
-		</Modal>
+		<Modal
+			buttonStyle="button button--inverted"
+			buttonText={`Message Pro`}
+			content={(
+				<Inquiry pro={user} user={auth} />
+			)} />
 	)
 
 	const renderCredentials = (cred) => {
@@ -106,12 +103,6 @@ const Profile = (props, state) => {
 		)
 	}
 
-	// const handleClose = () => {
-	// 	this.setState({
-	// 		modalOpen: false
-	// 	})
-	// }
-
 	if (user) {
 		return (
 			<div className="profile">
@@ -127,7 +118,7 @@ const Profile = (props, state) => {
 							<div className={`profile__meta`}>
 								<div className={`profile__meta-inner`}>
 									<div className={`profile__meta-title`}>
-										<h1 className={`text--no-margin`}>{`${user.firstName} ${user.lastName}`}</h1>
+										<h1 className={`text--no-margin text--capitalize`}>{`${user.firstName} ${user.lastName}`}</h1>
 										<ul className={'list list--inline'}>
 											<li>{user.socialFacebook ? <div><a href={user.socialFacebook} target="_blank"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></div> : null}</li>
 											<li>{user.socialTwitter ? <div><a href={user.socialTwitter} target="_blank"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></div> : null}</li>
@@ -138,22 +129,27 @@ const Profile = (props, state) => {
 
 									<GetRating proInteractions={user.proInteractions} />
 									<div className={`profile__meta-btns`}>
+										{ auth.uid ?
+											(<div className="profile__meta-btn">
+												{ sendMessage() }
+											</div>)
+											:
+											null
+										}
 										<div className="profile__meta-btn">
-											{sendMessage()}
-										</div>
-										<div className="profile__meta-btn">
-											<Modal trigger={<Button className="button button--secondary" style={{ width: '100%' }}>Share Profile</Button>}>
-												<Modal.Content style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-													<Modal.Description>
-														<p className="text--sm" style={{ textAlign: 'center' }}>Share {user.firstName}'s profile on your favorite social medium</p>
-														<div className="share__btns">
-															<a href={'http://www.facebook.com/sharer/sharer.php?u=' + window.location.href} target="_blank" className="share__btn">Share on Facebook <FontAwesomeIcon icon={["fab", "facebook-f"]} /></a>
-															<a href={'https://twitter.com/intent/tweet?text=Choose%20To%20Be%20You&url=' + window.location.href} target="_blank" className="share__btn">Share on Twitter <FontAwesomeIcon icon={["fab", "twitter"]} /></a>
-															<a href={'http://pinterest.com/pin/create/button/?url=' + window.location.href} target="_blank" className="share__btn">Share on Pinterest <FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a>
-														</div>
-													</Modal.Description>
-												</Modal.Content>
-											</Modal>
+										<Modal
+											buttonStyle="button button--secondary"
+											buttonText={`Share Profile`}
+											content={(
+												<div>
+													<p className="text--sm" style={{ textAlign: 'center' }}>Share {user.firstName}'s profile on your favorite social medium</p>
+													<div className="share__btns">
+														<a href={'http://www.facebook.com/sharer/sharer.php?u=' + window.location.href} target="_blank" className="share__btn">Share on Facebook <FontAwesomeIcon icon={["fab", "facebook-f"]} /></a>
+														<a href={'https://twitter.com/intent/tweet?text=Choose%20To%20Be%20You&url=' + window.location.href} target="_blank" className="share__btn">Share on Twitter <FontAwesomeIcon icon={["fab", "twitter"]} /></a>
+														<a href={'http://pinterest.com/pin/create/button/?url=' + window.location.href} target="_blank" className="share__btn">Share on Pinterest <FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a>
+													</div>
+												</div>
+											)} />
 										</div>
 									</div>
 									<div className={`profile__meta-specialties`}>
@@ -183,7 +179,15 @@ const Profile = (props, state) => {
 
 						</div>
 						<div className={`col col--4`}>
+							{ auth.uid ?
 							<Booking pro={user} user={auth} />
+							:
+							(
+								<div style={{border:'#cecece solid 1px'}}>
+									<p className="text--center" style={{padding:'10px', margin: '0'}}>You must be signed in the contact the Pro.</p>
+									<SignIn />
+								</div>
+							) }
 							<div className={'profile__cancellation text--center'}>
 								<Link to="/cancellation-policy">Cancellation Policy</Link>
 							</div>

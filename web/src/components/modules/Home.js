@@ -1,13 +1,11 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { Component } from 'react'
-import Notifications from '../dashboard/Notifications'
-import ProjectList from '../projects/ProjectList'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
+import { Carousel } from 'react-responsive-carousel'
+import "react-responsive-carousel/lib/styles/carousel.min.css" // requires a loader
+import { Link } from 'react-router-dom'
 import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Home extends Component {
 	render() {
@@ -43,7 +41,7 @@ class Home extends Component {
 								<div className="col">
 									<div className="home__hero-inner">
 										<div className="home__hero-content">
-											<h2 className="text--uppercase text--lg">Work on being a better you.</h2>
+											<h2 className="text--uppercase text--lg">Be the best version of you.</h2>
 											<p className="text--uppercase text--sm">Connect with local health &amp; wellness pros</p>
 											<div className="home__hero-search">
 												<Link to={'/find-a-pro'} className={'button button--accent button--md'}>Search Pros</Link>
@@ -82,13 +80,13 @@ class Home extends Component {
 										<div key="slide3" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="users" />
 											<p className="text--md text--bold">Check availability and book pros right through our platform.</p>
-											<p className="text--sm">You can message or call your pro to discuss more details.</p>
+											<p className="text--sm">You can message your pro to discuss more details.</p>
 										</div>
-										<div key="slide4" className="carousel-content__slide">
+										{/* <div key="slide4" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="check-circle" />
 											<p className="text--md text--bold">Get ready to experience a positive, motivating lifestyle.</p>
 											<p className="text--sm">You can earn “points” towards bonuses like free sessions, vacation trips, and fresh gear, every time you book through us</p>
-										</div>
+										</div> */}
 									</Carousel>
 								</div>
 							</div>
@@ -101,7 +99,7 @@ class Home extends Component {
 								<div className="col col--5"></div>
 								<div className="col col--7">
 									<h2 className="text--lg text--uppercase">Are you a five-star pro?</h2>
-									<p className="text--sm" style={{ flex: '0 1 100%' }}>List your business to reach thousands of potential clients.</p>
+									<p className="text--sm" style={{ flex: '0 1 100%' }}>Join our platform to reach thousands of potential clients.</p>
 									<Link to="/join-as-pro" className="button button--accent button--md">Learn More</Link>
 								</div>
 							</div>
