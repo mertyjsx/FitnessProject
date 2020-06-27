@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Form } from 'semantic-ui-react'
-import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { signUp } from '../../../store/actions/authActions'
+import { Link, Redirect } from 'react-router-dom'
+import { Form } from 'semantic-ui-react'
+import { signUp, signUpClientWithFacebook } from '../../../store/actions/authActions'
 
 class SignUp extends Component {
 	constructor(props) {
@@ -24,6 +24,13 @@ class SignUp extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.signUp(this.state)
+	}
+
+	handleFacebookSubmit = (e) => {
+		e.preventDefault()
+		console.log('handleFacebookSubmit works');
+		
+		this.props.signUpClientWithFacebook(this.state)
 	}
 
 	render() {
@@ -66,6 +73,14 @@ class SignUp extends Component {
 							</div>
 						</Form.Field>
 					</Form>
+					<Form onSubmit={this.handleFacebookSubmit}>
+						<Form.Field>
+							<button className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">Create Account with Facebook</button>
+							<div className="warning">
+								{authError ? <p>{authError}</p> : null}
+							</div>
+						</Form.Field>
+					</Form>
 				</div>
 			</div>
 		)
@@ -81,7 +96,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		signUp: (newUser) => dispatch(signUp(newUser))
+		signUp: (newUser) => dispatch(signUp(newUser)),
+		signUpClientWithFacebook: (newUser) => dispatch(signUpClientWithFacebook(newUser)),
 	}
 }
 

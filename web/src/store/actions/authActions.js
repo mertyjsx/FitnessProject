@@ -46,6 +46,31 @@ export const signUp = (newUser) => {
 	}
 }
 
+export const signUpClientWithFacebook = (newUser) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		const google = new firebase.auth.GoogleAuthProvider()
+		const fb = new firebase.auth.FacebookAuthProvider()
+		// console.log('su w/ fb', newUser, fb )
+		firebase.auth().signInWithPopup(fb)
+			.then(({ user }) => {
+				console.log('fb', user);
+				
+				// return firestore.collection('users').doc(user.uid).set({
+				// 	firstName: newUser.firstName,
+				// 	lastName: newUser.lastName,
+				// 	initials: newUser.firstName[0] + newUser.lastName[0],
+				// 	isPro: false,
+				// 	isProPremium: false,
+				// 	emailVerified: false
+				// })
+			}).catch(err => {
+				dispatch({ type: 'SIGNUP_ERROR', err})
+			})
+	}
+}
+
 export const signUpPro = (newUser, props) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
