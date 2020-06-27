@@ -217,7 +217,7 @@ const InteractionDetails = (props) => {
 								</div>
 								:
 								<div className="interaction-details__buttons text--center">
-									<p>THe Pro</p>
+									{/* <p>THe Pro</p> */}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'link'} onClick={closeInquiry}>Close Inquiry</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status === 'active' ? <Button className={'link'} onClick={completeSession}>Complete Session</Button> : null}
