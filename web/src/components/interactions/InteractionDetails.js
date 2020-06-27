@@ -1,23 +1,24 @@
+import axios from 'axios'
+import moment from 'moment'
 import React from 'react'
 import { connect } from 'react-redux'
-import { firestore, firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect } from 'react-redux-firebase'
+import { Redirect } from 'react-router-dom'
 import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import moment from 'moment'
 import { Button } from 'semantic-ui-react'
-import SetRating from '../rating/SetRating'
-import Loading from '../modules/Loading'
+import PaypalConfig from '../../config/paypal.json'
 import {
-	updateInteractionToBooked,
 	cancelBookingInteraction,
 	closeInquiry,
 	completeInteraction,
 	confirmBookingInteraction,
 	sendBookingRequestFromInquiry
 } from '../../store/actions/interactionActions'
-import InteractionMessages from './InteractionMessages'
 import { renderProfileImage } from '../helpers/HelpersProfile'
-import axios from 'axios'
+import Loading from '../modules/Loading'
+import SetRating from '../rating/SetRating'
+import InteractionMessages from './InteractionMessages'
+
 
 const InteractionDetails = (props) => {
 	const { interaction, auth } = props;
@@ -44,10 +45,54 @@ const InteractionDetails = (props) => {
 
 	const cancelSession = () => {
 		console.log('cancel btn clicked')
-		axios({
-			url: `https://api.paypal.com/v2/payments/captures/2GG279541U471931P/refund`,
-			method: 'post',
-		})
+		// axios({
+		// 	url: `https://api.paypal.com/v2/payments/captures/2GG279541U471931P/refund`,
+		// 	method: 'post',
+		// })
+		let paypal_base_uri = `https://api.paypal.com/`;
+		if (PaypalConfig.sandbox) paypal_base_uri = `https://api.sandbox.paypal.com/`;
+		axios.post(paypal_base_uri + 'v1/oauth2/token',
+				   "grant_type=client_credentials",
+				   {
+				   	  "headers": {
+				   	  		"Accept" : "application/json",
+				   	  		"Accept-Language" : "en_US",
+				   	  		'Access-Control-Allow-Origin': 'localhost:3000'
+				   	  },
+				   	  // "withCredentials": true,
+				   	  "auth":{
+				   	  	"username":PaypalConfig.client_id,
+				   	  	"password":PaypalConfig.client_secret
+				   	  }
+				   }).then((response)=>{
+				   		let paypal_access_token = response.data.access_token;
+				   		let paypal_token_type = response.data.token_type;
+				   		let paypalid = interaction.paypal.id;
+				   		axios.get(`${paypal_base_uri}v2/checkout/orders/${paypalid}`,
+					   		{
+					   			headers: { 
+					   				"Content-Type":"application/json",
+					   				"Authorization":`${paypal_token_type} ${paypal_access_token}`
+					   			},
+					   		}).then(response=>{
+					   			response.data.purchase_units.forEach(purchase_unit=>{
+					   				purchase_unit.payments.captures.forEach(capture=>{
+					   					axios.post(`${paypal_base_uri}v2/payments/captures/${capture.id}/refund`,
+									   		{},
+									   		{
+									   			headers: { 
+									   				"Content-Type":"application/json",
+									   				"Authorization":`${paypal_token_type} ${paypal_access_token}`
+									   			},
+									   		}).then(response=>{
+									   			console.log(response);
+									   			props.cancelBookingInteraction(iid)
+									   		})
+					   				});
+					   			});
+					   		});
+				   });
+		console.log(interaction);
 		// props.cancelBookingInteraction(iid)
 		// console.log('session has been cancelled')
 	}
