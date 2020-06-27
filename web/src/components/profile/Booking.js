@@ -31,7 +31,6 @@ class Booking extends Component {
 			duration: 0,
 			total: 0,
 			formSubmitting: false,
-			modalOpen: false
 		}
 	}
 
@@ -135,6 +134,8 @@ class Booking extends Component {
 		this.setState({
 			total: this.calculateTotal(),
 			formSubmitting: true,
+			proBusinessName: this.props.pro.businessName,
+			proFullAddress: this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
 			paypal: {
 				timeCreated: details.create_time,
 				id: details.id,

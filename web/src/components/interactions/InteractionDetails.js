@@ -44,11 +44,7 @@ const InteractionDetails = (props) => {
 	}
 
 	const cancelSession = () => {
-		console.log('cancel btn clicked')
-		// axios({
-		// 	url: `https://api.paypal.com/v2/payments/captures/2GG279541U471931P/refund`,
-		// 	method: 'post',
-		// })
+		// console.log('cancel btn clicked')
 		let paypal_base_uri = `https://api.paypal.com/`;
 		if (PaypalConfig.sandbox) paypal_base_uri = `https://api.sandbox.paypal.com/`;
 		axios.post(paypal_base_uri + 'v1/oauth2/token',
@@ -188,7 +184,12 @@ const InteractionDetails = (props) => {
 								</div>
 								<div className="interaction-details__location">
 									<h3>Location</h3>
-									{interaction.bookingType === 'online' ? 'Online' : ''}
+									{interaction.bookingType === 'online' ? 'Online' : 
+										<div>
+											<p>{interaction.proBusinessName}</p>
+											<p>{interaction.proFullAddress}</p>
+										</div>
+									}
 								</div>
 								<div className="interaction-details__summary-date">
 									<h3>Date &amp; Time</h3>
