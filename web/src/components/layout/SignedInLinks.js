@@ -19,7 +19,7 @@ const SignedInLinks = (props) => {
 			<div className={`header__secondary`}>
 				<ul>
 					{/* <li><NavLink to="/create-project" className="header__nav-link">New Project</NavLink></li> */}
-					{ props.profile.isAdmin && props.profile.isAdmin === true (
+					{ props.profile.isAdmin && (
 						<li><NavLink onClick={navClick} to="/admin" className="header__nav-link">Admin</NavLink></li>
 					)}
 					<li><NavLink onClick={navClick} to="/dashboard" className="header__nav-link">Dashboard</NavLink></li>
