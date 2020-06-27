@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { compose } from 'redux'
 import AccordionView from '../accordion/AccordionView'
 import SignIn from '../auth/SignIn'
-import { renderBlueCheck } from '../helpers/HelpersProfile'
+import { convertToCapitalizeCase, renderBlueCheck } from '../helpers/HelpersProfile'
 import Modal from '../modal/Modal'
 import Loading from '../modules/Loading'
 import GetFullReviews from '../rating/GetFullReviews'
@@ -40,6 +40,16 @@ const Profile = (props, state) => {
 		if (main.massageTherapist && main.massageTherapist === true) { mainItems.push('Massage Therapist') }
 		if (main.nutritionist && main.nutritionist === true) { mainItems.push('Nutritionist') }
 		return (mainItems.join(', '))
+	}
+
+	const renderSecondSpecialties = () => {
+		var secondItems = [];
+		for (const [key, value] of Object.entries(user.specialties)) {
+			if(value === true) {
+				secondItems.push(convertToCapitalizeCase(key))
+			}
+		}
+		return (secondItems.join(', '))
 	}
 
 	const renderAbout = (about, fun, quote) => {
@@ -172,9 +182,9 @@ const Profile = (props, state) => {
 											<h3 className="mb--0"><strong>Main</strong></h3>
 											{renderMainSpecialties(user.professions)}
 										</div>
-										<div className="profile__meta-spec">
-											{/* <h3 className="mb--0"><strong>Specializing In:</strong></h3> */}
-											{/* {renderMainSpecialties()} */}
+										<div className="profile__meta-spec text--capitalize">
+											<h3 className="mb--0"><strong>Specializing In:</strong></h3>
+											{renderSecondSpecialties()}
 										</div>
 									</div>
 								</div>

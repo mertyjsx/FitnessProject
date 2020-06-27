@@ -61,7 +61,7 @@ input[type="checkbox"] {
 	}
 }
 
-input:not([type="submit"],[type="radio"]) {
+input:not([type="submit"],[type="radio"], [type="checkbox"]) {
 	@extend %select-style;
 }
 

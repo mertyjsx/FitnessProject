@@ -27,3 +27,8 @@ export function renderBlueCheck(profile) {
 	
 	return <span className="blue-check"><FontAwesomeIcon size={'xs'} icon={["fa", "user-check"]} /></span>
 }
+
+export function convertToCapitalizeCase(word) {
+	const regex = /([A-Z])(?=[A-Z][a-z])|([a-z])(?=[A-Z])/g;
+	return word.replace(regex, '$& ');
+}

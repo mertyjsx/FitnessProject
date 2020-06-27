@@ -1,7 +1,6 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Radio, Button, Checkbox, Input } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
+import { Button, Checkbox, Form, Input } from 'semantic-ui-react'
 import { updateSpecialties } from '../../store/actions/profileActions'
 
 class SpecialtiesEdit extends Component {
@@ -15,12 +14,6 @@ class SpecialtiesEdit extends Component {
 				massageTherapist: this.props.profile.professions.massageTherapist
 			},
 			specialties: {},
-			rates: {
-				fitnessTrainer: {},
-				massageTherapist: {},
-				nutritionist: {},
-				chef: {}
-			}
 		}
 	}
 
@@ -42,50 +35,14 @@ class SpecialtiesEdit extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+		console.log('submit clicked');
 		this.props.updateSpecialties(this.state)
 	}
 
-	handleChefRateChange = (e) => {
+	handleRateChange = (e) => {
+		// console.log(e.target.id, e.target.checked);
 		this.setState({
-			rates: {
-				chef: {
-					...this.state.rates.chef,
-					[e.target.id]: e.target.value
-				}
-			}
-		})
-	}
-
-	handleFitnessRateChange = (e) => {
-		this.setState({
-			rates: {
-				fitnessTrainer: {
-					...this.state.rates.fitnessTrainer,
-					[e.target.id]: e.target.value
-				}
-			}
-		})
-	}
-
-	handleMassageTherapistRateChange = (e) => {
-		this.setState({
-			rates: {
-				massageTherapist: {
-					...this.state.rates.massageTherapist,
-					[e.target.id]: e.target.value
-				}
-			}
-		})
-	}
-
-	handleNutritionistRateChange = (e) => {
-		this.setState({
-			rates: {
-				nutritionist: {
-					...this.state.rates.nutritionist,
-					[e.target.id]: e.target.value
-				}
-			}
+			[e.target.id]: e.target.value
 		})
 	}
 
@@ -123,146 +80,173 @@ class SpecialtiesEdit extends Component {
 								<legend className="text--uppercase text--bold">Select Your Chef Specialties</legend>
 								<Form.Field className={'field--cols'} style={{ padding: '20px 0' }}>
 									<div className="ui checkbox">
-										<input id="seafood" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="seafood" tabindex="0" type="checkbox" defaultChecked={profile.specialties.seafood} onChange={this.handleSpecialities} />
 										<label for="seafood">Seafood</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="american" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="american" tabindex="0" type="checkbox" defaultChecked={profile.specialties.american} onChange={this.handleSpecialities} />
 										<label for="american">American</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="breakfastOrBrunch" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="breakfastOrBrunch" tabindex="0" type="checkbox" defaultChecked={profile.specialties.breakfastOrBrunch} onChange={this.handleSpecialities} />
 										<label for="breakfastOrBrunch">Breakfast or Brunch</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="international" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="international" tabindex="0" type="checkbox" defaultChecked={profile.specialties.international} onChange={this.handleSpecialities} />
 										<label for="international">International</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="southern" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="southern" tabindex="0" type="checkbox" defaultChecked={profile.specialties.southern} onChange={this.handleSpecialities} />
 										<label for="southern">Southern</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="healthy" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="healthy" tabindex="0" type="checkbox" defaultChecked={profile.specialties.healthy} onChange={this.handleSpecialities} />
 										<label for="healthy">Healthy</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="desserts" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="desserts" tabindex="0" type="checkbox" defaultChecked={profile.specialties.desserts} onChange={this.handleSpecialities} />
 										<label for="desserts">Desserts</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="juicesAndSmoothies" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="juicesAndSmoothies" tabindex="0" type="checkbox" defaultChecked={profile.specialties.juicesAndSmoothies} onChange={this.handleSpecialities} />
 										<label for="juicesAndSmoothies">Juices and Smoothies</label>
 									</div>
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<Input id={'online'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required onChange={this.handleChefRateChange} />
+									<Input id={'ratesOnlineChef'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required defaultValue={profile.ratesOnlineChef} onChange={this.handleRateChange}  />
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<Input id={'inPerson'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required onChange={this.handleChefRateChange} />
+									<Input id={'ratesInPersonChef'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required defaultValue={profile.ratesInPersonChef} onChange={this.handleRateChange}  />
 								</Form.Field>
 							</div>
 						)}
+
 						{this.state.professions.fitnessTrainer && (
 							<div className="form__inner">
 								<div className={`divider`} style={{ margin: '50px 0' }}></div>
 								<legend className="text--uppercase text--bold">Select Your Fitness Specialties</legend>
 								<Form.Field className={'field--cols'} style={{ padding: '20px 0' }}>
 									<div className="ui checkbox">
-										<input id="seafood" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="seafood">Seafood</label>
+										<input id="competitionPrep" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.competitionPrep} onChange={this.handleSpecialities} />
+										<label htmlFor="competitionPrep">Competition Prep</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="american" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="american">American</label>
+										<input id="powerLifting" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.powerLifting} onChange={this.handleSpecialities} />
+										<label htmlFor="powerLifting">Power Lifting</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="breakfastOrBrunch" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="breakfastOrBrunch">Breakfast or Brunch</label>
+										<input id="weightLoss" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.weightLoss} onChange={this.handleSpecialities} />
+										<label htmlFor="weightLoss">Weight Loss</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="international" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="international">International</label>
+										<input id="bodyFatLoss" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.bodyFatLoss} onChange={this.handleSpecialities} />
+										<label htmlFor="bodyFatLoss">Body Fat Loss</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="southern" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="southern">Southern</label>
+										<input id="sizeGaining" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.sizeGaining} onChange={this.handleSpecialities} />
+										<label htmlFor="sizeGaining">Size Gaining</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="healthy" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="healthy">Healthy</label>
+										<input id="enduranceTraining" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.enduranceTraining} onChange={this.handleSpecialities} />
+										<label htmlFor="enduranceTraining">Endurance Training</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="desserts" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="desserts">Desserts</label>
+										<input id="formingAndToning" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.formingAndToning} onChange={this.handleSpecialities} />
+										<label htmlFor="formingAndToning">Forming and Toning</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="juicesAndSmoothies" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="juicesAndSmoothies">Juices and Smoothies</label>
+										<input id="flexibility" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.flexibility} onChange={this.handleSpecialities} />
+										<label htmlFor="flexibility">Flexibility</label>
+									</div>
+									<div className="ui checkbox">
+										<input id="aerobicFitness" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.aerobicFitness} onChange={this.handleSpecialities} />
+										<label htmlFor="aerobicFitness">Aerobic Fitness</label>
+									</div>
+									<div className="ui checkbox">
+										<input id="pregnancy" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.pregnancy} onChange={this.handleSpecialities} />
+										<label htmlFor="pregnancy">Pregnancy</label>
+									</div>
+									<div className="ui checkbox">
+										<input id="rehabilitation" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.rehabilitation} onChange={this.handleSpecialities} />
+										<label htmlFor="rehabilitation">Rehabilitation</label>
+									</div>
+									<div className="ui checkbox">
+										<input id="pilates" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.pilates} onChange={this.handleSpecialities} />
+										<label htmlFor="pilates">Pilates</label>
+									</div>
+									<div className="ui checkbox">
+										<input id="yoga" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.yoga} onChange={this.handleSpecialities} />
+										<label htmlFor="yoga">Yoga</label>
+									</div>
+									<div className="ui checkbox">
+										<input id="athletic" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.athletic} onChange={this.handleSpecialities} />
+										<label htmlFor="athletic">Athletic</label>
 									</div>
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<Input id={'online'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required onChange={this.handleFitnessRateChange} />
+									<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required defaultValue={profile.ratesOnlineFitnessTrainer} onChange={this.handleRateChange} />
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<Input id={'inPerson'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required onChange={this.handleFitnessRateChange} />
+									<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required defaultValue={profile.ratesInPersonFitnessTrainer} onChange={this.handleRateChange} />
 								</Form.Field>
 							</div>
 						)}
+
 						{this.state.professions.nutritionist && (
 							<div className="form__inner">
 								<div className={`divider`} style={{ margin: '50px 0' }}></div>
 								<legend className="text--uppercase text--bold">Select Your Nutritionist Specialties</legend>
 								<Form.Field className={'field--cols'} style={{ padding: '20px 0' }}>
-									<div className="ui checkbox">
-										<input id="normalNutrition" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="normalNutrition">Normal Nutrition</label>
-									</div>
-									<div className="ui checkbox">
-										<input id="veganOrVegetarian" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="veganOrVegetarian">Vegan or Vegetarian</label>
-									</div>
-									<div className="ui checkbox">
-										<input id="paleo" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="paleo">Paleo</label>
-									</div>
-									<div className="ui checkbox">
-										<input id="publicHealth" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="publicHealth">Public Health</label>
-									</div>
-									<div className="ui checkbox">
-										<input id="sports" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="sports">Sports</label>
-									</div>
-									<div className="ui checkbox">
-										<input id="pediatric" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="pediatric">Pediatric</label>
-									</div>
-									<div className="ui checkbox">
-										<input id="diabetes" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="diabetes">Diabetes</label>
-									</div>
-									<div className="ui checkbox">
-										<input id="heartHealth" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="heartHealth">Heart Health</label>
-									</div>
-									<div className="ui checkbox">
-										<input id="autoimmuneDisease" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="autoimmuneDisease">Autoimmune Disease</label>
-									</div>
-									<div className="ui checkbox">
-										<input id="foodAllergies" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
-										<label for="foodAllergies">Food Allergies</label>
-									</div>
+								<div className="ui checkbox">
+									<input id="normalNutrition" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.normalNutrition} onChange={this.handleSpecialities} />
+									<label htmlFor="normalNutrition">Normal Nutrition</label>
+								</div>
+								<div className="ui checkbox">
+									<input id="veganOrVegetarian" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.veganOrVegetarian} onChange={this.handleSpecialities} />
+									<label htmlFor="veganOrVegetarian">Vegan or Vegetarian</label>
+								</div>
+								<div className="ui checkbox">
+									<input id="paleo" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.paleo} onChange={this.handleSpecialities} />
+									<label htmlFor="paleo">Paleo</label>
+								</div>
+								<div className="ui checkbox">
+									<input id="publicHealth" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.publicHealth} onChange={this.handleSpecialities} />
+									<label htmlFor="publicHealth">Public Health</label>
+								</div>
+								<div className="ui checkbox">
+									<input id="sports" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.sports} onChange={this.handleSpecialities} />
+									<label htmlFor="sports">Sports</label>
+								</div>
+								<div className="ui checkbox">
+									<input id="pediatric" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.pediatric} onChange={this.handleSpecialities} />
+									<label htmlFor="pediatric">Pediatric</label>
+								</div>
+								<div className="ui checkbox">
+									<input id="diabetes" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.diabetes} onChange={this.handleSpecialities} />
+									<label htmlFor="diabetes">Diabetes</label>
+								</div>
+								<div className="ui checkbox">
+									<input id="heartHealth" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.heartHealth} onChange={this.handleSpecialities} />
+									<label htmlFor="heartHealth">Heart Health</label>
+								</div>
+								<div className="ui checkbox">
+									<input id="autoimmuneDisease" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.autoimmuneDisease} onChange={this.handleSpecialities} />
+									<label htmlFor="autoimmuneDisease">Autoimmune Disease</label>
+								</div>
+								<div className="ui checkbox">
+									<input id="foodAllergies" tabIndex="0" type="checkbox" defaultChecked={profile.specialties.foodAllergies} onChange={this.handleSpecialities} />
+									<label htmlFor="foodAllergies">Food Allergies</label>
+								</div>
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<Input id={'online'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required onChange={this.handleNutritionistRateChange} />
+									<Input id={'ratesOnlineNutitionist'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required defaultValue={profile.ratesOnlineNutitionist} onChange={this.handleRateChange} />
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<Input id={'inPerson'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required onChange={this.handleNutritionistRateChange} />
+									<Input id={'ratesInPersonNutitionist'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required defaultValue={profile.ratesInPersonNutitionist} onChange={this.handleRateChange} />
 								</Form.Field>
 							</div>
 						)}
+
 						{this.state.professions.massageTherapist && (
 							<div className="form__inner">
 								<div className={`divider`} style={{ margin: '50px 0' }}></div>
@@ -294,10 +278,10 @@ class SpecialtiesEdit extends Component {
 									</div>
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<Input id={'online'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required onChange={this.handleMassageTherapistRateChange} />
+									<Input id={'ratesOnlineMassageTherapist'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required defaultValue={profile.ratesOnlineMassageTherapist} onChange={this.handleRateChange} />
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<Input id={'inPerson'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required onChange={this.handleChhandleMassageTherapistRateChangeefRateChange} />
+									<Input id={'ratesInPersonMassageTherapist'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required defaultValue={profile.ratesInPersonMassageTherapist} onChange={this.handleRateChange} />
 								</Form.Field>
 							</div>
 						)}
