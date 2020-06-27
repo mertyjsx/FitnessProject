@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 import spinner from '../../assets/images/spinner.gif';
+import PaypalConfig from '../../config/paypal.json';
 import { createInteraction } from '../../store/actions/interactionActions';
 import Modal from '../modal/Modal';
 
@@ -294,7 +295,7 @@ class Booking extends Component {
 												this.handleSubmit(details, data)
 											}}
 											options={{
-												clientId: "AdnGkXFLEzUBky5CsXg-LToFxF9xTiJFH6jEz5vBXffma53lY5JVu4wzKPM1B1AlEZWYAlCpZDc25Dnu"
+												clientId: PaypalConfig.client_id
 											}}
 										/>
 									</div>
