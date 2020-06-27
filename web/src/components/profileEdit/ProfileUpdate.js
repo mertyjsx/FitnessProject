@@ -1,7 +1,6 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Radio, Button, Checkbox, Input, TextArea, Label } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
+import { Button, Form, Input, Label, TextArea } from 'semantic-ui-react'
 import { updateProfile } from '../../store/actions/profileActions'
 
 class ProfileUpdate extends Component {
@@ -72,7 +71,28 @@ class ProfileUpdate extends Component {
 								<Input id="zip" type="text" label="Zip Code" defaultValue={this.props.profile.businessZip} onChange={this.onChange} />
 							</Form.Field>
 						</div>
-						: null
+						:
+						<div className="form__inner">
+							<div style={{ marginBottom: '50px' }} className={'col col--12'}></div>
+							<div className="field">
+								<h2>Address</h2>
+							</div>
+							<Form.Field>
+								<Input id="personalAddress1" type="text" label="Address 1" defaultValue={this.props.profile.personalAddress1} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="personalAddress2" type="text" label="Address 2" defaultValue={this.props.profile.personalAddress2} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="personalCity" type="text" label="City" defaultValue={this.props.profile.personalCity} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="personalState" type="text" label="State" defaultValue={this.props.profile.personalState} onChange={this.onChange} />
+							</Form.Field>
+							<Form.Field className="field--half">
+								<Input id="personalZip" type="text" label="Zip Code" defaultValue={this.props.profile.personalZip} onChange={this.onChange} />
+							</Form.Field>
+						</div>
 					}
 					<Form.Field>
 						<Button className={'button button--secondary text--uppercase text--font-secondary text--sm'}>Update Profile</Button>
