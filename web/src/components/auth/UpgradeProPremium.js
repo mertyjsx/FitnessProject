@@ -7,6 +7,8 @@ import Modal from '../modal/Modal'
 import { PayPalButton } from 'react-paypal-button-v2'
 import axios from 'axios'
 
+import paypalConfig from '../../config/paypal.json'
+
 class UpgradeProPremium extends Component {
 
 	constructor(props) {
@@ -19,29 +21,47 @@ class UpgradeProPremium extends Component {
 	}
 
 	cancelSubscription = () => {
+		let paypalBaseUri = 'https://api.paypal.com/';
+		if (paypalConfig.sandbox) paypalBaseUri = 'https://api.sandbox.paypal.com/';
+
 		console.log('btn clicked')
 		let $this = this
-		axios({
-			url: `https://api.paypal.com/v1/billing/subscriptions/${this.props.profile.paypalPremium.id}/cancel`,
-			method: 'post',
-			headers: {
-				"Content-Type": "application/json",
-				"Authorization": `Bearer ${this.props.profile.paypalPremium.facilitatorAccessToken}`
+		axios.post(`${paypalBaseUri}v1/oauth2/token`,"grant_type=client_credentials",{
+			headers:{
+				"Accept" : "application/json",
+	   	  		"Accept-Language" : "en_US",
+	   	  		'Access-Control-Allow-Origin': 'localhost:3000'
 			},
-			data: { "reason": "test -- Not satisfied with the service" }
+			auth: {
+				username: paypalConfig.client_id,
+				password: paypalConfig.client_secret
+			}
+		}).then(response=>{
+			let paypal_access_token = response.data.access_token;
+	   		let paypal_token_type = response.data.token_type;
+
+			axios({
+				url: `${paypalBaseUri}v1/billing/subscriptions/${this.props.profile.paypalPremium.id}/cancel`,
+				method: 'post',
+				headers: {
+					"Content-Type": "application/json",
+					"Authorization":`${paypal_token_type} ${paypal_access_token}`
+				},
+				data: { "reason": "test -- Not satisfied with the service" }
+			})
+				.then(res => {
+					console.log(`Axios Call completed: ${res}`)
+					this.setState({
+						isProPremium: false,
+					})
+					setTimeout(function () {
+						// console.log('please', $this.props, $this.state);
+						$this.props.downgrade($this.state)
+						document.body.style.overflow = 'unset'
+						$this.props.history.push('/profile-edit')
+					}, 3000)
+				});
 		})
-			.then(res => {
-				console.log(`Axios Call completed: ${res}`)
-				this.setState({
-					isProPremium: false,
-				})
-				setTimeout(function () {
-					// console.log('please', $this.props, $this.state);
-					$this.props.downgrade($this.state)
-					document.body.style.overflow = 'unset'
-					$this.props.history.push('/profile-edit')
-				}, 3000)
-			});
 	}
 
 	handleSubmit = (details, data) => {
@@ -56,7 +76,7 @@ class UpgradeProPremium extends Component {
 				id: details.id,
 				plan_id: details.plan_id,
 				email: details.subscriber.email_address,
-				firstName: details.subscriber.name.given_name,
+				a: details.subscriber.name.given_name,
 				lastName: details.subscriber.name.surname,
 				payerID: details.subscriber.payer_id,
 				status: details.status,
@@ -101,13 +121,13 @@ class UpgradeProPremium extends Component {
 								<h2>Confirm Upgrade</h2>
 								<PayPalButton
 									options={{
-										clientId: "AR5NGMdDDS5r5ppii1xubgv3F-Ek9VGqss7yt2WJ1JpTZ3Tr7dwgxcyoLtmvr7DyZ5YMeLEWx8hrDvn-",
+										clientId: paypalConfig.client_id,
 										vault: true
 									}}
 									createSubscription={(data, actions) => {
 										return actions.subscription.create({
 											// plan_id: 'PROD-97A271950K7441738' // This has the product ID instead of plan ID
-											plan_id: "P-8AN10913427866211L2VW5WI"
+											plan_id: paypalConfig.plan_id
 										});
 									}}
 									onApprove={(data, actions) => {
