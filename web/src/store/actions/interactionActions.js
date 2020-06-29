@@ -41,18 +41,18 @@ export const createInteraction = (interaction) => {
 				let from_number = encodeURI("+17865749377") // Update from number
 				let to_number = encodeURI("+18722056181") // I can't find the number from the interaction or the pro user
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
-						   `Body=${message_body}&From=${from_number}&To=${to_number}`,
-						   {
-						   		auth:{
-						   			username: twilioConfig.account_sid,
-						   			password: twilioConfig.auth_token
-						   		},
-						   		headers:{
-						   			accept: "application/json"
-						   		}
-						   }).then(response=>{
-						   		console.log(response)
-						   })
+					`Body=${message_body}&From=${from_number}&To=${to_number}`,
+					{
+						auth:{
+							username: twilioConfig.account_sid,
+							password: twilioConfig.auth_token
+						},
+						headers:{
+							accept: "application/json"
+						}
+					}).then(response=>{
+						console.log(response)
+					})
 			});
 		}).catch((error) => {
 			// console.log('nah');
