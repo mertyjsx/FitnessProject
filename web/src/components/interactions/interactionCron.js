@@ -52,6 +52,7 @@ export default compose(
 )((props)=>{
 	const { interactions, auth, users } = props;
 	let status = "";
+	let $this = this;
 
 	if (interactions && users) {
 		status = "running";
@@ -113,7 +114,8 @@ export default compose(
 				   		}).then((response)=>{
 				   			if (response.data.hasOwnProperty('batch_header')) {
 				   				// TODO: update booking status
-				   				// props.completeInteractionPayout(id);
+				   				console.log(id)
+				   				props.completeInteractionPayout(id);
 				   			}
 				   		})
 				   })

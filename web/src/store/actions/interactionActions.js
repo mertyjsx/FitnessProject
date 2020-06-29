@@ -1,11 +1,17 @@
+import axios from 'axios'
+
 export const createInteraction = (interaction) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		// Make async call to db
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
+		const twilio = require('twilio');
+		const twilioConfig = require('../../config/twilio.json')
 
-		// console.log(interaction);
+		if (!interaction.proBusinessName) {
+			interaction.proBusinessName = '';
+		}
 
 		firestore.collection('interactions').add({
 			...interaction,
@@ -26,6 +32,28 @@ export const createInteraction = (interaction) => {
 			firestore.collection('users').doc(userID).update({
 				userInteractions: firestore.FieldValue.arrayUnion(docRef.id)
 			})
+			// Send message
+			firestore.collection('users').doc(interaction.proUID).get().then(snap=>{
+				let pro = snap.data()
+				let baseUri = 'localhost:3000' // change for production release
+
+				let message_body = encodeURI(`New pending booking, http://${baseUri}/session/${docRef.id}`) // Update the message
+				let from_number = encodeURI("+17865749377") // Update from number
+				let to_number = encodeURI("+18722056181") // I can't find the number from the interaction or the pro user
+				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+					`Body=${message_body}&From=${from_number}&To=${to_number}`,
+					{
+						auth:{
+							username: twilioConfig.account_sid,
+							password: twilioConfig.auth_token
+						},
+						headers:{
+							accept: "application/json"
+						}
+					}).then(response=>{
+						console.log(response)
+					})
+			});
 		}).catch((error) => {
 			// console.log('nah');
 			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
@@ -175,7 +203,7 @@ export const completeInteractionPayout = (iid) => {
 			interactionType: 'booking'
 		}).then(function () {
 			// console.log("Booking successfully cancelled!");
-			dispatch({ type: 'COMPLETED', iid });
+			dispatch({ type: 'PAYOUT_COMPLETED', iid });
 		}).catch(function (error) {
 			// The document probably doesn't exist.
 			// console.error("Error cancelling document: ", error);
