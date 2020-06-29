@@ -1,13 +1,12 @@
+import axios from 'axios'
 import React, { Component } from "react"
-import { Button } from "semantic-ui-react"
+import { PayPalButton } from 'react-paypal-button-v2'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { upgrade, downgrade } from '../../store/actions/authActions'
-import Modal from '../modal/Modal'
-import { PayPalButton } from 'react-paypal-button-v2'
-import axios from 'axios'
-
 import paypalConfig from '../../config/paypal.json'
+import { downgrade, upgrade } from '../../store/actions/authActions'
+import Modal from '../modal/Modal'
+
 
 class UpgradeProPremium extends Component {
 
@@ -76,7 +75,7 @@ class UpgradeProPremium extends Component {
 				id: details.id,
 				plan_id: details.plan_id,
 				email: details.subscriber.email_address,
-				a: details.subscriber.name.given_name,
+				firstName: details.subscriber.name.given_name,
 				lastName: details.subscriber.name.surname,
 				payerID: details.subscriber.payer_id,
 				status: details.status,
