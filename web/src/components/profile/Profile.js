@@ -1,29 +1,33 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { connect } from 'react-redux'
-import { firestore, firestoreConnect } from 'react-redux-firebase'
-import { Form, Radio, Button, Modal } from 'semantic-ui-react'
+import { firestoreConnect } from 'react-redux-firebase'
+import { Link } from 'react-router-dom'
 import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import Booking from './Booking'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Inquiry from './Inquiry'
-import GetRating from '../rating/GetRating'
-import GetFullReviews from '../rating/GetFullReviews'
+import AccordionView from '../accordion/AccordionView'
+import SignIn from '../auth/SignIn'
+import { convertToCapitalizeCase, renderBlueCheck } from '../helpers/HelpersProfile'
+import Modal from '../modal/Modal'
 import Loading from '../modules/Loading'
+import GetFullReviews from '../rating/GetFullReviews'
+import GetRating from '../rating/GetRating'
+import Booking from './Booking'
+import Inquiry from './Inquiry'
 
 const Profile = (props, state) => {
 
 	const { auth, user } = props;
 	// console.log(user);
 
-	if (!auth.uid) return <Redirect to='/signin' />
+	// if (!auth.uid) return <Redirect to='/signin' />
 
-	const renderProfileNav = (about, background, credentials, reviews) => {
+	const renderProfileNav = (about, background, credentials, faq, reviews) => {
 		// console.log(typeof credentials);
 		var navItems = [];
 		if (typeof about === 'string') { navItems.push(<li key={'about'}><a href="#about">About</a></li>) }
 		if (typeof background === 'string') { navItems.push(<li key={'background'}><a href="#background">Background</a></li>) }
 		if (typeof credentials === 'string') { navItems.push(<li key={'credentials'}><a href="#credentials">Credentials</a></li>) }
+		if (typeof faq === 'string') { navItems.push(<li key={'faq'}><a href="#faq">FAQs</a></li>) }
 		if (reviews === true) { navItems.push(<li key={'reviews'}><a href="#reviews">Reviews</a></li>) }
 		return (<ul className="list list--inline">{navItems.splice('')}</ul>)
 	}
@@ -36,6 +40,16 @@ const Profile = (props, state) => {
 		if (main.massageTherapist && main.massageTherapist === true) { mainItems.push('Massage Therapist') }
 		if (main.nutritionist && main.nutritionist === true) { mainItems.push('Nutritionist') }
 		return (mainItems.join(', '))
+	}
+
+	const renderSecondSpecialties = () => {
+		var secondItems = [];
+		for (const [key, value] of Object.entries(user.specialties)) {
+			if(value === true) {
+				secondItems.push(convertToCapitalizeCase(key))
+			}
+		}
+		return (secondItems.join(', '))
 	}
 
 	const renderAbout = (about, fun, quote) => {
@@ -75,18 +89,9 @@ const Profile = (props, state) => {
 			</div>
 		)
 	}
-
+	
 	const sendMessage = () => (
-		<Modal trigger={<Button className="button button--inverted">Message Pro</Button>}>
-			<Modal.Content>
-				<Modal.Actions>
-					<Button class="button__close" >X</Button>
-				</Modal.Actions>
-				<Modal.Description>
-					<Inquiry pro={user} user={auth} />
-				</Modal.Description>
-			</Modal.Content>
-		</Modal>
+		<Modal buttonStyle="button button--inverted" buttonText={`Message Pro`} content={( <Inquiry pro={user} user={auth} /> )} />
 	)
 
 	const renderCredentials = (cred) => {
@@ -105,12 +110,22 @@ const Profile = (props, state) => {
 			<img src={image} />
 		)
 	}
-
-	// const handleClose = () => {
-	// 	this.setState({
-	// 		modalOpen: false
-	// 	})
-	// }
+	
+	const renderFAQ = () => {
+		if (typeof user.faq1Question !== 'string') { return null }
+		return (
+			<div id="faq" className={`profile__faq`}>
+				<h2 className={`text--uppercase`}>FAQs</h2>
+				<AccordionView
+					qa_1={[user.faq1Question, user.faq1Answer]}
+					qa_2={[user.faq2Question, user.faq2Answer]}
+					qa_3={[user.faq3Question, user.faq3Answer]}
+					qa_4={[user.faq4Question, user.faq4Answer]}
+					qa_5={[user.faq5Question, user.faq5Answer]}
+				/>
+			</div>
+		)
+	}
 
 	if (user) {
 		return (
@@ -119,7 +134,7 @@ const Profile = (props, state) => {
 					<div className="row row--flex-start">
 						<div className="col col--8">
 							<div className={`profile__nav`}>
-								{renderProfileNav(user.about, user.background, user.credentials, true)}
+								{renderProfileNav(user.about, user.background, user.credentials, user.faq1Question, true)}
 							</div>
 							<div className={`profile__image`}>
 								{renderImage(user.photoURL)}
@@ -127,8 +142,8 @@ const Profile = (props, state) => {
 							<div className={`profile__meta`}>
 								<div className={`profile__meta-inner`}>
 									<div className={`profile__meta-title`}>
-										<h1 className={`text--no-margin`}>{`${user.firstName} ${user.lastName}`}</h1>
-										<ul className={'list list--inline'}>
+										<h1 className={`text--no-margin text--capitalize`}>{`${user.firstName} ${user.lastName}`} { renderBlueCheck(user)}</h1>
+										<ul className={'list list--inline'} style={{width:'100%'}}> 
 											<li>{user.socialFacebook ? <div><a href={user.socialFacebook} target="_blank"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></div> : null}</li>
 											<li>{user.socialTwitter ? <div><a href={user.socialTwitter} target="_blank"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></div> : null}</li>
 											<li>{user.socialInstagram ? <div><a href={user.socialInstagram} target="_blank"><FontAwesomeIcon icon={["fab", "instagram"]} /></a></div> : null}</li>
@@ -138,22 +153,27 @@ const Profile = (props, state) => {
 
 									<GetRating proInteractions={user.proInteractions} />
 									<div className={`profile__meta-btns`}>
+										{ auth.uid ?
+											(<div className="profile__meta-btn">
+												{ sendMessage() }
+											</div>)
+											:
+											null
+										}
 										<div className="profile__meta-btn">
-											{sendMessage()}
-										</div>
-										<div className="profile__meta-btn">
-											<Modal trigger={<Button className="button button--secondary" style={{ width: '100%' }}>Share Profile</Button>}>
-												<Modal.Content style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-													<Modal.Description>
-														<p className="text--sm" style={{ textAlign: 'center' }}>Share {user.firstName}'s profile on your favorite social medium</p>
-														<div className="share__btns">
-															<a href={'http://www.facebook.com/sharer/sharer.php?u=' + window.location.href} target="_blank" className="share__btn">Share on Facebook <FontAwesomeIcon icon={["fab", "facebook-f"]} /></a>
-															<a href={'https://twitter.com/intent/tweet?text=Choose%20To%20Be%20You&url=' + window.location.href} target="_blank" className="share__btn">Share on Twitter <FontAwesomeIcon icon={["fab", "twitter"]} /></a>
-															<a href={'http://pinterest.com/pin/create/button/?url=' + window.location.href} target="_blank" className="share__btn">Share on Pinterest <FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a>
-														</div>
-													</Modal.Description>
-												</Modal.Content>
-											</Modal>
+										<Modal
+											buttonStyle="button button--secondary"
+											buttonText={`Share Profile`}
+											content={(
+												<div>
+													<p className="text--sm" style={{ textAlign: 'center' }}>Share {user.firstName}'s profile on your favorite social medium</p>
+													<div className="share__btns">
+														<a href={'http://www.facebook.com/sharer/sharer.php?u=' + window.location.href} target="_blank" className="share__btn">Share on Facebook <FontAwesomeIcon icon={["fab", "facebook-f"]} /></a>
+														<a href={'https://twitter.com/intent/tweet?text=Choose%20To%20Be%20You&url=' + window.location.href} target="_blank" className="share__btn">Share on Twitter <FontAwesomeIcon icon={["fab", "twitter"]} /></a>
+														<a href={'http://pinterest.com/pin/create/button/?url=' + window.location.href} target="_blank" className="share__btn">Share on Pinterest <FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a>
+													</div>
+												</div>
+											)} />
 										</div>
 									</div>
 									<div className={`profile__meta-specialties`}>
@@ -162,9 +182,9 @@ const Profile = (props, state) => {
 											<h3 className="mb--0"><strong>Main</strong></h3>
 											{renderMainSpecialties(user.professions)}
 										</div>
-										<div className="profile__meta-spec">
-											{/* <h3 className="mb--0"><strong>Specializing In:</strong></h3> */}
-											{/* {renderMainSpecialties()} */}
+										<div className="profile__meta-spec text--capitalize">
+											<h3 className="mb--0"><strong>Specializing In:</strong></h3>
+											{renderSecondSpecialties()}
 										</div>
 									</div>
 								</div>
@@ -176,6 +196,8 @@ const Profile = (props, state) => {
 
 							{renderCredentials(user.licenseURL)}
 
+							{renderFAQ()}
+
 							<div id="reviews" className={`profile__reviews`}>
 								<h2 className={`text--uppercase`}>Reviews</h2>
 								<GetFullReviews proInteractions={user.proInteractions} />
@@ -183,7 +205,15 @@ const Profile = (props, state) => {
 
 						</div>
 						<div className={`col col--4`}>
+							{ auth.uid ?
 							<Booking pro={user} user={auth} />
+							:
+							(
+								<div style={{border:'#cecece solid 1px'}}>
+									<p className="text--center" style={{padding:'10px', margin: '0'}}>You must be signed in the contact the Pro.</p>
+									<SignIn />
+								</div>
+							) }
 							<div className={'profile__cancellation text--center'}>
 								<Link to="/cancellation-policy">Cancellation Policy</Link>
 							</div>

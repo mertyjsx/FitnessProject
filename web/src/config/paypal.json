@@ -1,6 +1,6 @@
 {
-	"client_id": "AfyES_EiHv-Y7R8lnBXJtkZnyZjqoHkVNBVUy6qyX9Cok0uIku8t5jsagMce3hGtRFf_0H8HAF7YqIPd",
-	"client_secret": "EBg7VVRosmdRPhU3UBKqemXbTVgT66J6nDRDpB1HG2WQ3zllCQDgcPu6Rq4Idma8PyJzze5Lsk4ihhA_",
+	"client_id": "AR5NGMdDDS5r5ppii1xubgv3F-Ek9VGqss7yt2WJ1JpTZ3Tr7dwgxcyoLtmvr7DyZ5YMeLEWx8hrDvn-",
+	"client_secret": "EI4aVbmxF4XCsGLh0EBa9VHZZX12GxRUnwNxt3L13lg2w0D2HN2KsvPu3KH1PEPT4MZLMa2xcb9fGw3H",
 	"plan_id": "P-01G61787MW826100EL3XUI6Q",
-	"sandbox": true
+	"sandbox": false
 }

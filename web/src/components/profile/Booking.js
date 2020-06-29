@@ -1,15 +1,16 @@
-import React, { Component, useState } from 'react'
-import { connect } from 'react-redux'
-import Modal from '../modal/Modal'
-import { Form, Radio, Button } from 'semantic-ui-react'
-import { withRouter } from 'react-router-dom';
-import DatePicker from 'react-datepicker'
+import { addDays, setHours, setMinutes } from "date-fns";
+import moment from 'moment';
+import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { addDays, setMinutes, setHours } from "date-fns";
-import moment from 'moment'
-import { createInteraction } from '../../store/actions/interactionActions'
-import spinner from '../../assets/images/spinner.gif'
-import { PayPalButton } from 'react-paypal-button-v2'
+import { PayPalButton } from 'react-paypal-button-v2';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Form } from 'semantic-ui-react';
+import spinner from '../../assets/images/spinner.gif';
+import PaypalConfig from '../../config/paypal.json';
+import { createInteraction } from '../../store/actions/interactionActions';
+import Modal from '../modal/Modal';
 
 class Booking extends Component {
 
@@ -31,7 +32,6 @@ class Booking extends Component {
 			duration: 0,
 			total: 0,
 			formSubmitting: false,
-			modalOpen: false
 		}
 	}
 
@@ -135,6 +135,8 @@ class Booking extends Component {
 		this.setState({
 			total: this.calculateTotal(),
 			formSubmitting: true,
+			proBusinessName: this.props.pro.businessName,
+			proFullAddress: this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
 			paypal: {
 				timeCreated: details.create_time,
 				id: details.id,
@@ -150,7 +152,7 @@ class Booking extends Component {
 			// console.log('wait 3 secs', $this.props);
 			$this.props.createInteraction($this.state)
 			document.body.style.overflow = 'unset'
-			$this.props.history.push('/bookings#1')
+			$this.props.history.push('/bookings')
 		}, 3000)
 	}
 
@@ -286,14 +288,14 @@ class Booking extends Component {
 										<p>Your total of ${this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
 										<p>Please choose your preferred method of payment below.</p>
 										<PayPalButton
-											amount={'0.01'}
+											amount={this.calculateTotal()}
 											shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
 											onSuccess={(details, data) => {
 												// alert("Transaction completed by " + details.payer.name.given_name);
 												this.handleSubmit(details, data)
 											}}
 											options={{
-												clientId: "AdnGkXFLEzUBky5CsXg-LToFxF9xTiJFH6jEz5vBXffma53lY5JVu4wzKPM1B1AlEZWYAlCpZDc25Dnu"
+												clientId: PaypalConfig.client_id
 											}}
 										/>
 									</div>

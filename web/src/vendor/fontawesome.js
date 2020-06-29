@@ -1,30 +1,55 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-	faStar,
-	faStarHalfAlt,
-	faGrin,
-	faQuoteLeft,
-	faFilter, faList,
-	faUser, faUsers,
-	faDollarSign,
-	faCheckCircle, faTimesCircle,
-	faBook,
-	faFile,
-	faHandshake,
-	faHandPeace,
-	faChevronDown,
-	faPencilAlt
-} from '@fortawesome/free-solid-svg-icons'
-import { faStar as faStarRegular } from '@fortawesome/free-solid-svg-icons'
-import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
-import {
-	faGoogle,
-	faFacebookF,
-	faTwitter,
-	faYoutube,
+	faFacebookF, faGoogle,
+
+
+
 	faInstagram,
-	faPinterestP
-} from '@fortawesome/free-brands-svg-icons'
+	faPinterestP, faTwitter,
+	faYoutube
+} from '@fortawesome/free-brands-svg-icons';
+import {
+	faBook, faCheckCircle,
+
+
+
+
+
+	faChevronDown, faDollarSign,
+
+
+
+	faFile, faFilter, faGrin,
+
+
+
+
+
+
+
+
+
+	faHandPeace, faHandshake, faList,
+
+
+
+
+
+
+
+
+
+	faPencilAlt, faQuoteLeft, faStar, faStar as faStarRegular, faStar as faStarSolid, faStarHalfAlt,
+
+
+
+
+
+	faTimesCircle, faUser,
+
+
+	faUserCheck, faUsers
+} from '@fortawesome/free-solid-svg-icons';
 
 library.add(
 	faStar,
@@ -51,5 +76,6 @@ library.add(
 	faHandPeace,
 	faChevronDown,
 	faInstagram,
-	faPinterestP
+	faPinterestP,
+	faUserCheck
 );

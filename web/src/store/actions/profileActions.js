@@ -4,17 +4,13 @@ export const updateSpecialties = (specialties) => {
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
-
 		// console.log('update action spec called', specialties);
-
 		firestore.collection('users').doc(userID).update({
 			...specialties,
 		}).then(() => {
-			console.log('success');
-			dispatch({ type: 'CREATE_INTERACTION', specialties });
+			dispatch({ type: 'UPDATE_SPECIALTIES', specialties });
 		}).catch((error) => {
-			console.log('nah');
-			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
+			dispatch({ type: 'UPDATE_SPECIALTIES_ERROR', error })
 		})
 	}
 }
@@ -24,7 +20,6 @@ export const updateProfile = (profileDetails) => {
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
-
 		// console.log('update action spec called', profileDetails, userID);
 		firestore.collection('users').doc(userID).update({
 			...profileDetails,

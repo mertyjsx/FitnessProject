@@ -1,25 +1,24 @@
+import axios from 'axios'
+import moment from 'moment'
 import React from 'react'
 import { connect } from 'react-redux'
-import { firestore, firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect } from 'react-redux-firebase'
+import { Redirect } from 'react-router-dom'
 import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import moment from 'moment'
 import { Button } from 'semantic-ui-react'
-import SetRating from '../rating/SetRating'
-import Loading from '../modules/Loading'
+import PaypalConfig from '../../config/paypal.json'
 import {
-	updateInteractionToBooked,
 	cancelBookingInteraction,
 	closeInquiry,
 	completeInteraction,
 	confirmBookingInteraction,
 	sendBookingRequestFromInquiry
 } from '../../store/actions/interactionActions'
-import InteractionMessages from './InteractionMessages'
 import { renderProfileImage } from '../helpers/HelpersProfile'
-import axios from 'axios'
-
-import PaypalConfig from '../../config/paypal.json';
+import Loading from '../modules/Loading'
+import GetSingleReview from '../rating/GetSingleReview'
+import SetRating from '../rating/SetRating'
+import InteractionMessages from './InteractionMessages'
 
 const InteractionDetails = (props) => {
 	const { interaction, auth } = props;
@@ -45,11 +44,7 @@ const InteractionDetails = (props) => {
 	}
 
 	const cancelSession = () => {
-		console.log('cancel btn clicked')
-		// axios({
-		// 	url: `https://api.paypal.com/v2/payments/captures/2GG279541U471931P/refund`,
-		// 	method: 'post',
-		// })
+		// console.log('cancel btn clicked')
 		let paypal_base_uri = `https://api.paypal.com/`;
 		if (PaypalConfig.sandbox) paypal_base_uri = `https://api.sandbox.paypal.com/`;
 		axios.post(paypal_base_uri + 'v1/oauth2/token',
@@ -159,6 +154,15 @@ const InteractionDetails = (props) => {
 								</div>
 							)}
 
+							{ interaction.ratingCompleted === true && (
+								<div className="rating">
+									<div className="rating__inner">
+										<h2 className="text--uppercase text--bold">Rating Completed</h2>
+										<GetSingleReview iid={iid} />
+									</div>
+								</div>
+							)}
+
 							<div className="interaction-details__summary">
 								<h2 className="text--uppercase mn--double">{interaction.interactionType} Details</h2>
 								<div className="interaction-details__summary-meta">
@@ -180,7 +184,12 @@ const InteractionDetails = (props) => {
 								</div>
 								<div className="interaction-details__location">
 									<h3>Location</h3>
-									{interaction.bookingType === 'online' ? 'Online' : ''}
+									{interaction.bookingType === 'online' ? 'Online' : 
+										<div>
+											<p>{interaction.proBusinessName}</p>
+											<p>{interaction.proFullAddress}</p>
+										</div>
+									}
 								</div>
 								<div className="interaction-details__summary-date">
 									<h3>Date &amp; Time</h3>
@@ -208,7 +217,7 @@ const InteractionDetails = (props) => {
 								</div>
 								:
 								<div className="interaction-details__buttons text--center">
-									<p>THe Pro</p>
+									{/* <p>THe Pro</p> */}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'link'} onClick={closeInquiry}>Close Inquiry</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status === 'active' ? <Button className={'link'} onClick={completeSession}>Complete Session</Button> : null}

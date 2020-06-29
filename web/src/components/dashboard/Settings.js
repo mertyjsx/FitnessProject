@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
 import DeleteAccount from '../auth/DeleteAccount'
 import UpgradeProPremium from '../auth/UpgradeProPremium'
 
@@ -31,8 +31,17 @@ class Settings extends Component {
 					</div>
 
 					<div className="row">
-						<div className="col">
+						<div className="col" style={{ marginBottom: '50px' }}>
 							<DeleteAccount auth={this.props.auth} />
+						</div>
+					</div>
+
+					<div className="row">
+						<div className="col" style={{ marginBottom: '50px' }}>
+							<div>
+								<h2>File a Claim</h2>
+								<Link to="/file-claim" className="button button--primary">Start Process</Link>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -1,9 +1,9 @@
+import { postcodeValidator } from 'postcode-validator'
 import React, { Component } from 'react'
-import { Form } from 'semantic-ui-react'
-import { Redirect, Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Link, Redirect, withRouter } from 'react-router-dom'
+import { Form } from 'semantic-ui-react'
 import { signUpPro } from '../../../store/actions/authActions'
-import { postcodeValidator, postcodeValidatorExists } from 'postcode-validator';
 
 class SignUpPro extends Component {
 	constructor(props) {
@@ -100,10 +100,10 @@ class SignUpPro extends Component {
 	}
 
 	handleSubmit = (e) => {
-		// e.preventDefault();
+		e.preventDefault();
 		// this.zipValidator(this.state.zip)
 		// console.log(this.state);
-		this.props.signUpPro(this.state, this.props)
+		this.props.signUpPro(this.state)
 	}
 
 	renderDataList = () => {
@@ -154,7 +154,7 @@ class SignUpPro extends Component {
 									<input type="text" name="zip" id="zip" placeholder="e.g. 32801" onChange={this.handleChange}></input>
 								</Form.Field>
 								<Form.Field>
-									<button className={`button button--secondary text--uppercase text--bold text--font-secondary ${this.state.profession === '' ? 'button--inactive' : ''}`} onClick={this.zipValidator}>Proceed</button>
+									<button className={`button button--secondary text--uppercase text--bold text--font-secondary ${this.state.professionFitnessTrainer === false && this.state.professionChef === false && this.state.professionMassageTherapist === false && this.state.professionNutritionist === false ? 'button--inactive' : ''}`} onClick={this.zipValidator}>Proceed</button>
 								</Form.Field>
 							</div>
 							:
@@ -181,6 +181,10 @@ class SignUpPro extends Component {
 								<Form.Field>
 									<label htmlFor="lastName">Last Name <sup className="red">*</sup></label>
 									<input className={this.state.lastName !== '' ? 'input--filled' : ''} type="text" name="lastName" id="lastName" placeholder="Enter your last name" onChange={this.handleChange} required></input>
+								</Form.Field>
+								<Form.Field>
+									<label htmlFor="phoneNumber">Phone Number <sup className="red">*</sup>(ex. ###-###-####)</label>
+									<input className={this.state.phoneNumber !== '' ? 'input--filled' : ''} type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone (ex. ###-###-####)" onChange={this.handleChange} required></input>
 								</Form.Field>
 								<Form.Field>
 									<label htmlFor="email">Email <sup className="red">*</sup></label>

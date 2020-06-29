@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { Link, Redirect } from 'react-router-dom';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import InteractionList from '../interactions/InteractionList'
-import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux';
+import InteractionList from '../interactions/InteractionList';
 
 class Bookings extends Component {
 	constructor(props) {
@@ -50,16 +50,16 @@ class Bookings extends Component {
 						<div className="col">
 							<Tabs defaultIndex={this.getUrlTabIndex(history.location.hash)}>
 								<TabList>
-									<Tab>Active</Tab>
 									<Tab>Pending</Tab>
+									<Tab>Active</Tab>
 									<Tab>Completed</Tab>
 									<Tab>Cancelled</Tab>
 								</TabList>
 								<TabPanel>
-									<InteractionList auth={auth} interactions={interactions} interactionType={'booking'} status={'active'} />
+									<InteractionList auth={auth} interactions={interactions} interactionType={'booking'} status={'pending'} />
 								</TabPanel>
 								<TabPanel>
-									<InteractionList auth={auth} interactions={interactions} interactionType={'booking'} status={'pending'} />
+									<InteractionList auth={auth} interactions={interactions} interactionType={'booking'} status={'active'} />
 								</TabPanel>
 								<TabPanel>
 									<InteractionList auth={auth} interactions={interactions} interactionType={'booking'} status={'completed'} />

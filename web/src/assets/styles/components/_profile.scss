@@ -58,6 +58,7 @@
 	&__about,
 	&__professional-background,
 	&__credentials,
+	&__faq,
 	&__reviews {
 		width: 100%;
 	}
@@ -66,6 +67,7 @@
 	&__about,
 	&__professional-background,
 	&__credentials,
+	&__faq,
 	&__reviews {
 		margin-bottom: $gutter * 2;
 		@media screen and (min-width: $md-min) {
@@ -75,6 +77,19 @@
 			font-size: 20px;
 			@media screen and (min-width: $md-min) {
 				font-size: 24px;
+			}
+		}
+	}
+	&__faq {
+		.col {
+			padding: 0;
+		}
+		.accordion {
+			.title {
+				@extend .text--sm
+			}
+			.content {
+				font-size: 16px
 			}
 		}
 	}

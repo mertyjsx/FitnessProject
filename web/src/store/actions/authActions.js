@@ -29,54 +29,138 @@ export const signUp = (newUser) => {
 			newUser.email,
 			newUser.password
 		).then((response) => {
-			return firestore.collection('users').doc(response.user.uid).set({
-				firstName: newUser.firstName,
-				lastName: newUser.lastName,
-				initials: newUser.firstName[0] + newUser.lastName[0],
-				isPro: false,
-				isProPremium: false,
-				emailVerified: false
-			})
-		}).then(() => {
-			dispatch({ type: 'SIGNUP_SUCCESS' })
-			// return firebase.doSendEmailVerification()
+			const currentUser = response.user
+			// console.log('current user', currentUser);
+
+			currentUser.sendEmailVerification()
+				.then(function () {
+					dispatch({ type: 'SIGNUP_SUCCESS' });
+					// Email sent.
+					return firestore.collection('users').doc(response.user.uid).set({
+						firstName: newUser.firstName,
+						lastName: newUser.lastName,
+						initials: newUser.firstName[0] + newUser.lastName[0],
+						isPro: false,
+						isProPremium: false,
+						emailVerified: false
+					})
+				}).catch(function (error) {
+					// An error happened.
+					console.log('error');
+				});
 		}).catch(err => {
 			dispatch({ type: 'SIGNUP_ERROR', err })
 		})
 	}
 }
 
-export const signUpPro = (newUser, props) => {
+export const signUpClientWithFacebook = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
-		// console.log(newUser);
-		firebase.auth().createUserWithEmailAndPassword(
-			newUser.email, newUser.password
-		).then((response) => {
-			// console.log('chef', newUser, newUser.professionChef);
-			return firestore.collection('users').doc(response.user.uid).set({
-				firstName: newUser.firstName,
-				lastName: newUser.lastName,
-				initials: newUser.firstName[0] + newUser.lastName[0],
-				city: newUser.city,
-				state: newUser.state,
-				zip: newUser.zip,
-				isPro: true,
-				isProPremium: false,
-				isApproved: false,
-				uid: response.user.uid,
-				onboardingCompleted: false,
-				proInteractions: [],
-				professions: {
-					chef: newUser.professionChef,
-					fitnessTrainer: newUser.professionFitnessTrainer,
-					massageTherapist: newUser.professionMassageTherapist,
-					nutritionist: newUser.professionNutritionist
-				}
+		const fb = new firebase.auth.FacebookAuthProvider()
+		// console.log('su w/ fb', newUser, fb )
+		firebase.auth().signInWithPopup(fb)
+			.then(({ user }) => {
+				// console.log('fb', user);
+				user.sendEmailVerification()
+					.then(function () {
+						dispatch({ type: 'SIGNUP_SUCCESS' });
+						return firestore.collection('users').doc(user.uid).set({
+							firstName: user.displayName,
+							initials: user.displayName[0] + user.displayName[1],
+							isPro: false,
+							photoURL: user.photoURL,
+							isProPremium: false,
+							emailVerified: false
+						})
+					})
+			}).catch(err => {
+				dispatch({ type: 'SIGNUP_ERROR', err})
 			})
-		}).then(() => {
-			dispatch({ type: 'SIGNUP_SUCCESS' })
+	}
+}
+
+export const signUpClientWithGoogle = (newUser) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		const google = new firebase.auth.GoogleAuthProvider()
+		// console.log('su w/ fb', newUser, fb )
+		firebase.auth().signInWithPopup(google)
+			.then((result) => {
+				console.log('google', result);
+
+				var token = result.credential.accessToken
+				var user = result.user
+                    var user_id = result.user.uid
+                    var user_first_name = result.additionalUserInfo.profile.given_name
+                    var user_last_name = result.additionalUserInfo.profile.family_name
+                    var user_image_url = result.additionalUserInfo.profile.picture
+				var user_creation_time = result.user.creationTime
+				
+				user.sendEmailVerification()
+					.then(function () {
+						dispatch({ type: 'SIGNUP_SUCCESS' });
+						return firestore.collection('users').doc(user_id).set({
+							firstName: user_first_name,
+							lastName: user_last_name,
+							initials: user_first_name[0] + user_last_name[0],
+							isPro: false,
+							photoURL: user_image_url,
+							isProPremium: false,
+							emailVerified: false
+						})
+					})
+			}).catch(err => {
+				dispatch({ type: 'SIGNUP_ERROR', err})
+			})
+	}
+}
+
+export const signUpPro = (newUser) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		// console.log('in action', newUser);
+		firebase.auth().createUserWithEmailAndPassword(
+			newUser.email,
+			newUser.password
+		).then((response) => {
+			const currentUser = response.user
+			const newUserID = response.user.uid
+
+			console.log('the response', response);
+			
+			currentUser.sendEmailVerification()
+				.then(function () {
+					return firestore.collection('users').doc(newUserID).set({
+						firstName: newUser.firstName,
+						lastName: newUser.lastName,
+						phoneNumber: newUser.phoneNumber,
+						initials: newUser.firstName[0] + newUser.lastName[0],
+						personalCity: newUser.city,
+						personalState: newUser.state,
+						personalZip: newUser.zip,
+						isPro: true,
+						isProPremium: false,
+						isApproved: false,
+						uid: response.user.uid,
+						onboardingCompleted: false,
+						proInteractions: [],
+						professions: {
+							chef: newUser.professionChef,
+							fitnessTrainer: newUser.professionFitnessTrainer,
+							massageTherapist: newUser.professionMassageTherapist,
+							nutritionist: newUser.professionNutritionist
+						}
+					})
+				}).catch(function (error) {
+					// An error happened.
+					console.log('error');
+				});
+			// dispatch({ type: 'SIGNUP_SUCCESS' })
+			
 		}).catch(err => {
 			dispatch({ type: 'SIGNUP_ERROR', err })
 		})
@@ -88,6 +172,7 @@ export const completeOnboarding = (newInfo) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
 		const userID = getState().firebase.auth.uid
+		const currentUser = firebase.auth().currentUser;
 
 		console.log(newInfo);
 		firestore.collection('users').doc(userID).update({
@@ -95,13 +180,37 @@ export const completeOnboarding = (newInfo) => {
 		})
 			.then(function () {
 				// console.log("Booking successfully cancelled!");
-				dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+				currentUser.sendEmailVerification().then(function () {
+					// Email sent.
+					dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+				}).catch(function (error) {
+					// An error happened.
+					console.log('error');
+				});
 			})
 			.catch(function (error) {
 				// The document probably doesn't exist.
 				// console.error("Error cancelling document: ", error);
 				dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
 			})
+	}
+}
+
+export const passwordReset = (email) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const currentUser = firebase.auth();
+		console.log('action', email);
+
+		currentUser.sendPasswordResetEmail(email).then(function () {
+			// Email sent.
+			console.log('Reset password sent');
+
+		}).catch(function (error) {
+			// An error happened.
+			console.log('error', error);
+
+		});
 	}
 }
 
