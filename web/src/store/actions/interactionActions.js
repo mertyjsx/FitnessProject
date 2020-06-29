@@ -203,7 +203,7 @@ export const completeInteractionPayout = (iid) => {
 			interactionType: 'booking'
 		}).then(function () {
 			// console.log("Booking successfully cancelled!");
-			dispatch({ type: 'COMPLETED', iid });
+			dispatch({ type: 'PAYOUT_COMPLETED', iid });
 		}).catch(function (error) {
 			// The document probably doesn't exist.
 			// console.error("Error cancelling document: ", error);
