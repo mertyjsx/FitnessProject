@@ -1,15 +1,16 @@
+import moment from 'moment'
 import React from 'react'
 import { renderProfileImage } from '../helpers/HelpersProfile'
-import moment from 'moment'
 
-const InteractionSummary = ({ interaction, auth }) => {
+const InteractionSummary = ({ interaction, auth, isNew }) => {
 	// console.log(interaction, auth);
 
 	if (interaction.proUID === auth.uid) {
 		// is pro
 		return (
-			<div className={`interaction ${interaction.interactionType ? `intreaction--` + interaction.interactionType : null}`}>
+			<div className={`interaction ${interaction.interactionType ? `interaction--` + interaction.interactionType : null} ${isNew ? `interaction--unread` : null}`}>
 				<div className="interaction__user">
+					{isNew && <div className="new">New Updates</div>}
 					<div className="interaction__user-img">
 						{renderProfileImage(interaction.proImage)}
 					</div>
@@ -33,8 +34,9 @@ const InteractionSummary = ({ interaction, auth }) => {
 	} else {
 		// not pro
 		return (
-			<div className={`interaction interaction--${interaction.interactionType}`}>
+			<div className={`interaction interaction--${interaction.interactionType} ${isNew ? `interaction--unread` : null}`}>
 				<div className="interaction__user">
+					{isNew && <div className="new">New Updates</div>}
 					<div className="interaction__user-img">
 						{renderProfileImage(interaction.proImage)}
 					</div>
