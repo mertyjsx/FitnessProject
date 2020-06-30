@@ -22,7 +22,7 @@ const InteractionList = ({ update, interactions, auth, interactionType, status }
 
 				if (interaction.interactionType === interactionType && interaction.status === status) {
 					return (
-						<Link to={'/session/' + interaction.id} iid={interaction.id} key={interaction.id} className={'row'} style={{ marginBottom: 25 }}>
+						<Link onClick={() => update(interaction.id)} to={'/session/' + interaction.id} iid={interaction.id} key={interaction.id} className={'row'} style={{ marginBottom: 25 }}>
 							<InteractionSummary iid={interaction.id} auth={auth} interaction={interaction} isNew={interaction.update} />
 						</Link>
 					)
