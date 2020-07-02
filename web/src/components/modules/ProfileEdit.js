@@ -8,6 +8,7 @@ import RenderImage from '../profileEdit/imageUpload/RenderImage'
 import ImageUpload from '../profileEdit/imageUpload/ImageUpload'
 import SocialUpdate from '../profileEdit/SocialUpdate';
 import FAQUpdate from '../profileEdit/FAQUpdate';
+import Goals from '../profileEdit/Goals';
 
 class ProfileEdit extends Component {
 	render() {
@@ -38,6 +39,7 @@ class ProfileEdit extends Component {
 								<TabList>
 									<Tab>Profile</Tab>
 									<Tab>Image</Tab>
+									<Tab>Personal Goals</Tab>
 									{profile.isPro && (<Tab>Specialties</Tab>)}
 									{profile.isPro && (<Tab>Social</Tab>)}
 									{profile.isPro && (<Tab>FAQ</Tab>)}
@@ -50,6 +52,9 @@ class ProfileEdit extends Component {
 										<RenderImage />
 										<ImageUpload />
 									</div>
+								</TabPanel>
+								<TabPanel>
+									<Goals />
 								</TabPanel>
 								{profile.isPro && (
 									<TabPanel>

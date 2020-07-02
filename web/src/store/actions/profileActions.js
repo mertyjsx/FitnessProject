@@ -15,6 +15,23 @@ export const updateSpecialties = (specialties) => {
 	}
 }
 
+export const updateGoals = (goals) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		// Make async call to db
+		const firestore = getFirestore()
+		const profile = getState().firebase.profile
+		const userID = getState().firebase.auth.uid
+		// console.log('update action spec called', specialties);
+		firestore.collection('users').doc(userID).update({
+			...goals,
+		}).then(() => {
+			dispatch({ type: 'UPDATE_GOALS', goals });
+		}).catch((error) => {
+			dispatch({ type: 'UPDATE_GOALS_ERROR', error })
+		})
+	}
+}
+
 export const updateProfile = (profileDetails) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firestore = getFirestore()

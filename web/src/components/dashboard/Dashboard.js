@@ -141,6 +141,13 @@ class Dashboard extends Component {
 							</div>
 						</>
 					)} */}
+
+					<div className={`divider`}></div>
+					<div className={'row'}>
+						<div className="col">
+							test
+						</div>
+					</div>
 				</div>
 			</div>
 		)
