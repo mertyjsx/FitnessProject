@@ -31,6 +31,8 @@
 	.button {
 		width: 49%;
 		transition: 300ms;
+		justify-content: center;
+		align-items: center;
 		&--full {
 			width: 100%;
 		}
@@ -55,6 +57,7 @@
 	}
 	.button {
 		margin-top: $gutter;
+		margin-bottom: $gutter*2;
 	}
 	select {
 		background-position: center right 5px;

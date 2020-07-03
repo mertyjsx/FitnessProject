@@ -1,17 +1,13 @@
-import React, { Component, useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import DatePicker from 'react-datepicker'
+import moment from 'moment';
+import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { addDays } from "date-fns";
+import { connect } from 'react-redux';
 import Scroll, { scroller } from 'react-scroll';
-import CalendarItems from "./calendarItems"
-import moment from 'moment'
-import { Form, Radio, Button, Checkbox, Input, TextArea, Label } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
-import { updateCalendar, updateHours } from '../../store/actions/profileActions'
-import Modal from "./calendarModal"
-import EditHours from "./OperatingHours"
-import Check from "./Select"
+import { updateCalendar } from '../../store/actions/profileActions';
+import CalendarItems from "./calendarItems";
+import Modal from "./calendarModal";
+import EditHours from "./OperatingHours";
 
 var Element = Scroll.Element;
 
@@ -22,9 +18,7 @@ class CalendarView extends Component {
 		this.state = {
 			dates: [],
 			selectedDate: new Date(),
-			months: ["January", "February", "March", "April", "May", "June",
-				"July", "August", "September", "October", "November", "December"
-			],
+			months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 			modal: false,
 			currentTime: ""
 		}

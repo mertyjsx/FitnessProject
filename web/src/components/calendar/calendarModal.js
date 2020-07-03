@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Form } from 'semantic-ui-react'
 
 class Modal extends Component {
@@ -29,7 +28,7 @@ class Modal extends Component {
 		// console.log(this.props.date)
 		return (
 			<div>
-				<button onClick={this.props.onModalOpen} className={this.props.buttonStyle ? `modal__trigger ${this.props.buttonStyle}` : `modal__trigger`}>{this.props.buttonIcon ? <FontAwesomeIcon icon={["fa", this.props.buttonIcon]} /> : null}{this.props.buttonText}</button>
+				{/* <button onClick={this.props.onModalOpen} className={this.props.buttonStyle ? `modal__trigger ${this.props.buttonStyle}` : `modal__trigger`}>{this.props.buttonIcon ? <FontAwesomeIcon icon={["fa", this.props.buttonIcon]} /> : null}{this.props.buttonText}</button> */}
 				<div className={this.props.modal ? 'modal modal--active' : 'modal'}>
 					<div className="modal__inner">
 						<div className="modal__btn">

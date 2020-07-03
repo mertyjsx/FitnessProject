@@ -61,10 +61,10 @@ export const updateCalendar = (cal) => {
 			blockedArray: cal,
 		}).then(() => {
 			console.log('success');
-			dispatch({ type: 'CREATE_INTERACTION', cal });
+			dispatch({ type: 'UPDATE_CALENDAR', cal });
 		}).catch((error) => {
 			console.log('nah');
-			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
+			dispatch({ type: 'UPDATE_CALENDAR_ERROR', error })
 		})
 	}
 }
