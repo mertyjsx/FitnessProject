@@ -15,10 +15,10 @@ export const createInteraction = (interaction) => {
 
 		firestore.collection('interactions').add({
 			...interaction,
-			userFirstName: profile.firstName?profile.firstName:'',
-			userLastName: profile.lastName?profile.lastName:'',
+			userFirstName: profile.firstName ? profile.firstName : '',
+			userLastName: profile.lastName ? profile.lastName : '',
 			userUID: userID,
-			userImage: profile.photoURL?profile.photoURL:'',
+			userImage: profile.photoURL ? profile.photoURL : '',
 			createdAt: new Date(),
 			ratingCompleted: false
 		}).then((docRef) => {
@@ -33,7 +33,7 @@ export const createInteraction = (interaction) => {
 				userInteractions: firestore.FieldValue.arrayUnion(docRef.id)
 			})
 			// Send message
-			firestore.collection('users').doc(interaction.proUID).get().then(snap=>{
+			firestore.collection('users').doc(interaction.proUID).get().then(snap => {
 				let pro = snap.data()
 				let baseUri = 'localhost:3000' // change for production release
 
@@ -43,14 +43,14 @@ export const createInteraction = (interaction) => {
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
 					`Body=${message_body}&From=${from_number}&To=${to_number}`,
 					{
-						auth:{
+						auth: {
 							username: twilioConfig.account_sid,
 							password: twilioConfig.auth_token
 						},
-						headers:{
+						headers: {
 							accept: "application/json"
 						}
-					}).then(response=>{
+					}).then(response => {
 						console.log(response)
 					})
 			});
@@ -226,6 +226,31 @@ export const completeInteractionPayout = (iid) => {
 		}).then(function () {
 			// console.log("Booking successfully cancelled!");
 			dispatch({ type: 'PAYOUT_COMPLETED', iid });
+		}).catch(function (error) {
+			// The document probably doesn't exist.
+			// console.error("Error cancelling document: ", error);
+			dispatch({ type: 'COMPLETED_ERROR', error })
+		})
+	}
+}
+
+export const updateSeen = (iid) => {
+	return (dispatch, getState, { getFirestore }) => {
+		console.log('Update Seen by user');
+
+		const firestore = getFirestore()
+		const profile = getState().firebase.profile
+		const userID = getState().firebase.auth.uid
+		// console.log('inside action', iid);
+
+		firestore.collection('interactions').doc(iid).update({
+			update: false,
+
+		}).then(function () {
+
+			console.log('Update Seen by user');
+			// console.log("Booking successfully cancelled!");
+			dispatch({ type: 'UPDATE_SEEN', iid });
 		}).catch(function (error) {
 			// The document probably doesn't exist.
 			// console.error("Error cancelling document: ", error);

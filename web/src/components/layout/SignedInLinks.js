@@ -1,14 +1,28 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
 import { NavLink } from 'react-router-dom'
+import { compose } from 'redux'
 import { signOut } from '../../store/actions/authActions'
 import RenderImage from '../profileEdit/imageUpload/RenderImage'
 
 const SignedInLinks = (props) => {
-	const [profileActive, setProfileState] = useState(false);
+	const [profileActive, setProfileState] = useState(false)
+	const [BookingCount, setBookingCount] = useState(0)
+	const [InboxCount, setInboxCount] = useState(0)
 	const settingsClick = () => { setProfileState(!profileActive) }
 	const navClick = () => { props.menuActive(false) }
+
+	React.useEffect(() => {
+		if (props.interactions) {
+			const BookingArray = props.interactions.filter(item => item.update == true && item.interactionType === "booking")
+			const InboxArray = props.interactions.filter(item => item.update == true && item.interactionType === "inquiry")
+			console.log(BookingArray)
+			setBookingCount(BookingArray.length)
+			setInboxCount(InboxArray.length)
+		}
+	}, [props.interactions])
 
 	if (props.profile.onboardingCompleted === false) {
 		return (
@@ -19,12 +33,12 @@ const SignedInLinks = (props) => {
 			<div className={`header__secondary`}>
 				<ul>
 					{/* <li><NavLink to="/create-project" className="header__nav-link">New Project</NavLink></li> */}
-					{ props.profile.isAdmin && (
+					{props.profile.isAdmin && (
 						<li><NavLink onClick={navClick} to="/admin" className="header__nav-link">Admin</NavLink></li>
 					)}
 					<li><NavLink onClick={navClick} to="/dashboard" className="header__nav-link">Dashboard</NavLink></li>
-					<li><NavLink onClick={navClick} to="/inbox" className="header__nav-link">Inbox</NavLink></li>
-					<li><NavLink onClick={navClick} to="/bookings" className="header__nav-link">Bookings</NavLink></li>
+					<li><NavLink onClick={navClick} to="/inbox" className="header__nav-link">Inbox {InboxCount > 0 && <div className="circle-notification">{InboxCount}</div>}</NavLink></li>
+					<li><NavLink onClick={navClick} to="/bookings" className="header__nav-link">Bookings {BookingCount > 0 && <div className="circle-notification">{BookingCount}</div>}</NavLink></li>
 					<li><NavLink onClick={navClick} to="/profile-edit" className="header__nav-link">Profile</NavLink></li>
 					{/* <li><NavLink onClick={navClick} to="/calendar" className="header__nav-link">Calendar</NavLink></li> */}
 				</ul>
@@ -56,10 +70,23 @@ const SignedInLinks = (props) => {
 	}
 }
 
+const mapStateToProps = (state) => {
+	// console.log(state);
+	return {
+		interactions: state.firestore.ordered.interactions,
+		// interactionType: interactions.interactionType
+	}
+}
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		signOut: () => dispatch(signOut())
 	}
 }
 
-export default connect(null, mapDispatchToProps)(SignedInLinks)
+export default compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	firestoreConnect([
+		{ collection: 'interactions', orderBy: ['createdAt', 'desc'] }
+	])
+)(SignedInLinks)

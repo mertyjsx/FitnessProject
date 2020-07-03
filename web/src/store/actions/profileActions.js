@@ -5,12 +5,29 @@ export const updateSpecialties = (specialties) => {
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
 		// console.log('update action spec called', specialties);
-		firestore.collection('users').doc(userID).update({
+		firestore.collection('users').doc(userID).set({
 			...specialties,
-		}).then(() => {
+		}, { merge: true }).then(() => {
 			dispatch({ type: 'UPDATE_SPECIALTIES', specialties });
 		}).catch((error) => {
 			dispatch({ type: 'UPDATE_SPECIALTIES_ERROR', error })
+		})
+	}
+}
+
+export const updateInterests = (interests) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		// Make async call to db
+		const firestore = getFirestore()
+		const profile = getState().firebase.profile
+		const userID = getState().firebase.auth.uid
+		// console.log('update action spec called', specialties);
+		firestore.collection('users').doc(userID).set({
+			...interests,
+		}, { merge: true }).then(() => {
+			dispatch({ type: 'UPDATE_GOALS', interests });
+		}).catch((error) => {
+			dispatch({ type: 'UPDATE_GOALS_ERROR', error })
 		})
 	}
 }

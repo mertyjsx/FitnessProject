@@ -78,6 +78,7 @@ $nav-profile-image-size: 50px;
 		color: $theme-black;
 		padding: 5px 15px;
 		text-decoration: none;
+		position: relative;
 		&:hover {
 			color: $green;
 		}
@@ -235,6 +236,19 @@ $nav-profile-image-size: 50px;
 	font-size: 150%;
 	font-weight: bold;
 	text-transform: uppercase;
+}
+
+.circle-notification {
+	width: 15px;
+	height: 15px;
+	font-size: 13px;
+	text-align: center;
+	border-radius: 50%;
+	background-color: $red;
+	color:$white;
+	position: absolute;
+	top:0;
+	right: 0;
 }
 
 .hamburger {
