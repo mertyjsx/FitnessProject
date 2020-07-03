@@ -189,24 +189,21 @@ export const completeInteraction = (iid) => {
 	}
 }
 
-export const getInteractionsForCron = ()=>{
+export const getInteractionsForCron = () => {
 	return (dispatch, getState, { getFirestore }) => {
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
-
-		let interactionPromise = firestore.collection('interactions').where('status','==','completed').get()
-
+		let interactionPromise = firestore.collection('interactions').where('status', '==', 'completed').get()
 		return interactionPromise
 	}
 }
 
-export const getProForPayout = (uid)=>{
+export const getProForPayout = (uid) => {
 	return (dispatch, getState, { getFirestore }) => {
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
-
 		return firestore.collection('users').doc(uid).get()
 	}
 }
@@ -214,7 +211,6 @@ export const getProForPayout = (uid)=>{
 export const completeInteractionPayout = (iid) => {
 	return (dispatch, getState, { getFirestore }) => {
 		console.log('complete session payout');
-
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid

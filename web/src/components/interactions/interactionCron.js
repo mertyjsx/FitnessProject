@@ -8,13 +8,13 @@ import { completeInteractionPayout, getInteractionsForCron, getProForPayout } fr
 
 
 // Real setup //
-// let interactionCompletionTime = 1000*60*60*48 // 48 hours;
-// let payoutDelayTime = 1000*60*60*24*7 // 7 days;
+let interactionCompletionTime = 1000 * 60 * 60 * 48 // 48 hours;
+let payoutDelayTime = 1000 * 60 * 60 * 24 * 7 // 7 days;
 // End Real setup //
 
 // Development Setup //
-let interactionCompletionTime = 1000*60*15 // auto Complete in 15 minutes;
-let payoutDelayTime = 1000*60*15 // auto payout in 15 minutes;
+// let interactionCompletionTime = 1000*60*15 // auto Complete in 15 minutes;
+// let payoutDelayTime = 1000*60*15 // auto payout in 15 minutes;
 // End Development Setup //
 
 let payoutrate = 0.75; // 75%
@@ -27,8 +27,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-class InteractionCron extends React.Component 
-{
+class InteractionCron extends React.Component {
 	construct = (props) => {
 		this.state({ firestoreLoaded: false })
 	}
@@ -45,22 +44,22 @@ class InteractionCron extends React.Component
 
 			for (let id in interactions) {
 				let interaction = interactions[id]
-				
+
 				if (interaction && interaction.status == 'completed' && interaction.endTime + payoutDelayTime <= new Date().getTime()) {
-					$this.props.getProForPayout(interaction.proUID).then(data=>{
+					$this.props.getProForPayout(interaction.proUID).then(data => {
 						let pro = data.data()
 
 						if (interaction.total * payoutrate > 0) {
 							paypal_payout_items.push({
-								"recipient_type":"EMAIL",
+								"recipient_type": "EMAIL",
 								"amount": {
-									"value": interaction.total *  payoutrate,
-									"currency":"USD"
+									"value": interaction.total * payoutrate,
+									"currency": "USD"
 								},
-								"note":"This is a test message", // Update for paypal invoice message
-								"sender_item_id":new Date().getTime(),
-								"receiver":pro.paypalPremium.email,
-								"notification_language":"en-US",
+								"note": "This is a test message", // Update for paypal invoice message
+								"sender_item_id": new Date().getTime(),
+								"receiver": pro.paypalPremium.email,
+								"notification_language": "en-US",
 							})
 						}
 					})
@@ -68,41 +67,41 @@ class InteractionCron extends React.Component
 			}
 
 			axios.post(paypal_base_uri + 'v1/oauth2/token',
-				   "grant_type=client_credentials",
-				   {
-				   	  "headers": {
-				   	  		"Accept" : "application/json",
-				   	  		"Accept-Language" : "en_US",
-				   	  		'Access-Control-Allow-Origin': 'localhost:3000'
-				   	  },
-				   	  // "withCredentials": true,
-				   	  "auth":{
-				   	  	"username":PaypalConfig.client_id,
-				   	  	"password":PaypalConfig.client_secret
-				   	  }
-				   }).then((response)=>{
-				   		let paypal_access_token = response.data.access_token;
-				   		let paypal_token_type = response.data.token_type;
+				"grant_type=client_credentials",
+				{
+					"headers": {
+						"Accept": "application/json",
+						"Accept-Language": "en_US",
+						'Access-Control-Allow-Origin': 'localhost:3000'
+					},
+					// "withCredentials": true,
+					"auth": {
+						"username": PaypalConfig.client_id,
+						"password": PaypalConfig.client_secret
+					}
+				}).then((response) => {
+					let paypal_access_token = response.data.access_token;
+					let paypal_token_type = response.data.token_type;
 
-				   		axios.post(`${paypal_base_uri}v1/payments/payouts`,
-				   			{
-				   				"sender_batch_header":{
-					   				"sender_batch_id":"CTBY_" + new Date().getFullYear() + "_" + new Date().getTime(),
-					   				"email_subject":"CTBY Payout", // Update email subject
-					   				"email_message":"You have recieved a payment from CTBY" // Update email message
-				   				},
-				   				"items":paypal_payout_items,
+					axios.post(`${paypal_base_uri}v1/payments/payouts`,
+						{
+							"sender_batch_header": {
+								"sender_batch_id": "CTBY_" + new Date().getFullYear() + "_" + new Date().getTime(),
+								"email_subject": "CTBY Payout", // Update email subject
+								"email_message": "You have recieved a payment from CTBY" // Update email message
+							},
+							"items": paypal_payout_items,
 
-				   			},
-					   		{
-					   			headers: { 
-					   				"Content-Type":"application/json",
-					   				"Authorization":`${paypal_token_type} ${paypal_access_token}`
-					   			},
-					   		})
-				   })
+						},
+						{
+							headers: {
+								"Content-Type": "application/json",
+								"Authorization": `${paypal_token_type} ${paypal_access_token}`
+							},
+						})
+				})
 		})
-		
+
 		return (<div className="cron-running"></div>)
 	}
 }
