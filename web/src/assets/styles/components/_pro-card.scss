@@ -23,6 +23,9 @@ $pro-card-spacing-margin: 25px;
 		transition: 500ms;
 		@media screen and (min-width: $md-min) {
 			flex-flow: row nowrap;
+			.pro-card--compact & {
+				flex-flow: row wrap;
+			}
 		}
 	}
 
@@ -35,6 +38,9 @@ $pro-card-spacing-margin: 25px;
 		position: relative;
 		@media screen and (min-width: $md-min) {
 			flex: 0 0 calc(200px - #{$pro-card-spacing-margin * 2});
+			.pro-card--compact & {
+				flex: 0 1 100%;
+			}
 		}
 		img {
 			position: absolute;
@@ -53,6 +59,9 @@ $pro-card-spacing-margin: 25px;
 		@media screen and (min-width: $md-min) {
 			margin: $pro-card-spacing-margin $pro-card-spacing-margin
 				$pro-card-spacing-margin 0;
+			.pro-card--compact & {
+				margin: 0 $pro-card-spacing-margin $pro-card-spacing-margin;
+			}
 		}
 		h3 {
 			font-family: $font-primary;
