@@ -27,7 +27,7 @@ class CalendarView extends Component {
 	UnblockIt = (dateObject) => {
 		let profileObj = this.props.profile
 		let letNewArray = []
-		const date = `${dateObject.getDate()}-${dateObject.getMonth()}-${dateObject.getFullYear()}`
+		const date = `${dateObject.getDate()}-${dateObject.getMonth() + 1}-${dateObject.getFullYear()}`
 		if (profileObj.blockedArray) {
 			letNewArray = profileObj.blockedArray.filter(item => item.date !== date)
 			this.props.updateCalendar(letNewArray)
