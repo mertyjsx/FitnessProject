@@ -40,7 +40,7 @@ const SignedInLinks = (props) => {
 					<li><NavLink onClick={navClick} to="/inbox" className="header__nav-link">Inbox {InboxCount > 0 && <div className="circle-notification">{InboxCount}</div>}</NavLink></li>
 					<li><NavLink onClick={navClick} to="/bookings" className="header__nav-link">Bookings {BookingCount > 0 && <div className="circle-notification">{BookingCount}</div>}</NavLink></li>
 					<li><NavLink onClick={navClick} to="/profile-edit" className="header__nav-link">Profile</NavLink></li>
-					{/* <li><NavLink onClick={navClick} to="/calendar" className="header__nav-link">Calendar</NavLink></li> */}
+					<li><NavLink onClick={navClick} to="/calendar" className="header__nav-link">Calendar</NavLink></li>
 				</ul>
 				<div className={`header__nav-settings ${profileActive ? 'header__nav-settings--active' : ''}`}>
 					<div className={`header__nav-settings-btn`}>
