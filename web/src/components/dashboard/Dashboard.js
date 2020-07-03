@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
 import GetRating from '../rating/GetRating'
+import ProCard from '../search/ProCard'
 
 class Dashboard extends Component {
 
@@ -17,7 +18,7 @@ class Dashboard extends Component {
 
 	render() {
 		// console.log(this.props)
-		const { projects, auth, profile, notifications } = this.props
+		const { users, auth, profile, notifications } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
 		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
 
@@ -141,13 +142,43 @@ class Dashboard extends Component {
 							</div>
 						</>
 					)} */}
+					{profile.interests && (
+						<>
+							<div className={`divider`}></div>
+							<div className={'row'}>
+								<div className="col">
+									<h2>Discover Pros Based on Your Interests</h2>
+								</div>
+							</div>
+							<div className={'row'}>
+								{profile.interests ?
+									users && users.map(pro => {
+										if (pro.isPro && pro.isApproved) {
+											var interests = profile.interests
+											var specialties = pro.specialties
+											for (const [key, value] of Object.entries(interests)) {
+												for (const [key2, value2] of Object.entries(specialties)) {
+													if (key === key2 && value === value2) {
+														return (
+															<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
+																<ProCard pro={pro} compact={true} />
+															</Link>
+														)
+													}
 
-					<div className={`divider`}></div>
-					<div className={'row'}>
-						<div className="col">
-							test
-						</div>
-					</div>
+												}
+											}
+										}
+									})
+									:
+									<div className="col">
+										<p>No pros found. <Link to={'/profile-edit#2'}>Click here</Link> to update your interests to discover pros.</p>
+									</div>
+								}
+							</div>
+						</>
+					)}
+
 				</div>
 			</div>
 		)
@@ -160,7 +191,8 @@ const mapStateToProps = (state) => {
 		// projects: state.firestore.ordered.projects,
 		auth: state.firebase.auth,
 		// notifications: state.firestore.ordered.notifications,
-		profile: state.firebase.profile
+		profile: state.firebase.profile,
+		users: state.firestore.ordered.users,
 	}
 }
 

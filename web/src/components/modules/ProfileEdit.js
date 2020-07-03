@@ -8,11 +8,26 @@ import RenderImage from '../profileEdit/imageUpload/RenderImage'
 import ImageUpload from '../profileEdit/imageUpload/ImageUpload'
 import SocialUpdate from '../profileEdit/SocialUpdate';
 import FAQUpdate from '../profileEdit/FAQUpdate';
-import Goals from '../profileEdit/Goals';
+import InterestsUpdate from '../profileEdit/InterestsUpdate';
 
 class ProfileEdit extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {}
+		this.getUrlTabIndex = this.getUrlTabIndex.bind(this)
+	}
+
+	getUrlTabIndex = (hash) => {
+		var initHash = hash
+		if (initHash.startsWith('#')) {
+			var removeHash = initHash.replace('#', '')
+			return parseInt(removeHash)
+		}
+		return parseInt(initHash)
+	}
+
 	render() {
-		const { profile, auth } = this.props
+		const { profile, auth, history } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
 
 		return (
@@ -35,7 +50,7 @@ class ProfileEdit extends Component {
 
 					<div className="row">
 						<div className="col">
-							<Tabs>
+							<Tabs defaultIndex={this.getUrlTabIndex(history.location.hash)}>
 								<TabList>
 									<Tab>Profile</Tab>
 									<Tab>Image</Tab>
@@ -54,7 +69,7 @@ class ProfileEdit extends Component {
 									</div>
 								</TabPanel>
 								<TabPanel>
-									<Goals />
+									<InterestsUpdate />
 								</TabPanel>
 								{profile.isPro && (
 									<TabPanel>
