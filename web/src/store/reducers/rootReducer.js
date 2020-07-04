@@ -1,10 +1,10 @@
-import authReducer from './authReducer'
-import projectReducer from './projectReducer'
+import { firebaseReducer } from 'react-redux-firebase'
 import { combineReducers } from 'redux'
 import { firestoreReducer } from 'redux-firestore'
-import { firebaseReducer } from 'react-redux-firebase'
+import authReducer from './authReducer'
 import interactionReducer from './interactionReducer'
 import profileReducer from './profileReducer'
+import projectReducer from './projectReducer'
 import reviewReducer from './reviewReducer'
 import settingsReducer from './settingsReducer'
 

@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
-import UserTest from '../beta/UserTest'
+import UserTest from '../beta/UserTest';
 
 class Footer extends Component {
 	constructor(props) {
@@ -62,7 +62,7 @@ class Footer extends Component {
 											<h2 className="text--bold text--sm">About C2B</h2>
 											<ul className="list--unstyled">
 												<li><Link to="/about">About the Company</Link></li>
-												<li><Link to="/contact">Contact Us</Link></li>
+												{/* <li><Link to="/contact">Contact Us</Link></li> */}
 												<li><Link to="/terms-of-use">Terms of Use</Link></li>
 												<li><Link to="/privacy-policy">Privacy Policy</Link></li>
 											</ul>
@@ -85,12 +85,12 @@ class Footer extends Component {
 										<div className="footer__col footer__col--alt">
 											<h2 className="text--bold text--sm">Contact</h2>
 											<p>We’re here to support you. Email us if you have any questions or concerns.</p>
-											<p>Email: <a href="#">Contact Support</a></p>
+											<p>Email: <a href="mailto:support@choosetobefit.net">Contact Support</a></p>
 											<p>Phone: <a href="tel:+14076050816">407-605-0816</a></p>
 											<ul className="list list--inline">
-												<li><a href="#"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></li>
-												<li><a href="#"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></li>
-												<li><a href="#"><FontAwesomeIcon icon={["fab", "youtube"]} /></a></li>
+												<li><a href="https://www.facebook.com/c2byou" target="_blank"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></li>
+												<li><a href="https://www.instagram.com/choosetobeyou_/" target="_blank"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></li>
+												{/* <li><a href="#"><FontAwesomeIcon icon={["fab", "youtube"]} /></a></li> */}
 											</ul>
 										</div>
 									</div>
