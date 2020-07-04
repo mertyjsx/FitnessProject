@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
 import { Link, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
+import GetQuote from '../admin/quote/GetQuote'
+import Forecast from '../enhancements/CurrentWeather'
 import GetRating from '../rating/GetRating'
 import ProCard from '../search/ProCard'
 
@@ -55,11 +58,23 @@ class Dashboard extends Component {
 					: null}
 				<div className="container container--top-bottom-padding">
 					<div className="row">
-						<div className="col">
+						<div className="col col--12">
+							<h1 className={`text--lg text--uppercase`}>Dashboard</h1>
+						</div>
+						<div className="col col--8">
 							<div className={`dashboard__head`}>
-								<h1 className={`text--lg text--uppercase`}>Dashboard</h1>
 								{this.renderFirstName(profile.firstName)}
+								<p style={{ paddingBottom: '10px' }}>Be the best version of YOU</p>
 							</div>
+						</div>
+						<div className="col col--4">
+							<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
+						</div>
+					</div>
+
+					<div className="row">
+						<div className="col col--12">
+							<GetQuote />
 						</div>
 					</div>
 
@@ -75,10 +90,10 @@ class Dashboard extends Component {
 					{/* <ProjectList projects={projects} /> */}
 
 					<div className="row">
-						{/* <div className="col">
+						<div className="col">
 							<a href={'/inbox'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-messages`}>
-									<div className={`dashboard__glance--standout`}>1</div>
+									<div className={`dashboard__glance--standout`}>0</div>
 									Active Messages
 								</div>
 							</a>
@@ -91,7 +106,7 @@ class Dashboard extends Component {
 								</div>
 							</a>
 						</div>
-						<div className="col">
+						{/* <div className="col">
 							<a href={'/bookings'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-bookings`}>
 									<div className={`dashboard__glance--standout`}>2</div>
@@ -153,6 +168,7 @@ class Dashboard extends Component {
 							<div className={'row'}>
 								{profile.interests ?
 									users && users.map(pro => {
+
 										if (pro.isPro && pro.isApproved) {
 											var interests = profile.interests
 											var specialties = pro.specialties
@@ -165,7 +181,6 @@ class Dashboard extends Component {
 															</Link>
 														)
 													}
-
 												}
 											}
 										}
@@ -198,8 +213,9 @@ const mapStateToProps = (state) => {
 
 export default compose(
 	connect(mapStateToProps),
-	// firestoreConnect([
-	// 	{ collection: 'projects', orderBy: ['createdAt', 'desc'] },
-	// 	{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
-	// ])
+	firestoreConnect([
+		// 	{ collection: 'projects', orderBy: ['createdAt', 'desc'] },
+		// 	{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
+		{ collection: 'users' }
+	])
 )(Dashboard)
