@@ -62,38 +62,38 @@ class ProfileUpdate extends Component {
 								<Input id="businessAddress2" type="text" label="Business Address 2" defaultValue={this.props.profile.businessAddress2} onChange={this.onChange} />
 							</Form.Field>
 							<Form.Field className="field--half">
-								<Input id="city" type="text" label="City" defaultValue={this.props.profile.businssCity} onChange={this.onChange} />
+								<Input id="businessCity" type="text" label="City" defaultValue={this.props.profile.businessCity} onChange={this.onChange} />
 							</Form.Field>
 							<Form.Field className="field--half">
-								<Input id="state" type="text" label="State" defaultValue={this.props.profile.businessState} onChange={this.onChange} />
+								<Input id="businessState" type="text" label="State" defaultValue={this.props.profile.businessState} onChange={this.onChange} />
 							</Form.Field>
 							<Form.Field className="field--half">
-								<Input id="zip" type="text" label="Zip Code" defaultValue={this.props.profile.businessZip} onChange={this.onChange} />
+								<Input id="businessZip" type="text" label="Zip Code" defaultValue={this.props.profile.businessZip} onChange={this.onChange} />
 							</Form.Field>
 						</div>
-						:
-						<div className="form__inner">
-							<div style={{ marginBottom: '50px' }} className={'col col--12'}></div>
-							<div className="field">
-								<h2>Address</h2>
-							</div>
-							<Form.Field>
-								<Input id="personalAddress1" type="text" label="Address 1" defaultValue={this.props.profile.personalAddress1} onChange={this.onChange} />
-							</Form.Field>
-							<Form.Field className="field--half">
-								<Input id="personalAddress2" type="text" label="Address 2" defaultValue={this.props.profile.personalAddress2} onChange={this.onChange} />
-							</Form.Field>
-							<Form.Field className="field--half">
-								<Input id="personalCity" type="text" label="City" defaultValue={this.props.profile.personalCity} onChange={this.onChange} />
-							</Form.Field>
-							<Form.Field className="field--half">
-								<Input id="personalState" type="text" label="State" defaultValue={this.props.profile.personalState} onChange={this.onChange} />
-							</Form.Field>
-							<Form.Field className="field--half">
-								<Input id="personalZip" type="text" label="Zip Code" defaultValue={this.props.profile.personalZip} onChange={this.onChange} />
-							</Form.Field>
+						: ''}
+					<div className="form__inner">
+						<div style={{ marginBottom: '50px' }} className={'col col--12'}></div>
+						<div className="field">
+							<h2>Personal Address</h2>
 						</div>
-					}
+						<Form.Field>
+							<Input id="personalAddress1" type="text" label="Address 1" defaultValue={this.props.profile.personalAddress1} onChange={this.onChange} />
+						</Form.Field>
+						<Form.Field className="field--half">
+							<Input id="personalAddress2" type="text" label="Address 2" defaultValue={this.props.profile.personalAddress2} onChange={this.onChange} />
+						</Form.Field>
+						<Form.Field className="field--half">
+							<Input id="personalCity" type="text" label="City" defaultValue={this.props.profile.personalCity} onChange={this.onChange} />
+						</Form.Field>
+						<Form.Field className="field--half">
+							<Input id="personalState" type="text" label="State" defaultValue={this.props.profile.personalState} onChange={this.onChange} />
+						</Form.Field>
+						<Form.Field className="field--half">
+							<Input id="personalZip" type="text" label="Zip Code" defaultValue={this.props.profile.personalZip} onChange={this.onChange} />
+						</Form.Field>
+					</div>
+
 					<Form.Field>
 						<Button className={'button button--secondary text--uppercase text--font-secondary text--sm'}>Update Profile</Button>
 					</Form.Field>
