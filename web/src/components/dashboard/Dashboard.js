@@ -10,6 +10,29 @@ import ProCard from '../search/ProCard'
 
 class Dashboard extends Component {
 
+	constructor(props) {
+
+		super(props)
+
+		this.state = {
+			Booking: 0,
+			Inbox: 0
+
+		}
+
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps !== this.props) {
+
+			if (this.props.interactions) {
+				const BookingArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "booking")
+				const InboxArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "inquiry")
+				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length })
+			}
+		}
+	}
+
 	renderFirstName = (firstName) => {
 		if (typeof firstName === 'undefined' || firstName.length === 0) {
 			return null
@@ -93,7 +116,7 @@ class Dashboard extends Component {
 						<div className="col">
 							<a href={'/inbox'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-messages`}>
-									<div className={`dashboard__glance--standout`}>0</div>
+									<div className={`dashboard__glance--standout`}>{/* this.state.Inbox*/}Read</div>
 									Active Messages
 								</div>
 							</a>
@@ -101,7 +124,7 @@ class Dashboard extends Component {
 						<div className="col">
 							<a href={'/bookings'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-requests`}>
-									<div className={`dashboard__glance--standout`}>1</div>
+									<div className={`dashboard__glance--standout`}>{/*this.state.Booking*/}View</div>
 									Active Bookings
 								</div>
 							</a>
@@ -205,6 +228,7 @@ const mapStateToProps = (state) => {
 	return {
 		// projects: state.firestore.ordered.projects,
 		auth: state.firebase.auth,
+		interactions: state.firestore.ordered.interactions,
 		// notifications: state.firestore.ordered.notifications,
 		profile: state.firebase.profile,
 		users: state.firestore.ordered.users,
@@ -216,6 +240,7 @@ export default compose(
 	firestoreConnect([
 		// 	{ collection: 'projects', orderBy: ['createdAt', 'desc'] },
 		// 	{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
+		{ collection: 'interactions', orderBy: ['createdAt', 'desc'] },
 		{ collection: 'users' }
 	])
 )(Dashboard)
