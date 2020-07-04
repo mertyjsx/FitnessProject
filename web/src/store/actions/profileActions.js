@@ -38,9 +38,9 @@ export const updateProfile = (profileDetails) => {
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
 		// console.log('update action spec called', profileDetails, userID);
-		firestore.collection('users').doc(userID).update({
+		firestore.collection('users').doc(userID).set({
 			...profileDetails,
-		}).then(() => {
+		}, { merge: true }).then(() => {
 			console.log('success');
 			dispatch({ type: 'CREATE_INTERACTION', profileDetails });
 		}).catch((error) => {
