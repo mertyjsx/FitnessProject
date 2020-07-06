@@ -22,8 +22,9 @@ class Filter extends Component {
 
 		this.state = {
 			adress: "",
-			name: '',
+			ptype: '',
 			pph: '',
+
 			businessCity: '',
 			All: this.props.all,
 			filteredResult: this.props.all ? this.props.all : []
@@ -40,13 +41,13 @@ class Filter extends Component {
 	Filter = () => {
 		let Filterresult = this.props.all ? this.props.all : []
 
-		if (this.state.name) {
+		if (this.state.ptype) {
 			Filterresult = this.props.all && this.props.all.filter(item => {
-				console.log(item.firstName)
+				
 
-				console.log(item.firstName.includes(this.state.name.toLocaleLowerCase()))
+				
 
-				return (item.firstName.includes(this.state.name.toLocaleLowerCase()))
+				return (item.professions[this.state.ptype])
 
 
 			}
@@ -137,7 +138,7 @@ class Filter extends Component {
 
 
 	render() {
-		const { pph, name, businessCity } = this.state
+		
 		const { all, pphs, postcodes, count, updateFilter } = this.props
 
 		return (
@@ -149,16 +150,20 @@ class Filter extends Component {
 						noValidate
 					>
 						<div className="row">
-							<div className="col">
-								<label htmlFor="name" className="screen-reader-text">Search By Name</label>
-								<input id={`name`}
-									style={{ backgroundImage: `url(${search})` }}
-									autoComplete={false}
-									value={this.state.name}
-									type="text"
-									name="name"
-									placeholder="Search By Name"
-									onChange={(e) => this.handleChange('name', e.target.value)} />
+						<div className="col">
+								<label htmlFor="ptype" className="screen-reader-text">Pro type</label>
+								<select
+									id={`ptype`}
+									// style={{ backgroundImage: `url(${dollar})` }}
+									value={this.state.ptype}
+									onChange={e => this.handleChange('ptype', e.target.value)}>
+									<option value="">Pro Type</option>
+									<option value="fitnessTrainer">Fitness Trainer</option>
+									<option value="chef">Chef</option>
+									<option value="massageTherapist">Message Therapist</option>
+									<option value="nutritionist">Nutritionist</option>
+									
+								</select>
 							</div>
 							<div className="col">
 								<label htmlFor="businessCity" className="screen-reader-text">Search By City,ZipCode,State</label>
