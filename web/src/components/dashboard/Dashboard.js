@@ -7,7 +7,7 @@ import GetQuote from '../admin/quote/GetQuote'
 import Forecast from '../enhancements/CurrentWeather'
 import GetRating from '../rating/GetRating'
 import ProCard from '../search/ProCard'
-
+import ResendEmail from "../auth/resendEmailLink"
 class Dashboard extends Component {
 
 	constructor(props) {
@@ -76,6 +76,7 @@ class Dashboard extends Component {
 					<div className="status status--warning">
 						<div className="container">
 							<p>Check your inbox. Please confirm you email.</p>
+							<ResendEmail text="Resend Email Verification"/>
 						</div>
 					</div>
 					: null}

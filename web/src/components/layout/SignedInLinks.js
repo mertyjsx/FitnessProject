@@ -11,17 +11,30 @@ const SignedInLinks = (props) => {
 	const [profileActive, setProfileState] = useState(false)
 	const [BookingCount, setBookingCount] = useState(0)
 	const [InboxCount, setInboxCount] = useState(0)
+	const [DashboardCount, setDashboardCount] = useState(0);
 	const settingsClick = () => { setProfileState(!profileActive) }
 	const navClick = () => { props.menuActive(false) }
 
 	React.useEffect(() => {
-		if (props.interactions) {
-			const BookingArray = props.interactions.filter(item => item.update == true && item.interactionType === "booking")
-			const InboxArray = props.interactions.filter(item => item.update == true && item.interactionType === "inquiry")
-			console.log(BookingArray)
-			setBookingCount(BookingArray.length)
-			setInboxCount(InboxArray.length)
-		}
+		if(props.interactions){
+	
+	
+	
+	
+	const BookingArray=props.interactions.filter(item=>item.update==true&&item.interactionType==="booking"&&(item.proUID === props.auth.uid||item.userUID === props.auth.uid))
+	const InboxArray=props.interactions.filter(item=>item.update==true&&item.interactionType==="inquiry"&&	(item.proUID === props.auth.uid||item.userUID === props.auth.uid))
+	const DashArray=props.interactions.filter(item=>item.status==="active"&&(item.proUID === props.auth.uid||item.userUID === props.auth.uid))
+	
+	
+	
+	
+	console.log(BookingArray)
+	
+	setBookingCount(BookingArray.length)
+	setInboxCount(InboxArray.length)
+	setDashboardCount(DashArray.length)
+	}
+	
 	}, [props.interactions])
 
 	if (props.profile.onboardingCompleted === false) {
@@ -36,7 +49,7 @@ const SignedInLinks = (props) => {
 					{props.profile.isAdmin && (
 						<li><NavLink onClick={navClick} to="/admin" className="header__nav-link">Admin</NavLink></li>
 					)}
-					<li><NavLink onClick={navClick} to="/dashboard" className="header__nav-link">Dashboard</NavLink></li>
+					<li><NavLink onClick={navClick} to="/dashboard" className="header__nav-link">Dashboard  {DashboardCount > 0 && <div className="circle-notification">{DashboardCount}</div>}</NavLink></li>
 					<li><NavLink onClick={navClick} to="/inbox" className="header__nav-link">Inbox {InboxCount > 0 && <div className="circle-notification">{InboxCount}</div>}</NavLink></li>
 					<li><NavLink onClick={navClick} to="/bookings" className="header__nav-link">Bookings {BookingCount > 0 && <div className="circle-notification">{BookingCount}</div>}</NavLink></li>
 					<li><NavLink onClick={navClick} to="/profile-edit" className="header__nav-link">Profile</NavLink></li>
@@ -75,6 +88,7 @@ const mapStateToProps = (state) => {
 	return {
 		interactions: state.firestore.ordered.interactions,
 		// interactionType: interactions.interactionType
+		auth: state.firebase.auth,
 	}
 }
 

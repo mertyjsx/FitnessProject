@@ -54,6 +54,43 @@ export const signUp = (newUser) => {
 	}
 }
 
+
+export const resendEmail = () => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		
+		const currentUser=firebase.auth().currentUser
+
+console.log(currentUser)
+
+		
+			// console.log('current user', currentUser);
+
+			currentUser.sendEmailVerification()
+				.then(function () {
+					dispatch({ type: 'SIGNUP_SUCCESS' });
+					// Email sent.
+
+				}).catch(function (error) {
+					// An error happened.
+					console.log('error');
+				});
+		
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const signUpClientWithFacebook = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
