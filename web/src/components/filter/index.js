@@ -60,11 +60,19 @@ class Filter extends Component {
 
 		if (this.state.businessCity) {
 
-
-
 			Filterresult = Filterresult.filter(item => {
 
-				return (item.businessCity.toLocaleLowerCase().includes(this.state.businessCity.toLocaleLowerCase()))
+				let State = item.businessState ? item.businessState : ""
+				let Zip = item.businessZip ? item.businessZip : ""
+				let City = item.businessCity ? item.businessCity : ""
+
+
+				let proAdress = `${State}${Zip}${City}`
+
+				console.log(proAdress)
+
+
+				return (proAdress.toLocaleLowerCase().includes(this.state.businessCity.toLocaleLowerCase()))
 
 			}
 			)
@@ -74,7 +82,7 @@ class Filter extends Component {
 		}
 
 
-		console.log(Filterresult)
+
 		if (Filterresult.length > 0) {
 
 			this.setState({ filteredResult: Filterresult }, () => this.props.updateState({ ...this.state, MapOpen: false }))
@@ -131,7 +139,7 @@ class Filter extends Component {
 	render() {
 		const { pph, name, businessCity } = this.state
 		const { all, pphs, postcodes, count, updateFilter } = this.props
-		console.log(this.state)
+
 		return (
 			<aside className="filter">
 				<div className="container">
@@ -153,7 +161,7 @@ class Filter extends Component {
 									onChange={(e) => this.handleChange('name', e.target.value)} />
 							</div>
 							<div className="col">
-								<label htmlFor="businessCity" className="screen-reader-text">Search By City</label>
+								<label htmlFor="businessCity" className="screen-reader-text">Search By City,ZipCode,State</label>
 								<input id={`businessCity`}
 									style={{ backgroundImage: `url(${where})` }}
 									value={this.state.businessCity}
