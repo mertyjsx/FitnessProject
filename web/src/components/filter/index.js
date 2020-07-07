@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import search from '../../assets/images/search.png';
 import where from '../../assets/images/where.png';
 
 function getSortOrderValue(sortOrder) {
@@ -14,101 +13,87 @@ function getPropertiesDisplayText(count) {
 }
 
 
-
 class Filter extends Component {
 
 	constructor(s) {
 		super(s)
-
 		this.state = {
 			adress: "",
-			name: '',
+			ptype: '',
 			pph: '',
 			businessCity: '',
 			All: this.props.all,
-			filteredResult: this.props.all ? this.props.all : []
-
+			filteredResult: this.props.all ? this.props.all : [],
+			noProsFound: "No Pros Found"
 			// sortOrder: '',
 			// sortOrders: ['Highest First', 'Lowest First']
 		}
-
-
-
 	}
-
 
 	Filter = () => {
 		let Filterresult = this.props.all ? this.props.all : []
-
-		if (this.state.name) {
+		if (this.state.ptype) {
 			Filterresult = this.props.all && this.props.all.filter(item => {
-				console.log(item.firstName)
-
-				console.log(item.firstName.includes(this.state.name.toLocaleLowerCase()))
-
-				return (item.firstName.includes(this.state.name.toLocaleLowerCase()))
-
-
-			}
-
-
-			)
-
-
-
+				return (item.professions[this.state.ptype])
+			})
 		}
 
 		if (this.state.businessCity) {
-
-
-
 			Filterresult = Filterresult.filter(item => {
-
-				return (item.businessCity.toLocaleLowerCase().includes(this.state.businessCity.toLocaleLowerCase()))
-
-			}
-			)
-
-
-
+				let State = item.businessState ? item.businessState : ""
+				let Zip = item.businessZip ? item.businessZip : ""
+				let City = item.businessCity ? item.businessCity : ""
+				let proAdress = `${State}${Zip}${City}`
+				// console.log(proAdress)
+				return (proAdress.toLocaleLowerCase().includes(this.state.businessCity.toLocaleLowerCase()))
+			})
 		}
 
 
-		console.log(Filterresult)
+		if (this.state.pph) {
+			Filterresult = Filterresult.filter(pro => {
+				var proRates = []
+				pro.ratesInPersonChef && proRates.push(parseInt(pro.ratesInPersonChef))
+				pro.ratesOnlineChef && proRates.push(parseInt(pro.ratesOnlineChef))
+				pro.ratesInPersonFitnessTrainer && proRates.push(parseInt(pro.ratesInPersonFitnessTrainer))
+				pro.ratesOnlineFitnessTrainer && proRates.push(parseInt(pro.ratesOnlineFitnessTrainer))
+				pro.ratesInPersonMassageTherapist && proRates.push(parseInt(pro.ratesInPersonMassageTherapist))
+				pro.ratesOnlineMassageTherapist && proRates.push(parseInt(pro.ratesOnlineMassageTherapist))
+				pro.ratesInPersonNutritionist && proRates.push(parseInt(pro.ratesInPersonNutritionist))
+				pro.ratesOnlineNutritionist && proRates.push(parseInt(pro.ratesOnlineNutritionist))
+				proRates.sort((a, b) => a - b);
+				console.log(Number(this.state.pph) > proRates[0])
+				return (
+					Number(this.state.pph) >= proRates[0]
+				)
+			})
+		}
+
 		if (Filterresult.length > 0) {
-
-			this.setState({ filteredResult: Filterresult }, () => this.props.updateState({ ...this.state, MapOpen: false }))
-
+			this.setState({ filteredResult: Filterresult }, () => this.props.updateState({ ...this.state, MapOpen: false, noProsFound: "" }))
 		} else {
-			this.setState({ filteredResult: this.props.all }, () => this.props.updateState({ ...this.state, MapOpen: false }))
-
+			this.setState({ filteredResult: [] }, () => this.props.updateState({ ...this.state, MapOpen: false, noProsFound: "yep" }))
 		}
-
-
-
-
 	}
 
 
 
 	handleChange = (prop, value) => {
-
-
 		this.setState({
 			[prop]: value
 		}, () => this.Filter())
-
-
 	}
 
-
-
-
-
-
-
-
-
+	resetFilter = () => {
+		this.setState({
+			filteredResult: this.props.all,
+			adress: "",
+			ptype: '',
+			pph: '',
+			businessCity: '',
+			All: this.props.all,
+		}, () => this.Filter())
+	}
 
 	renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions, loading }) => (
 		<div className="autocomplete-root">
@@ -124,36 +109,30 @@ class Filter extends Component {
 		</div>
 	);
 
-
-
-
-
 	render() {
-		const { pph, name, businessCity } = this.state
 		const { all, pphs, postcodes, count, updateFilter } = this.props
-		console.log(this.state)
 		return (
 			<aside className="filter">
 				<div className="container">
-					<form
-						autoComplete={false}
-
-						noValidate
-					>
+					<form autoComplete={false} noValidate>
 						<div className="row">
 							<div className="col">
-								<label htmlFor="name" className="screen-reader-text">Search By Name</label>
-								<input id={`name`}
-									style={{ backgroundImage: `url(${search})` }}
-									autoComplete={false}
-									value={this.state.name}
-									type="text"
-									name="name"
-									placeholder="Search By Name"
-									onChange={(e) => this.handleChange('name', e.target.value)} />
+								<label htmlFor="ptype" className="screen-reader-text">Pro type</label>
+								<select
+									id={`ptype`}
+									// style={{ backgroundImage: `url(${dollar})` }}
+									value={this.state.ptype}
+									onChange={e => this.handleChange('ptype', e.target.value)}>
+									<option value="">Pro Type</option>
+									<option value="fitnessTrainer">Fitness Trainer</option>
+									<option value="chef">Chef</option>
+									<option value="massageTherapist">Message Therapist</option>
+									<option value="nutritionist">Nutritionist</option>
+
+								</select>
 							</div>
 							<div className="col">
-								<label htmlFor="businessCity" className="screen-reader-text">Search By City</label>
+								<label htmlFor="businessCity" className="screen-reader-text">Search By City,ZipCode,State</label>
 								<input id={`businessCity`}
 									style={{ backgroundImage: `url(${where})` }}
 									value={this.state.businessCity}
@@ -186,8 +165,7 @@ class Filter extends Component {
 									data-cy="clear-button"
 									type="button"
 									onClick={() => {
-										this.setState(this.state)
-										updateFilter({})
+										this.resetFilter()
 									}}
 								>Reset Filter</button>
 							</div>
