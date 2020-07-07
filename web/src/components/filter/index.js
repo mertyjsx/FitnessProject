@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import search from '../../assets/images/search.png';
 import where from '../../assets/images/where.png';
 
 function getSortOrderValue(sortOrder) {
@@ -19,105 +18,50 @@ class Filter extends Component {
 
 	constructor(s) {
 		super(s)
-
 		this.state = {
-			adress: "",
+			address: "",
 			ptype: '',
 			pph: '',
-
 			businessCity: '',
 			All: this.props.all,
 			filteredResult: this.props.all ? this.props.all : []
-
 			// sortOrder: '',
 			// sortOrders: ['Highest First', 'Lowest First']
 		}
-
-
-
 	}
 
 
 	Filter = () => {
 		let Filterresult = this.props.all ? this.props.all : []
-
 		if (this.state.ptype) {
 			Filterresult = this.props.all && this.props.all.filter(item => {
-				
-
-				
-
 				return (item.professions[this.state.ptype])
-
-
-			}
-
-
-			)
-
-
-
+			})
 		}
 
 		if (this.state.businessCity) {
-
 			Filterresult = Filterresult.filter(item => {
-
 				let State = item.businessState ? item.businessState : ""
 				let Zip = item.businessZip ? item.businessZip : ""
 				let City = item.businessCity ? item.businessCity : ""
-
-
-				let proAdress = `${State}${Zip}${City}`
-
-				console.log(proAdress)
-
-
-				return (proAdress.toLocaleLowerCase().includes(this.state.businessCity.toLocaleLowerCase()))
-
-			}
-			)
-
-
-
+				let proAddress = `${State}${Zip}${City}`
+				// console.log(proAdress)
+				return (proAddress.toLocaleLowerCase().includes(this.state.businessCity.toLocaleLowerCase()))
+			})
 		}
-
-
 
 		if (Filterresult.length > 0) {
-
 			this.setState({ filteredResult: Filterresult }, () => this.props.updateState({ ...this.state, MapOpen: false }))
-
 		} else {
 			this.setState({ filteredResult: this.props.all }, () => this.props.updateState({ ...this.state, MapOpen: false }))
-
 		}
-
-
-
-
 	}
 
-
-
 	handleChange = (prop, value) => {
-
-
 		this.setState({
 			[prop]: value
 		}, () => this.Filter())
-
-
 	}
-
-
-
-
-
-
-
-
-
 
 	renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions, loading }) => (
 		<div className="autocomplete-root">
@@ -138,19 +82,15 @@ class Filter extends Component {
 
 
 	render() {
-		
+
 		const { all, pphs, postcodes, count, updateFilter } = this.props
 
 		return (
 			<aside className="filter">
 				<div className="container">
-					<form
-						autoComplete={false}
-
-						noValidate
-					>
+					<form autoComplete={false} noValidate >
 						<div className="row">
-						<div className="col">
+							<div className="col">
 								<label htmlFor="ptype" className="screen-reader-text">Pro type</label>
 								<select
 									id={`ptype`}
@@ -162,7 +102,7 @@ class Filter extends Component {
 									<option value="chef">Chef</option>
 									<option value="massageTherapist">Message Therapist</option>
 									<option value="nutritionist">Nutritionist</option>
-									
+
 								</select>
 							</div>
 							<div className="col">
