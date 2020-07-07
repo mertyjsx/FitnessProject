@@ -51,10 +51,9 @@ class FindAPro extends Component {
 				<ProActiveListingsProvider>
 					<ProActiveListingsConsumer>
 						{({ proActiveListings, allListings, updateFilter }) => {
-
 							let ListPros = searchingResults.filteredResult ? searchingResults.filteredResult : allListings
-let notFound=searchingResults.noProsFound
-console.log(notFound)
+							let notFound = searchingResults.noProsFound
+							console.log(notFound)
 							return (
 								<>
 									<Filter
@@ -90,12 +89,11 @@ console.log(notFound)
 													<ProCard pro={pro} />
 												</Link>
 											))}
-{
-
-	notFound&&<h1>No Pros Found</h1>
-}
-
-
+											{notFound && (
+												<div style={{ padding: '50px 0', textAlign: 'center', width: '100%' }}>
+													<h2>No Pros Found</h2>
+												</div>
+											)}
 										</div>
 									</div>
 								</>
