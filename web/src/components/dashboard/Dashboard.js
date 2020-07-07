@@ -4,27 +4,23 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { Link, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
 import GetQuote from '../admin/quote/GetQuote'
+import ResendEmail from "../auth/resendEmailLink"
 import Forecast from '../enhancements/CurrentWeather'
 import GetRating from '../rating/GetRating'
 import ProCard from '../search/ProCard'
-import ResendEmail from "../auth/resendEmailLink"
+
 class Dashboard extends Component {
 
 	constructor(props) {
-
 		super(props)
-
 		this.state = {
 			Booking: 0,
 			Inbox: 0
-
 		}
-
 	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps !== this.props) {
-
 			if (this.props.interactions) {
 				const BookingArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
 				const InboxArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "inquiry" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
@@ -75,8 +71,7 @@ class Dashboard extends Component {
 				{auth.emailVerified !== true ?
 					<div className="status status--warning">
 						<div className="container">
-							<p>Check your inbox. Please confirm you email.</p>
-							<ResendEmail text="Resend Email Verification"/>
+							<p>Please check your inbox and confirm you email. <ResendEmail text="Click here to resend." /></p>
 						</div>
 					</div>
 					: null}
