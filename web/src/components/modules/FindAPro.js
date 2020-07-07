@@ -53,7 +53,8 @@ class FindAPro extends Component {
 						{({ proActiveListings, allListings, updateFilter }) => {
 
 							let ListPros = searchingResults.filteredResult ? searchingResults.filteredResult : allListings
-
+let notFound=searchingResults.noProsFound
+console.log(notFound)
 							return (
 								<>
 									<Filter
@@ -89,6 +90,12 @@ class FindAPro extends Component {
 													<ProCard pro={pro} />
 												</Link>
 											))}
+{
+
+	notFound&&<h1>No Pros Found</h1>
+}
+
+
 										</div>
 									</div>
 								</>

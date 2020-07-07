@@ -27,8 +27,8 @@ class Filter extends Component {
 
 			businessCity: '',
 			All: this.props.all,
-			filteredResult: this.props.all ? this.props.all : []
-
+			filteredResult: this.props.all ? this.props.all : [],
+noProsFound:"yep"
 			// sortOrder: '',
 			// sortOrders: ['Highest First', 'Lowest First']
 		}
@@ -36,6 +36,22 @@ class Filter extends Component {
 
 
 	}
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	Filter = () => {
@@ -83,13 +99,43 @@ class Filter extends Component {
 		}
 
 
+		if (this.state.pph) {
+
+			Filterresult = Filterresult.filter(pro => {
+
+				var proRates = []
+		pro.ratesInPersonChef && proRates.push(parseInt(pro.ratesInPersonChef))
+		pro.ratesOnlineChef && proRates.push(parseInt(pro.ratesOnlineChef))
+		pro.ratesInPersonFitnessTrainer && proRates.push(parseInt(pro.ratesInPersonFitnessTrainer))
+		pro.ratesOnlineFitnessTrainer && proRates.push(parseInt(pro.ratesOnlineFitnessTrainer))
+		pro.ratesInPersonMassageTherapist && proRates.push(parseInt(pro.ratesInPersonMassageTherapist))
+		pro.ratesOnlineMassageTherapist && proRates.push(parseInt(pro.ratesOnlineMassageTherapist))
+		pro.ratesInPersonNutritionist && proRates.push(parseInt(pro.ratesInPersonNutritionist))
+		pro.ratesOnlineNutritionist && proRates.push(parseInt(pro.ratesOnlineNutritionist))
+		
+		proRates.sort((a, b) => a - b);
+	console.log(Number(this.state.pph)>proRates[0])
+		return (
+			
+			Number(this.state.pph)>=proRates[0]
+		)
+
+
+			
+			}
+			)
+
+
+		}
+
+
 
 		if (Filterresult.length > 0) {
 
-			this.setState({ filteredResult: Filterresult }, () => this.props.updateState({ ...this.state, MapOpen: false }))
+			this.setState({ filteredResult: Filterresult }, () => this.props.updateState({ ...this.state, MapOpen: false,noProsFound:"" }))
 
 		} else {
-			this.setState({ filteredResult: this.props.all }, () => this.props.updateState({ ...this.state, MapOpen: false }))
+			this.setState({ filteredResult: [] }, () => this.props.updateState({ ...this.state, MapOpen: false,noProsFound:"yep" }))
 
 		}
 
@@ -109,6 +155,21 @@ class Filter extends Component {
 
 
 	}
+
+resetFilter=()=>{
+
+this.setState({filteredResult:this.props.all,
+	adress: "",
+	ptype: '',
+	pph: '',
+
+	businessCity: '',
+	All: this.props.all,
+
+}, () => this.Filter())
+
+
+}
 
 
 
@@ -199,8 +260,7 @@ class Filter extends Component {
 									data-cy="clear-button"
 									type="button"
 									onClick={() => {
-										this.setState(this.state)
-										updateFilter({})
+									this.resetFilter()
 									}}
 								>Reset Filter</button>
 							</div>
