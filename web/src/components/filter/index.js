@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import search from '../../assets/images/search.png';
 import where from '../../assets/images/where.png';
 
 function getSortOrderValue(sortOrder) {
@@ -14,171 +13,87 @@ function getPropertiesDisplayText(count) {
 }
 
 
-
 class Filter extends Component {
 
 	constructor(s) {
 		super(s)
-
 		this.state = {
 			adress: "",
 			ptype: '',
 			pph: '',
-
 			businessCity: '',
 			All: this.props.all,
 			filteredResult: this.props.all ? this.props.all : [],
-noProsFound:"yep"
+			noProsFound: "No Pros Found"
 			// sortOrder: '',
 			// sortOrders: ['Highest First', 'Lowest First']
 		}
-
-
-
 	}
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	Filter = () => {
 		let Filterresult = this.props.all ? this.props.all : []
-
 		if (this.state.ptype) {
 			Filterresult = this.props.all && this.props.all.filter(item => {
-				
-
-				
-
 				return (item.professions[this.state.ptype])
-
-
-			}
-
-
-			)
-
-
-
+			})
 		}
 
 		if (this.state.businessCity) {
-
 			Filterresult = Filterresult.filter(item => {
-
 				let State = item.businessState ? item.businessState : ""
 				let Zip = item.businessZip ? item.businessZip : ""
 				let City = item.businessCity ? item.businessCity : ""
-
-
 				let proAdress = `${State}${Zip}${City}`
-
-				console.log(proAdress)
-
-
+				// console.log(proAdress)
 				return (proAdress.toLocaleLowerCase().includes(this.state.businessCity.toLocaleLowerCase()))
-
-			}
-			)
-
-
-
+			})
 		}
 
 
 		if (this.state.pph) {
-
 			Filterresult = Filterresult.filter(pro => {
-
 				var proRates = []
-		pro.ratesInPersonChef && proRates.push(parseInt(pro.ratesInPersonChef))
-		pro.ratesOnlineChef && proRates.push(parseInt(pro.ratesOnlineChef))
-		pro.ratesInPersonFitnessTrainer && proRates.push(parseInt(pro.ratesInPersonFitnessTrainer))
-		pro.ratesOnlineFitnessTrainer && proRates.push(parseInt(pro.ratesOnlineFitnessTrainer))
-		pro.ratesInPersonMassageTherapist && proRates.push(parseInt(pro.ratesInPersonMassageTherapist))
-		pro.ratesOnlineMassageTherapist && proRates.push(parseInt(pro.ratesOnlineMassageTherapist))
-		pro.ratesInPersonNutritionist && proRates.push(parseInt(pro.ratesInPersonNutritionist))
-		pro.ratesOnlineNutritionist && proRates.push(parseInt(pro.ratesOnlineNutritionist))
-		
-		proRates.sort((a, b) => a - b);
-	console.log(Number(this.state.pph)>proRates[0])
-		return (
-			
-			Number(this.state.pph)>=proRates[0]
-		)
-
-
-			
-			}
-			)
-
-
+				pro.ratesInPersonChef && proRates.push(parseInt(pro.ratesInPersonChef))
+				pro.ratesOnlineChef && proRates.push(parseInt(pro.ratesOnlineChef))
+				pro.ratesInPersonFitnessTrainer && proRates.push(parseInt(pro.ratesInPersonFitnessTrainer))
+				pro.ratesOnlineFitnessTrainer && proRates.push(parseInt(pro.ratesOnlineFitnessTrainer))
+				pro.ratesInPersonMassageTherapist && proRates.push(parseInt(pro.ratesInPersonMassageTherapist))
+				pro.ratesOnlineMassageTherapist && proRates.push(parseInt(pro.ratesOnlineMassageTherapist))
+				pro.ratesInPersonNutritionist && proRates.push(parseInt(pro.ratesInPersonNutritionist))
+				pro.ratesOnlineNutritionist && proRates.push(parseInt(pro.ratesOnlineNutritionist))
+				proRates.sort((a, b) => a - b);
+				console.log(Number(this.state.pph) > proRates[0])
+				return (
+					Number(this.state.pph) >= proRates[0]
+				)
+			})
 		}
-
-
 
 		if (Filterresult.length > 0) {
-
-			this.setState({ filteredResult: Filterresult }, () => this.props.updateState({ ...this.state, MapOpen: false,noProsFound:"" }))
-
+			this.setState({ filteredResult: Filterresult }, () => this.props.updateState({ ...this.state, MapOpen: false, noProsFound: "" }))
 		} else {
-			this.setState({ filteredResult: [] }, () => this.props.updateState({ ...this.state, MapOpen: false,noProsFound:"yep" }))
-
+			this.setState({ filteredResult: [] }, () => this.props.updateState({ ...this.state, MapOpen: false, noProsFound: "yep" }))
 		}
-
-
-
-
 	}
 
 
 
 	handleChange = (prop, value) => {
-
-
 		this.setState({
 			[prop]: value
 		}, () => this.Filter())
-
-
 	}
 
-resetFilter=()=>{
-
-this.setState({filteredResult:this.props.all,
-	adress: "",
-	ptype: '',
-	pph: '',
-
-	businessCity: '',
-	All: this.props.all,
-
-}, () => this.Filter())
-
-
-}
-
-
-
-
-
-
-
-
-
+	resetFilter = () => {
+		this.setState({
+			filteredResult: this.props.all,
+			adress: "",
+			ptype: '',
+			pph: '',
+			businessCity: '',
+			All: this.props.all,
+		}, () => this.Filter())
+	}
 
 	renderFunc = ({ getInputProps, getSuggestionItemProps, suggestions, loading }) => (
 		<div className="autocomplete-root">
@@ -194,24 +109,14 @@ this.setState({filteredResult:this.props.all,
 		</div>
 	);
 
-
-
-
-
 	render() {
-		
 		const { all, pphs, postcodes, count, updateFilter } = this.props
-
 		return (
 			<aside className="filter">
 				<div className="container">
-					<form
-						autoComplete={false}
-
-						noValidate
-					>
+					<form autoComplete={false} noValidate>
 						<div className="row">
-						<div className="col">
+							<div className="col">
 								<label htmlFor="ptype" className="screen-reader-text">Pro type</label>
 								<select
 									id={`ptype`}
@@ -223,7 +128,7 @@ this.setState({filteredResult:this.props.all,
 									<option value="chef">Chef</option>
 									<option value="massageTherapist">Message Therapist</option>
 									<option value="nutritionist">Nutritionist</option>
-									
+
 								</select>
 							</div>
 							<div className="col">
@@ -260,7 +165,7 @@ this.setState({filteredResult:this.props.all,
 									data-cy="clear-button"
 									type="button"
 									onClick={() => {
-									this.resetFilter()
+										this.resetFilter()
 									}}
 								>Reset Filter</button>
 							</div>
