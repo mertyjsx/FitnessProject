@@ -1,17 +1,13 @@
-import React, { Component, useState } from 'react'
-import { connect } from 'react-redux'
-import { Form, Radio, Button, Checkbox, Input } from 'semantic-ui-react'
-import { Redirect, Link, withRouter } from 'react-router-dom'
-import { addDays } from "date-fns";
-import { completeOnboarding } from '../../store/actions/authActions'
-import spinner from '../../assets/images/spinner.gif'
-import ImageUpload from '../profileEdit/imageUpload/ImageUpload';
-import RenderImage from '../profileEdit/imageUpload/RenderImage';
-import LicenseImageUpload from '../profileEdit/imageUpload/LicenseImageUpload';
-import RenderLicense from '../profileEdit/imageUpload/RenderLicense';
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Button, Form, Input } from 'semantic-ui-react';
+import ellipses from '../../assets/images/ellipsis.gif';
+import { completeOnboarding } from '../../store/actions/authActions';
 import Loading from '../modules/Loading';
-import ellipses from '../../assets/images/ellipsis.gif'
+import ImageUpload from '../profileEdit/imageUpload/ImageUpload';
+import LicenseImageUpload from '../profileEdit/imageUpload/LicenseImageUpload';
+
 
 class Onboarding extends Component {
 
@@ -20,9 +16,9 @@ class Onboarding extends Component {
 		this.state = {
 			onboardingCompleted: true,
 			onboardingUploading: false,
-			both:true,
-online:false,
-inperson:false
+			both: true,
+			online: false,
+			inperson: false
 		}
 		this.handleSpecialties = this.handleSpecialties.bind(this)
 		this.handleChange = this.handleChange.bind(this)
@@ -73,25 +69,25 @@ inperson:false
 		}, 3000)
 	}
 
-handleSelector=(name,e)=>{
-	console.log(name)
-	console.log(e.target.checked)
-if(name==="both"){
-	let bool=e.target.checked
-	this.setState({both:bool,inperson:!bool,online:!bool})
-}
-if(name==="inperson"){
-	let bool=e.target.checked
-   this.setState({both:!bool,inperson:bool,online:!bool})
-}
-if(name==="online"){
-	let bool=e.target.checked
-	this.setState({both:!bool,inperson:!bool,online:bool})
-}
+	handleSelector = (name, e) => {
+		console.log(name)
+		console.log(e.target.checked)
+		if (name === "both") {
+			let bool = e.target.checked
+			this.setState({ both: bool, inperson: !bool, online: !bool })
+		}
+		if (name === "inperson") {
+			let bool = e.target.checked
+			this.setState({ both: !bool, inperson: bool, online: !bool })
+		}
+		if (name === "online") {
+			let bool = e.target.checked
+			this.setState({ both: !bool, inperson: !bool, online: bool })
+		}
 
 
 
-}
+	}
 
 
 	render() {
@@ -182,36 +178,39 @@ if(name==="online"){
 													<label htmlFor="juicesAndSmoothies">Juices and Smoothies</label>
 												</div>
 											</Form.Field>
-											
-											
-											<Form.Field className={'field--cols'} >
-												
+
+
+											<Form.Field className={'field--cols'} style={{ padding: '20px 0 0' }} >
+												<div style={{ flex: '0 1 100%' }}>
+													<h2>Rates</h2>
+												</div>
+
 												<div className="ui checkbox">
-													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e)=>this.handleSelector("online",e)} />
+													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
 													<label htmlFor="online">Online</label>
 												</div>
 												<div className="ui checkbox">
-													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e)=>this.handleSelector("inperson",e)} />
-													<label htmlFor="inperson">Inperson</label>
+													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
+													<label htmlFor="inperson">In-Person</label>
 												</div>
 												<div className="ui checkbox">
-													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e)=>this.handleSelector("both",e)} />
-													<label htmlFor="both">both</label>
+													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
+													<label htmlFor="both">Both</label>
 												</div>
-											
+
 											</Form.Field>
-                                            {(this.state.online||this.state.both)&&
-											<Form.Field className={'field--half'}>
-											<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
-											</Form.Field>
+											{(this.state.online || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
 											}
-									
-											{(this.state.inperson||this.state.both)&&
-											<Form.Field className={'field--half'}>
-											<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
-										    </Form.Field>
+
+											{(this.state.inperson || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
 											}
-											
+
 										</>
 									)}
 
@@ -244,33 +243,33 @@ if(name==="online"){
 												</div>
 											</Form.Field>
 											<Form.Field className={'field--cols'} >
-												
+
 												<div className="ui checkbox">
-													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e)=>this.handleSelector("online",e)} />
+													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
 													<label htmlFor="online">Online</label>
 												</div>
 												<div className="ui checkbox">
-													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e)=>this.handleSelector("inperson",e)} />
+													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
 													<label htmlFor="inperson">Inperson</label>
 												</div>
 												<div className="ui checkbox">
-													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e)=>this.handleSelector("both",e)} />
+													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
 													<label htmlFor="both">both</label>
 												</div>
-											
+
 											</Form.Field>
-                                            {(this.state.online||this.state.both)&&
-											<Form.Field className={'field--half'}>
-											<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
-											</Form.Field>
+											{(this.state.online || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
 											}
-									
-											{(this.state.inperson||this.state.both)&&
-											<Form.Field className={'field--half'}>
-											<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
-										    </Form.Field>
+
+											{(this.state.inperson || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
 											}
-											
+
 										</>
 									)}
 
@@ -319,33 +318,33 @@ if(name==="online"){
 												</div>
 											</Form.Field>
 											<Form.Field className={'field--cols'} >
-												
+
 												<div className="ui checkbox">
-													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e)=>this.handleSelector("online",e)} />
+													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
 													<label htmlFor="online">Online</label>
 												</div>
 												<div className="ui checkbox">
-													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e)=>this.handleSelector("inperson",e)} />
+													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
 													<label htmlFor="inperson">Inperson</label>
 												</div>
 												<div className="ui checkbox">
-													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e)=>this.handleSelector("both",e)} />
+													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
 													<label htmlFor="both">both</label>
 												</div>
-											
+
 											</Form.Field>
-                                            {(this.state.online||this.state.both)&&
-											<Form.Field className={'field--half'}>
-											<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
-											</Form.Field>
+											{(this.state.online || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
 											}
-									
-											{(this.state.inperson||this.state.both)&&
-											<Form.Field className={'field--half'}>
-											<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
-										    </Form.Field>
+
+											{(this.state.inperson || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
 											}
-											
+
 										</>
 									)}
 
@@ -412,33 +411,33 @@ if(name==="online"){
 
 
 											<Form.Field className={'field--cols'} >
-												
+
 												<div className="ui checkbox">
-													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e)=>this.handleSelector("online",e)} />
+													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
 													<label htmlFor="online">Online</label>
 												</div>
 												<div className="ui checkbox">
-													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e)=>this.handleSelector("inperson",e)} />
+													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
 													<label htmlFor="inperson">Inperson</label>
 												</div>
 												<div className="ui checkbox">
-													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e)=>this.handleSelector("both",e)} />
+													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
 													<label htmlFor="both">both</label>
 												</div>
-											
+
 											</Form.Field>
-                                            {(this.state.online||this.state.both)&&
-											<Form.Field className={'field--half'}>
-											<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
-											</Form.Field>
+											{(this.state.online || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
 											}
-									
-											{(this.state.inperson||this.state.both)&&
-											<Form.Field className={'field--half'}>
-											<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
-										    </Form.Field>
+
+											{(this.state.inperson || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
 											}
-											
+
 										</>
 									)}
 
@@ -455,10 +454,10 @@ if(name==="online"){
 										<p>We'd like to know more about you! The infromation you provide here will be part of your profile.</p>
 									</div>
 									<Form.Field>
-										<label htmlFor="about">About *</label>
+										<label htmlFor="about">About / Experience *</label>
 										<textarea id={'about'} placeholder="Tell us about You." onChange={this.handleChange} required></textarea>
 									</Form.Field>
-								
+
 								</div>
 							</div>
 
