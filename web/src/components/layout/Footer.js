@@ -89,7 +89,7 @@ class Footer extends Component {
 											<p>Phone: <a href="tel:+14076050816">407-605-0816</a></p>
 											<ul className="list list--inline">
 												<li><a href="https://www.facebook.com/c2byou" target="_blank"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></li>
-												<li><a href="https://www.instagram.com/choosetobeyou_/" target="_blank"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></li>
+												<li><a href="https://www.instagram.com/choosetobeyou_/" target="_blank"><FontAwesomeIcon icon={["fab", "instagram"]} /></a></li>
 												{/* <li><a href="#"><FontAwesomeIcon icon={["fab", "youtube"]} /></a></li> */}
 											</ul>
 										</div>

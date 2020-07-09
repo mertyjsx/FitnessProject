@@ -87,7 +87,9 @@ class Dashboard extends Component {
 							</div>
 						</div>
 						<div className="col col--4">
-							<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
+							{this.props.profile.personalCity || this.props.profile.businessCity && (
+								<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
+							)}
 						</div>
 					</div>
 
@@ -192,13 +194,15 @@ class Dashboard extends Component {
 											var interests = profile.interests
 											var specialties = pro.specialties
 											for (const [key, value] of Object.entries(interests)) {
-												for (const [key2, value2] of Object.entries(specialties)) {
-													if (key === key2 && value === value2) {
-														return (
-															<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
-																<ProCard pro={pro} compact={true} />
-															</Link>
-														)
+												if (specialties) {
+													for (const [key2, value2] of Object.entries(specialties)) {
+														if (key === key2 && value === value2) {
+															return (
+																<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
+																	<ProCard pro={pro} compact={true} />
+																</Link>
+															)
+														}
 													}
 												}
 											}
