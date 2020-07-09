@@ -7,7 +7,7 @@ import { completeOnboarding } from '../../store/actions/authActions';
 import Loading from '../modules/Loading';
 import ImageUpload from '../profileEdit/imageUpload/ImageUpload';
 import LicenseImageUpload from '../profileEdit/imageUpload/LicenseImageUpload';
-import PaypalModal from "./paypalModal"
+import PaypalModal from "./paypalModal";
 
 
 
@@ -100,7 +100,7 @@ class Onboarding extends Component {
 		if (profile.isEmpty !== true) {
 			return (
 				<div className="onboarding">
-					
+
 					{this.state.onboardingUploading ?
 						<div className="uploading">
 							<div className="uploading__content">
@@ -492,31 +492,26 @@ class Onboarding extends Component {
 							</div>
 
 							<div className={'form__inner--1'}>
-							<div className={`profile-edit__profile`}>
-								<h2>Social Accounts</h2>
-
-				
-				
-					
-					
-					<Form.Field className="field--half">
-						<Input id="socialFacebook" type="url" label="Facebook" placeholder="Enter your Facebook profile url" defaultValue={this.props.profile.socialFacebook} onChange={this.handleChange} />
-					</Form.Field>
-					<Form.Field className="field--half">
-						<Input id="socialTwitter" type="url" placeholder="Enter your Twitter profile url" label="Twitter" defaultValue={this.props.profile.socialTwitter} onChange={this.handleChange} />
-					</Form.Field>
-					<Form.Field className="field--half">
-						<Input id="socialInstagram" type="url" placeholder="Enter your Instagram profile url" label="Instagram" defaultValue={this.props.profile.socialInstagram} onChange={this.handleChange} />
-					</Form.Field>
-					<Form.Field className="field--half">
-						<Input id="socialPinterest" type="url" placeholder="Enter your Pinterest profile url" label="Pinterest" defaultValue={this.props.profile.socialPinterest} onChange={this.handleChange} />
-					</Form.Field>
-
-				
-			
+								<div style={{ marginBottom: '0px' }}>
+									<h2>Social Accounts</h2>
+								</div>
+								<div className="form__inner" style={{ marginTop: '0px' }}>
+									<Form.Field className="field--half">
+										<Input id="socialFacebook" type="url" label="Facebook" placeholder="Enter your Facebook profile url" defaultValue={this.props.profile.socialFacebook} onChange={this.handleChange} />
+									</Form.Field>
+									<Form.Field className="field--half">
+										<Input id="socialTwitter" type="url" placeholder="Enter your Twitter profile url" label="Twitter" defaultValue={this.props.profile.socialTwitter} onChange={this.handleChange} />
+									</Form.Field>
+									<Form.Field className="field--half">
+										<Input id="socialInstagram" type="url" placeholder="Enter your Instagram profile url" label="Instagram" defaultValue={this.props.profile.socialInstagram} onChange={this.handleChange} />
+									</Form.Field>
+									<Form.Field className="field--half">
+										<Input id="socialPinterest" type="url" placeholder="Enter your Pinterest profile url" label="Pinterest" defaultValue={this.props.profile.socialPinterest} onChange={this.handleChange} />
+									</Form.Field>
 								</div>
 							</div>
 							<PaypalModal></PaypalModal>
+
 							<div className={'form__inner--2'}>
 								<div className="form__inner">
 									<Form.Field>
@@ -526,10 +521,10 @@ class Onboarding extends Component {
 							</div>
 
 						</Form>
-				
-					
+
+
 					</div>
-					
+
 				</div>
 			)
 		} else {

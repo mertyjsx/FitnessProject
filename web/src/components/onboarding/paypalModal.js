@@ -1,12 +1,11 @@
-import axios from 'axios'
 import React, { Component } from "react"
 import { PayPalButton } from 'react-paypal-button-v2'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import paypalConfig from '../../config/paypal.json'
-
-import { downgrade, upgrade } from '../../store/actions/authActions'
+import { upgrade } from '../../store/actions/authActions'
 import Modal from '../modal/Modal'
+
 
 
 class UpgradeProPremium extends Component {
@@ -14,22 +13,22 @@ class UpgradeProPremium extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-            isProPremium: false,
-            openModal:false,
-            
+			isProPremium: false,
+			openModal: false,
+
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
-		
+
 	}
 
-    handleSelector=(e)=>{
+	handleSelector = (e) => {
 
-this.setState({openModal:e.target.checked})
-    }
+		this.setState({ openModal: e.target.checked })
+	}
 
 
 	handleSubmit = (details, data) => {
-        console.log("nnn",details)
+		console.log("nnn", details)
 		let $this = this
 		this.setState({
 			isProPremium: true,
@@ -55,9 +54,9 @@ this.setState({openModal:e.target.checked})
 		setTimeout(function () {
 			// console.log('please', $this.props, $this.state);
 			$this.props.upgrade($this.state)
-            document.body.style.overflow = 'unset'
-            
-			
+			document.body.style.overflow = 'unset'
+
+
 		}, 3000)
 	}
 
@@ -65,21 +64,15 @@ this.setState({openModal:e.target.checked})
 		const { handleSubmit } = this
 		return (
 			<div className={'pro-premium'}>
-				<h3>Pro Premium</h3>
-			
+				<h2>Pro Premium</h2>
 				{this.props.profile.isProPremium ?
-				<h1>You are premium user !</h1>
-                    :
-                    <div>
-                   
-                
-                 <Modal
-						buttonText={'Be Premium'}
-                        buttonStyle={'button button--md button--secondary'}
-                        
-						content={(
+					<p>You are premium user!</p>
+					:
+					<div>
+						<p>Enhance your profile by becoming a Pro Premium member.</p>
+						<Modal buttonText={'Become a Pro Premium'} buttonStyle={'button button--md button--secondary'} content={(
 							<>
-								<h2>be Premium</h2>
+								<h2>Become a Pro Premium</h2>
 								<PayPalButton
 									options={{
 										clientId: paypalConfig.client_id,
@@ -100,8 +93,8 @@ this.setState({openModal:e.target.checked})
 									}}
 								/>
 							</>
-						)}
-                                /></div>
+						)} />
+					</div>
 				}
 			</div>
 		);
@@ -122,7 +115,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		upgrade: (upgradeParams) => dispatch(upgrade(upgradeParams)),
-		
+
 	}
 }
 
