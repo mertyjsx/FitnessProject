@@ -117,7 +117,17 @@ class Home extends Component {
 									where you can book health &amp; wellness pros instantly online, based on
 									your convenience, and get the resources you need to live a healthy &amp;
 									happy life.</p>
+									<div className="col col--12">
+										<div className="video video--responsive video--small">
+											<div className="video__iframe">
+												<iframe src="https://www.youtube.com/embed/uz1wLTFXidA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+											</div>
+										</div>
+									</div>
 									<Link to="/about" style={{ margin: 'auto' }} className="button button--accent button--md">About C2Byou</Link>
+								</div>
+								<div className="col col--12 text--center">
+
 								</div>
 							</div>
 						</div>

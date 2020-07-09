@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Form } from 'semantic-ui-react';
 import UserTest from '../beta/UserTest';
 
 class Footer extends Component {
@@ -24,7 +23,7 @@ class Footer extends Component {
 			<footer className="footer">
 				<UserTest />
 
-				<div className={'footer__newsletter'}>
+				{/* <div className={'footer__newsletter'}>
 					<div className={'footer__newsletter-container container container--small'}>
 
 						<form id={'form'} method={'post'} action={'https://app.convertkit.com/forms/1445826/subscriptions'} className={'splash__form form validate'} target="_blank" noValidate onSubmit={this.handleSubmit}>
@@ -51,7 +50,7 @@ class Footer extends Component {
 							</div>
 						</form>
 					</div>
-				</div>
+				</div> */}
 				{
 					splash !== true ?
 						<div className="footer__top">
