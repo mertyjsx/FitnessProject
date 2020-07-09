@@ -19,7 +19,7 @@ $nav-profile-image-size: 50px;
 	&__brand {
 		padding: $header-container-padding-y 0;
 		position: relative;
-		z-index: 999;
+	z-index: 999;
 	}
 
 	&__nav {
@@ -48,7 +48,7 @@ $nav-profile-image-size: 50px;
 		background-color: $white;
 		width: 100vw;
 		height: 100vh;
-		top: -100%;
+		top: -125%;
 		left: 0;
 		justify-content: center;
 		transition: 500ms;

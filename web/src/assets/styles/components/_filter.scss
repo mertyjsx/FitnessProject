@@ -20,8 +20,10 @@
 		}
 	}
 	.col {
+		padding: 0 $gutter;
 		@media screen and (max-width: $md-max) {
 			margin-bottom: $gutter;
+			padding: 0 $gutter/2;
 		}
 		&:last-child {
 			flex: 0 1 140px;
