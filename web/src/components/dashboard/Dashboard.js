@@ -61,13 +61,14 @@ class Dashboard extends Component {
 
 		return (
 			<div className="dashboard">
-				{profile.isApproved !== true && profile.isPro ?
-					<div className="status status--warning">
-						<div className="container">
-							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
-						</div>
+				{/* {profile.isApproved !== true && profile.isPro ? */}
+				<div className="status status--warning">
+					<div className="container">
+						<p>Your profile has been declined. Review the admin notes and resubmit when completed.</p>
+						<p><a href="#" className="button">Review Notes</a> <a href="#" className="button">Resubmit</a></p>
 					</div>
-					: null}
+				</div>
+				{/* // : null} */}
 				{auth.emailVerified !== true ?
 					<div className="status status--warning">
 						<div className="container">
