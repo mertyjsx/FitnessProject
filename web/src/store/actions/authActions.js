@@ -197,33 +197,70 @@ export const signUpPro = (newUser) => {
 	}
 }
 
-export const completeOnboarding = (newInfo) => {
+export const completeOnboarding = (newInfo,isDeclined) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
 		const userID = getState().firebase.auth.uid
 		const currentUser = firebase.auth().currentUser;
 
-		console.log(newInfo);
-		firestore.collection('users').doc(userID).update({
-			...newInfo,
-			declineMessage:""
-		})
-			.then(function () {
-				// console.log("Booking successfully cancelled!");
-			//	currentUser.sendEmailVerification().then(function () {
-					// Email sent.
-					dispatch({ type: 'CLOSE_INQUIRY', newInfo });
-				//}).catch(function (error) {
-					// An error happened.
-			//		console.log('error');
-			//	});
-			})
-			.catch(function (error) {
-				// The document probably doesn't exist.
-				// console.error("Error cancelling document: ", error);
-				dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
-			})
+		
+		console.log(isDeclined)
+if(isDeclined){
+	console.log("resubmit")
+//resubmit
+firestore.collection('users').doc(userID).update({
+	...newInfo,
+	declineMessage:"",
+	reSubmit:true,
+	declineMessage:"",
+	isDeclined:false
+
+})
+	.then(function () {
+		// console.log("Booking successfully cancelled!");
+	//	currentUser.sendEmailVerification().then(function () {
+			// Email sent.
+			dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+		//}).catch(function (error) {
+			// An error happened.
+	//		console.log('error');
+	//	});
+	})
+	.catch(function (error) {
+		// The document probably doesn't exist.
+		// console.error("Error cancelling document: ", error);
+		dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
+	})
+}else{
+//firstsubmit
+console.log("first submit")
+firestore.collection('users').doc(userID).update({
+	...newInfo,
+	declineMessage:""
+})
+	.then(function () {
+		// console.log("Booking successfully cancelled!");
+	//	currentUser.sendEmailVerification().then(function () {
+			// Email sent.
+			dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+		//}).catch(function (error) {
+			// An error happened.
+	//		console.log('error');
+	//	});
+	})
+	.catch(function (error) {
+		// The document probably doesn't exist.
+		// console.error("Error cancelling document: ", error);
+		dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
+	})
+
+
+}
+
+
+
+	
 	}
 }
 
@@ -357,7 +394,8 @@ export const declineProfile = (proUID,message) => {
 		console.log(message)
 		firestore.collection('users').doc(userID).update({
 			isApproved: false,
-			declineMessage:message
+			declineMessage:message,
+			isDeclined:true
 		}).then(() => {
 			console.log('success');
 			dispatch({ type: 'CREATE_INTERACTION', proUID });

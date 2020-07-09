@@ -43,7 +43,7 @@ const PendingProfiles = (props) => {
 			<h2>Pending Profiles</h2>
 			<ul>
 				{users && users.map(user => {
-					if (user.isPro === true && user.isApproved === false && !user.declineMessage) {
+					if (user.isPro === true && user.isApproved === false && !user.isDeclined && !user.reSubmit) {
 						return (
 							<li key={user.id}>
 								<Modal buttonStyle="button" declineButton={true} declineButtonAction={() => props.declineProfile(user.id, message)} buttonText={`Review ${user.declineMessage && "Resubmitted Profile"} : ${user.firstName} ${user.lastName}`} content={pro(user)} message={message} setMessage={setMessage} />
@@ -56,7 +56,7 @@ const PendingProfiles = (props) => {
 			<h2 style={{ marginTop: '50px' }}>Resubmitted Profiles</h2>
 			<ul>
 				{users && users.map(user => {
-					if (user.isPro === true && user.isApproved === false && user.declineMessage) {
+					if (user.isPro === true && user.isApproved === false && user.reSubmit) {
 						return (
 							<li key={user.id}>
 								<Modal buttonStyle="button" declineButton={true} declineButtonAction={() => props.declineProfile(user.id, message)} buttonText={`Review ${user.declineMessage && "Profile"} : ${user.firstName} ${user.lastName}`} content={pro(user)} message={message} setMessage={setMessage} />

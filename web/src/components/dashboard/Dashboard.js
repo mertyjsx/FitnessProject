@@ -64,14 +64,19 @@ class Dashboard extends Component {
 			<div className="dashboard">
 				{profile.isApproved !== true && profile.isPro ?
 					(
-						profile.declineMessage ?
+						profile.isDeclined ?
 							(
 								<div className="status status--danger">
 									<div className="container ">
 										<p>Your account has been declined. Review the Admin notes and resubmit when completed.</p>
 									</div>
+								
 									<div className="buttons buttons--inline">
+									{
+										profile.declineMessage&&
 										<Modal buttonStyle="button" buttonText={`Review Notes`} content={profile.declineMessage} />
+									}
+										
 										<button className="button" onClick={() => this.props.onboardingAgain()}>Resubmit</button>
 									</div>
 								</div>
