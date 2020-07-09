@@ -15,14 +15,16 @@ class Modal extends Component {
 		}
 	}
 
-	onModalOpen = () => {
+	onModalOpen = (event) => {
+		event.preventDefault();
 		document.body.style.overflow = 'hidden'
 		this.setState({
 			modalOpen: true
 		})
 	}
 
-	onModalClose = () => {
+	onModalClose = (event) => {
+		event.preventDefault();
 		document.body.style.overflow = 'unset'
 		this.setState({
 			modalOpen: false

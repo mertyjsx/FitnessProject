@@ -210,13 +210,13 @@ export const completeOnboarding = (newInfo) => {
 		})
 			.then(function () {
 				// console.log("Booking successfully cancelled!");
-				currentUser.sendEmailVerification().then(function () {
+			//	currentUser.sendEmailVerification().then(function () {
 					// Email sent.
 					dispatch({ type: 'CLOSE_INQUIRY', newInfo });
-				}).catch(function (error) {
+				//}).catch(function (error) {
 					// An error happened.
-					console.log('error');
-				});
+			//		console.log('error');
+			//	});
 			})
 			.catch(function (error) {
 				// The document probably doesn't exist.
