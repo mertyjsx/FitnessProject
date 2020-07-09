@@ -207,6 +207,7 @@ export const completeOnboarding = (newInfo) => {
 		console.log(newInfo);
 		firestore.collection('users').doc(userID).update({
 			...newInfo,
+			declineMessage:""
 		})
 			.then(function () {
 				// console.log("Booking successfully cancelled!");
