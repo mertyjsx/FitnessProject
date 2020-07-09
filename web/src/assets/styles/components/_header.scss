@@ -18,6 +18,8 @@ $nav-profile-image-size: 50px;
 
 	&__brand {
 		padding: $header-container-padding-y 0;
+		position: relative;
+		z-index: 999;
 	}
 
 	&__nav {
