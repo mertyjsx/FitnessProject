@@ -60,7 +60,7 @@ class Home extends Component {
 									<div className="home__works-content text--center">
 										<h2>How it works</h2>
 										<p className="text--sm mb--0">Choose your category. Browse profiles. Find your match.</p>
-										<p className="text--sm">Then get ready to achieve your health and fitness goals.</p>
+										<p className="text--sm">Then get ready to achieve your health and wellness.</p>
 									</div>
 								</div>
 							</div>
@@ -70,7 +70,7 @@ class Home extends Component {
 										<div key="slide1" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="user" />
 											<p className="text--md text--bold">Search for a health &amp; wellness service in your zip code or city.</p>
-											<p className="text--sm">Find nearby fitness professionals in your area</p>
+											<p className="text--sm">Find nearby wellness professionals in your area</p>
 										</div>
 										<div key="slide2" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="dollar-sign" />
