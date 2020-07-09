@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { Link, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
-import {onboardingAgain} from "../../store/actions/authActions"
+import { onboardingAgain } from "../../store/actions/authActions"
 import GetQuote from '../admin/quote/GetQuote'
 import ResendEmail from "../auth/resendEmailLink"
 import Forecast from '../enhancements/CurrentWeather'
+import Modal from "../modal/Modal"
 import GetRating from '../rating/GetRating'
 import ProCard from '../search/ProCard'
-import Modal from "../modal/Modal"
 class Dashboard extends Component {
 
 	constructor(props) {
@@ -64,29 +64,25 @@ class Dashboard extends Component {
 			<div className="dashboard">
 				{profile.isApproved !== true && profile.isPro ?
 					(
-						profile.declineMessage ? 
-						(
-						    <div className="status status--warning">
-							        <div className="container ">
-									<p>Your account has been declined. Review the Admin notes and resubmit when completed </p>
-									<Modal buttonStyle="button"  buttonText={`Review notes`} content={profile.declineMessage} />
-							       
-							        </div>
-									<div>	<a className="hoverPointer" onClick={()=>this.props.onboardingAgain()}>Resubmit</a> </div>
-						    </div>
-						) : 
-						(
-							<div className="status status--warning">
+						profile.declineMessage ?
+							(
+								<div className="status status--danger">
+									<div className="container ">
+										<p>Your account has been declined. Review the Admin notes and resubmit when completed.</p>
+									</div>
+									<div className="buttons buttons--inline">
+										<Modal buttonStyle="button" buttonText={`Review Notes`} content={profile.declineMessage} />
+										<button className="button" onClick={() => this.props.onboardingAgain()}>Resubmit</button>
+									</div>
+								</div>
+							) :
+							(
+								<div className="status status--warning">
 									<div className="container">
 										<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
 									</div>
-							</div>
-
-
-
-						)
-
-
+								</div>
+							)
 					)
 
 					: null}
@@ -109,7 +105,9 @@ class Dashboard extends Component {
 							</div>
 						</div>
 						<div className="col col--4">
-							<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
+							{this.props.profile.personalCity || this.props.profile.businessCity && (
+								<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
+							)}
 						</div>
 					</div>
 
@@ -214,13 +212,15 @@ class Dashboard extends Component {
 											var interests = profile.interests
 											var specialties = pro.specialties
 											for (const [key, value] of Object.entries(interests)) {
-												for (const [key2, value2] of Object.entries(specialties)) {
-													if (key === key2 && value === value2) {
-														return (
-															<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
-																<ProCard pro={pro} compact={true} />
-															</Link>
-														)
+												if (specialties) {
+													for (const [key2, value2] of Object.entries(specialties)) {
+														if (key === key2 && value === value2) {
+															return (
+																<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
+																	<ProCard pro={pro} compact={true} />
+																</Link>
+															)
+														}
 													}
 												}
 											}
@@ -254,15 +254,15 @@ const mapStateToProps = (state) => {
 }
 
 const DispatchToState = (dispatch) => {
-	
+
 	return {
 		// projects: state.firestore.ordered.projects,
-		onboardingAgain:()=>dispatch(onboardingAgain())
+		onboardingAgain: () => dispatch(onboardingAgain())
 	}
 }
 
 export default compose(
-	connect(mapStateToProps,DispatchToState),
+	connect(mapStateToProps, DispatchToState),
 	firestoreConnect([
 		// 	{ collection: 'projects', orderBy: ['createdAt', 'desc'] },
 		// 	{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
