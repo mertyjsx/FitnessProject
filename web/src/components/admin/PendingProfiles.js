@@ -1,12 +1,13 @@
 
 import React from 'react'
 import Modal from '../modal/Modal'
-import { approveProfile } from '../../store/actions/authActions'
+import { approveProfile,declineProfile } from '../../store/actions/authActions'
 import { connect } from 'react-redux'
+import {  Input } from 'semantic-ui-react';
 
 const PendingProfiles = (props) => {
 	const { users } = props
-
+const [message,setMessage]=React.useState("")
 	const pro = (user) => {
 		return (
 			<div className="review">
@@ -24,14 +25,18 @@ const PendingProfiles = (props) => {
 					<p><strong>Business Address:</strong> {user.businessAddress1} {user.businessAddress2} {user.businessCity}, {user.businessState} {user.businessZip}</p>
 					<button onClick={() => {
 						props.approveProfile(user.id)
-						document.body.style.overflow = 'unset'
+						//document.body.style.overflow = 'unset'
 					}} className="button button--secondary" style={{ marginBottom: '10px' }}>Approve</button>
+					<Input value={message}  placeholder={'Decline Message'}   onChange={(e)=>setMessage(e.target.value)} />
+				
 					{/* <button className="button button--primary">Decline</button> */}
+
+					
 				</div>
 			</div>
 		)
 	}
-
+console.log("noldiii")
 	return (
 		<div className="pending-profiles">
 			<h2>Pending Profiles</h2>
@@ -40,7 +45,7 @@ const PendingProfiles = (props) => {
 					if (user.isPro === true && user.isApproved === false) {
 						return (
 							<li key={user.id}>
-								<Modal buttonStyle="button" buttonText={`Review ${user.firstName} ${user.lastName}`} content={pro(user)} />
+								<Modal buttonStyle="button" declineButton={true} declineButtonAction={()=>props.declineProfile(user.id,message)}  buttonText={`Review ${user.declineMessage&&"declined"} ${user.firstName} ${user.lastName}`} content={pro(user)} message={message} setMessage={setMessage} />
 							</li>
 						)
 					}
@@ -53,7 +58,8 @@ const PendingProfiles = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		approveProfile: (proUID) => dispatch(approveProfile(proUID))
+		approveProfile: (proUID) => dispatch(approveProfile(proUID)),
+		declineProfile: (proUID,message) => dispatch(declineProfile(proUID,message))
 	}
 }
 

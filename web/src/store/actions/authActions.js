@@ -259,6 +259,37 @@ export const deleteAccount = () => {
 	}
 }
 
+export const onboardingAgain = () => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const user = firebase.auth().currentUser
+		const firestore=getFirestore()
+		// console.log(user);
+		firestore.collection('users').doc(user.uid).update({
+			onboardingCompleted:false
+		})
+			.then(function () {
+				// console.log("Booking successfully cancelled!");
+			//	currentUser.sendEmailVerification().then(function () {
+					// Email sent.
+					console.log("onboarding : false")
+				//}).catch(function (error) {
+					// An error happened.
+			//		console.log('error');
+			//	});
+			})
+			.catch(function (error) {
+				// The document probably doesn't exist.
+				// console.error("Error cancelling document: ", error);
+				console.log(error)
+			})
+		
+		}
+
+}
+
+
+
 export const upgrade = (upgradeParams) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firestore = getFirestore()
@@ -306,6 +337,26 @@ export const approveProfile = (proUID) => {
 
 		firestore.collection('users').doc(userID).update({
 			isApproved: true,
+		}).then(() => {
+			console.log('success');
+			dispatch({ type: 'CREATE_INTERACTION', proUID });
+		}).catch((error) => {
+			console.log('nah');
+			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
+		})
+	}
+}
+
+export const declineProfile = (proUID,message) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firestore = getFirestore()
+		const userID = proUID
+
+		console.log(proUID)
+		console.log(message)
+		firestore.collection('users').doc(userID).update({
+			isApproved: false,
+			declineMessage:message
 		}).then(() => {
 			console.log('success');
 			dispatch({ type: 'CREATE_INTERACTION', proUID });
