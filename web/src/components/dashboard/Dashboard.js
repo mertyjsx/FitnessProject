@@ -61,13 +61,14 @@ class Dashboard extends Component {
 
 		return (
 			<div className="dashboard">
-				{profile.isApproved !== true && profile.isPro ?
-					<div className="status status--warning">
-						<div className="container">
-							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
-						</div>
+				{/* {profile.isApproved !== true && profile.isPro ? */}
+				<div className="status status--warning">
+					<div className="container">
+						<p>Your profile has been declined. Review the admin notes and resubmit when completed.</p>
+						<p><a href="#" className="button">Review Notes</a> <a href="#" className="button">Resubmit</a></p>
 					</div>
-					: null}
+				</div>
+				{/* // : null} */}
 				{auth.emailVerified !== true ?
 					<div className="status status--warning">
 						<div className="container">
@@ -87,7 +88,9 @@ class Dashboard extends Component {
 							</div>
 						</div>
 						<div className="col col--4">
-							<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
+							{this.props.profile.personalCity || this.props.profile.businessCity && (
+								<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
+							)}
 						</div>
 					</div>
 
@@ -192,13 +195,15 @@ class Dashboard extends Component {
 											var interests = profile.interests
 											var specialties = pro.specialties
 											for (const [key, value] of Object.entries(interests)) {
-												for (const [key2, value2] of Object.entries(specialties)) {
-													if (key === key2 && value === value2) {
-														return (
-															<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
-																<ProCard pro={pro} compact={true} />
-															</Link>
-														)
+												if (specialties) {
+													for (const [key2, value2] of Object.entries(specialties)) {
+														if (key === key2 && value === value2) {
+															return (
+																<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
+																	<ProCard pro={pro} compact={true} />
+																</Link>
+															)
+														}
 													}
 												}
 											}

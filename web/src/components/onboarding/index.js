@@ -510,6 +510,7 @@ class Onboarding extends Component {
 									</Form.Field>
 								</div>
 							</div>
+
 							<PaypalModal></PaypalModal>
 
 							<div className={'form__inner--2'}>
