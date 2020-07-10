@@ -66,7 +66,7 @@ class Onboarding extends Component {
 		})
 		setTimeout(function () {
 			// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
-			$this.props.completeOnboarding($this.state);
+			$this.props.completeOnboarding($this.state,$this.props.profile.isDeclined);
 			$this.props.history.push('/dashboard')
 		}, 3000)
 	}
@@ -545,7 +545,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		completeOnboarding: (onboard) => dispatch(completeOnboarding(onboard))
+		completeOnboarding: (onboard,isDeclined) => dispatch(completeOnboarding(onboard,isDeclined))
 	}
 }
 
