@@ -76,6 +76,17 @@ a.button,
 	}
 }
 
+.buttons {
+	padding: $gutter;
+	&--inline {
+		display: flex;
+		justify-content: center;
+		.button {
+			margin: 0 $gutter;
+		}
+	}	
+}
+
 .paypal-buttons {
 	margin-top: $gutter * 2;
 }
