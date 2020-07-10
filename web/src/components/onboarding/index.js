@@ -66,7 +66,7 @@ class Onboarding extends Component {
 		})
 		setTimeout(function () {
 			// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
-			$this.props.completeOnboarding($this.state,$this.props.profile.isDeclined);
+			$this.props.completeOnboarding($this.state, $this.props.profile.isDeclined);
 			$this.props.history.push('/dashboard')
 		}, 3000)
 	}
@@ -490,26 +490,30 @@ class Onboarding extends Component {
 									</Form.Field>
 								</div>
 							</div>
+							{this.props.profile.isProPremium &&
+								<div className={'form__inner--1'}>
+									<div style={{ marginBottom: '0px' }}>
+										<h2>Social Accounts</h2>
+									</div>
+									<div className="form__inner" style={{ marginTop: '0px' }}>
+										<Form.Field className="field--half">
+											<Input id="socialFacebook" type="url" label="Facebook" placeholder="Enter your Facebook profile url" defaultValue={this.props.profile.socialFacebook} onChange={this.handleChange} />
+										</Form.Field>
+										<Form.Field className="field--half">
+											<Input id="socialTwitter" type="url" placeholder="Enter your Twitter profile url" label="Twitter" defaultValue={this.props.profile.socialTwitter} onChange={this.handleChange} />
+										</Form.Field>
+										<Form.Field className="field--half">
+											<Input id="socialInstagram" type="url" placeholder="Enter your Instagram profile url" label="Instagram" defaultValue={this.props.profile.socialInstagram} onChange={this.handleChange} />
+										</Form.Field>
+										<Form.Field className="field--half">
+											<Input id="socialPinterest" type="url" placeholder="Enter your Pinterest profile url" label="Pinterest" defaultValue={this.props.profile.socialPinterest} onChange={this.handleChange} />
+										</Form.Field>
+									</div>
+								</div>
 
-							<div className={'form__inner--1'}>
-								<div style={{ marginBottom: '0px' }}>
-									<h2>Social Accounts</h2>
-								</div>
-								<div className="form__inner" style={{ marginTop: '0px' }}>
-									<Form.Field className="field--half">
-										<Input id="socialFacebook" type="url" label="Facebook" placeholder="Enter your Facebook profile url" defaultValue={this.props.profile.socialFacebook} onChange={this.handleChange} />
-									</Form.Field>
-									<Form.Field className="field--half">
-										<Input id="socialTwitter" type="url" placeholder="Enter your Twitter profile url" label="Twitter" defaultValue={this.props.profile.socialTwitter} onChange={this.handleChange} />
-									</Form.Field>
-									<Form.Field className="field--half">
-										<Input id="socialInstagram" type="url" placeholder="Enter your Instagram profile url" label="Instagram" defaultValue={this.props.profile.socialInstagram} onChange={this.handleChange} />
-									</Form.Field>
-									<Form.Field className="field--half">
-										<Input id="socialPinterest" type="url" placeholder="Enter your Pinterest profile url" label="Pinterest" defaultValue={this.props.profile.socialPinterest} onChange={this.handleChange} />
-									</Form.Field>
-								</div>
-							</div>
+
+							}
+
 
 							<PaypalModal></PaypalModal>
 
@@ -545,7 +549,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		completeOnboarding: (onboard,isDeclined) => dispatch(completeOnboarding(onboard,isDeclined))
+		completeOnboarding: (onboard, isDeclined) => dispatch(completeOnboarding(onboard, isDeclined))
 	}
 }
 

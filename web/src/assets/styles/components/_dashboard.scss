@@ -11,8 +11,23 @@
 	color:red;
 	text-align: center;
 }
+.alertYellow{
+	background-color: #E4C22E;
+	color:white;
+	width: 100%;
+	border-radius: 14px;
+	text-align: center;
+	padding: 15px;
+	margin-bottom: 25px;
+}
+.disabledButton{
+	margin-top: 20px;
+background-color: #757575;
 
-
+}
+.disabledButton:hover{
+	cursor: not-allowed !important ;
+}
 .dashboard {
 	&__head {
 	}
