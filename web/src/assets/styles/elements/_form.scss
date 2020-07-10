@@ -40,6 +40,11 @@ input[type="checkbox"] {
 	justify-content: center;
 	align-items: center;
 	flex-flow: row nowrap;
+	&__container {
+		flex-flow: row wrap;
+		justify-content: space-between;
+		width: 100%;
+	}
 }
 
 .input {
@@ -61,7 +66,7 @@ input[type="checkbox"] {
 	}
 }
 
-input:not([type="submit"],[type="radio"], [type="checkbox"]) {
+input:not([type="submit"], [type="radio"], [type="checkbox"]) {
 	@extend %select-style;
 }
 

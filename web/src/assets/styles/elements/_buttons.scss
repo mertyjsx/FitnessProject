@@ -64,6 +64,9 @@ a.button,
 		pointer-events: none;
 		opacity: 0.5;
 	}
+	&--full {
+		width: 100%;
+	}
 	&--md {
 		max-width: 320px;
 	}

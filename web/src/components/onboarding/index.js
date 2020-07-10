@@ -1,16 +1,15 @@
-import React, { Component, useState } from 'react'
-import { connect } from 'react-redux'
-import { Form, Radio, Button, Checkbox, Input } from 'semantic-ui-react'
-import { Redirect, Link, withRouter } from 'react-router-dom'
-import { addDays } from "date-fns";
-import { completeOnboarding } from '../../store/actions/authActions'
-import spinner from '../../assets/images/spinner.gif'
-import ImageUpload from '../profileEdit/imageUpload/ImageUpload';
-import RenderImage from '../profileEdit/imageUpload/RenderImage';
-import LicenseImageUpload from '../profileEdit/imageUpload/LicenseImageUpload';
-import RenderLicense from '../profileEdit/imageUpload/RenderLicense';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Button, Form, Input } from 'semantic-ui-react';
+import ellipses from '../../assets/images/ellipsis.gif';
+import { completeOnboarding } from '../../store/actions/authActions';
 import Loading from '../modules/Loading';
-import ellipses from '../../assets/images/ellipsis.gif'
+import ImageUpload from '../profileEdit/imageUpload/ImageUpload';
+import LicenseImageUpload from '../profileEdit/imageUpload/LicenseImageUpload';
+import PaypalModal from "./paypalModal";
+
+
 
 class Onboarding extends Component {
 
@@ -18,7 +17,10 @@ class Onboarding extends Component {
 		super(props)
 		this.state = {
 			onboardingCompleted: true,
-			onboardingUploading: false
+			onboardingUploading: false,
+			both: true,
+			online: false,
+			inperson: false
 		}
 		this.handleSpecialties = this.handleSpecialties.bind(this)
 		this.handleChange = this.handleChange.bind(this)
@@ -69,13 +71,36 @@ class Onboarding extends Component {
 		}, 3000)
 	}
 
+	handleSelector = (name, e) => {
+		console.log(name)
+		console.log(e.target.checked)
+		if (name === "both") {
+			let bool = e.target.checked
+			this.setState({ both: bool, inperson: !bool, online: !bool })
+		}
+		if (name === "inperson") {
+			let bool = e.target.checked
+			this.setState({ both: !bool, inperson: bool, online: !bool })
+		}
+		if (name === "online") {
+			let bool = e.target.checked
+			this.setState({ both: !bool, inperson: !bool, online: bool })
+		}
+
+
+
+	}
+
+
 	render() {
+		console.log(this.state)
 		const { projects, auth, profile, notifications } = this.props
 		if (profile.onboardingCompleted) return <Redirect to='/dashboard' />
 
 		if (profile.isEmpty !== true) {
 			return (
 				<div className="onboarding">
+
 					{this.state.onboardingUploading ?
 						<div className="uploading">
 							<div className="uploading__content">
@@ -156,12 +181,39 @@ class Onboarding extends Component {
 													<label htmlFor="juicesAndSmoothies">Juices and Smoothies</label>
 												</div>
 											</Form.Field>
-											<Form.Field className={'field--half'}>
-												<Input id={'ratesOnlineChef'} type={'number'} placeholder={'min. 25'} label={'Your Online Rates'} min={25} required onChange={this.handleRateChange} />
+
+
+											<Form.Field className={'field--cols'} style={{ padding: '20px 0 0' }} >
+												<div style={{ flex: '0 1 100%' }}>
+													<h2>Rates</h2>
+												</div>
+
+												<div className="ui checkbox">
+													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
+													<label htmlFor="online">Online</label>
+												</div>
+												<div className="ui checkbox">
+													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
+													<label htmlFor="inperson">In-Person</label>
+												</div>
+												<div className="ui checkbox">
+													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
+													<label htmlFor="both">Both</label>
+												</div>
+
 											</Form.Field>
-											<Form.Field className={'field--half'}>
-												<Input id={'ratesInPersonChef'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
-											</Form.Field>
+											{(this.state.online || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
+											}
+
+											{(this.state.inperson || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
+											}
+
 										</>
 									)}
 
@@ -193,12 +245,34 @@ class Onboarding extends Component {
 													<label htmlFor="reflexology">Reflexology</label>
 												</div>
 											</Form.Field>
-											<Form.Field className={'field--half'}>
-												<Input id={'ratesOnlineMassageTherapist'} type={'number'} placeholder={'min. 25'} label={'Your Online Rates'} min={25} required onChange={this.handleRateChange} />
+											<Form.Field className={'field--cols'} >
+
+												<div className="ui checkbox">
+													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
+													<label htmlFor="online">Online</label>
+												</div>
+												<div className="ui checkbox">
+													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
+													<label htmlFor="inperson">Inperson</label>
+												</div>
+												<div className="ui checkbox">
+													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
+													<label htmlFor="both">both</label>
+												</div>
+
 											</Form.Field>
-											<Form.Field className={'field--half'}>
-												<Input id={'ratesInPersonMassageTherapist'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
-											</Form.Field>
+											{(this.state.online || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
+											}
+
+											{(this.state.inperson || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
+											}
+
 										</>
 									)}
 
@@ -246,12 +320,34 @@ class Onboarding extends Component {
 													<label htmlFor="foodAllergies">Food Allergies</label>
 												</div>
 											</Form.Field>
-											<Form.Field className={'field--half'}>
-												<Input id={'ratesOnlineNutritionist'} type={'number'} placeholder={'min. 25'} label={'Your Online Rates'} min={25} required onChange={this.handleRateChange} />
+											<Form.Field className={'field--cols'} >
+
+												<div className="ui checkbox">
+													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
+													<label htmlFor="online">Online</label>
+												</div>
+												<div className="ui checkbox">
+													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
+													<label htmlFor="inperson">Inperson</label>
+												</div>
+												<div className="ui checkbox">
+													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
+													<label htmlFor="both">both</label>
+												</div>
+
 											</Form.Field>
-											<Form.Field className={'field--half'}>
-												<Input id={'ratesInPersonNutritionist'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
-											</Form.Field>
+											{(this.state.online || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
+											}
+
+											{(this.state.inperson || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
+											}
+
 										</>
 									)}
 
@@ -315,12 +411,36 @@ class Onboarding extends Component {
 													<label htmlFor="athletic">Athletic</label>
 												</div>
 											</Form.Field>
-											<Form.Field className={'field--half'}>
-												<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 25'} label={'Your Online Rates'} min={25} required onChange={this.handleRateChange} />
+
+
+											<Form.Field className={'field--cols'} >
+
+												<div className="ui checkbox">
+													<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
+													<label htmlFor="online">Online</label>
+												</div>
+												<div className="ui checkbox">
+													<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
+													<label htmlFor="inperson">Inperson</label>
+												</div>
+												<div className="ui checkbox">
+													<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
+													<label htmlFor="both">both</label>
+												</div>
+
 											</Form.Field>
-											<Form.Field className={'field--half'}>
-												<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
-											</Form.Field>
+											{(this.state.online || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your Online Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
+											}
+
+											{(this.state.inperson || this.state.both) &&
+												<Form.Field className={'field--half'}>
+													<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'min. 50'} label={'Your In-Person Rates'} min={50} required onChange={this.handleRateChange} />
+												</Form.Field>
+											}
+
 										</>
 									)}
 
@@ -337,21 +457,10 @@ class Onboarding extends Component {
 										<p>We'd like to know more about you! The infromation you provide here will be part of your profile.</p>
 									</div>
 									<Form.Field>
-										<label htmlFor="about">About *</label>
-										<textarea id={'about'} placeholder="Enter a desciptive biography." onChange={this.handleChange} required></textarea>
+										<label htmlFor="about">About / Experience *</label>
+										<textarea id={'about'} placeholder="Tell us about You." onChange={this.handleChange} required></textarea>
 									</Form.Field>
-									<Form.Field>
-										<label htmlFor="background">Background *</label>
-										<textarea id={'background'} placeholder="Explain your background." onChange={this.handleChange} required></textarea>
-									</Form.Field>
-									<Form.Field className={'field--half'}>
-										<label htmlFor="favQuote">Favorite Quote</label>
-										<textarea id={'favQuote'} placeholder="What is your favorite quote?" onChange={this.handleChange} required></textarea>
-									</Form.Field>
-									<Form.Field className={'field--half'}>
-										<label htmlFor="funFact">Fun Fact</label>
-										<textarea id={'funFact'} placeholder="Tell us a fun fact about yourself." onChange={this.handleChange} required></textarea>
-									</Form.Field>
+
 								</div>
 							</div>
 
@@ -382,6 +491,28 @@ class Onboarding extends Component {
 								</div>
 							</div>
 
+							<div className={'form__inner--1'}>
+								<div style={{ marginBottom: '0px' }}>
+									<h2>Social Accounts</h2>
+								</div>
+								<div className="form__inner" style={{ marginTop: '0px' }}>
+									<Form.Field className="field--half">
+										<Input id="socialFacebook" type="url" label="Facebook" placeholder="Enter your Facebook profile url" defaultValue={this.props.profile.socialFacebook} onChange={this.handleChange} />
+									</Form.Field>
+									<Form.Field className="field--half">
+										<Input id="socialTwitter" type="url" placeholder="Enter your Twitter profile url" label="Twitter" defaultValue={this.props.profile.socialTwitter} onChange={this.handleChange} />
+									</Form.Field>
+									<Form.Field className="field--half">
+										<Input id="socialInstagram" type="url" placeholder="Enter your Instagram profile url" label="Instagram" defaultValue={this.props.profile.socialInstagram} onChange={this.handleChange} />
+									</Form.Field>
+									<Form.Field className="field--half">
+										<Input id="socialPinterest" type="url" placeholder="Enter your Pinterest profile url" label="Pinterest" defaultValue={this.props.profile.socialPinterest} onChange={this.handleChange} />
+									</Form.Field>
+								</div>
+							</div>
+
+							<PaypalModal></PaypalModal>
+
 							<div className={'form__inner--2'}>
 								<div className="form__inner">
 									<Form.Field>
@@ -391,7 +522,10 @@ class Onboarding extends Component {
 							</div>
 
 						</Form>
+
+
 					</div>
+
 				</div>
 			)
 		} else {

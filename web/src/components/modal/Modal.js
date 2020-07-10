@@ -15,7 +15,8 @@ class Modal extends Component {
 		}
 	}
 
-	onModalOpen = () => {
+	onModalOpen = (event) => {
+		event.preventDefault();
 		document.body.style.overflow = 'hidden'
 		this.setState({
 			modalOpen: true
@@ -23,7 +24,8 @@ class Modal extends Component {
 		if (this.props.openEvent) this.props.openEvent()
 	}
 
-	onModalClose = () => {
+	onModalClose = (event) => {
+		event.preventDefault();
 		document.body.style.overflow = 'unset'
 		this.setState({
 			modalOpen: false

@@ -1,25 +1,22 @@
 import React, { Component } from 'react'
-import Notifications from '../dashboard/Notifications'
-import ProjectList from '../projects/ProjectList'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
 import { Link } from 'react-router-dom'
-import Search from '../search/Search'
-import ProList from '../search/ProList'
-import ProCard from '../search/ProCard'
+import { compose } from 'redux'
+import { Button } from 'semantic-ui-react'
+import { ProActiveListingsConsumer, ProActiveListingsProvider } from '../../context/ProActiveListingsProvider'
 import Filter from '../filter'
-import {
-	ProActiveListingsProvider,
-	ProActiveListingsConsumer
-} from '../../context/ProActiveListingsProvider'
+import Map from "../googleMaps/googleMaps"
+import ProCard from '../search/ProCard'
 
 class FindAPro extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			search: null,
-			priceRange: null
+			priceRange: null,
+			searchingResults: { MapOpen: false },
+
 		};
 	}
 
@@ -37,34 +34,71 @@ class FindAPro extends Component {
 		})
 	}
 
+
+	getPropsChildren = (newState) => {
+		console.log(newState)
+		this.setState({ searchingResults: newState })
+
+	}
+
+
 	render() {
 		const { users, auth, profile } = this.props
-
+		const { searchingResults } = this.state
+		console.log(searchingResults)
 		return (
 			<div className="find-pro">
 				<ProActiveListingsProvider>
 					<ProActiveListingsConsumer>
-						{({ proActiveListings, allListings, updateFilter }) => (
-							<>
-								<Filter
-									updateFilter={updateFilter}
-									count={proActiveListings.length}
-									businessCity={proActiveListings
-										.map(pro => pro.businessCity)
-										.filter((item, i, arr) => arr.indexOf(item) === i)}
-									pph={allListings.filter(item => item.rates)}
-								/>
-								<div className="container">
-									<div className="row">
-										{proActiveListings && proActiveListings.map(pro => (
-											<Link className={`pro-list__card col col--6`} to={'/pro/' + pro.uid} key={pro.uid}>
-												<ProCard pro={pro} />
-											</Link>
-										))}
+						{({ proActiveListings, allListings, updateFilter }) => {
+							let ListPros = searchingResults.filteredResult ? searchingResults.filteredResult : allListings
+							let notFound = searchingResults.noProsFound
+							console.log(notFound)
+							return (
+								<>
+									<Filter
+										updateFilter={updateFilter}
+										count={proActiveListings.length}
+										businessCity={proActiveListings
+											.map(pro => pro.businessCity)
+											.filter((item, i, arr) => arr.indexOf(item) === i)}
+										all={allListings}
+										updateState={this.getPropsChildren}
+										pph={allListings.filter(item => item.rates)}
+									/>
+
+									<div className="container" style={{ marginTop: '15px' }}>
+										{searchingResults.MapOpen ?
+											(
+												<>
+													<Button style={{ width: '100%' }} onClick={() => this.setState({ searchingResults: { ...searchingResults, MapOpen: false } })}>Close Map</Button>
+													<Map
+														filteredResult={ListPros}
+														open={searchingResults.MapOpen}
+													/>
+												</>
+
+											) : (<Button className="button--secondary" style={{ width: '100%' }} onClick={() => this.setState({ searchingResults: { ...searchingResults, MapOpen: true } })}>View Map</Button>)}
+
 									</div>
-								</div>
-							</>
-						)}
+
+									<div className="container">
+										<div className="row">
+											{ListPros && ListPros.map(pro => (
+												<Link className={`pro-list__card col col--6`} to={'/pro/' + pro.uid} key={pro.uid}>
+													<ProCard pro={pro} />
+												</Link>
+											))}
+											{notFound && (
+												<div style={{ padding: '50px 0', textAlign: 'center', width: '100%' }}>
+													<h2>No Pros Found</h2>
+												</div>
+											)}
+										</div>
+									</div>
+								</>
+							)
+						}}
 					</ProActiveListingsConsumer>
 				</ProActiveListingsProvider>
 			</div >

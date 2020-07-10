@@ -1,10 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
 import { Link, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
+import GetQuote from '../admin/quote/GetQuote'
+import ResendEmail from "../auth/resendEmailLink"
+import Forecast from '../enhancements/CurrentWeather'
 import GetRating from '../rating/GetRating'
+import ProCard from '../search/ProCard'
 
 class Dashboard extends Component {
+
+	constructor(props) {
+		super(props)
+		this.state = {
+			Booking: 0,
+			Inbox: 0
+		}
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps !== this.props) {
+			if (this.props.interactions) {
+				const BookingArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
+				const InboxArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "inquiry" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
+				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length })
+			}
+		}
+	}
 
 	renderFirstName = (firstName) => {
 		if (typeof firstName === 'undefined' || firstName.length === 0) {
@@ -17,7 +40,7 @@ class Dashboard extends Component {
 
 	render() {
 		// console.log(this.props)
-		const { projects, auth, profile, notifications } = this.props
+		const { users, auth, profile, notifications } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
 		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
 
@@ -38,27 +61,42 @@ class Dashboard extends Component {
 
 		return (
 			<div className="dashboard">
-				{profile.isApproved !== true && profile.isPro ?
-					<div className="status status--warning">
-						<div className="container">
-							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
-						</div>
+				{/* {profile.isApproved !== true && profile.isPro ? */}
+				<div className="status status--warning">
+					<div className="container">
+						<p>Your profile has been declined. Review the admin notes and resubmit when completed.</p>
+						<p><a href="#" className="button">Review Notes</a> <a href="#" className="button">Resubmit</a></p>
 					</div>
-					: null}
+				</div>
+				{/* // : null} */}
 				{auth.emailVerified !== true ?
 					<div className="status status--warning">
 						<div className="container">
-							<p>Check your inbox. Please confirm you email.</p>
+							<p>Please check your inbox and confirm you email. <ResendEmail text="Click here to resend." /></p>
 						</div>
 					</div>
 					: null}
 				<div className="container container--top-bottom-padding">
 					<div className="row">
-						<div className="col">
+						<div className="col col--12">
+							<h1 className={`text--lg text--uppercase`}>Dashboard</h1>
+						</div>
+						<div className="col col--8">
 							<div className={`dashboard__head`}>
-								<h1 className={`text--lg text--uppercase`}>Dashboard</h1>
 								{this.renderFirstName(profile.firstName)}
+								<p style={{ paddingBottom: '10px' }}>Be the best version of YOU</p>
 							</div>
+						</div>
+						<div className="col col--4">
+							{this.props.profile.personalCity || this.props.profile.businessCity && (
+								<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
+							)}
+						</div>
+					</div>
+
+					<div className="row">
+						<div className="col col--12">
+							<GetQuote />
 						</div>
 					</div>
 
@@ -74,10 +112,10 @@ class Dashboard extends Component {
 					{/* <ProjectList projects={projects} /> */}
 
 					<div className="row">
-						{/* <div className="col">
+						<div className="col">
 							<a href={'/inbox'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-messages`}>
-									<div className={`dashboard__glance--standout`}>1</div>
+									<div className={`dashboard__glance--standout`}>{this.state.Inbox}</div>
 									Active Messages
 								</div>
 							</a>
@@ -85,12 +123,12 @@ class Dashboard extends Component {
 						<div className="col">
 							<a href={'/bookings'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-requests`}>
-									<div className={`dashboard__glance--standout`}>1</div>
+									<div className={`dashboard__glance--standout`}>{this.state.Booking}</div>
 									Active Bookings
 								</div>
 							</a>
 						</div>
-						<div className="col">
+						{/* <div className="col">
 							<a href={'/bookings'} className={`dashboard__glance`}>
 								<div className={`dashboard__glance-bookings`}>
 									<div className={`dashboard__glance--standout`}>2</div>
@@ -141,6 +179,45 @@ class Dashboard extends Component {
 							</div>
 						</>
 					)} */}
+					{profile.interests && (
+						<>
+							<div className={`divider`}></div>
+							<div className={'row'}>
+								<div className="col">
+									<h2>Discover Pros Based on Your Interests</h2>
+								</div>
+							</div>
+							<div className={'row'}>
+								{profile.interests ?
+									users && users.map(pro => {
+
+										if (pro.isPro && pro.isApproved) {
+											var interests = profile.interests
+											var specialties = pro.specialties
+											for (const [key, value] of Object.entries(interests)) {
+												if (specialties) {
+													for (const [key2, value2] of Object.entries(specialties)) {
+														if (key === key2 && value === value2) {
+															return (
+																<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
+																	<ProCard pro={pro} compact={true} />
+																</Link>
+															)
+														}
+													}
+												}
+											}
+										}
+									})
+									:
+									<div className="col">
+										<p>No pros found. <Link to={'/profile-edit#2'}>Click here</Link> to update your interests to discover pros.</p>
+									</div>
+								}
+							</div>
+						</>
+					)}
+
 				</div>
 			</div>
 		)
@@ -152,15 +229,19 @@ const mapStateToProps = (state) => {
 	return {
 		// projects: state.firestore.ordered.projects,
 		auth: state.firebase.auth,
+		interactions: state.firestore.ordered.interactions,
 		// notifications: state.firestore.ordered.notifications,
-		profile: state.firebase.profile
+		profile: state.firebase.profile,
+		users: state.firestore.ordered.users,
 	}
 }
 
 export default compose(
 	connect(mapStateToProps),
-	// firestoreConnect([
-	// 	{ collection: 'projects', orderBy: ['createdAt', 'desc'] },
-	// 	{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
-	// ])
+	firestoreConnect([
+		// 	{ collection: 'projects', orderBy: ['createdAt', 'desc'] },
+		// 	{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
+		{ collection: 'interactions', orderBy: ['createdAt', 'desc'] },
+		{ collection: 'users' }
+	])
 )(Dashboard)

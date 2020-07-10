@@ -1,8 +1,8 @@
 import React from 'react'
-import { renderBlueCheck, renderProfileImage } from '../helpers/HelpersProfile'
+import { renderBlueCheck, renderProfileImage, convertToCapitalizeCase } from '../helpers/HelpersProfile'
 import GetRating from '../rating/GetRating'
 
-const ProCard = ({ pro }) => {
+const ProCard = ({ pro, compact }) => {
 
 	const renderCosts = () => {
 		var proRates = []
@@ -36,8 +36,21 @@ const ProCard = ({ pro }) => {
 		)
 	}
 
+	const renderSpecialties = (specialties) => {
+		console.log('here', specialties);
+		var specsArray = []
+		for (const [key, value] of Object.entries(specialties)) {
+			if (value === true) {
+				specsArray.push(convertToCapitalizeCase(key))
+			}
+		}
+		return (
+			<p className="text--capitalize mb--0">{specsArray.join(', ')}</p>
+		)
+	}
+
 	return (
-		<div className={`pro-card`}>
+		<div className={`pro-card ${compact ? `pro-card--compact` : ``}`}>
 			<div className={`pro-card__inner`}>
 				<div className={`pro-card__image`}>
 					{renderProfileImage(pro.photoURL, `Image of user ${pro.firstName} + ${pro.lastName}`)}
@@ -45,10 +58,14 @@ const ProCard = ({ pro }) => {
 				<div className={`pro-card__content`}>
 					<h2 className={`pro-card__content-name mb--0 text--capitalize`}>{pro.firstName} {pro.lastName} {renderBlueCheck(pro)}</h2>
 					<GetRating proInteractions={pro.proInteractions} />
-					{renderCosts()}
+					{compact !== true ? renderCosts() : null}
 					<p>{pro.businessCity}{pro.businessState ? ', ' + pro.businessState[0] + pro.businessState[1] : ''}</p>
-					{renderProfessions(pro.professions)}
-					<p>{pro.about ? pro.about.substring(0, 48) + '...' : null}</p>
+					{compact !== true ? renderProfessions(pro.professions) :
+						<>
+							<h2 className="text--sm mb--0">Specialties</h2>
+							{renderSpecialties(pro.specialties)}
+						</>}
+					{compact !== true ? <p>{pro.about ? pro.about.substring(0, 48) + '...' : null}</p> : null}
 				</div>
 			</div>
 		</div>

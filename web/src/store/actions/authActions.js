@@ -54,6 +54,36 @@ export const signUp = (newUser) => {
 	}
 }
 
+
+export const resendEmail = () => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const currentUser = firebase.auth().currentUser
+		// console.log(currentUser)
+		// console.log('current user', currentUser);
+		currentUser.sendEmailVerification()
+			.then(function () {
+				dispatch({ type: 'SIGNUP_SUCCESS' });
+				// Email sent.
+			}).catch(function (error) {
+				// An error happened.
+				console.log('error');
+			});
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const signUpClientWithFacebook = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
@@ -76,7 +106,7 @@ export const signUpClientWithFacebook = (newUser) => {
 						})
 					})
 			}).catch(err => {
-				dispatch({ type: 'SIGNUP_ERROR', err})
+				dispatch({ type: 'SIGNUP_ERROR', err })
 			})
 	}
 }
@@ -93,12 +123,12 @@ export const signUpClientWithGoogle = (newUser) => {
 
 				var token = result.credential.accessToken
 				var user = result.user
-                    var user_id = result.user.uid
-                    var user_first_name = result.additionalUserInfo.profile.given_name
-                    var user_last_name = result.additionalUserInfo.profile.family_name
-                    var user_image_url = result.additionalUserInfo.profile.picture
+				var user_id = result.user.uid
+				var user_first_name = result.additionalUserInfo.profile.given_name
+				var user_last_name = result.additionalUserInfo.profile.family_name
+				var user_image_url = result.additionalUserInfo.profile.picture
 				var user_creation_time = result.user.creationTime
-				
+
 				user.sendEmailVerification()
 					.then(function () {
 						dispatch({ type: 'SIGNUP_SUCCESS' });
@@ -113,7 +143,7 @@ export const signUpClientWithGoogle = (newUser) => {
 						})
 					})
 			}).catch(err => {
-				dispatch({ type: 'SIGNUP_ERROR', err})
+				dispatch({ type: 'SIGNUP_ERROR', err })
 			})
 	}
 }
@@ -131,7 +161,7 @@ export const signUpPro = (newUser) => {
 			const newUserID = response.user.uid
 
 			console.log('the response', response);
-			
+
 			currentUser.sendEmailVerification()
 				.then(function () {
 					return firestore.collection('users').doc(newUserID).set({
@@ -160,7 +190,7 @@ export const signUpPro = (newUser) => {
 					console.log('error');
 				});
 			// dispatch({ type: 'SIGNUP_SUCCESS' })
-			
+
 		}).catch(err => {
 			dispatch({ type: 'SIGNUP_ERROR', err })
 		})
@@ -180,13 +210,13 @@ export const completeOnboarding = (newInfo) => {
 		})
 			.then(function () {
 				// console.log("Booking successfully cancelled!");
-				currentUser.sendEmailVerification().then(function () {
+			//	currentUser.sendEmailVerification().then(function () {
 					// Email sent.
 					dispatch({ type: 'CLOSE_INQUIRY', newInfo });
-				}).catch(function (error) {
+				//}).catch(function (error) {
 					// An error happened.
-					console.log('error');
-				});
+			//		console.log('error');
+			//	});
 			})
 			.catch(function (error) {
 				// The document probably doesn't exist.

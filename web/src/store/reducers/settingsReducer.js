@@ -9,6 +9,9 @@ const settingsReducer = (state = initState, action) => {
 		case 'CREATE_SETTINGS_ERROR':
 			console.log('create search error', action.error);
 			return state;
+		case 'UPDATE_QUOTE_ERROR':
+			console.log('update quote error', action.error);
+			return state;
 		default:
 			return state;
 

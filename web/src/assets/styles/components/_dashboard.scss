@@ -45,3 +45,49 @@
 	&__current {
 	}
 }
+
+.current-weather {
+	width: 100%;
+	@media screen and (min-width: $md-min) {
+		text-align: right;
+	}
+	&__city {
+		@extend .text--sm;
+		font-weight: bold;
+	}
+}
+
+.motivation-quote {
+	@extend .text--md;
+	padding-top: $gutter*2;
+	max-width: 786px;
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	font-style: italic;
+	// text-transform: lowercase;
+	&__form {
+		width: 100%;
+		.form__inner {
+			@media screen and (min-width: $md-min) {
+				flex-flow: row nowrap;
+			}
+		}
+		.field {
+			align-items: center;
+			@media screen and (min-width: $md-min) {
+				flex: 0 0 calc(99% - 300px);
+			}
+			&:last-child {
+				align-items: center;
+				@media screen and (min-width: $md-min) {
+					flex: 0 0 300px;
+				}
+			}
+		}
+		.button {
+			height: 100%;
+			align-items: center;
+		}
+	}
+}
