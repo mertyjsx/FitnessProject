@@ -7,7 +7,7 @@ class Modal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			modalOpen: false
+			modalOpen: props.isOpen?true:false
 		}
 	}
 
@@ -17,6 +17,7 @@ class Modal extends Component {
 		this.setState({
 			modalOpen: true
 		})
+		if (this.props.openEvent) this.props.openEvent()
 	}
 
 	onModalClose = (event) => {
@@ -25,6 +26,7 @@ class Modal extends Component {
 		this.setState({
 			modalOpen: false
 		})
+		if (this.props.closeEvent) this.props.closeEvent()
 	}
 
 	render() {
