@@ -60,7 +60,7 @@ class Home extends Component {
 									<div className="home__works-content text--center">
 										<h2>How it works</h2>
 										<p className="text--sm mb--0">Choose your category. Browse profiles. Find your match.</p>
-										<p className="text--sm">Then get ready to achieve your health and fitness goals.</p>
+										<p className="text--sm">Then get ready to achieve your health and wellness.</p>
 									</div>
 								</div>
 							</div>
@@ -70,7 +70,7 @@ class Home extends Component {
 										<div key="slide1" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="user" />
 											<p className="text--md text--bold">Search for a health &amp; wellness service in your zip code or city.</p>
-											<p className="text--sm">Find nearby fitness professionals in your area</p>
+											<p className="text--sm">Find nearby wellness professionals in your area</p>
 										</div>
 										<div key="slide2" className="carousel-content__slide">
 											<FontAwesomeIcon size="4x" icon="dollar-sign" />
@@ -117,7 +117,17 @@ class Home extends Component {
 									where you can book health &amp; wellness pros instantly online, based on
 									your convenience, and get the resources you need to live a healthy &amp;
 									happy life.</p>
+									<div className="col col--12">
+										<div className="video video--responsive video--small">
+											<div className="video__iframe">
+												<iframe src="https://www.youtube.com/embed/uz1wLTFXidA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+											</div>
+										</div>
+									</div>
 									<Link to="/about" style={{ margin: 'auto' }} className="button button--accent button--md">About C2Byou</Link>
+								</div>
+								<div className="col col--12 text--center">
+
 								</div>
 							</div>
 						</div>

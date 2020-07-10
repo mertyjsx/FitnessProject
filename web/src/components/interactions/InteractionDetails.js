@@ -19,8 +19,11 @@ import Loading from '../modules/Loading'
 import GetSingleReview from '../rating/GetSingleReview'
 import SetRating from '../rating/SetRating'
 import InteractionMessages from './InteractionMessages'
+import InteractionCall from './InteractionCall'
 
 const InteractionDetails = (props) => {
+	let $this = this;
+	let callEnabled = false;
 	const { interaction, auth } = props;
 	const iid = props.match.params.id
 
@@ -127,6 +130,7 @@ const InteractionDetails = (props) => {
 	}
 
 	if (interaction) {
+
 		return (
 			<div className="interaction-details">
 				<div className="container  container--top-bottom-padding">
@@ -144,7 +148,7 @@ const InteractionDetails = (props) => {
 							<InteractionMessages groupID={iid} meta={interaction} />
 						</div>
 						<div className="col col--5">
-
+							<InteractionCall iid={iid} interaction={interaction} auth={auth}/>
 							{interaction.ratingCompleted === false && interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && (
 								<div className="rating">
 									<div className="rating__inner">

@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
-import animationVideo from '../../assets/videos/animation.m4v'
-import { Link } from 'react-router-dom'
-import { Table } from 'semantic-ui-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Component } from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from 'react-router-dom';
+import { Table } from 'semantic-ui-react';
 
 class HowProWorks extends Component {
 	render() {
@@ -53,7 +52,7 @@ class HowProWorks extends Component {
 						<p className="text--center text--md text--bold">Why Choose To Be You?</p>
 						<p className="text--center text--sm">Experience an increase in your client base.</p>
 						<p className="text--center text--sm">Enhance your brand and marketability.</p>
-						<p className="text--center text--sm">Receive rewards and recognition for your efforts.</p>
+						{/* <p className="text--center text--sm">Receive rewards and recognition for your efforts.</p> */}
 						<p className="text--center text--sm">Be a part of a motivated, positive culture.</p>
 						<p className="text--center text--sm">Choose to win, by choosing Choose To Be You.</p>
 						<Link to={'/join-as-pro'} style={{ margin: 'auto' }} className="button button--accent button--md">Join As Pro</Link>
@@ -89,11 +88,11 @@ class HowProWorks extends Component {
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#1b4588'} icon={["fa", "check-circle"]} /></Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#f08080'} icon={["fa", "times-circle"]} /></Table.Cell>
 								</Table.Row>
-								<Table.Row>
+								{/* <Table.Row>
 									<Table.Cell>Rewards</Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#1b4588'} icon={["fa", "check-circle"]} /></Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#1b4588'} icon={["fa", "check-circle"]} /></Table.Cell>
-								</Table.Row>
+								</Table.Row> */}
 								<Table.Row>
 									<Table.Cell>Recognition</Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#1b4588'} icon={["fa", "check-circle"]} /></Table.Cell>
@@ -105,20 +104,20 @@ class HowProWorks extends Component {
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#f08080'} icon={["fa", "times-circle"]} /></Table.Cell>
 								</Table.Row>
 								<Table.Row>
-									<Table.Cell>Reviews</Table.Cell>
+									<Table.Cell>Client Reviews</Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#1b4588'} icon={["fa", "check-circle"]} /></Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#1b4588'} icon={["fa", "check-circle"]} /></Table.Cell>
 								</Table.Row>
 								<Table.Row>
-									<Table.Cell>Additional Leads</Table.Cell>
+									<Table.Cell>Additional Client Leads</Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#1b4588'} icon={["fa", "check-circle"]} /></Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#f08080'} icon={["fa", "times-circle"]} /></Table.Cell>
 								</Table.Row>
-								<Table.Row>
+								{/* <Table.Row>
 									<Table.Cell>Access to Social Community</Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#1b4588'} icon={["fa", "check-circle"]} /></Table.Cell>
 									<Table.Cell style={{ textAlign: 'center', fontSize: '28px' }}><FontAwesomeIcon color={'#f08080'} icon={["fa", "times-circle"]} /></Table.Cell>
-								</Table.Row>
+								</Table.Row> */}
 							</Table>
 						</div>
 						<div className="col col--12 text--center" style={{ justifyContent: 'center' }}>
