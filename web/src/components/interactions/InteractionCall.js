@@ -94,9 +94,9 @@ class InteractionCall extends React.Component {
 		let $this = this;
 		let iid = this.props.iid;
 		// local
-		let io = require('socket.io-client')('https://localhost:3000/');
+		// let io = require('socket.io-client')('https://localhost:3000/');
 		// staging
-		// let io = require('socket.io-client')('http://ctby.angelcenteno.com/');
+		let io = require('socket.io-client')('https://ctby.angelcenteno.com/');
 		//production
 		// let io = require('socket.io-client')('https://choosetobeyou.com/');
 		this.io = io
