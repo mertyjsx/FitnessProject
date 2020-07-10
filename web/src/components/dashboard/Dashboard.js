@@ -41,10 +41,12 @@ class Dashboard extends Component {
 
 	render() {
 		// console.log(this.props)
+		
 		const { users, auth, profile, notifications } = this.props
+		console.log("bibak buna,",!profile.isOnboardingClientCompleted && !profile.isPro)
 		if (!auth.uid) return <Redirect to='/signin' />
 		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
-		if (!profile.isOnboardingClientCompleted && !profile.isPro) return <Redirect to='/onboarding-client' />
+		if (!profile.isOnboardingClientCompleted && (profile.isPro==false)) return <Redirect to='/onboarding-client' />
 		const data = [
 			{ name: 'Jan', uv: 5, pv: 25, amt: 25 },
 			{ name: 'Feb', uv: 10, pv: 25, amt: 25 },
