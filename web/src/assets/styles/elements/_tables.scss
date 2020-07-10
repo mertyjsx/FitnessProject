@@ -1,9 +1,16 @@
+$table-font-size-sm: 12px;
+$table-font-size-lg: 16px;
+
 .table {
 	margin-bottom: $gutter * 4;
 	th {
 		background-color: $primary-darker;
 		color: $white;
 		padding: $gutter;
+		font-size: $table-font-size-sm;
+		@media screen and (min-width: $sm-min) {
+			font-size: $table-font-size-lg;
+		}
 	}
 	tr {
 		background-color: $gray-lighter;
@@ -13,5 +20,9 @@
 	}
 	td {
 		padding: $gutter;
+		font-size: $table-font-size-sm;
+		@media screen and (min-width: $sm-min) {
+			font-size: $table-font-size-lg;
+		}
 	}
 }

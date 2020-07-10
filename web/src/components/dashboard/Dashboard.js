@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { Link, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
+import { onboardingAgain } from "../../store/actions/authActions"
 import GetQuote from '../admin/quote/GetQuote'
 import ResendEmail from "../auth/resendEmailLink"
 import Forecast from '../enhancements/CurrentWeather'
+import Modal from "../modal/Modal"
 import GetRating from '../rating/GetRating'
 import ProCard from '../search/ProCard'
-
 class Dashboard extends Component {
 
 	constructor(props) {
@@ -61,14 +62,35 @@ class Dashboard extends Component {
 
 		return (
 			<div className="dashboard">
-				{/* {profile.isApproved !== true && profile.isPro ? */}
-				<div className="status status--warning">
-					<div className="container">
-						<p>Your profile has been declined. Review the admin notes and resubmit when completed.</p>
-						<p><a href="#" className="button">Review Notes</a> <a href="#" className="button">Resubmit</a></p>
-					</div>
-				</div>
-				{/* // : null} */}
+				{profile.isApproved !== true && profile.isPro ?
+					(
+						profile.isDeclined ?
+							(
+								<div className="status status--danger">
+									<div className="container ">
+										<p>Your account has been declined. Review the Admin notes and resubmit when completed.</p>
+									</div>
+								
+									<div className="buttons buttons--inline">
+									{
+										profile.declineMessage&&
+										<Modal buttonStyle="button" buttonText={`Review Notes`} content={profile.declineMessage} />
+									}
+										
+										<button className="button" onClick={() => this.props.onboardingAgain()}>Resubmit</button>
+									</div>
+								</div>
+							) :
+							(
+								<div className="status status--warning">
+									<div className="container">
+										<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
+									</div>
+								</div>
+							)
+					)
+
+					: null}
 				{auth.emailVerified !== true ?
 					<div className="status status--warning">
 						<div className="container">
@@ -236,8 +258,16 @@ const mapStateToProps = (state) => {
 	}
 }
 
+const DispatchToState = (dispatch) => {
+
+	return {
+		// projects: state.firestore.ordered.projects,
+		onboardingAgain: () => dispatch(onboardingAgain())
+	}
+}
+
 export default compose(
-	connect(mapStateToProps),
+	connect(mapStateToProps, DispatchToState),
 	firestoreConnect([
 		// 	{ collection: 'projects', orderBy: ['createdAt', 'desc'] },
 		// 	{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
