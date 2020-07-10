@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { Accordion } from 'semantic-ui-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Component } from 'react';
+import { Accordion } from 'semantic-ui-react';
 
 class FAQClient extends Component {
 
@@ -103,7 +103,7 @@ class FAQClient extends Component {
 								>Do you offer sessions to beginners? <FontAwesomeIcon icon="chevron-down" />
 								</Accordion.Title>
 								<Accordion.Content active={activeIndex === 6}>
-									<p>Of course! Whether you have never been into health &amp; fitness, have neglected health &amp; fitness for years, or are currently on a health &amp; fitness kick, we have a professional who can help. We understand that getting started can be the most daunting part which is why we think it is so important to sign up with a professional who can help in any of our offered categories.</p>
+									<p>Of course! Whether you have never been into health &amp; wellness, have neglected health &amp; wellness for years, or are currently on a health &amp; wellness kick, we have a professional who can help. We understand that getting started can be the most daunting part which is why we think it is so important to sign up with a professional who can help in any of our offered categories.</p>
 								</Accordion.Content>
 							</div>
 

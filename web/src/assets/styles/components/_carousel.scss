@@ -54,6 +54,9 @@
 .carousel-about {
 	.carousel.carousel-slider {
 		padding: $gutter * 4 0;
+		@media screen and (max-width: $sm-max) {
+			width: calc(100vw - #{$gutter}*2) !important;
+		}
 		.slide {
 			background-color: transparent;
 			text-align: left;
