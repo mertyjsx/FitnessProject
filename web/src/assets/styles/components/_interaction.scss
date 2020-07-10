@@ -137,3 +137,10 @@ $user-image-size: 80px;
 		}
 	}
 }
+
+.interaction-call {
+	&--component {
+		width: 100%;
+		margin-bottom: $gutter;
+	}
+}
