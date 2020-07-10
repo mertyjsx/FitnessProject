@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { loadReCaptcha } from 'react-recaptcha-google'
-import { BrowserRouter, Route, Switch ,HashRouter} from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import ScrollToTop from 'react-router-scroll-top'
 import AdminView from "./components/admin/AdminView"
 import SignUp from "./components/auth/client/SignUp"
@@ -51,7 +51,7 @@ class App extends Component {
 
   render() {
     return (
-      <HashRouter >
+      <BrowserRouter >
         <ScrollToTop />
         <div className="App">
           <Navbar splash={this.state.splash} />
@@ -101,7 +101,7 @@ class App extends Component {
           <Footer splash={this.state.splash} />
           <InteractionCron />
         </div>
-      </HashRouter>
+      </BrowserRouter>
     );
   }
 }
