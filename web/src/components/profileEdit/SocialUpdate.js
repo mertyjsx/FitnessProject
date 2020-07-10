@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import { updateProfile } from '../../store/actions/profileActions'
 import ellipses from '../../assets/images/ellipsis.gif'
 
+import ImageUpload from "./imageUpload/premiumImageUpload"
 
 class SocialUpdate extends Component {
 	constructor(props) {
@@ -69,9 +70,10 @@ class SocialUpdate extends Component {
 					</Form.Field>
 
 					<Form.Field>
-						<Button disabled={!this.props.profile.isProPremium} className={`button  text--uppercase text--font-secondary text--sm ${!this.props.profile.isProPremium?'disabledButton':'button--secondary'}`}>Update Social Accounts</Button>
+						<Button disabled={!this.props.profile.isProPremium}  className={`button  text--uppercase text--font-secondary text--sm ${!this.props.profile.isProPremium?'disabledButton':'button--secondary'}`}>Update Social Accounts</Button>
 					</Form.Field>
 				</Form>
+				<ImageUpload></ImageUpload>
 			</div>
 		)
 	}

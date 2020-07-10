@@ -9,6 +9,7 @@ import ImageUpload from '../profileEdit/imageUpload/ImageUpload'
 import SocialUpdate from '../profileEdit/SocialUpdate';
 import FAQUpdate from '../profileEdit/FAQUpdate';
 import InterestsUpdate from '../profileEdit/InterestsUpdate';
+import PhotosVideos from "./PhotosVideos"
 
 class ProfileEdit extends Component {
 	constructor(props) {
@@ -58,6 +59,7 @@ class ProfileEdit extends Component {
 									{profile.isPro && (<Tab>Specialties</Tab>)}
 									{profile.isPro && (<Tab>Social</Tab>)}
 									{profile.isPro && (<Tab>FAQ</Tab>)}
+									{profile.isPro && profile.isProPremium && (<Tab>Photos/Videos</Tab>)}
 								</TabList>
 								<TabPanel>
 									<ProfileUpdate />
@@ -84,6 +86,11 @@ class ProfileEdit extends Component {
 								{profile.isPro && (
 									<TabPanel>
 										<FAQUpdate />
+									</TabPanel>
+								)}
+								{profile.isPro && (
+									<TabPanel>
+										<PhotosVideos/>
 									</TabPanel>
 								)}
 							</Tabs>
