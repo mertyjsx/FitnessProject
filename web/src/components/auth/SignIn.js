@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Form } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { signIn } from '../../store/actions/authActions'
+import { signIn ,signInClientWithFacebook,signInClientWithGoogle} from '../../store/actions/authActions'
 import { Redirect } from 'react-router-dom'
 import PasswordReset from './PasswordReset'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class SignIn extends Component {
 	constructor(props) {
@@ -23,6 +24,18 @@ class SignIn extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.signIn(this.state)
+	}
+	handleFacebookSubmit = (e) => {
+		e.preventDefault()
+		console.log('handleFacebookSubmit works');
+		
+		this.props.signInClientWithFacebook()
+	}
+
+	handleGoogleSubmit = (e) => {
+		e.preventDefault()
+		console.log('handleGoogleSubmit works');
+		this.props.signInClientWithGoogle()
 	}
 
 	render() {
@@ -48,6 +61,28 @@ class SignIn extends Component {
 								{authError ? <p>{authError}</p> : null}
 							</div>
 						</Form.Field>
+						
+					
+							<button onClick={this.handleFacebookSubmit} className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
+								Sign In with Facebook 
+								<FontAwesomeIcon style={{marginLeft: '10px', transform: 'translateY(-2px)'}} icon={["fab", "facebook-f"]} />
+							</button>
+							<div className="warning">
+								{authError ? <p>{authError}</p> : null}
+							</div>
+						
+					
+					
+						
+							<button onClick={this.handleGoogleSubmit} className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
+								Sign In with Google 
+								<FontAwesomeIcon style={{marginLeft: '10px', transform: 'translateY(-2px)'}} icon={["fab", "google"]} />
+							</button>
+							<div className="warning">
+								{authError ? <p>{authError}</p> : null}
+							</div>
+						
+				
 					</Form>
 					<PasswordReset />
 				</div>
@@ -65,7 +100,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		signIn: (creds) => dispatch(signIn(creds))
+		signIn: (creds) => dispatch(signIn(creds)),
+		signInClientWithFacebook: () => dispatch(signInClientWithFacebook()),
+		signInClientWithGoogle: () => dispatch(signInClientWithGoogle())
 	}
 }
 

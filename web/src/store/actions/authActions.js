@@ -1,6 +1,10 @@
+import {db} from "../../config/fbConfig"
+
+
 export const signIn = (credentials) => {
 	return (dispatch, getState, { getFirebase }) => {
 		const firebase = getFirebase()
+		
 		firebase.auth().signInWithEmailAndPassword(
 			credentials.email,
 			credentials.password
@@ -77,7 +81,49 @@ export const resendEmail = () => {
 
 
 
+export const signInClientWithFacebook = (newUser) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		const fb = new firebase.auth.FacebookAuthProvider()
+		// console.log('su w/ fb', newUser, fb )
+		firebase.auth().signInWithPopup(fb)
+			.then(async ({ user }) => {
 
+console.log(user.uid)
+			const userExist= await db.collection('users').doc(user.uid).get()
+		
+if(userExist.exists){
+
+	dispatch({ type: 'LOGIN_SUCCESS' })
+
+}else{
+
+	user.sendEmailVerification()
+	.then(function () {
+		dispatch({ type: 'SIGNUP_SUCCESS' });
+		return firestore.collection('users').doc(user.uid).set({
+			firstName: user.displayName,
+			initials: user.displayName[0] + user.displayName[1],
+			isPro: false,
+			photoURL: user.photoURL,
+			isProPremium: false,
+			emailVerified: false
+		})
+	}).catch(err => {
+		dispatch({ type: 'SIGNUP_ERROR', err })
+	})
+
+	
+}
+
+				// console.log('fb', user);
+				
+			}).catch(err => {
+				dispatch({ type: 'LOGIN_ERROR', err })
+			})
+	}
+}
 
 
 
@@ -118,32 +164,119 @@ export const signUpClientWithGoogle = (newUser) => {
 		const google = new firebase.auth.GoogleAuthProvider()
 		// console.log('su w/ fb', newUser, fb )
 		firebase.auth().signInWithPopup(google)
-			.then((result) => {
+			.then(async (result) => {
 				console.log('google', result);
+console.log(result.user.uid)
 
-				var token = result.credential.accessToken
-				var user = result.user
-				var user_id = result.user.uid
-				var user_first_name = result.additionalUserInfo.profile.given_name
-				var user_last_name = result.additionalUserInfo.profile.family_name
-				var user_image_url = result.additionalUserInfo.profile.picture
-				var user_creation_time = result.user.creationTime
+				const userExist= await	db.collection('users').doc(result.user.uid).get()
+				console.log(userExist.exists)
 
-				user.sendEmailVerification()
-					.then(function () {
-						dispatch({ type: 'SIGNUP_SUCCESS' });
-						return firestore.collection('users').doc(user_id).set({
-							firstName: user_first_name,
-							lastName: user_last_name,
-							initials: user_first_name[0] + user_last_name[0],
-							isPro: false,
-							photoURL: user_image_url,
-							isProPremium: false,
-							emailVerified: false
-						})
-					})
+if(userExist.exists){
+	console.log(userExist)
+	dispatch({ type: 'LOGIN_SUCCESS' })
+
+
+}else{
+
+	var token = result.credential.accessToken
+	var user = result.user
+	var user_id = result.user.uid
+	var user_first_name = result.additionalUserInfo.profile.given_name
+	var user_last_name = result.additionalUserInfo.profile.family_name
+	var user_image_url = result.additionalUserInfo.profile.picture
+	var user_creation_time = result.user.creationTime
+
+	user.sendEmailVerification()
+		.then(function () {
+			dispatch({ type: 'SIGNUP_SUCCESS' });
+			return firestore.collection('users').doc(user_id).set({
+				firstName: user_first_name,
+				lastName: user_last_name,
+				initials: user_first_name[0] + user_last_name[0],
+				isPro: false,
+				photoURL: user_image_url,
+				isProPremium: false,
+				emailVerified: false
+			})
+		}).catch(err => {
+			dispatch({ type: 'SIGNUP_ERROR', err })
+		})
+
+
+	
+}
+
+
+				
 			}).catch(err => {
-				dispatch({ type: 'SIGNUP_ERROR', err })
+				dispatch({ type: 'LOGIN_ERROR', err })
+			})
+	}
+}
+export const signInClientWithGoogle = (newUser) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		const google = new firebase.auth.GoogleAuthProvider()
+		// console.log('su w/ fb', newUser, fb )
+		firebase.auth().signInWithPopup(google)
+			.then(async (result) => {
+				console.log('google', result);
+console.log(result.user.uid)
+
+				const userExist= await	db.collection('users').doc(result.user.uid).get()
+				console.log(userExist.exists)
+
+if(userExist.exists){
+	console.log(userExist)
+	dispatch({ type: 'LOGIN_SUCCESS' })
+
+
+}else{
+
+	var token = result.credential.accessToken
+	var user = result.user
+	var user_id = result.user.uid
+	var user_first_name = result.additionalUserInfo.profile.given_name
+	var user_last_name = result.additionalUserInfo.profile.family_name
+	var user_image_url = result.additionalUserInfo.profile.picture
+	var user_creation_time = result.user.creationTime
+
+	user.sendEmailVerification()
+		.then(function () {
+			dispatch({ type: 'SIGNUP_SUCCESS' });
+			return firestore.collection('users').doc(user_id).set({
+				firstName: user_first_name,
+				lastName: user_last_name,
+				initials: user_first_name[0] + user_last_name[0],
+				isPro: false,
+				photoURL: user_image_url,
+				isProPremium: false,
+				emailVerified: false
+			})
+		}).catch(err => {
+			dispatch({ type: 'SIGNUP_ERROR', err })
+		})
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+}
+
+
+				
+			}).catch(err => {
+				dispatch({ type: 'LOGIN_ERROR', err })
 			})
 	}
 }
