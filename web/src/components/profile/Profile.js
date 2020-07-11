@@ -14,6 +14,7 @@ import GetRating from '../rating/GetRating'
 import Booking from './Booking'
 import Inquiry from './Inquiry'
 import Photos from "./Photos"
+import Videos from "./Videos"
 
 const Profile = (props, state) => {
 
@@ -200,12 +201,17 @@ const Profile = (props, state) => {
 							{renderFAQ()}
 
 							{user.isProPremium &&
-								<div id="reviews" className={`profile__reviews`}>
+								[<div id="reviews" className={`profile__reviews`}>
 									<h2 className={`text--uppercase`}>Photos</h2>
 									<Photos id={user.uid} photos={user.premiumPhotos} />
-								</div>
+								</div>,
+								<hr></hr>,
+								<div id="reviews" className={`profile__reviews`}>
+								<h2 className={`text--uppercase`}>Videos</h2>
+								<Videos id={user.uid} videoUrls={user.videoUrls} />
+							</div>
 
-							}
+								]}
 
 							<div id="reviews" className={`profile__reviews`}>
 								<h2 className={`text--uppercase`}>Reviews</h2>

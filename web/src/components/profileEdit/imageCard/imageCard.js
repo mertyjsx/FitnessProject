@@ -41,7 +41,9 @@ function Card({url,filePath,auth,profile}) {
     return (
         <div  className="relative"> 
    <img src={url}   className="imageCard"></img>
-<div className="imageDeleteIcon" onClick={handleDelete}>X</div>
+   <div className="modal__btn">
+							<button className="modal__close"  onClick={handleDelete}>X</button>
+						</div>
 
         </div>
      
