@@ -288,7 +288,8 @@ class Booking extends Component {
 										<p>Your total of ${this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
 										<p>Please choose your preferred method of payment below.</p>
 										<PayPalButton
-											amount={this.calculateTotal()}
+											// amount={this.calculateTotal()}
+											amount={'1'}
 											shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
 											onSuccess={(details, data) => {
 												// alert("Transaction completed by " + details.payer.name.given_name);

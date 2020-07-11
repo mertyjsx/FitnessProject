@@ -1,52 +1,30 @@
 import React from 'react'
-import { fileStorage, db } from '../../../config/fbConfig'
-import {connect} from "react-redux"
-function Card({url,filePath,auth,profile}) {
+import { connect } from "react-redux"
+import { db, fileStorage } from '../../../config/fbConfig'
+function Card({ url, filePath, auth, profile }) {
 
-   const handleDelete = (e) => {
-		e.preventDefault()
-	
+    const handleDelete = (e) => {
+        e.preventDefault()
         const imageOwner = auth.uid;
         console.log(filePath)
-		 fileStorage.ref(filePath).delete().then(()=>{
-
-            let photoArray=profile.premiumPhotos
-            let newPhotoArray=photoArray.filter(item=>{
-                
-              
-                
-                return  item.url!==url
-                
-               })
-
+        fileStorage.ref(filePath).delete().then(() => {
+            let photoArray = profile.premiumPhotos
+            let newPhotoArray = photoArray.filter(item => {
+                return item.url !== url
+            })
             db.collection(`users`).doc(imageOwner).update({
                 premiumPhotos: newPhotoArray
-            }).then(()=>console.log("bitti"))
-
-
+            }).then(() => console.log("bitti"))
         })
-		
-		
-
-					
-					
-			
-
-		
-	}
-
-
-
-    console.log(url)
+    }
+    // console.log(url)
     return (
-        <div  className="relative"> 
-   <img src={url}   className="imageCard"></img>
-   <div className="modal__btn">
-							<button className="modal__close"  onClick={handleDelete}>X</button>
-						</div>
-
+        <div className="relative">
+            <img src={url} className="imageCard"></img>
+            <div className="modal__btn">
+                <button className="modal__close" onClick={handleDelete}>X</button>
+            </div>
         </div>
-     
     )
 }
 
@@ -58,9 +36,9 @@ const mapStateToProps = (state) => {
 }
 
 //const mapDispatchToProps = (dispatch) => {
- //   return {
-     //   completeOnboarding: (payload) => dispatch(completeOnboardingClient(payload))
- //   }
+//   return {
+//   completeOnboarding: (payload) => dispatch(completeOnboardingClient(payload))
+//   }
 //}
 
 export default connect(mapStateToProps)(Card)

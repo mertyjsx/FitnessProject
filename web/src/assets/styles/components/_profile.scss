@@ -1,12 +1,4 @@
-.alertYellow{
-	background-color: #E4C22E;
-	color:white;
-	width: 100%;
-	border-radius: 14px;
-	text-align: center;
-	padding: 15px;
-	margin-bottom: 25px;
-}
+// Start Revision
 .flexrow{
 	display: flex;
     flex-flow: row wrap;
@@ -51,6 +43,8 @@ background-color: #757575;
 .disabledButton:hover{
 	cursor: not-allowed !important ;
 }
+
+// End
 
 
 .profile {
@@ -114,6 +108,8 @@ background-color: #757575;
 	&__professional-background,
 	&__credentials,
 	&__faq,
+	&__photos,
+	&__videos,
 	&__reviews {
 		width: 100%;
 	}
@@ -123,6 +119,8 @@ background-color: #757575;
 	&__professional-background,
 	&__credentials,
 	&__faq,
+	&__photos,
+	&__videos,
 	&__reviews {
 		margin-bottom: $gutter * 2;
 		@media screen and (min-width: $md-min) {
@@ -205,6 +203,13 @@ background-color: #757575;
 		margin-bottom: $gutter;
 		@media screen and (min-width: $md-min) {
 			flex: 0 1 49%;
+		}
+	}
+	&__photos {
+		.row {
+			> div {
+				@extend .col, .col--3;
+			}
 		}
 	}
 }

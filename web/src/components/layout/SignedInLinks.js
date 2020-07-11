@@ -27,13 +27,9 @@ const SignedInLinks = (props) => {
 		}
 	}, [props.interactions])
 
-	if (props.profile.onboardingCompleted === false) {
-		return (
-			<div className={`header__secondary`}><ul></ul></div>
-		)
-	} else {
-		return (
-			<div className={`header__secondary`}>
+	return (
+		<div className={`header__secondary`}>
+			{props.profile.onboardingCompleted || props.profile.isOnboardingClientCompleted && (
 				<ul>
 					{/* <li><NavLink to="/create-project" className="header__nav-link">New Project</NavLink></li> */}
 					{props.profile.isAdmin && (
@@ -47,32 +43,33 @@ const SignedInLinks = (props) => {
 						<li><NavLink onClick={navClick} to="/calendar" className="header__nav-link">Calendar</NavLink></li>
 					)}
 				</ul>
-				<div className={`header__nav-settings ${profileActive ? 'header__nav-settings--active' : ''}`}>
-					<div className={`header__nav-settings-btn`}>
-						<button onClick={settingsClick} className="header__nav-profile">
-							<div className="header__nav-profile-image">
-								{props.profile.photoURL ?
-									<RenderImage />
-									:
-									<div className={'initials'}>
-										{props.profile.initials}
-									</div>
-								}
-							</div>
-							<FontAwesomeIcon icon={["fa", "chevron-down"]} />
-						</button>
-					</div>
-					<div className={`header__nav-settings-results ${profileActive ? 'header__nav-settings-results--active' : ''}`}>
-						<ul>
-							<li><NavLink onClick={navClick} to="/find-a-pro" className="header__nav-link">Find a Pro</NavLink></li>
-							<li><NavLink onClick={navClick} to="/settings" className="header__nav-link">Settings</NavLink></li>
-							<li><a onClick={navClick} href="#" className="header__nav-link" onClick={props.signOut}>Logout</a></li>
-						</ul>
-					</div>
+			)}
+			<div className={`header__nav-settings ${profileActive ? 'header__nav-settings--active' : ''}`}>
+				<div className={`header__nav-settings-btn`}>
+					<button onClick={settingsClick} className="header__nav-profile">
+						<div className="header__nav-profile-image">
+							{props.profile.photoURL ?
+								<RenderImage />
+								:
+								<div className={'initials'}>
+									{props.profile.initials}
+								</div>
+							}
+						</div>
+						<FontAwesomeIcon icon={["fa", "chevron-down"]} />
+					</button>
+				</div>
+				<div className={`header__nav-settings-results ${profileActive ? 'header__nav-settings-results--active' : ''}`}>
+					<ul>
+						<li><NavLink onClick={navClick} to="/find-a-pro" className="header__nav-link">Find a Pro</NavLink></li>
+						<li><NavLink onClick={navClick} to="/settings" className="header__nav-link">Settings</NavLink></li>
+						<li><a onClick={navClick} href="#" className="header__nav-link" onClick={props.signOut}>Logout</a></li>
+					</ul>
 				</div>
 			</div>
-		)
-	}
+		</div>
+	)
+
 }
 
 const mapStateToProps = (state) => {

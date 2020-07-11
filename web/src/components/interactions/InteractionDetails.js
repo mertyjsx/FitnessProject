@@ -19,7 +19,6 @@ import Loading from '../modules/Loading'
 import GetSingleReview from '../rating/GetSingleReview'
 import SetRating from '../rating/SetRating'
 import InteractionMessages from './InteractionMessages'
-import InteractionCall from './InteractionCall'
 
 const InteractionDetails = (props) => {
 	let $this = this;
@@ -51,46 +50,46 @@ const InteractionDetails = (props) => {
 		let paypal_base_uri = `https://api.paypal.com/`;
 		if (PaypalConfig.sandbox) paypal_base_uri = `https://api.sandbox.paypal.com/`;
 		axios.post(paypal_base_uri + 'v1/oauth2/token',
-				   "grant_type=client_credentials",
-				   {
-				   	  "headers": {
-				   	  		"Accept" : "application/json",
-				   	  		"Accept-Language" : "en_US",
-				   	  		'Access-Control-Allow-Origin': 'localhost:3000'
-				   	  },
-				   	  // "withCredentials": true,
-				   	  "auth":{
-				   	  	"username":PaypalConfig.client_id,
-				   	  	"password":PaypalConfig.client_secret
-				   	  }
-				   }).then((response)=>{
-				   		let paypal_access_token = response.data.access_token;
-				   		let paypal_token_type = response.data.token_type;
-				   		let paypalid = interaction.paypal.id;
-				   		axios.get(`${paypal_base_uri}v2/checkout/orders/${paypalid}`,
-					   		{
-					   			headers: { 
-					   				"Content-Type":"application/json",
-					   				"Authorization":`${paypal_token_type} ${paypal_access_token}`
-					   			},
-					   		}).then(response=>{
-					   			response.data.purchase_units.forEach(purchase_unit=>{
-					   				purchase_unit.payments.captures.forEach(capture=>{
-					   					axios.post(`${paypal_base_uri}v2/payments/captures/${capture.id}/refund`,
-									   		{},
-									   		{
-									   			headers: { 
-									   				"Content-Type":"application/json",
-									   				"Authorization":`${paypal_token_type} ${paypal_access_token}`
-									   			},
-									   		}).then(response=>{
-									   			console.log(response);
-									   			props.cancelBookingInteraction(iid)
-									   		})
-					   				});
-					   			});
-					   		});
-				   });
+			"grant_type=client_credentials",
+			{
+				"headers": {
+					"Accept": "application/json",
+					"Accept-Language": "en_US",
+					'Access-Control-Allow-Origin': 'localhost:3000'
+				},
+				// "withCredentials": true,
+				"auth": {
+					"username": PaypalConfig.client_id,
+					"password": PaypalConfig.client_secret
+				}
+			}).then((response) => {
+				let paypal_access_token = response.data.access_token;
+				let paypal_token_type = response.data.token_type;
+				let paypalid = interaction.paypal.id;
+				axios.get(`${paypal_base_uri}v2/checkout/orders/${paypalid}`,
+					{
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `${paypal_token_type} ${paypal_access_token}`
+						},
+					}).then(response => {
+						response.data.purchase_units.forEach(purchase_unit => {
+							purchase_unit.payments.captures.forEach(capture => {
+								axios.post(`${paypal_base_uri}v2/payments/captures/${capture.id}/refund`,
+									{},
+									{
+										headers: {
+											"Content-Type": "application/json",
+											"Authorization": `${paypal_token_type} ${paypal_access_token}`
+										},
+									}).then(response => {
+										console.log(response);
+										props.cancelBookingInteraction(iid)
+									})
+							});
+						});
+					});
+			});
 		console.log(interaction);
 		// props.cancelBookingInteraction(iid)
 		// console.log('session has been cancelled')
@@ -148,7 +147,9 @@ const InteractionDetails = (props) => {
 							<InteractionMessages groupID={iid} meta={interaction} />
 						</div>
 						<div className="col col--5">
-							<InteractionCall iid={iid} interaction={interaction} auth={auth}/>
+
+							{/* STILL WORKING <InteractionCall iid={iid} interaction={interaction} auth={auth}/> */}
+
 							{interaction.ratingCompleted === false && interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && (
 								<div className="rating">
 									<div className="rating__inner">
@@ -158,7 +159,7 @@ const InteractionDetails = (props) => {
 								</div>
 							)}
 
-							{ interaction.ratingCompleted === true && (
+							{interaction.ratingCompleted === true && (
 								<div className="rating">
 									<div className="rating__inner">
 										<h2 className="text--uppercase text--bold">Rating Completed</h2>
@@ -188,7 +189,7 @@ const InteractionDetails = (props) => {
 								</div>
 								<div className="interaction-details__location">
 									<h3>Location</h3>
-									{interaction.bookingType === 'online' ? 'Online' : 
+									{interaction.bookingType === 'online' ? 'Online' :
 										<div>
 											<p>{interaction.proBusinessName}</p>
 											<p>{interaction.proFullAddress}</p>

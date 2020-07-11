@@ -23,13 +23,15 @@ const Profile = (props, state) => {
 
 	// if (!auth.uid) return <Redirect to='/signin' />
 
-	const renderProfileNav = (about, background, credentials, faq, reviews) => {
+	const renderProfileNav = (about, background, credentials, faq, photos, videos, reviews) => {
 		// console.log(typeof credentials);
 		var navItems = [];
 		if (typeof about === 'string') { navItems.push(<li key={'about'}><a href="#about">About</a></li>) }
 		if (typeof background === 'string') { navItems.push(<li key={'background'}><a href="#background">Background</a></li>) }
 		if (typeof credentials === 'string') { navItems.push(<li key={'credentials'}><a href="#credentials">Credentials</a></li>) }
 		if (typeof faq === 'string') { navItems.push(<li key={'faq'}><a href="#faq">FAQs</a></li>) }
+		if (photos === true) { navItems.push(<li key={'photos'}><a href="#photos">Photos</a></li>) }
+		if (videos === true) { navItems.push(<li key={'videos'}><a href="#videos">Videos</a></li>) }
 		if (reviews === true) { navItems.push(<li key={'reviews'}><a href="#reviews">Reviews</a></li>) }
 		return (<ul className="list list--inline">{navItems.splice('')}</ul>)
 	}
@@ -136,7 +138,14 @@ const Profile = (props, state) => {
 					<div className="row row--flex-start">
 						<div className="col col--8">
 							<div className={`profile__nav`}>
-								{renderProfileNav(user.about, user.background, user.credentials, user.faq1Question, true)}
+								{renderProfileNav(
+									user.about,
+									user.background,
+									user.credentials,
+									user.faq1Question,
+									user.premiumPhotos ? true : false,
+									user.videoUrls ? true : false,
+									true)}
 							</div>
 							<div className={`profile__image`}>
 								{renderImage(user.photoURL)}
@@ -201,17 +210,16 @@ const Profile = (props, state) => {
 							{renderFAQ()}
 
 							{user.isProPremium &&
-								[<div id="reviews" className={`profile__reviews`}>
+								[<div id="photos" className={`profile__photos`}>
 									<h2 className={`text--uppercase`}>Photos</h2>
 									<Photos id={user.uid} photos={user.premiumPhotos} />
 								</div>,
-								<hr></hr>,
-								<div id="reviews" className={`profile__reviews`}>
-								<h2 className={`text--uppercase`}>Videos</h2>
-								<Videos id={user.uid} videoUrls={user.videoUrls} />
-							</div>
-
-								]}
+								<div id="videos" className={`profile__videos`}>
+									<h2 className={`text--uppercase`}>Videos</h2>
+									<Videos id={user.uid} videoUrls={user.videoUrls} />
+								</div>
+								]
+							}
 
 							<div id="reviews" className={`profile__reviews`}>
 								<h2 className={`text--uppercase`}>Reviews</h2>

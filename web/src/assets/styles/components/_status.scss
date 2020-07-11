@@ -7,4 +7,8 @@
 	&--danger {
 		background-color: $red;
 	}
+	&--success {
+		background-color: $green;
+		color: white;
+	}
 }

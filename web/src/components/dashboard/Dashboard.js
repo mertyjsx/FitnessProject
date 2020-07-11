@@ -41,12 +41,12 @@ class Dashboard extends Component {
 
 	render() {
 		// console.log(this.props)
-		
+
 		const { users, auth, profile, notifications } = this.props
-		console.log("bibak buna,",!profile.isOnboardingClientCompleted && !profile.isPro)
+		console.log("bibak buna,", !profile.isOnboardingClientCompleted && !profile.isPro)
 		if (!auth.uid) return <Redirect to='/signin' />
 		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
-		if (!profile.isOnboardingClientCompleted && (profile.isPro==false)) return <Redirect to='/onboarding-client' />
+		if (!profile.isOnboardingClientCompleted && (profile.isPro == false)) return <Redirect to='/onboarding-client' />
 		const data = [
 			{ name: 'Jan', uv: 5, pv: 25, amt: 25 },
 			{ name: 'Feb', uv: 10, pv: 25, amt: 25 },
@@ -72,13 +72,13 @@ class Dashboard extends Component {
 									<div className="container ">
 										<p>Your account has been declined. Review the Admin notes and resubmit when completed.</p>
 									</div>
-								
+
 									<div className="buttons buttons--inline">
-									{
-										profile.declineMessage&&
-										<Modal buttonStyle="button" buttonText={`Review Notes`} content={profile.declineMessage} />
-									}
-										
+										{
+											profile.declineMessage &&
+											<Modal buttonStyle="button" buttonText={`Review Notes`} content={profile.declineMessage} />
+										}
+
 										<button className="button" onClick={() => this.props.onboardingAgain()}>Resubmit</button>
 									</div>
 								</div>
@@ -108,17 +108,15 @@ class Dashboard extends Component {
 						<div className="col col--8">
 							<div className={`dashboard__head`}>
 								{this.renderFirstName(profile.firstName)}
-								<p style={{ paddingBottom: '10px' }}>Be the best version of YOU</p>
-{profile.personalGoal&&
-	<p style={{ paddingBottom: '10px' ,color:"red"}}>{profile.personalGoal}</p>
-}
-								
+								<p style={{ marginBottom: '0' }}>Be the best version of YOU</p>
+								{profile.personalGoal &&
+									<p className="dashboard__head-goal"><strong>Personal Goal:</strong> {profile.personalGoal}</p>
+								}
+
 							</div>
 						</div>
 						<div className="col col--4">
-							{this.props.profile.personalCity || this.props.profile.businessCity && (
-								<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
-							)}
+							<Forecast city={this.props.profile.businessCity ? this.props.profile.businessCity : this.props.profile.personalCity} />
 						</div>
 					</div>
 

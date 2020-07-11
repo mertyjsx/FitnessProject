@@ -1,19 +1,22 @@
-import React from 'react'
-import ImageUpload from "../profileEdit/imageUpload/premiumImageUpload"
-import Cards from "../../components/profileEdit/imageCard/imageCard"
-import {connect} from "react-redux"
+import React from 'react';
+import ModalImage from "react-modal-image";
 
- export default function Photos({photos}) {
-     console.log(photos)
+
+export default function Photos({ photos }) {
+    //  console.log(photos)
     return (
-        <div >
-            
-<div className="flexrow">
+        <div className="row">
             {
-                photos&&photos.map(item=><img key={item.filePath} className="imageCard" src={item.url} ></img>)
+                photos && photos.map(item => (
+                    <ModalImage
+                        // className="col col--4"
+                        key={item.filePath}
+                        small={item.url}
+                        large={item.url}
+                        alt="Hello World!"
+                    />
+                ))
             }
-
-</div>
         </div>
     )
 }

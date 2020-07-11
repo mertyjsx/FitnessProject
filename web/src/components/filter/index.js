@@ -132,13 +132,13 @@ class Filter extends Component {
 								</select>
 							</div>
 							<div className="col">
-								<label htmlFor="businessCity" className="screen-reader-text">Search By City,ZipCode,State</label>
+								<label htmlFor="businessCity" className="screen-reader-text">Search by City, State or Zipcode</label>
 								<input id={`businessCity`}
 									style={{ backgroundImage: `url(${where})` }}
 									value={this.state.businessCity}
 									type="text"
 									name="businessCity"
-									placeholder="Search By City"
+									placeholder="City, State -OR- Zipcode"
 									onChange={(e) => this.handleChange('businessCity', e.target.value)} />
 							</div>
 
