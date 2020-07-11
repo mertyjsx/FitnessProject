@@ -252,28 +252,28 @@ class SpecialtiesEdit extends Component {
 								<div className={`divider`} style={{ margin: '50px 0' }}></div>
 								<legend className="text--uppercase text--bold">Select Your Massage Therapist Specialties</legend>
 								<Form.Field className={'field--cols'} style={{ padding: '20px 0' }}>
-									<div className="ui checkbox">
-										<input id="deepTissue" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+								<div className="ui checkbox">
+										<input id="deepTissue" tabindex="0" type="checkbox" defaultChecked={profile.specialties.deepTissue} onChange={this.handleSpecialities} />
 										<label for="deepTissue">Deep Tissue</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="swedish" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="swedish" tabindex="0" type="checkbox" defaultChecked={profile.specialties.swedish} onChange={this.handleSpecialities} />
 										<label for="swedish">Swedish</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="stone" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="stone" tabindex="0" type="checkbox" defaultChecked={profile.specialties.stone} onChange={this.handleSpecialities} />
 										<label for="stone">Stone</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="pregnancy" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="pregnancy" tabindex="0" type="checkbox" defaultChecked={profile.specialties.pregnancy} onChange={this.handleSpecialities} />
 										<label for="pregnancy">Pregnancy</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="sports" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="sports" tabindex="0" type="checkbox" defaultChecked={profile.specialties.sports} onChange={this.handleSpecialities} />
 										<label for="sports">Sports</label>
 									</div>
 									<div className="ui checkbox">
-										<input id="reflexology" tabindex="0" type="checkbox" onChange={this.handleSpecialities} />
+										<input id="reflexology" tabindex="0" type="checkbox" defaultChecked={profile.specialties.reflexology} onChange={this.handleSpecialities} />
 										<label for="reflexology">Reflexology</label>
 									</div>
 								</Form.Field>

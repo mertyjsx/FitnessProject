@@ -40,9 +40,10 @@ class Dashboard extends Component {
 	}
 
 	render() {
-		// console.log(this.props)
+	
 
 		const { users, auth, profile, notifications } = this.props
+		console.log(auth)
 		console.log("bibak buna,", !profile.isOnboardingClientCompleted && !profile.isPro)
 		if (!auth.uid) return <Redirect to='/signin' />
 		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
