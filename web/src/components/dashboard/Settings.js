@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { compose } from 'redux'
 import DeleteAccount from '../auth/DeleteAccount'
 import UpgradeProPremium from '../auth/UpgradeProPremium'
+import {Button} from "semantic-ui-react"
 
 class Settings extends Component {
 
@@ -35,6 +36,19 @@ class Settings extends Component {
 							<DeleteAccount auth={this.props.auth} />
 						</div>
 					</div>
+
+					{
+
+						!this.props.profile.isPro&&
+                   <div >
+						<div style={{ marginBottom: '50px' }}>
+							<h3>Upgrade to Pro</h3>
+							<Button className="button button--md button--secondary" as={Link} to="/upgrade-pro">Upgrade to Pro</Button>
+						</div>
+					</div>
+
+					}
+					
 
 					<div className="row">
 						<div className="col" style={{ marginBottom: '50px' }}>

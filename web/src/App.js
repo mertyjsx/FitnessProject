@@ -34,6 +34,7 @@ import Profile from "./components/profile/Profile"
 import CreateProject from "./components/projects/CreateProject"
 import ProjectDetails from './components/projects/ProjectDetails'
 import ThankYouConvertKit from "./components/promo/ThankYouConvertKit"
+import ClientToPro from "./components/auth/clientToPro"
 import './vendor/fontawesome'
 
 class App extends Component {
@@ -90,6 +91,7 @@ class App extends Component {
                 <Route exact path="/client-faq" component={FAQClient} />
                 <Route exact path="/file-claim" component={FileClaim} />
                 <Route exact path="/contact" component={ContactUs} />
+                <Route exact path="/upgrade-pro" component={ClientToPro} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>

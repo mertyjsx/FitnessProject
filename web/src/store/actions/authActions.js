@@ -148,6 +148,64 @@ export const signUpClientWithGoogle = (newUser) => {
 	}
 }
 
+
+export const ClientToPro = (newUser) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		// console.log('in action', newUser);
+		
+		const userID = getState().firebase.auth.uid
+
+			console.log(newUser)
+
+			console.log(userID)
+			
+				firestore.collection('users').doc(userID).update({
+						
+						phoneNumber: newUser.phoneNumber,
+						
+						personalCity: newUser.city,
+						personalState: newUser.state,
+						personalZip: newUser.zip,
+						isPro: true,
+						isProPremium: false,
+						isApproved: false,
+						
+						onboardingCompleted: false,
+						proInteractions: [],
+						professions: {
+							chef: newUser.professionChef,
+							fitnessTrainer: newUser.professionFitnessTrainer,
+							massageTherapist: newUser.professionMassageTherapist,
+							nutritionist: newUser.professionNutritionist
+						}
+					})
+				
+			// dispatch({ type: 'SIGNUP_SUCCESS' })
+
+		
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const signUpPro = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
