@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import where from '../../assets/images/where.png';
-
+import Modal from "../modal/newModal"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 function getSortOrderValue(sortOrder) {
 	return sortOrder.replace(' ', '').toLowerCase()
 }
@@ -143,21 +144,36 @@ class Filter extends Component {
 							</div>
 
 
-							<div className="col">
-								<label htmlFor="pph" className="screen-reader-text">Search By Price</label>
-								<select
-									id={`pph`}
-									// style={{ backgroundImage: `url(${dollar})` }}
-									value={this.state.pph}
-									onChange={e => this.handleChange('pph', e.target.value)}>
-									<option value="">Price Per Hour</option>
-									<option value="25">Up to $25</option>
-									<option value="50">Up to $50</option>
-									<option value="75">Up to $75</option>
-									<option value="100">Up to $100</option>
-									<option value="10000">$101 +</option>
-								</select>
-							</div>
+
+<Modal 
+  buttonText={'More Filters'} buttonStyle={'button button--md button--secondary'}
+buttonIcon="filter"
+View={this.props.Number}
+content={(
+
+
+<div className="col">
+<label htmlFor="pph" className="screen-reader-text">Search By Price</label>
+<select
+	id={`pph`}
+	// style={{ backgroundImage: `url(${dollar})` }}
+	value={this.state.pph}
+	onChange={e => this.handleChange('pph', e.target.value)}>
+	<option value="">Price Per Hour</option>
+	<option value="25">Up to $25</option>
+	<option value="50">Up to $50</option>
+	<option value="75">Up to $75</option>
+	<option value="100">Up to $100</option>
+	<option value="10000">$101 +</option>
+</select>
+</div>
+
+
+
+
+
+)}></Modal>
+
 
 							<div className="col">
 								<button
