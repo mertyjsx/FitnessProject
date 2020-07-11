@@ -137,25 +137,43 @@ export const signUpClientWithFacebook = (newUser) => {
 		const fb = new firebase.auth.FacebookAuthProvider()
 		// console.log('su w/ fb', newUser, fb )
 		firebase.auth().signInWithPopup(fb)
-			.then(({ user }) => {
+			.then(async ({ user }) => {
+
+console.log(user.uid)
+			const userExist= await db.collection('users').doc(user.uid).get()
+		
+if(userExist.exists){
+
+	dispatch({ type: 'LOGIN_SUCCESS' })
+
+}else{
+
+	user.sendEmailVerification()
+	.then(function () {
+		dispatch({ type: 'SIGNUP_SUCCESS' });
+		return firestore.collection('users').doc(user.uid).set({
+			firstName: user.displayName,
+			initials: user.displayName[0] + user.displayName[1],
+			isPro: false,
+			photoURL: user.photoURL,
+			isProPremium: false,
+			emailVerified: false
+		})
+	}).catch(err => {
+		dispatch({ type: 'SIGNUP_ERROR', err })
+	})
+
+	
+}
+
 				// console.log('fb', user);
-				user.sendEmailVerification()
-					.then(function () {
-						dispatch({ type: 'SIGNUP_SUCCESS' });
-						return firestore.collection('users').doc(user.uid).set({
-							firstName: user.displayName,
-							initials: user.displayName[0] + user.displayName[1],
-							isPro: false,
-							photoURL: user.photoURL,
-							isProPremium: false,
-							emailVerified: false
-						})
-					})
+				
 			}).catch(err => {
-				dispatch({ type: 'SIGNUP_ERROR', err })
+				dispatch({ type: 'LOGIN_ERROR', err })
 			})
 	}
 }
+
 
 export const signUpClientWithGoogle = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
