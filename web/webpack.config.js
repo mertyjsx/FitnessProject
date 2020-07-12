@@ -1,6 +1,11 @@
 module.exports = {
-    //...
-    devServer: {
-      historyApiFallback: true
-    }
-  };
+  //...
+  output: {
+    path: path.join(__dirname, '/build/static/js'),
+    filename: 'index.js',
+    publicPath: '/'
+  },
+  devServer: {
+    historyApiFallback: true
+  }
+};

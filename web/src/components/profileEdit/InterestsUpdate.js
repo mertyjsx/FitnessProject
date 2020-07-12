@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Checkbox, Form, Input } from 'semantic-ui-react'
+import { Button, Form } from 'semantic-ui-react'
 import { updateInterests } from '../../store/actions/profileActions'
 
 class InterestsUpdate extends Component {
@@ -94,7 +94,7 @@ class InterestsUpdate extends Component {
 								</div>
 								<div className="ui checkbox">
 									<input id="powerLifting" tabIndex="0" type="checkbox" defaultChecked={profile.interests && profile.interests.powerLifting} onChange={this.handleInterests} />
-									<label htmlFor="powerLifting">Power Lifting</label>
+									<label htmlFor="powerLifting">Powerlifting</label>
 								</div>
 								<div className="ui checkbox">
 									<input id="weightLoss" tabIndex="0" type="checkbox" defaultChecked={profile.interests && profile.interests.weightLoss} onChange={this.handleInterests} />

@@ -142,7 +142,7 @@ class Onboarding extends Component {
 								<div className={'form__inner '}>
 									<div>
 										<h2>Specialties</h2>
-										<p>What are your specialties as a <span className={'text--bold'}>{profile.professions.chef ? 'Chef' : null}{profile.professions.fitnessTrainer ? 'Fitness Instructor' : null}{profile.professions.nutritionist ? 'Nutritionist' : null}{profile.professions.massageTherapist ? 'Massage Therapist' : null}</span>?</p>
+										<p>What are your specialties as a <span className={'text--bold'}>{profile.professions.chef ? 'Chef' : null}{profile.professions.fitnessTrainer ? 'Fitness Trainer' : null}{profile.professions.nutritionist ? 'Nutritionist' : null}{profile.professions.massageTherapist ? 'Massage Therapist' : null}</span>?</p>
 									</div>
 
 									{profile.professions.chef && (
@@ -364,7 +364,7 @@ class Onboarding extends Component {
 												</div>
 												<div className="ui checkbox">
 													<input id="powerLifting" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.powerLifting} onChange={this.handleSpecialities} />
-													<label htmlFor="powerLifting">Power Lifting</label>
+													<label htmlFor="powerLifting">Powerlifting</label>
 												</div>
 												<div className="ui checkbox">
 													<input id="weightLoss" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.weightLoss} onChange={this.handleSpecialities} />
@@ -460,7 +460,7 @@ class Onboarding extends Component {
 								<div className="form__inner">
 									<div style={{ marginBottom: '20px' }}>
 										<h2>About You</h2>
-										<p>We'd like to know more about you! The infromation you provide here will be part of your profile.</p>
+										<p>We'd like to know more about you! The information you provide here will be part of your profile.</p>
 									</div>
 									<Form.Field>
 										<label htmlFor="about">About / Experience *</label>

@@ -12,7 +12,7 @@ const InteractionSummary = ({ interaction, auth, isNew }) => {
 				<div className="interaction__user">
 					{isNew && <div className="new">New Updates</div>}
 					<div className="interaction__user-img">
-						{renderProfileImage(interaction.proImage)}
+						{renderProfileImage(interaction.userImage)}
 					</div>
 					<div className="interaction__user-name text--capitalize">
 						{interaction.userFirstName + ' ' + interaction.userLastName[0] + '.'}

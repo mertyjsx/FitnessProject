@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import ScrollToTop from 'react-router-scroll-top'
 import AdminView from "./components/admin/AdminView"
 import SignUp from "./components/auth/client/SignUp"
+import ClientToPro from "./components/auth/clientToPro"
 import SignUpPro from "./components/auth/pro/SignUpPro"
 import SignIn from './components/auth/SignIn'
 import CalenderView from "./components/calendar/CalenderView"
@@ -18,6 +19,7 @@ import Footer from "./components/layout/Footer"
 import Navbar from './components/layout/Navbar'
 import About from "./components/modules/About"
 import Bookings from "./components/modules/Bookings"
+import CancellationPolicy from "./components/modules/CancellationPolicy"
 import ContactUs from "./components/modules/ContactUs"
 import FAQClient from "./components/modules/FAQClient"
 import FAQPro from "./components/modules/FAQPro"
@@ -34,7 +36,6 @@ import Profile from "./components/profile/Profile"
 import CreateProject from "./components/projects/CreateProject"
 import ProjectDetails from './components/projects/ProjectDetails'
 import ThankYouConvertKit from "./components/promo/ThankYouConvertKit"
-import ClientToPro from "./components/auth/clientToPro"
 import './vendor/fontawesome'
 
 class App extends Component {
@@ -92,6 +93,7 @@ class App extends Component {
                 <Route exact path="/file-claim" component={FileClaim} />
                 <Route exact path="/contact" component={ContactUs} />
                 <Route exact path="/upgrade-pro" component={ClientToPro} />
+                <Route exact path="/cancellation-policy" component={CancellationPolicy} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>

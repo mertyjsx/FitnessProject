@@ -31,7 +31,7 @@ class Bookings extends Component {
 				{profile.isApproved !== true && profile.isPro ?
 					<div className="status status--warning">
 						<div className="container">
-							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
+							<p>Your profile is currently being reviewed by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
 						</div>
 					</div>
 					: null}

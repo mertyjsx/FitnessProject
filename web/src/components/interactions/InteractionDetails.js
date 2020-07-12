@@ -168,6 +168,24 @@ const InteractionDetails = (props) => {
 								</div>
 							)}
 
+							{interaction.userUID === auth.uid ?
+								<div className="interaction-details__buttons text--center">
+									{/* <p>Person Booking</p> */}
+									{/* <Link to={'/pro/' + interaction.proUID}>Start a new inquiry</Link> */}
+									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--secondary button--full'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'archived' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
+								</div>
+								:
+								<div className="interaction-details__buttons text--center">
+									{/* <p>THe Pro</p> */}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status === 'active' ? <Button className={'button--secondary button--full'} onClick={completeSession}>Complete Session</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'button--secondary button--full'} onClick={confirmSession}>Confirm Booking</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
+								</div>
+							}
+
 							<div className="interaction-details__summary">
 								<h2 className="text--uppercase mn--double">{interaction.interactionType} Details</h2>
 								<div className="interaction-details__summary-meta">
@@ -211,24 +229,6 @@ const InteractionDetails = (props) => {
 									<p className="field--review-total text--uppercase text--bold"><span>Total</span> <span>${calculateTotal()}</span></p>
 								</div>
 							</div>
-
-							{interaction.userUID === auth.uid ?
-								<div className="interaction-details__buttons text--center">
-									{/* <p>Person Booking</p> */}
-									{/* <Link to={'/pro/' + interaction.proUID}>Start a new inquiry</Link> */}
-									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'link'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'archived' ? <Button className={'link'} onClick={closeInquiry}>Close Inquiry</Button> : null}
-								</div>
-								:
-								<div className="interaction-details__buttons text--center">
-									{/* <p>THe Pro</p> */}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'link'} onClick={closeInquiry}>Close Inquiry</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status === 'active' ? <Button className={'link'} onClick={completeSession}>Complete Session</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'link'} onClick={confirmSession}>Confirm Booking</Button> : null}
-								</div>
-							}
 						</div>
 					</div>
 				</div>

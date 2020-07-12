@@ -266,7 +266,7 @@ export const ClientToPro = (newUser) => {
 		const userID = getState().firebase.auth.uid
 		// console.log(newUser)
 		// console.log(userID)
-		firestore.collection('users').doc(userID).update({
+		firestore.collection('users').doc(userID).set({
 			phoneNumber: newUser.phoneNumber,
 			personalCity: newUser.city,
 			personalState: newUser.state,
@@ -276,13 +276,14 @@ export const ClientToPro = (newUser) => {
 			isApproved: false,
 			onboardingCompleted: false,
 			proInteractions: [],
+			uid: userID,
 			professions: {
 				chef: newUser.professionChef,
 				fitnessTrainer: newUser.professionFitnessTrainer,
 				massageTherapist: newUser.professionMassageTherapist,
 				nutritionist: newUser.professionNutritionist
 			}
-		})
+		}, { merge: true })
 
 		// dispatch({ type: 'SIGNUP_SUCCESS' })
 

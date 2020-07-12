@@ -1,6 +1,6 @@
 import React, { Component } from "react"
-import { Button, Form } from "semantic-ui-react"
 import { connect } from 'react-redux'
+import { Form } from "semantic-ui-react"
 import { passwordReset } from '../../store/actions/authActions'
 import Modal from '../modal/Modal'
 
@@ -38,7 +38,7 @@ class PasswordReset extends Component {
 					content={(
 						<div>
 							<h2>Reset Password</h2>
-							<p>You will receive an email within 30 minutes on how to reset your password.  Enter your email below.</p>
+							<p>You will receive an email on how to reset your password.  Enter your email below.</p>
 							<form onSubmit={this.reset}>
 								<Form>
 									<Form.Field>

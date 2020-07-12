@@ -48,7 +48,7 @@ class OnboardingClient extends Component {
 		let $this = this
 		let interestsArray = Object.keys(this.state.interests)
 
-		if (interestsArray.length < 3) {
+		if (interestsArray.length < 1) {
 			this.setState({ checkboxValidation: true })
 			setTimeout(function () {
 				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
@@ -99,7 +99,7 @@ class OnboardingClient extends Component {
 						<Form className="form__secondary" onSubmit={this.handleSubmit}>
 							<h2>Select Interests</h2>
 							<div>
-								<p>Select a minimum of three (3) interests.</p>
+								<p>Select a minimum of one (1) interest.</p>
 							</div>
 
 							<div className="form__inner">
@@ -151,7 +151,7 @@ class OnboardingClient extends Component {
 									</div>
 									<div className="ui checkbox">
 										<input id="powerLifting" tabIndex="0" type="checkbox" defaultChecked={profile.interests && profile.interests.powerLifting} onChange={this.handleInterests} />
-										<label htmlFor="powerLifting">Power Lifting</label>
+										<label htmlFor="powerLifting">Powerlifting</label>
 									</div>
 									<div className="ui checkbox">
 										<input id="weightLoss" tabIndex="0" type="checkbox" defaultChecked={profile.interests && profile.interests.weightLoss} onChange={this.handleInterests} />
@@ -290,7 +290,7 @@ class OnboardingClient extends Component {
 								<div className="form__inner">
 									<div style={{ marginBottom: '20px' }}>
 										<h2>PERSONAL GOAL</h2>
-										<p>We'd like to know more about you! The infromation you provide here will be part of your profile.</p>
+										<p>We'd like to know more about you! The information you provide here will be part of your profile.</p>
 									</div>
 									<Form.Field>
 

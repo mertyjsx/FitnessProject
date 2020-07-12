@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
-import { Redirect, Link } from 'react-router-dom'
-import InteractionList from '../interactions/InteractionList'
 import { firestoreConnect } from 'react-redux-firebase'
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { Link, Redirect } from 'react-router-dom'
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
+import { compose } from 'redux'
+import InteractionList from '../interactions/InteractionList'
 
 class Inbox extends Component {
 
@@ -18,7 +18,7 @@ class Inbox extends Component {
 				{profile.isApproved !== true && profile.isPro ?
 					<div className="status status--warning">
 						<div className="container">
-							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
+							<p>Your profile is currently being reviewed by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
 						</div>
 					</div>
 					: null}

@@ -193,10 +193,12 @@ const Profile = (props, state) => {
 											<h3 className="mb--0"><strong>Main</strong></h3>
 											{renderMainSpecialties(user.professions)}
 										</div>
-										<div className="profile__meta-spec text--capitalize">
-											<h3 className="mb--0"><strong>Specializing In:</strong></h3>
-											{renderSecondSpecialties()}
-										</div>
+										{user.specialties && (
+											<div className="profile__meta-spec text--capitalize">
+												<h3 className="mb--0"><strong>Specializing In:</strong></h3>
+												{renderSecondSpecialties()}
+											</div>
+										)}
 									</div>
 								</div>
 							</div>
