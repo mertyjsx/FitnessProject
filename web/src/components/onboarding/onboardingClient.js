@@ -93,7 +93,7 @@ class OnboardingClient extends Component {
     render() {
         console.log(this.state)
         const { projects, auth, profile, notifications } = this.props
-        if (profile.isOnboardingClientCompleted) return <Redirect to='/dashboard' />
+        if (profile.isOnboardingClientCompleted||profile.isPro) return <Redirect to='/dashboard' />
 
         if (profile.isEmpty !== true) {
             return (
