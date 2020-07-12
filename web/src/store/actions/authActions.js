@@ -1,3 +1,6 @@
+import axios from 'axios'
+
+
 export const signIn = (credentials) => {
 	return (dispatch, getState, { getFirebase }) => {
 		const firebase = getFirebase()
@@ -415,20 +418,64 @@ export const approveProfile = (proUID) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firestore = getFirestore()
 		const userID = proUID
-
+		const twilio = require('twilio');
+		const twilioConfig = require('../../config/twilio.json')
 		console.log('approval called', proUID);
 
 		firestore.collection('users').doc(userID).update({
 			isApproved: true,
-		}).then(() => {
-			console.log('success');
-			dispatch({ type: 'CREATE_INTERACTION', proUID });
+		}).then(async () => {
+		
+
+	const ref=await firestore.collection('users').doc(userID).get()
+ 
+	let data=ref.data()
+	let unsettedNumber=data.phoneNumber.split("-")
+	let phoneNumber=`+1${unsettedNumber[0]}${unsettedNumber[1]}${unsettedNumber[2]}`
+	console.log("phonenumber",phoneNumber)
+	let firstName=data.firstName
+	console.log(firstName)
+
+		
+			
+
+
+		
+		// change for production release
+
+			let message_body = encodeURI(`${firstName}, your profile has been approved and is now searchable on ChooseToBeYou.com`) // Update the message
+			let from_number = encodeURI("+17865749377") // Update from number
+			let to_number = encodeURI(phoneNumber) // Pro's number
+			axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+				`Body=${message_body}&From=${from_number}&To=${to_number}`,
+				{
+					auth: {
+						username: twilioConfig.account_sid,
+						password: twilioConfig.auth_token
+					},
+					headers: {
+						accept: "application/json"
+					}
+				}).then(response => {
+					console.log(response)
+				})
+
+
 		}).catch((error) => {
 			console.log('nah');
-			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
+			
 		})
 	}
 }
+
+
+
+
+
+
+
+
+
 
 export const declineProfile = (proUID,message) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
