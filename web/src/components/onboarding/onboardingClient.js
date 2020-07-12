@@ -12,13 +12,17 @@ class OnboardingClient extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+
 			onboardingUploading: false,
 			interests: {},
+
 			checkboxValidation: false,
+
 		}
 		this.handleInterests = this.handleInterests.bind(this)
 		this.onChange = this.onChange.bind(this)
 	}
+
 
 
 	handleInterests = (e) => {
@@ -31,12 +35,15 @@ class OnboardingClient extends Component {
 		})
 	}
 
+
+
 	onChange = (e) => {
 		// console.log(e.target.id, e.target.checked);
 		this.setState({
 			[e.target.id]: e.target.value
 		})
 	}
+
 
 	handleNext = (e) => {
 		e.preventDefault()
@@ -46,14 +53,21 @@ class OnboardingClient extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault()
 		let $this = this
+
 		let interestsArray = Object.keys(this.state.interests)
+
 
 		if (interestsArray.length < 1) {
 			this.setState({ checkboxValidation: true })
 			setTimeout(function () {
 				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
+
+
 				$this.setState({ checkboxValidation: false })
 			}, 3000)
+
+
+
 
 		} else {
 
@@ -76,7 +90,7 @@ class OnboardingClient extends Component {
 	render() {
 		console.log(this.state)
 		const { projects, auth, profile, notifications } = this.props
-		if (profile.isOnboardingClientCompleted) return <Redirect to='/dashboard' />
+		if (profile.isOnboardingClientCompleted || profile.isPro) return <Redirect to='/dashboard' />
 
 		if (profile.isEmpty !== true) {
 			return (
