@@ -430,8 +430,8 @@ export const approveProfile = (proUID) => {
 	const ref=await firestore.collection('users').doc(userID).get()
  
 	let data=ref.data()
-	let unsettedNumber=data.phoneNumber.split("-")
-	let phoneNumber=`+1${unsettedNumber[0]}${unsettedNumber[1]}${unsettedNumber[2]}`
+	
+	let phoneNumber=`+1${data.phoneNumber}`
 	console.log("phonenumber",phoneNumber)
 	let firstName=data.firstName
 	console.log(firstName)
