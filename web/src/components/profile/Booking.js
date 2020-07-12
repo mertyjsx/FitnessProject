@@ -289,7 +289,7 @@ class Booking extends Component {
 										<p>Please choose your preferred method of payment below.</p>
 										<PayPalButton
 											// amount={this.calculateTotal()}
-											amount={'1'}
+											amount={'1'} // dev
 											shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
 											onSuccess={(details, data) => {
 												// alert("Transaction completed by " + details.payer.name.given_name);

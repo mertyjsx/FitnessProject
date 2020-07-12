@@ -108,6 +108,9 @@
 	&--justify-right {
 		justify-content: flex-end;
 	}
+	&--shrink {
+		flex: 1;
+	}
 }
 
 .mb {

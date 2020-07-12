@@ -48,6 +48,9 @@ body.dimmed {
 		background: $gray-lighter;
 		position: relative;
 		overflow: scroll;
+		&--secondary {
+			overflow: unset;
+		}
 	}
 	&__btn {
 		position: absolute;
@@ -86,30 +89,6 @@ body.dimmed {
 			font-weight: bold;
 		}
 	}
-
-//newModal
-.new-inner {
-	width: 100%;
-	max-width: 600px;
-	max-height: calc(100% - #{$gutter * 3});
-	padding: $gutter * 2;
-	border-radius: 10px;
-	border: $theme-black solid 1px;
-	background: $gray-lighter;
-	position: relative;
-	
-}
-
-.filterHeader{
-	text-align: center;
-	padding: 10px;
-}
-
-
-
-
-
-
 
 	// Older
 	.visible {

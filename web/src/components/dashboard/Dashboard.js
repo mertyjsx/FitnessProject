@@ -40,14 +40,16 @@ class Dashboard extends Component {
 	}
 
 	render() {
-	
+
 
 		const { users, auth, profile, notifications } = this.props
-		console.log(auth)
-		console.log("bibak buna,", !profile.isOnboardingClientCompleted && !profile.isPro)
+		// console.log(auth)
+		// console.log("bibak buna,", !profile.isOnboardingClientCompleted && !profile.isPro)
+
 		if (!auth.uid) return <Redirect to='/signin' />
 		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
 		if (!profile.isOnboardingClientCompleted && (profile.isPro == false)) return <Redirect to='/onboarding-client' />
+
 		const data = [
 			{ name: 'Jan', uv: 5, pv: 25, amt: 25 },
 			{ name: 'Feb', uv: 10, pv: 25, amt: 25 },
@@ -77,9 +79,13 @@ class Dashboard extends Component {
 									<div className="buttons buttons--inline">
 										{
 											profile.declineMessage &&
-											<Modal buttonStyle="button" buttonText={`Review Notes`} content={profile.declineMessage} />
+											<Modal buttonStyle="button" buttonText={`Review Notes`} content={(
+												<>
+													<h2>Review Notes</h2>
+													{profile.declineMessage}
+												</>
+											)} />
 										}
-
 										<button className="button" onClick={() => this.props.onboardingAgain()}>Resubmit</button>
 									</div>
 								</div>

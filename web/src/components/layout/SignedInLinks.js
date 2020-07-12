@@ -29,7 +29,8 @@ const SignedInLinks = (props) => {
 
 	return (
 		<div className={`header__secondary`}>
-			{props.profile.onboardingCompleted || props.profile.isOnboardingClientCompleted && (
+
+			{props.profile.onboardingCompleted && (
 				<ul>
 					{/* <li><NavLink to="/create-project" className="header__nav-link">New Project</NavLink></li> */}
 					{props.profile.isAdmin && (
@@ -44,6 +45,23 @@ const SignedInLinks = (props) => {
 					)}
 				</ul>
 			)}
+
+			{props.profile.isOnboardingClientCompleted && (props.profile.isPro == false) && (
+				<ul>
+					{/* <li><NavLink to="/create-project" className="header__nav-link">New Project</NavLink></li> */}
+					{props.profile.isAdmin && (
+						<li><NavLink onClick={navClick} to="/admin" className="header__nav-link">Admin</NavLink></li>
+					)}
+					<li><NavLink onClick={navClick} to="/dashboard" className="header__nav-link">Dashboard</NavLink></li>
+					<li><NavLink onClick={navClick} to="/inbox" className="header__nav-link">Inbox {InboxCount > 0 && <div className="circle-notification">{InboxCount}</div>}</NavLink></li>
+					<li><NavLink onClick={navClick} to="/bookings" className="header__nav-link">Bookings {BookingCount > 0 && <div className="circle-notification">{BookingCount}</div>}</NavLink></li>
+					<li><NavLink onClick={navClick} to="/profile-edit" className="header__nav-link">Profile</NavLink></li>
+					{props.profile.isPro && (
+						<li><NavLink onClick={navClick} to="/calendar" className="header__nav-link">Calendar</NavLink></li>
+					)}
+				</ul>
+			)}
+
 			<div className={`header__nav-settings ${profileActive ? 'header__nav-settings--active' : ''}`}>
 				<div className={`header__nav-settings-btn`}>
 					<button onClick={settingsClick} className="header__nav-profile">
@@ -61,13 +79,16 @@ const SignedInLinks = (props) => {
 				</div>
 				<div className={`header__nav-settings-results ${profileActive ? 'header__nav-settings-results--active' : ''}`}>
 					<ul>
+						{!props.profile.isOnboardingClientCompleted && (props.profile.isPro == false) && (
+							<li style={{ backgroundColor: '#1b4588' }}><NavLink onClick={navClick} to="/onboarding-client" className="header__nav-link" style={{ color: 'white' }}>Complete Onboarding</NavLink></li>
+						)}
 						<li><NavLink onClick={navClick} to="/find-a-pro" className="header__nav-link">Find a Pro</NavLink></li>
 						<li><NavLink onClick={navClick} to="/settings" className="header__nav-link">Settings</NavLink></li>
 						<li><a onClick={navClick} href="#" className="header__nav-link" onClick={props.signOut}>Logout</a></li>
 					</ul>
 				</div>
 			</div>
-		</div>
+		</div >
 	)
 
 }

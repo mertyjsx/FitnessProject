@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { Form } from 'semantic-ui-react'
-import {ClientToPro  } from '../../store/actions/authActions'
+import { ClientToPro } from '../../store/actions/authActions'
 
 class UpgradePremium extends Component {
 	constructor(props) {
@@ -13,7 +13,7 @@ class UpgradePremium extends Component {
 			city: '',
 			state: '',
 			zip: '',
-			
+
 			data: '',
 			pageTwoActive: false,
 			professionFitnessTrainer: false,
@@ -126,9 +126,9 @@ class UpgradePremium extends Component {
 	}
 
 	render() {
-		const { auth, authError,profile } = this.props
+		const { auth, authError, profile } = this.props
 		if (profile.isPro) return <Redirect to='/dashboard' />
-        if (!auth.uid) return <Redirect to='/signin' />
+		if (!auth.uid) return <Redirect to='/signin' />
 		return (
 			<div className="signup">
 				<div className="container container--small container--top-bottom-padding">
@@ -171,18 +171,18 @@ class UpgradePremium extends Component {
 										{this.state.state}
 									</div>
 								</Form.Field>
-							
+
 								<Form.Field>
 									<label htmlFor="phoneNumber">Phone Number <sup className="red">*</sup>(ex. ###-###-####)</label>
 									<input className={this.state.phoneNumber !== '' ? 'input--filled' : ''} type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone (ex. ###-###-####)" onChange={this.handleChange} required></input>
 								</Form.Field>
-								
-								
+
+
 								<Form.Field>
 									<p className="text--center">By clicking <strong>Upgrade to Pro</strong>, you agree to the <Link to={'/terms-of-use'}>Terms of Use</Link> and <Link to={'/privacy-policy'}>Privacy Policy</Link>.</p>
 								</Form.Field>
 								<Form.Field>
-									<button type="submit" className={`button button--secondary text--uppercase text--bold text--font-secondary  `}>Upgrade</button>
+									<button type="submit" className={`button button--secondary text--uppercase text--bold text--font-secondary  `}>Upgrade to Pro</button>
 									<div className="warning">
 										{authError ? <p>{authError}</p> : null}
 									</div>
@@ -199,8 +199,8 @@ class UpgradePremium extends Component {
 const mapStateToProps = (state) => {
 	return {
 		auth: state.firebase.auth,
-        authError: state.auth.authError,
-        profile: state.firebase.profile
+		authError: state.auth.authError,
+		profile: state.firebase.profile
 	}
 }
 

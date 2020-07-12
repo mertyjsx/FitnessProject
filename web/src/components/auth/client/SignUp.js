@@ -30,7 +30,7 @@ class SignUp extends Component {
 	handleFacebookSubmit = (e) => {
 		e.preventDefault()
 		console.log('handleFacebookSubmit works');
-		
+
 		this.props.signUpClientWithFacebook(this.state)
 	}
 
@@ -62,6 +62,10 @@ class SignUp extends Component {
 							<input className={this.state.email !== '' ? 'input--filled' : ''} type="email" name="email" id="email" placeholder="Enter your email" onChange={this.handleChange} />
 						</Form.Field>
 						<Form.Field>
+							<label htmlFor="phoneNumber">Phone Number <sup className="red">*</sup>(ex. ###-###-####)</label>
+							<input className={this.state.phoneNumber !== '' ? 'input--filled' : ''} type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone" onChange={this.handleChange} required></input>
+						</Form.Field>
+						<Form.Field>
 							<label htmlFor="password">Password <small>(min. 8 characters)</small></label>
 							<input className={this.state.password !== '' ? 'input--filled' : ''} type="password" name="password" id="password" placeholder="Enter password" onChange={this.handleChange} pattern=".{8,}" required title="8 characters minimum" />
 						</Form.Field>
@@ -81,13 +85,13 @@ class SignUp extends Component {
 						</Form.Field>
 					</Form>
 
-					<p style={{width: '100%', textAlign:'center'}}>OR</p>
+					<p style={{ width: '100%', textAlign: 'center' }}>OR</p>
 
 					<Form onSubmit={this.handleFacebookSubmit}>
 						<Form.Field>
 							<button className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
-								Create Account with Facebook 
-								<FontAwesomeIcon style={{marginLeft: '10px', transform: 'translateY(-2px)'}} icon={["fab", "facebook-f"]} />
+								Create Account with Facebook
+								<FontAwesomeIcon style={{ marginLeft: '10px', transform: 'translateY(-2px)' }} icon={["fab", "facebook-f"]} />
 							</button>
 							<div className="warning">
 								{authError ? <p>{authError}</p> : null}
@@ -97,8 +101,8 @@ class SignUp extends Component {
 					<Form onSubmit={this.handleGoogleSubmit}>
 						<Form.Field>
 							<button className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
-								Create Account with Google 
-								<FontAwesomeIcon style={{marginLeft: '10px', transform: 'translateY(-2px)'}} icon={["fab", "google"]} />
+								Create Account with Google
+								<FontAwesomeIcon style={{ marginLeft: '10px', transform: 'translateY(-2px)' }} icon={["fab", "google"]} />
 							</button>
 							<div className="warning">
 								{authError ? <p>{authError}</p> : null}

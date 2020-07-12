@@ -7,25 +7,18 @@ import { completeOnboardingClient } from '../../store/actions/authActions';
 import Loading from '../modules/Loading';
 
 
-
-
-
 class OnboardingClient extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-
 			onboardingUploading: false,
 			interests: {},
-
 			checkboxValidation: false,
-
 		}
 		this.handleInterests = this.handleInterests.bind(this)
 		this.onChange = this.onChange.bind(this)
 	}
-
 
 
 	handleInterests = (e) => {
@@ -38,15 +31,12 @@ class OnboardingClient extends Component {
 		})
 	}
 
-
-
 	onChange = (e) => {
 		// console.log(e.target.id, e.target.checked);
 		this.setState({
 			[e.target.id]: e.target.value
 		})
 	}
-
 
 	handleNext = (e) => {
 		e.preventDefault()
@@ -56,21 +46,14 @@ class OnboardingClient extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault()
 		let $this = this
-
 		let interestsArray = Object.keys(this.state.interests)
-
 
 		if (interestsArray.length < 3) {
 			this.setState({ checkboxValidation: true })
 			setTimeout(function () {
 				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
-
-
 				$this.setState({ checkboxValidation: false })
 			}, 3000)
-
-
-
 
 		} else {
 
@@ -114,7 +97,10 @@ class OnboardingClient extends Component {
 
 
 						<Form className="form__secondary" onSubmit={this.handleSubmit}>
-							<h2>Select Interest(s)</h2>
+							<h2>Select Interests</h2>
+							<div>
+								<p>Select a minimum of three (3) interests.</p>
+							</div>
 
 							<div className="form__inner">
 								<div className={`divider`} style={{ margin: '30px 0 50px' }}></div>
@@ -335,14 +321,6 @@ class OnboardingClient extends Component {
 									<Input id="personalZip" type="text" label="Zip Code" defaultValue={this.props.profile.personalZip} onChange={this.onChange} required />
 								</Form.Field>
 							</div>
-							{this.state.checkboxValidation &&
-								<div className="m-40">
-									<p className="alertDialog"> You need to choose a minimum of 3 interests ! </p>
-								</div>
-							}
-
-
-
 
 							<div className={'form__inner--2'}>
 								<div className="form__inner">
@@ -351,6 +329,12 @@ class OnboardingClient extends Component {
 									</Form.Field>
 								</div>
 							</div>
+
+							{this.state.checkboxValidation &&
+								<div className="status status--danger status--full">
+									<p>Please choose a minimum of 3 interests.</p>
+								</div>
+							}
 
 						</Form>
 

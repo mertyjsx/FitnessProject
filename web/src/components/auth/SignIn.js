@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { Form } from 'semantic-ui-react'
-import { connect } from 'react-redux'
-import { signIn ,signInClientWithFacebook,signInClientWithGoogle} from '../../store/actions/authActions'
-import { Redirect } from 'react-router-dom'
-import PasswordReset from './PasswordReset'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import { Form } from 'semantic-ui-react'
+import { signIn, signInClientWithFacebook, signInClientWithGoogle } from '../../store/actions/authActions'
+import PasswordReset from './PasswordReset'
 
 class SignIn extends Component {
 	constructor(props) {
@@ -28,7 +28,7 @@ class SignIn extends Component {
 	handleFacebookSubmit = (e) => {
 		e.preventDefault()
 		console.log('handleFacebookSubmit works');
-		
+
 		this.props.signInClientWithFacebook()
 	}
 
@@ -57,32 +57,26 @@ class SignIn extends Component {
 						</Form.Field>
 						<Form.Field>
 							<button type="submit" className={`button button--secondary text--uppercase text--bold text--font-secondary`}>Login</button>
-							<div className="warning">
-								{authError ? <p>{authError}</p> : null}
-							</div>
 						</Form.Field>
-						
-					
+
+						<Form.Field className={'field--half'}>
 							<button onClick={this.handleFacebookSubmit} className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
-								Sign In with Facebook 
-								<FontAwesomeIcon style={{marginLeft: '10px', transform: 'translateY(-2px)'}} icon={["fab", "facebook-f"]} />
+								Sign In with Facebook <FontAwesomeIcon style={{ marginLeft: '10px', transform: 'translateY(-2px)' }} icon={["fab", "facebook-f"]} />
 							</button>
-							<div className="warning">
-								{authError ? <p>{authError}</p> : null}
-							</div>
-						
-					
-					
-						
+						</Form.Field>
+						<Form.Field className={'field--half'}>
 							<button onClick={this.handleGoogleSubmit} className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
-								Sign In with Google 
-								<FontAwesomeIcon style={{marginLeft: '10px', transform: 'translateY(-2px)'}} icon={["fab", "google"]} />
+								Sign In with Google
+								<FontAwesomeIcon style={{ marginLeft: '10px', transform: 'translateY(-2px)' }} icon={["fab", "google"]} />
 							</button>
-							<div className="warning">
-								{authError ? <p>{authError}</p> : null}
-							</div>
-						
-				
+						</Form.Field>
+						{authError ?
+							<Form.Field>
+								<div className="status status--danger status--full">
+									{authError}
+								</div>
+							</Form.Field>
+							: null}
 					</Form>
 					<PasswordReset />
 				</div>
