@@ -602,8 +602,8 @@ excludeDates={this.state.blockedDays}
 						<Form.Field className="field--justify-center">
 							{this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? null : <p style={{ marginBottom: '10px' }}>Please enter all the fields</p>}
 							<Modal
-								buttonText={'Request to book'}
-								buttonStyle={`button button--primary text--uppercase text--font-secondary text--sm ${this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? 'button--active' : 'button--inactive'}`}
+								buttonText={!this.props.profile.isOnboardingClientCompleted?'you must complete onboarding':'Request to book'}
+								buttonStyle={`button button--primary text--uppercase text--font-secondary text--sm ${this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== ''&&this.props.profile.isOnboardingClientCompleted ? 'button--active' : 'button--inactive'}`}
 								content={(
 									<div style={{ textTransform: 'none' }}>
 										<h2>Complete Booking</h2>
@@ -635,7 +635,8 @@ excludeDates={this.state.blockedDays}
 const mapStateToProps = (state) => {
 	return {
 		auth: state.firebase.auth,
-		authError: state.auth.authError
+		authError: state.auth.authError,
+		profile: state.firebase.profile
 	}
 }
 
