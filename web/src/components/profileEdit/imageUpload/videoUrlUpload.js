@@ -11,26 +11,71 @@ class VideoUpload extends Component {
         this.state = {
             videoUrl: "",
             firstUpload: true,
-            success: false
+            success: false,
+            MaxUploadError:false
         }
     }
 
-    handleUpload = (e) => {
+
+
+    CheckMaxUpload=async ()=>{
+        const currentUserUid = this.props.auth.uid;
+    const userInfo= await db.collection(`users`).doc(currentUserUid).get()
+    const lengthOfVideos=userInfo.data().videoUrls?userInfo.data().videoUrls.length:0
+    
+    console.log(lengthOfVideos)
+    return (lengthOfVideos<5)
+    
+    }
+
+
+
+
+
+
+
+
+
+
+    handleUpload =async (e) => {
+
         e.preventDefault()
-        const imageOwner = this.props.auth.uid;
-        let videoArray = this.props.profile.videoUrls
-        if (!videoArray) {
-            videoArray = []
+
+        const Check=await this.CheckMaxUpload()
+
+        if(Check){
+            const videoOwner = this.props.auth.uid;
+            let videoArray = this.props.profile.videoUrls
+            if (!videoArray) {
+                videoArray = []
+            }
+            videoArray.push(this.state.videoUrl)
+            db.collection(`users`).doc(videoOwner).update({
+                videoUrls: videoArray
+            }).then(() => {
+                this.setState({ firstUpload: false, success: true })
+                setTimeout(() => {
+                    this.setState({ success: false })
+                }, 2000);
+            })
+
+        }else{
+            const $this=this
+
+            this.setState({
+                MaxUploadError:true
+            })
+        
+        setTimeout(() => {
+            $this.setState({
+                MaxUploadError:false
+            })
+        }, 2000);
+
+
         }
-        videoArray.push(this.state.videoUrl)
-        db.collection(`users`).doc(imageOwner).update({
-            videoUrls: videoArray
-        }).then(() => {
-            this.setState({ firstUpload: false, success: true })
-            setTimeout(() => {
-                this.setState({ success: false })
-            }, 2000);
-        })
+
+     
     }
 
     render() {
@@ -45,6 +90,17 @@ class VideoUpload extends Component {
                         {this.state.success &&
                             <div className="alertYellow m-20" >Video url uploaded !!</div>
                         }
+                        {this.state.MaxUploadError&&
+				      	<div
+					    style={{
+						margin:10,
+						backgroundColor:"#F08080",
+						padding:10,
+						color:"white"
+
+					     }}
+					>You cant upload more than 5 !</div>
+					      }
                     </form>
                 )}
             ></Modal>

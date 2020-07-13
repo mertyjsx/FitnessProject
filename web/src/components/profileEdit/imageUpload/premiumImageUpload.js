@@ -12,7 +12,8 @@ class ImageUpload extends Component {
 			url: '',
 			progress: 0,
 			photoURL: '',
-			condition: false
+			condition: false,
+			MaxUploadError:false
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleUpload = this.handleUpload.bind(this);
@@ -27,9 +28,32 @@ class ImageUpload extends Component {
 		}
 	}
 
-	handleUpload = (e) => {
+
+
+CheckMaxUpload=async ()=>{
+	const currentUserUid = this.props.auth.uid;
+const userInfo= await db.collection(`users`).doc(currentUserUid).get()
+const lengthOfPhotos=userInfo.data().premiumPhotos?userInfo.data().premiumPhotos.length:0
+
+console.log(lengthOfPhotos)
+return (lengthOfPhotos<5)
+
+}
+
+
+
+
+	handleUpload =async (e) => {
 		e.preventDefault()
-		const { image } = this.state;
+//Check firestore length of İmages
+const Check=await this.CheckMaxUpload()
+
+
+
+if(Check){
+
+
+	const { image } = this.state;
 		const imageOwner = this.props.auth.uid;
 		const randomNumber = Math.floor(Math.random() * Math.floor(10000));
 		const filepath = `users/${imageOwner}/${image.name}/${randomNumber}`
@@ -68,6 +92,28 @@ class ImageUpload extends Component {
 				})
 
 			});
+
+
+}else{
+
+	//throw an error 
+const $this=this
+
+	this.setState({
+		MaxUploadError:true
+	})
+
+setTimeout(() => {
+	$this.setState({
+		MaxUploadError:false
+	})
+}, 2000);
+
+
+
+}
+
+	
 	}
 
 	render() {
@@ -79,6 +125,20 @@ class ImageUpload extends Component {
 						<progress value={this.state.progress} max="100" />
 						<input type="file" onChange={this.handleChange} required />
 						<button className={`button button--primary text--uppercase `}>{this.state.progress === 100 ? 'Upload new Image' : this.state.progress === 0 ? 'upload' : 'uploading ..'}</button>
+					
+					{this.state.MaxUploadError&&
+					<div
+					style={{
+						margin:10,
+						backgroundColor:"#F08080",
+						padding:10,
+						color:"white"
+
+					}}
+					
+					>You cant upload more than 5 !</div>
+					}
+					
 					</form>
 				)}
 			></Modal>
