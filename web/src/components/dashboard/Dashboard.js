@@ -17,7 +17,8 @@ class Dashboard extends Component {
 		this.state = {
 			Booking: 0,
 			Inbox: 0,
-			DiscoverPros:[]
+			DiscoverPros:[],
+			PendingBookings:0
 		}
 	}
 
@@ -26,7 +27,8 @@ class Dashboard extends Component {
 			if (this.props.interactions) {
 				const BookingArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
 				const InboxArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "inquiry" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
-				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length })
+				const PendingBookings =  this.props.interactions.filter(item => item.status === "pending" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
+				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length ,PendingBookings:PendingBookings.length})
 			}
 
 
@@ -199,6 +201,14 @@ let DiscoverPros=[]
 								<div className={`dashboard__glance-requests`}>
 									<div className={`dashboard__glance--standout`}>{this.state.Booking}</div>
 									Active Bookings
+								</div>
+							</a>
+						</div>
+						<div className="col">
+							<a href={'/bookings'} className={`dashboard__glance`}>
+								<div className={`dashboard__glance-requests`}>
+									<div className={`dashboard__glance--standout`}>{this.state.PendingBookings}</div>
+									Pending Bookings
 								</div>
 							</a>
 						</div>
