@@ -20,6 +20,7 @@ const Profile = (props, state) => {
 
 	const { auth, user } = props;
 	// console.log(user);
+	
 
 	// if (!auth.uid) return <Redirect to='/signin' />
 
