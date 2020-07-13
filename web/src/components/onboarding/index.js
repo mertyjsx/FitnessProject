@@ -20,12 +20,36 @@ class Onboarding extends Component {
 			onboardingUploading: false,
 			both: true,
 			online: false,
-			inperson: false
+			inperson: false,
+			specialties: {},
+			checkboxValidation: false
 		}
 		this.handleSpecialities = this.handleSpecialities.bind(this)
 		this.handleChange = this.handleChange.bind(this)
 	}
 
+
+componentDidMount(){
+	console.log("hello",this.props.profile.specialties)
+
+		let specialties=this.props.profile.specialties?this.props.profile.specialties:{}
+
+this.setState({specialties:specialties})
+
+
+}
+
+
+	componentDidUpdate(prevProps) {
+		if (prevProps !== this.props) {
+			console.log("hello",this.props.profile.specialties)
+
+		let specialties=this.props.profile.specialties?this.props.profile.specialties:{}
+
+this.setState({specialties:specialties})
+
+
+		}}
 
 
 	handleSpecialities = (e) => {
@@ -60,15 +84,46 @@ class Onboarding extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault()
+
+		let speArray = Object.values(this.state.specialties)
+
+		let CheckArray = speArray.filter(item => item)
+
 		let $this = this
-		$this.setState({
-			onboardingUploading: true
-		})
-		setTimeout(function () {
-			// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
-			$this.props.completeOnboarding($this.state, $this.props.profile.isDeclined);
-			$this.props.history.push('/dashboard')
-		}, 3000)
+
+		if (CheckArray.length < 1) {
+			this.setState({ checkboxValidation: true })
+			setTimeout(function () {
+				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
+
+
+				$this.setState({ checkboxValidation: false })
+			}, 3000)
+
+
+
+
+		} else {
+
+
+
+			$this.setState({
+				onboardingUploading: true
+			})
+			setTimeout(function () {
+				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
+				$this.props.completeOnboarding($this.state, $this.props.profile.isDeclined);
+				$this.props.history.push('/dashboard')
+			}, 3000)
+
+
+		}
+
+
+
+
+
+
 	}
 
 	handleSelector = (name, e) => {
@@ -538,7 +593,11 @@ class Onboarding extends Component {
 									</Form.Field>
 								</div>
 							</div>
-
+							{this.state.checkboxValidation &&
+								<div className="status status--danger status--full">
+									<p>Please choose atleast 1 specialties.</p>
+								</div>
+							}
 						</Form>
 
 
