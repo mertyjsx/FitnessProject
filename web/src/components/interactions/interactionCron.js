@@ -56,7 +56,7 @@ class InteractionCron extends React.Component {
 								},
 								"note": "This is a test message", // Update for paypal invoice message
 								"sender_item_id": new Date().getTime(),
-								"receiver": pro.paypalPremium.email,
+								"receiver":pro.email,
 								"notification_language": "en-US",
 							})
 						}

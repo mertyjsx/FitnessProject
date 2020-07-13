@@ -16,7 +16,8 @@ class Dashboard extends Component {
 		super(props)
 		this.state = {
 			Booking: 0,
-			Inbox: 0
+			Inbox: 0,
+			DiscoverPros:[]
 		}
 	}
 
@@ -27,6 +28,47 @@ class Dashboard extends Component {
 				const InboxArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "inquiry" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
 				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length })
 			}
+
+
+			const { users, auth, profile, notifications } = this.props
+
+let DiscoverPros=[]
+			
+				users && users.map(pro => {
+					console.log(pro)
+					if (pro.isPro && pro.isApproved) {
+						var interests = profile.interests?profile.interests:{}
+						var specialties = pro.specialties
+						console.log(interests)
+						for (const [key, value] of Object.entries(interests)) {
+							if (specialties) {
+								for (const [key2, value2] of Object.entries(specialties)) {
+									if (key === key2 && value === value2) {
+									
+									DiscoverPros.push(pro)
+									
+									}
+								}
+							}
+						}
+					}
+				})
+
+
+	this.setState({DiscoverPros:DiscoverPros})
+
+
+
+
+
+
+
+
+
+
+
+
+
 		}
 	}
 
@@ -220,27 +262,17 @@ class Dashboard extends Component {
 								</div>
 							</div>
 							<div className={'row'}>
-								{profile.interests ?
-									users && users.map(pro => {
+								{this.state.DiscoverPros.length>0 ?
+									
 
-										if (pro.isPro && pro.isApproved) {
-											var interests = profile.interests
-											var specialties = pro.specialties
-											for (const [key, value] of Object.entries(interests)) {
-												if (specialties) {
-													for (const [key2, value2] of Object.entries(specialties)) {
-														if (key === key2 && value === value2) {
-															return (
-																<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
-																	<ProCard pro={pro} compact={true} />
-																</Link>
-															)
-														}
-													}
-												}
-											}
-										}
-									})
+										this.state.DiscoverPros.map(pro=>
+										<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
+										<ProCard pro={pro} compact={true} />
+									    </Link>
+										
+											)
+									
+									
 									:
 									<div className="col">
 										<p>No pros found. <Link to={'/profile-edit#2'}>Click here</Link> to update your interests to discover pros.</p>
