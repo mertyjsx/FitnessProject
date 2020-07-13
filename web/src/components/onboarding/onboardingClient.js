@@ -54,10 +54,16 @@ class OnboardingClient extends Component {
 		e.preventDefault()
 		let $this = this
 
-		let interestsArray = Object.keys(this.state.interests)
+		let interestsArray = Object.values(this.state.interests)
+		console.log(interestsArray)
+let CheckArray=interestsArray.filter(item=>item)
+console.log(CheckArray)
 
 
-		if (interestsArray.length < 1) {
+
+
+
+		if (CheckArray.length < 1) {
 			this.setState({ checkboxValidation: true })
 			setTimeout(function () {
 				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
@@ -346,7 +352,7 @@ class OnboardingClient extends Component {
 
 							{this.state.checkboxValidation &&
 								<div className="status status--danger status--full">
-									<p>Please choose a minimum of 3 interests.</p>
+									<p>Please choose atleast 1 interests.</p>
 								</div>
 							}
 
