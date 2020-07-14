@@ -35,13 +35,13 @@ class Booking extends Component {
 			duration: 0,
 			total: 0,
 			formSubmitting: false,
-			blockedDays:[],
-			Blockeddaysname:[],
-Blockedtimes:[],
-From:-1,
-To:25,
-spesific:[],
-timesExlude:[]
+			blockedDays: [],
+			Blockeddaysname: [],
+			Blockedtimes: [],
+			From: -1,
+			To: 25,
+			spesific: [],
+			timesExlude: []
 		}
 	}
 
@@ -69,287 +69,252 @@ timesExlude:[]
 
 
 
-getHours=()=>{
+	getHours = () => {
 
 
 
-
-	
-	let Blockeddaysname=[]
-	let Blockedtimes=[]
-	console.log(this.props.pro.Hours)
-	
-	
-	this.props.pro.Hours&&
-	Object.entries(this.props.pro.Hours).forEach(([key, value]) => {
-		if(!value.from){
+		let Blockeddaysname = []
+		let Blockedtimes = []
+		console.log(this.props.pro.Hours)
 
 
-if(!value.state){
-	Blockeddaysname.push(key)
+		this.props.pro.Hours &&
+			Object.entries(this.props.pro.Hours).forEach(([key, value]) => {
+				if (!value.from) {
+//there are no hour Restriction
 
-}
+					if (!value.state) {
 
-			
-			
-			}else{
-			
-			Blockedtimes.push({value,key})
-			
+					//full day	
+						Blockeddaysname.push(key)
+
+					}
+
+
+
+				} else {
+//there are hour Restriction
+					Blockedtimes.push({ value, key })
+
+				}
+
+
+
+			});
+		let newArr = []
+		let newArr2 = []
+		this.props.pro.blockedArray &&
+			this.props.pro.blockedArray.map(item => {
+
+				if (item.type === "blockHours") {
+					//if there are block hours
+					let dat = new Date(`${item.date.split("-")[2]}/${item.date.split("-")[1]}/${item.date.split("-")[0]}`)
+
+					newArr.push({ date: dat, from: item.from, to: item.to })
+
+				}
+				else {
+					//if this days full blocked
+					newArr2.push(new Date(`${item.date.split("-")[2]}/${item.date.split("-")[1]}/${item.date.split("-")[0]}`))
+				}
+
+
+
+			})
+
+		let blockedDays = [...this.state.blockedDays, ...newArr2]
+		let blockDaysWithHours = [...this.state.spesific, ...newArr]
+
+
+		this.setState({
+			Blockeddaysname: Blockeddaysname
+			, Blockedtimes: Blockedtimes,
+			blockedDays: blockedDays,
+			spesific: blockDaysWithHours
+		}, () => this.createdaysInweek(new Date()))
+
+
+	}
+
+
+	calculateTimes = (date) => {
+
+		//Check selected dates has blocked hours or not and calculate 2Pm to 14:00
+		//and we have to determine its regular blocked hours or just spesific blocked hour
+
+		this.setState({timesExlude: []})
+		let name = moment(date).format('dddd');
+
+
+		let item = this.state.spesific.find(item => {
+			let date1 = `${item.date.getUTCDate()}-${item.date.getMonth()}-${item.date.getFullYear()}`
+			let date2 = `${date.getUTCDate()}-${date.getMonth()}-${date.getFullYear()}`
+			console.log(date1)
+			console.log(date2)
+			console.log(date)
+			return (date1 === date2)
+		})
+		let numberFrom;
+		let numberTo;
+
+		if (item) {
+			console.log(item)
+
+			let from = item.from
+			let to = item.to
+
+		if (from.split(" ")[1] === "pm") {
+
+				numberFrom = Number(from.split(":")[0]) + 12
+
+			} else {
+
+				numberFrom = Number(from.split(":")[0])
+
 			}
-			
-	
-		
-	  });
-let newArr=[]
-let newArr2=[]
-this.props.pro.blockedArray&&
-this.props.pro.blockedArray.map(item=>{
-console.log(item)
-if(item.type==="blockHours"){
 
-let dat=new Date(`${item.date.split("-")[2]}/${item.date.split("-")[1]}/${item.date.split("-")[0]}`)
+			if (to.split(" ")[1] === "pm") {
 
-	newArr.push({date:dat,from:item.from,to:item.to})
+				numberTo = Number(to.split(":")[0]) + 12
 
-}
-else{
+			} else {
 
-	newArr2.push(new Date(`${item.date.split("-")[2]}/${item.date.split("-")[1]}/${item.date.split("-")[0]}`))
-}
+				numberTo = Number(to.split(":")[0])
 
-
-
-})
-
-let Sa=[...this.state.blockedDays,...newArr2]
-let Sa2=[...this.state.spesific,...newArr]
-	
-
-	this.setState({Blockeddaysname:Blockeddaysname
-	,Blockedtimes:Blockedtimes,
-	blockedDays:Sa,
-spesific:Sa2	
-	},()=>this.createdaysInweek(new Date()))
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-calculateTimes=(date)=>{
-
-let name=moment(date).format('dddd');
-console.log("name",name)
-
-let item=this.state.spesific.find(item=>{
-	let date1=`${item.date.getDay()}-${item.date.getMonth()}-${item.date.getYear()}`
-	let date2=`${date.getDay()}-${date.getMonth()}-${date.getYear()}`
-	return(date1===date2)})
-let numberFrom;
-	let numberTo;
-console.log("item",item)
-if(item){
-
-	let from=item.from
-	let to=item.to
-	
-	
-	
-	if(from.split(" ")[1]==="pm"){
-	
-	numberFrom=Number(from.split(":")[0])+12
-	
-	}else{
-	
-		 numberFrom=Number(from.split(":")[0])
-	
-	}
-	
-	if(to.split(" ")[1]==="pm"){
-	
-		numberTo=Number(to.split(":")[0])+12
-		
-		}else{
-		
-			 numberTo=Number(to.split(":")[0])
-		
-		}
-	let NA=[]
-for(let i=numberFrom;i<=numberTo;i++){
-
-NA.push(setHours(setMinutes(new Date(), 0), i))
-if(i!=numberTo){
-	NA.push(setHours(setMinutes(new Date(), 30), i))
-
-}
-
-
-}
-
-console.log("NA",NA)
-this.setState({timesExlude:NA})
-
-}
-
-
-
-
-let itemWorkHours=this.state.Blockedtimes.find(item=>item.key===name.toLowerCase())
-
-let numberFromWorkHours;
-let numberToWorkHours;
-console.log(itemWorkHours)
-if(itemWorkHours){
-	let FromWorkHours=itemWorkHours.value.from
-	let ToWorkHours=itemWorkHours.value.to
-
-	console.log(FromWorkHours)
-	if(FromWorkHours.split(" ")[1]==="pm"){
-	
-		numberFromWorkHours=Number(FromWorkHours.split(":")[0])+12
-	
-		}else{
-		
-			numberFromWorkHours=Number(FromWorkHours.split(":")[0])
-			
-		}
-		
-		if(ToWorkHours.split(" ")[1]==="pm"){
-		
-			numberToWorkHours=Number(ToWorkHours.split(":")[0])+12
-			
-			}else{
-			
-				 numberToWorkHours=Number(ToWorkHours.split(":")[0])
-			
 			}
-	
-	
-this.setState({From:numberFromWorkHours,To:numberToWorkHours})	
+			let NA = []
+			for (let i = numberFrom; i <= numberTo; i++) {
+
+				NA.push(setHours(setMinutes(new Date(), 0), i))
+				if (i != numberTo) {
+					NA.push(setHours(setMinutes(new Date(), 30), i))
+
+				}
+			}
+
+			this.setState({ timesExlude: NA })
+
+		}
 
 
+		let itemWorkHours = this.state.Blockedtimes.find(item => item.key === name.toLowerCase())
 
-
-}
-
-
-
-
-
-
-
-}
-
-
-
-componentDidMount(){
-	
-	
-	this.getHours()
-}
-
-
-    componentDidUpdate(prevProps) {
-	
-        if (prevProps !== this.props) {
-			console.log("heeeeeeeeee",this.state.Blockeddaysname)
-this.getHours()	
-
-
-		}}
-
-	 
+		let numberFromWorkHours;
+		let numberToWorkHours;
 		
-		
-		
-		createdaysInweek(n) {
+		if (itemWorkHours) {
+			let FromWorkHours = itemWorkHours.value.from
+			let ToWorkHours = itemWorkHours.value.to
 
-let NewArray=this.state.blockedDays
-this.state.Blockeddaysname.map( day=>{
+			if (FromWorkHours.split(" ")[1] === "pm") {
+
+				numberFromWorkHours = Number(FromWorkHours.split(":")[0]) + 12
+
+			} else {
+
+				numberFromWorkHours = Number(FromWorkHours.split(":")[0])
+
+			}
+
+			if (ToWorkHours.split(" ")[1] === "pm") {
+
+				numberToWorkHours = Number(ToWorkHours.split(":")[0]) + 12
+
+			} else {
+
+				numberToWorkHours = Number(ToWorkHours.split(":")[0])
+
+			}
+
+
+			this.setState({ From: numberFromWorkHours, To: numberToWorkHours })
+
+		}
+
+	}
 
 
 
-	let selectedday;
+	componentDidMount() {
 
 
-	if(day==="sunday"){
-	
-		selectedday=0;
-	
+		this.getHours()
 	}
-	if(day==="monday"){
-	
-		selectedday=1;
-	
+
+
+	componentDidUpdate(prevProps) {
+
+		if (prevProps !== this.props) {
+			console.log("update")
+			this.getHours()
+
+		}
 	}
-	if(day==="tuesday"){
-	
-		selectedday=2;
-	
-	}
-	if(day==="wednesday"){
-	
-		selectedday=3;
-	
-	}
-	if(day==="thursday"){
-	
-		selectedday=4;
-	
-	}
-	if(day==="friday"){
-	
-		selectedday=5;
-	
-	}
-	if(day==="saturday"){
-	
-		selectedday=6;
-	
-	}
-	
-	
-	
-	
+
+
+
+
+
+	createdaysInweek(n) {
+
+		let NewArray = this.state.blockedDays
+		this.state.Blockeddaysname.map(day => {
+
+			//convert DAYS to week numbers to find how many mondays are there  inside a month 
+			// so we can blocked all mondays in July
+			let selectedday;
+
+			switch (day) {
+				case "sunday":
+					selectedday = 0;
+					break;
+				case "monday":
+					selectedday = 1;
+					break;
+				case "tuesday":
+					selectedday = 2;
+					break;
+				case "wednesday":
+					selectedday = 3;
+					break;
+				case "thursday":
+					selectedday = 4;
+					break;
+				case "friday":
+					selectedday = 5;
+					break;
+				case "saturday":
+					selectedday = 6;
+			}
+
+			console.log(selectedday)
+
+
+
+
 			var d = new Date(n),
 				month = d.getMonth(),
 				days = [];
-		
+
 			d.setDate(1);
-		
+
 			// Get the first Monday in the month
 			while (d.getDay() !== selectedday) {
 				d.setDate(d.getDate() + 1);
 			}
-		
+
 			// Get all the other Mondays in the month
-			while (d.getMonth() === month||d.getMonth() === month+1) {
+			while (d.getMonth() === month || d.getMonth() === month + 1) {
 				days.push(new Date(d.getTime()));
 				d.setDate(d.getDate() + 7);
 			}
-		
-		
-		NewArray.push(...days)
-	
 
 
+			NewArray.push(...days)
 
+		})
 
-
-
-	
-})
-
-this.setState({blockedDays:NewArray});
+		this.setState({ blockedDays: NewArray });
 
 	}
 
@@ -405,29 +370,27 @@ this.setState({blockedDays:NewArray});
 	}
 
 	handleDateChange = date => {
+		console.log("date changed")
+		console.log(date)
 		this.calculateTimes(date)
 
-		
-		
-		
-		
-			
-		
+
+
 		this.setState({
 			startDate: date
 		});
 	};
 
 	handleStartTimeChange = time => {
-		
-	
+
+
 		this.setState({
 			startTime: time
 		});
 	}
 
 	renderStartTime = () => {
-		
+
 		const { startTime } = this.state
 		if (startTime === '') { return null }
 		var time = moment(startTime).format('hh:mm a')
@@ -438,7 +401,7 @@ this.setState({blockedDays:NewArray});
 	}
 
 	handleDurationChange = (e) => {
-	
+
 		this.setState({
 			duration: e.target.value
 		})
@@ -519,7 +482,7 @@ this.setState({blockedDays:NewArray});
 	}
 
 	render() {
-console.log(this.state)
+		console.log(this.state)
 
 		return (
 			<div className={`profile__booking ${this.state.formSubmitting ? 'profile__booking--submitting' : ''}`}>
@@ -552,16 +515,16 @@ console.log(this.state)
 							<DatePicker
 								className={this.state.profession === '' ? 'inactive date-picker' : 'date-picker'}
 								selected={this.state.startDate}
-							onYearChange={(t)=>this.createdaysInweek(t)}
-								onMonthChange={(t)=>this.createdaysInweek(t)}
+								onYearChange={(t) => this.createdaysInweek(t)}
+								onMonthChange={(t) => this.createdaysInweek(t)}
 								onChange={this.handleDateChange}
 								placeholderText={'Select Date'}
 								minDate={addDays(new Date(), 1)}
 								maxDate={moment().endOf('month')}
 								dateFormat="MMMM d, yyyy"
 								required={true}
-						
-excludeDates={this.state.blockedDays}
+
+								excludeDates={this.state.blockedDays}
 
 							/>
 						</Form.Field>
@@ -602,8 +565,8 @@ excludeDates={this.state.blockedDays}
 						<Form.Field className="field--justify-center">
 							{this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? null : <p style={{ marginBottom: '10px' }}>Please enter all the fields</p>}
 							<Modal
-								buttonText={!this.props.profile.isOnboardingClientCompleted?'you must complete onboarding':'Request to book'}
-								buttonStyle={`button button--primary text--uppercase text--font-secondary text--sm ${this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== ''&&this.props.profile.isOnboardingClientCompleted ? 'button--active' : 'button--inactive'}`}
+								buttonText={!this.props.profile.isOnboardingClientCompleted ? 'you must complete onboarding' : 'Request to book'}
+								buttonStyle={`button button--primary text--uppercase text--font-secondary text--sm ${this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' && this.props.profile.isOnboardingClientCompleted ? 'button--active' : 'button--inactive'}`}
 								content={(
 									<div style={{ textTransform: 'none' }}>
 										<h2>Complete Booking</h2>
