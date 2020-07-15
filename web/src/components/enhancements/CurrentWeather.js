@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { kelvinToFahrenheit } from '../helpers/HelpersDashboard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Forecast = (props) => {
      const [error, setError] = useState(null);
      const [isLoaded, setIsLoaded] = useState(false);
      const [items, setItems] = useState({});
 
+     console.log(items)
      useEffect(() => {
           fetch(`https://community-open-weather-map.p.rapidapi.com/weather?q=${props.city ? props.city : 'Miami'}`, {
                "method": "GET",
@@ -44,10 +46,13 @@ const Forecast = (props) => {
                          )}
                     </div>
                     <div className="current-weather__description">
-                         {items.main && (
+                         {items.main && ([
                               <div>
+                                 
                                    {items.weather[0].description}
-                              </div>
+                                  
+                              </div>,
+                               <img src={`http://openweathermap.org/img/wn/${items.weather[0].icon}@2x.png`}></img>]
                          )}
                     </div>
                </div>

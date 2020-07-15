@@ -12,7 +12,8 @@ class VideoUpload extends Component {
             videoUrl: "",
             firstUpload: true,
             success: false,
-            MaxUploadError:false
+            MaxUploadError:false,
+            videoError:false
         }
     }
 
@@ -49,16 +50,27 @@ class VideoUpload extends Component {
             if (!videoArray) {
                 videoArray = []
             }
-            videoArray.push(this.state.videoUrl)
-            db.collection(`users`).doc(videoOwner).update({
-                videoUrls: videoArray
-            }).then(() => {
-                this.setState({ firstUpload: false, success: true })
-                setTimeout(() => {
-                    this.setState({ success: false })
-                }, 2000);
-            })
+            let embledUrl=`https://www.youtube.com/embed/${this.state.videoUrl.split("=")[1]}`
+            if(this.state.videoUrl.split("=")[1].length>11){
 
+this.setState({videoError:true})
+
+
+            }else{
+                this.setState({videoError:false})
+                videoArray.push(embledUrl)
+                db.collection(`users`).doc(videoOwner).update({
+                    videoUrls: videoArray
+                }).then(() => {
+                    this.setState({ firstUpload: false, success: true })
+                    setTimeout(() => {
+                        this.setState({ success: false })
+                    }, 2000);
+                })
+    
+
+            }
+          
         }else{
             const $this=this
 
@@ -100,6 +112,17 @@ class VideoUpload extends Component {
 
 					     }}
 					>You cant upload more than 5 !</div>
+					      }
+                           {this.state.videoError&&
+				      	<div
+					    style={{
+						margin:10,
+						backgroundColor:"#F08080",
+						padding:10,
+						color:"white"
+
+					     }}
+					>Please upload short link! like: https://www.youtube.com/watch?v=r7xt3u3clGQ</div>
 					      }
                     </form>
                 )}

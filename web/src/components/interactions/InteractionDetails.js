@@ -129,7 +129,8 @@ const InteractionDetails = (props) => {
 	}
 
 	if (interaction) {
-
+		console.log(moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD"))
+	
 		return (
 			<div className="interaction-details">
 				<div className="container  container--top-bottom-padding">
@@ -172,7 +173,7 @@ const InteractionDetails = (props) => {
 								<div className="interaction-details__buttons text--center">
 									{/* <p>Person Booking</p> */}
 									{/* <Link to={'/pro/' + interaction.proUID}>Start a new inquiry</Link> */}
-									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' && interaction.status !== 'completed' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--secondary button--full'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'archived' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
 								</div>
@@ -180,9 +181,9 @@ const InteractionDetails = (props) => {
 								<div className="interaction-details__buttons text--center">
 									{/* <p>THe Pro</p> */}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status === 'active' ? <Button className={'button--secondary button--full'} onClick={completeSession}>Complete Session</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status === 'active' && moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD")===moment().format("YYYY-MM-DD") ? <Button className={'button--secondary button--full'} onClick={completeSession}>Complete Session</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'button--secondary button--full'} onClick={confirmSession}>Confirm Booking</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' && interaction.status !== 'completed' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
 								</div>
 							}
 
