@@ -56,8 +56,8 @@ class OnboardingClient extends Component {
 
 		let interestsArray = Object.values(this.state.interests)
 		console.log(interestsArray)
-let CheckArray=interestsArray.filter(item=>item)
-console.log(CheckArray)
+		let CheckArray = interestsArray.filter(item => item)
+		console.log(CheckArray)
 
 
 
@@ -309,7 +309,7 @@ console.log(CheckArray)
 							<div className={'form__inner--1'}>
 								<div className="form__inner">
 									<div style={{ marginBottom: '20px' }}>
-										<h2>PERSONAL GOAL</h2>
+										<h2>Personal Goal</h2>
 										<p>We'd like to know more about you! The information you provide here will be part of your profile.</p>
 									</div>
 									<Form.Field>

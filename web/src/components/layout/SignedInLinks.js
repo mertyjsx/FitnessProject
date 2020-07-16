@@ -1,34 +1,32 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { NavLink } from 'react-router-dom'
 import { compose } from 'redux'
 import { signOut } from '../../store/actions/authActions'
-import onClickOutside from "react-onclickoutside";
 import RenderImage from '../profileEdit/imageUpload/RenderImage'
-import { useRef, useEffect } from "react";
 
 
-function useOutsideAlerter(ref,closeMenu ) {
-    useEffect(() => {
-        /**
-         * Alert if clicked on outside of element
-         */
-        function handleClickOutside(event) {
-            if (ref.current && !ref.current.contains(event.target)) {
-				closeMenu() 
+function useOutsideAlerter(ref, closeMenu) {
+	useEffect(() => {
+		/**
+		 * Alert if clicked on outside of element
+		 */
+		function handleClickOutside(event) {
+			if (ref.current && !ref.current.contains(event.target)) {
+				closeMenu()
 				console.log("naber")
-            }
-        }
+			}
+		}
 
-        // Bind the event listener
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            // Unbind the event listener on clean up
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [ref]);
+		// Bind the event listener
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			// Unbind the event listener on clean up
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [ref]);
 }
 
 
@@ -46,10 +44,10 @@ const SignedInLinks = (props) => {
 	const [InboxCount, setInboxCount] = useState(0)
 	const [DashboardCount, setDashboardCount] = useState(0);
 	const settingsClick = () => { setProfileState(!profileActive) }
-	const Close=()=>{  setProfileState(false)}
+	const Close = () => { setProfileState(false) }
 	const navClick = () => { props.menuActive(false) }
 	const wrapperRef = useRef(null);
-    useOutsideAlerter(wrapperRef,Close );
+	useOutsideAlerter(wrapperRef, Close);
 
 
 
@@ -67,22 +65,22 @@ const SignedInLinks = (props) => {
 
 
 
-	
+
 	return (
-		<div className={`header__secondary`}  ref={wrapperRef}>
+		<div className={`header__secondary`} ref={wrapperRef}>
 
 			{props.profile.onboardingCompleted && (
 				<ul>
 					{/* <li><NavLink to="/create-project" className="header__nav-link">New Project</NavLink></li> */}
 					{props.profile.isAdmin && (
-						<li><NavLink  onClick={navClick} to="/admin" className="header__nav-link">Admin</NavLink></li>
+						<li><NavLink onClick={navClick} to="/admin" className="header__nav-link">Admin</NavLink></li>
 					)}
-					<li><NavLink  onClick={navClick} to="/dashboard" className="header__nav-link">Dashboard</NavLink></li>
-					<li><NavLink  onClick={navClick} to="/inbox" className="header__nav-link">Inbox {InboxCount > 0 && <div className="circle-notification">{InboxCount}</div>}</NavLink></li>
-					<li><NavLink  onClick={navClick} to="/bookings" className="header__nav-link">Bookings {BookingCount > 0 && <div className="circle-notification">{BookingCount}</div>}</NavLink></li>
-					<li><NavLink  onClick={navClick} to="/profile-edit" className="header__nav-link">Profile</NavLink></li>
+					<li><NavLink onClick={navClick} to="/dashboard" className="header__nav-link">Dashboard</NavLink></li>
+					<li><NavLink onClick={navClick} to="/inbox" className="header__nav-link">Inbox {InboxCount > 0 && <div className="circle-notification">{InboxCount}</div>}</NavLink></li>
+					<li><NavLink onClick={navClick} to="/bookings" className="header__nav-link">Bookings {BookingCount > 0 && <div className="circle-notification">{BookingCount}</div>}</NavLink></li>
+					<li><NavLink onClick={navClick} to="/profile-edit" className="header__nav-link">Profile</NavLink></li>
 					{props.profile.isPro && (
-						<li><NavLink  onClick={navClick} to="/calendar" className="header__nav-link">Calendar</NavLink></li>
+						<li><NavLink onClick={navClick} to="/calendar" className="header__nav-link">Calendar</NavLink></li>
 					)}
 				</ul>
 			)}
@@ -123,9 +121,10 @@ const SignedInLinks = (props) => {
 						{!props.profile.isOnboardingClientCompleted && (props.profile.isPro == false) && (
 							<li style={{ backgroundColor: '#1b4588' }}><NavLink onClick={navClick} to="/onboarding-client" className="header__nav-link" style={{ color: 'white' }}>Complete Onboarding</NavLink></li>
 						)}
-						<li><NavLink  onClick={navClick} to="/find-a-pro" className="header__nav-link">Find a Pro</NavLink></li>
-						<li><NavLink  onClick={navClick} to="/settings" className="header__nav-link">Settings</NavLink></li>
-						<li><a   href="#" className="header__nav-link" onClick={props.signOut}>Logout</a></li>
+						<li><NavLink onClick={navClick} to="/find-a-pro" className="header__nav-link">Find a Pro</NavLink></li>
+						<li><NavLink onClick={navClick} to="/payments" className="header__nav-link">Payments</NavLink></li>
+						<li><NavLink onClick={navClick} to="/settings" className="header__nav-link">Settings</NavLink></li>
+						<li><a href="#" className="header__nav-link" onClick={props.signOut}>Logout</a></li>
 					</ul>
 				</div>
 			</div>
@@ -152,12 +151,12 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-  
+
 
 export default compose(
 	connect(mapStateToProps, mapDispatchToProps),
 	firestoreConnect([
 		{ collection: 'interactions', orderBy: ['createdAt', 'desc'] }
 	]),
-	
+
 )(SignedInLinks)

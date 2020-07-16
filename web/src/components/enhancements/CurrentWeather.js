@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { kelvinToFahrenheit } from '../helpers/HelpersDashboard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Forecast = (props) => {
      const [error, setError] = useState(null);
@@ -35,6 +34,11 @@ const Forecast = (props) => {
      } else {
           return (
                <div className="current-weather">
+                    {items.main && (
+                         <div className="current-weather__icon">
+                              <img src={`http://openweathermap.org/img/wn/${items.weather[0].icon}.png`}></img>
+                         </div>
+                    )}
                     <div className="current-weather__city">
                          {props.city ? props.city : ''}
                     </div>
@@ -46,13 +50,12 @@ const Forecast = (props) => {
                          )}
                     </div>
                     <div className="current-weather__description">
-                         {items.main && ([
+                         {items.main && (
                               <div>
-                                 
+
                                    {items.weather[0].description}
-                                  
-                              </div>,
-                               <img src={`http://openweathermap.org/img/wn/${items.weather[0].icon}@2x.png`}></img>]
+
+                              </div>
                          )}
                     </div>
                </div>

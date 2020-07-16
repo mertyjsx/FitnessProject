@@ -27,6 +27,7 @@ import FindAPro from "./components/modules/FindAPro"
 import Home from './components/modules/Home'
 import HowItWorks from './components/modules/HowItWorks'
 import HowProWorks from "./components/modules/HowProWorks"
+import Payments from "./components/modules/Payments"
 import Privacy from "./components/modules/Privacy"
 import ProfileEdit from "./components/modules/ProfileEdit"
 import Terms from "./components/modules/Terms"
@@ -94,6 +95,7 @@ class App extends Component {
                 <Route exact path="/contact" component={ContactUs} />
                 <Route exact path="/upgrade-pro" component={ClientToPro} />
                 <Route exact path="/cancellation-policy" component={CancellationPolicy} />
+                <Route exact path="/payments" component={Payments} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>
