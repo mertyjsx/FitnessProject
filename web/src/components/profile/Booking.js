@@ -427,7 +427,9 @@ class Booking extends Component {
 		let $this = this
 		this.setState({
 			total: this.calculateTotal(),
+			callType:this.state.callType,
 			formSubmitting: true,
+			clientFullAdress:this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
 			proBusinessName: this.props.pro.businessName,
 			proFullAddress: this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
 			paypal: {
@@ -501,7 +503,7 @@ class Booking extends Component {
 		return total+1
 	}
 	render() {
-		console.log(this.state)
+		console.log(this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip)
 
 		return (
 			<div className={`profile__booking ${this.state.formSubmitting ? 'profile__booking--submitting' : ''}`}>
