@@ -41,7 +41,8 @@ class Booking extends Component {
 			From: -1,
 			To: 25,
 			spesific: [],
-			timesExlude: []
+			timesExlude: [],
+			callType:""
 		}
 	}
 
@@ -67,6 +68,17 @@ class Booking extends Component {
 		})
 	}
 
+
+
+
+
+	handleCallType = (e) => {
+		// e.preventDefault()
+		// console.log(e.target.id);
+		this.setState({
+		callType:e.target.value
+		})
+	}
 
 
 	getHours = () => {
@@ -477,10 +489,17 @@ class Booking extends Component {
 		const { rate, duration } = this.state;
 		if (typeof rate === 'undefined' || rate === 0) { return 0 }
 		const perMinute = rate / 60
-		const total = perMinute * duration
+		let total = perMinute * duration
+
+		
 		return total
 	}
 
+	calculateTotalwithOutCall = () => {
+		// console.log('entered');
+		let total=this.calculateTotal()
+		return total+1
+	}
 	render() {
 		console.log(this.state)
 
@@ -504,9 +523,23 @@ class Booking extends Component {
 								<label>In Person</label>
 							</div>
 						</Form.Field>
+						{this.state.bookingType==="inPerson"&&
+					<Form.Field >
+					<select  name="duration" id="duration" onChange={this.handleCallType} required>
+						<option value="">Call type</option>
+						<option value="inCall">Incall</option>
+						<option value="outCall">Outcall</option>
+						
+					</select>
+				</Form.Field>
+						
+						
+						
+						}
+						
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>
-							<select className={this.state.bookingType === '' ? 'inactive' : ''} name="profession" id="profession" value={this.state.profession ? this.state.profession : ''} onChange={this.handleChange} required>
+							<select className={this.state.callType === '' ? 'inactive' : ''} name="profession" id="profession" value={this.state.profession ? this.state.profession : ''} onChange={this.handleChange} required>
 								<option value="">Choose Service</option>
 								{this.renderServices(this.props.pro.professions)}
 							</select>
@@ -558,8 +591,13 @@ class Booking extends Component {
 						<div className={'field field--review text--left'}>
 							<div style={{ width: '100%' }}>
 								<h3 className="text--uppercase">Price</h3>
+								{this.state.callType==="outCall"&&
+								<p><span className="text--lowercase">Outcall Fee</span> <span>$1</span></p>
+								
+								}
+								
 								<p><span className="text--lowercase">${this.state.rate} x {this.calculateDuration()} hours</span> <span>${this.calculateTotal()}</span></p>
-								<p className="field--review-total text--uppercase text--bold">Total<span>${this.calculateTotal()}</span></p>
+								<p className="field--review-total text--uppercase text--bold">Total<span>${this.state.callType==="outCall"?this.calculateTotalwithOutCall():this.calculateTotal()}</span></p>
 							</div>
 						</div>
 						<Form.Field className="field--justify-center">

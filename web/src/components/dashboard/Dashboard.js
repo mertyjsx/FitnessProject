@@ -37,11 +37,11 @@ class Dashboard extends Component {
 let DiscoverPros=[]
 			
 				users && users.map(pro => {
-					console.log(pro)
+				
 					if (pro.isPro && pro.isApproved) {
 						var interests = profile.interests?profile.interests:{}
 						var specialties = pro.specialties
-						console.log(interests)
+					
 						for (const [key, value] of Object.entries(interests)) {
 							if (specialties) {
 								for (const [key2, value2] of Object.entries(specialties)) {
@@ -299,7 +299,7 @@ let DiscoverPros=[]
 }
 
 const mapStateToProps = (state) => {
-	console.log(state);
+
 	return {
 		// projects: state.firestore.ordered.projects,
 		auth: state.firebase.auth,
