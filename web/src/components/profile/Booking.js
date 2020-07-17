@@ -5,15 +5,15 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { PayPalButton } from 'react-paypal-button-v2';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import { Form } from 'semantic-ui-react';
 import spinner from '../../assets/images/spinner.gif';
 import PaypalConfig from '../../config/paypal.json';
 import { createInteraction } from '../../store/actions/interactionActions';
 import Modal from '../modal/Modal';
-import { firestoreConnect } from 'react-redux-firebase'
 
-import { compose } from 'redux'
 
 class Booking extends Component {
 
@@ -81,11 +81,11 @@ class Booking extends Component {
 		this.props.pro.Hours &&
 			Object.entries(this.props.pro.Hours).forEach(([key, value]) => {
 				if (!value.from) {
-//there are no hour Restriction
+					//there are no hour Restriction
 
 					if (!value.state) {
 
-					//full day	
+						//full day	
 						Blockeddaysname.push(key)
 
 					}
@@ -93,7 +93,7 @@ class Booking extends Component {
 
 
 				} else {
-//there are hour Restriction
+					//there are hour Restriction
 					Blockedtimes.push({ value, key })
 
 				}
@@ -142,7 +142,7 @@ class Booking extends Component {
 		//Check selected dates has blocked hours or not and calculate 2Pm to 14:00
 		//and we have to determine its regular blocked hours or just spesific blocked hour
 
-		this.setState({timesExlude: []})
+		this.setState({ timesExlude: [] })
 		let name = moment(date).format('dddd');
 
 
@@ -163,7 +163,7 @@ class Booking extends Component {
 			let from = item.from
 			let to = item.to
 
-		if (from.split(" ")[1] === "pm") {
+			if (from.split(" ")[1] === "pm") {
 
 				numberFrom = Number(from.split(":")[0]) + 12
 
@@ -201,7 +201,7 @@ class Booking extends Component {
 
 		let numberFromWorkHours;
 		let numberToWorkHours;
-		
+
 		if (itemWorkHours) {
 			let FromWorkHours = itemWorkHours.value.from
 			let ToWorkHours = itemWorkHours.value.to

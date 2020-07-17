@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import { Button, Form, Input } from 'semantic-ui-react';
 import ellipses from '../../assets/images/ellipsis.gif';
+import states from '../../json/states.json';
 import { completeOnboarding } from '../../store/actions/authActions';
 import Loading from '../modules/Loading';
 import ImageUpload from '../profileEdit/imageUpload/ImageUpload';
 import LicenseImageUpload from '../profileEdit/imageUpload/LicenseImageUpload';
 import PaypalModal from "./paypalModal";
-
-
 
 class Onboarding extends Component {
 
@@ -28,29 +27,27 @@ class Onboarding extends Component {
 		this.handleChange = this.handleChange.bind(this)
 	}
 
+	renderStates = (allStates) => {
+		const agg = [];
+		allStates.forEach(st => {
+			agg.push(<option value={st.abbreviation}>{st.name}</option>);
+		});
+		return agg;
+	}
 
-componentDidMount(){
-	console.log("hello",this.props.profile.specialties)
-
-		let specialties=this.props.profile.specialties?this.props.profile.specialties:{}
-
-this.setState({specialties:specialties})
-
-
-}
-
+	componentDidMount() {
+		// console.log("hello", this.props.profile.specialties)
+		let specialties = this.props.profile.specialties ? this.props.profile.specialties : {}
+		this.setState({ specialties: specialties })
+	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps !== this.props) {
-			console.log("hello",this.props.profile.specialties)
-
-		let specialties=this.props.profile.specialties?this.props.profile.specialties:{}
-
-this.setState({specialties:specialties})
-
-
-		}}
-
+			// console.log("hello", this.props.profile.specialties)
+			let specialties = this.props.profile.specialties ? this.props.profile.specialties : {}
+			this.setState({ specialties: specialties })
+		}
+	}
 
 	handleSpecialities = (e) => {
 		// console.log(e.target.id, e.target.checked);
@@ -76,7 +73,6 @@ this.setState({specialties:specialties})
 		})
 	}
 
-
 	handleNext = (e) => {
 		e.preventDefault()
 		console.log('next screen');
@@ -95,18 +91,9 @@ this.setState({specialties:specialties})
 			this.setState({ checkboxValidation: true })
 			setTimeout(function () {
 				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
-
-
 				$this.setState({ checkboxValidation: false })
 			}, 3000)
-
-
-
-
 		} else {
-
-
-
 			$this.setState({
 				onboardingUploading: true
 			})
@@ -115,15 +102,7 @@ this.setState({specialties:specialties})
 				$this.props.completeOnboarding($this.state, $this.props.profile.isDeclined);
 				$this.props.history.push('/dashboard')
 			}, 3000)
-
-
 		}
-
-
-
-
-
-
 	}
 
 	handleSelector = (name, e) => {
@@ -141,21 +120,16 @@ this.setState({specialties:specialties})
 			let bool = e.target.checked
 			this.setState({ both: !bool, inperson: !bool, online: bool })
 		}
-
-
-
 	}
 
 
 	render() {
-		console.log(this.state)
+		// console.log(this.state)
 		const { projects, auth, profile, notifications } = this.props
 		if (profile.onboardingCompleted) return <Redirect to='/dashboard' />
-
 		if (profile.isEmpty !== true) {
 			return (
 				<div className="onboarding">
-
 					{this.state.onboardingUploading ?
 						<div className="uploading">
 							<div className="uploading__content">
@@ -552,7 +526,11 @@ this.setState({specialties:specialties})
 										<Input id="businessCity" type="text" label="City" defaultValue={this.props.profile.businessCity} onChange={this.handleChange} />
 									</Form.Field>
 									<Form.Field className="field--half">
-										<Input id="businessState" type="text" label="State" defaultValue={this.props.profile.businessState} onChange={this.handleChange} />
+										<label htmlFor="businessState">State</label>
+										<select id="businessState" defaultValue={this.props.profile.businessState} onChange={this.handleChange} required>
+											<option>Select State</option>
+											{this.renderStates(states)}
+										</select>
 									</Form.Field>
 									<Form.Field className="field--half">
 										<Input id="businessZip" type="text" label="Zip Code" defaultValue={this.props.profile.businessZip} onChange={this.handleChange} />
@@ -579,10 +557,7 @@ this.setState({specialties:specialties})
 										</Form.Field>
 									</div>
 								</div>
-
-
 							}
-
 
 							<PaypalModal></PaypalModal>
 

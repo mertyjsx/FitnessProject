@@ -16,10 +16,9 @@ function useOutsideAlerter(ref, closeMenu) {
 		function handleClickOutside(event) {
 			if (ref.current && !ref.current.contains(event.target)) {
 				closeMenu()
-				console.log("naber")
+				// console.log("naber")
 			}
 		}
-
 		// Bind the event listener
 		document.addEventListener("mousedown", handleClickOutside);
 		return () => {
@@ -28,15 +27,6 @@ function useOutsideAlerter(ref, closeMenu) {
 		};
 	}, [ref]);
 }
-
-
-
-
-
-
-
-
-
 
 const SignedInLinks = (props) => {
 	const [profileActive, setProfileState] = useState(false)
@@ -49,8 +39,6 @@ const SignedInLinks = (props) => {
 	const wrapperRef = useRef(null);
 	useOutsideAlerter(wrapperRef, Close);
 
-
-
 	React.useEffect(() => {
 		if (props.interactions) {
 			const BookingArray = props.interactions.filter(item => item.update == true && item.interactionType === "booking" && (item.proUID === props.auth.uid || item.userUID === props.auth.uid))
@@ -62,9 +50,6 @@ const SignedInLinks = (props) => {
 			setDashboardCount(DashArray.length)
 		}
 	}, [props.interactions])
-
-
-
 
 	return (
 		<div className={`header__secondary`} ref={wrapperRef}>

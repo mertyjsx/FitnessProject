@@ -42,10 +42,10 @@ export const updateProfile = (profileDetails) => {
 			...profileDetails,
 		}, { merge: true }).then(() => {
 			console.log('success');
-			dispatch({ type: 'CREATE_INTERACTION', profileDetails });
+			dispatch({ type: 'UPDATE_PROFILE', profileDetails });
 		}).catch((error) => {
 			console.log('nah');
-			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
+			dispatch({ type: 'UPDATE_PROFILE_ERROR', error })
 		})
 	}
 }

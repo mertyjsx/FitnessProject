@@ -3,27 +3,22 @@ import { connect } from 'react-redux';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import { Button, Form, Input } from 'semantic-ui-react';
 import ellipses from '../../assets/images/ellipsis.gif';
+import states from '../../json/states.json';
 import { completeOnboardingClient } from '../../store/actions/authActions';
 import Loading from '../modules/Loading';
-
 
 class OnboardingClient extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-
 			onboardingUploading: false,
 			interests: {},
-
 			checkboxValidation: false,
-
 		}
 		this.handleInterests = this.handleInterests.bind(this)
 		this.onChange = this.onChange.bind(this)
 	}
-
-
 
 	handleInterests = (e) => {
 		// console.log(e.target.id, e.target.checked);
@@ -35,7 +30,13 @@ class OnboardingClient extends Component {
 		})
 	}
 
-
+	renderStates = (allStates) => {
+		const agg = [];
+		allStates.forEach(st => {
+			agg.push(<option value={st.abbreviation}>{st.name}</option>);
+		});
+		return agg;
+	};
 
 	onChange = (e) => {
 		// console.log(e.target.id, e.target.checked);
@@ -55,31 +56,19 @@ class OnboardingClient extends Component {
 		let $this = this
 
 		let interestsArray = Object.values(this.state.interests)
-		console.log(interestsArray)
+		// console.log(interestsArray)
 		let CheckArray = interestsArray.filter(item => item)
-		console.log(CheckArray)
-
-
-
-
+		// console.log(CheckArray)
 
 		if (CheckArray.length < 1) {
 			this.setState({ checkboxValidation: true })
 			setTimeout(function () {
 				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
-
-
 				$this.setState({ checkboxValidation: false })
 			}, 3000)
-
-
-
-
 		} else {
-
 			$this.setState({
 				onboardingUploading: true,
-
 			})
 			setTimeout(function () {
 				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
@@ -87,11 +76,7 @@ class OnboardingClient extends Component {
 				$this.props.history.push('/dashboard')
 			}, 3000)
 		}
-
 	}
-
-
-
 
 	render() {
 		console.log(this.state)
@@ -335,7 +320,12 @@ class OnboardingClient extends Component {
 									<Input id="personalCity" type="text" label="City" defaultValue={this.props.profile.personalCity} onChange={this.onChange} required />
 								</Form.Field>
 								<Form.Field className="field--half">
-									<Input id="personalState" type="text" label="State" defaultValue={this.props.profile.personalState} onChange={this.onChange} required />
+									{/* <Input id="personalState" type="text" label="State" defaultValue={this.props.profile.personalState} onChange={this.onChange} required /> */}
+									<label htmlFor="personalState">State</label>
+									<select id="personalState" defaultValue={this.props.profile.personalState} onChange={this.onChange} required>
+										<option>Select State</option>
+										{this.renderStates(states)}
+									</select>
 								</Form.Field>
 								<Form.Field className="field--half">
 									<Input id="personalZip" type="text" label="Zip Code" defaultValue={this.props.profile.personalZip} onChange={this.onChange} required />
