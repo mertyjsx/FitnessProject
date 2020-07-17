@@ -124,7 +124,7 @@ const SignedInLinks = (props) => {
 						<li><NavLink onClick={navClick} to="/find-a-pro" className="header__nav-link">Find a Pro</NavLink></li>
 						<li><NavLink onClick={navClick} to="/payments" className="header__nav-link">Payments</NavLink></li>
 						<li><NavLink onClick={navClick} to="/settings" className="header__nav-link">Settings</NavLink></li>
-						<li><a href="#" className="header__nav-link" onClick={props.signOut}>Logout</a></li>
+						<li><NavLink onClick={props.signOut} to="/" className="header__nav-link" >Logout</NavLink></li>
 					</ul>
 				</div>
 			</div>

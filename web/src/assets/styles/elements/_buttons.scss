@@ -74,6 +74,12 @@ a.button,
 		margin: 0 auto;
 		text-align: center;
 	}
+	&--reset {
+		background-color: inherit;
+		border-color: inherit;
+		border-width: inherit;
+		font: inherit;
+	}
 }
 
 .buttons {
