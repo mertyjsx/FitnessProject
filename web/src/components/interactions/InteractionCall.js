@@ -94,8 +94,9 @@ class InteractionCall extends React.Component {
 		let $this = this;
 		let iid = this.props.iid;
 		let socketdomain = process.env.REACT_APP_SOCKET_DOMAIN;
+		console.log(socketdomain)
 		if (!socketdomain) socketdomain = '127.0.0.1';
-		let io = require('socket.io-client')(`https://${socketdomain}:5000`);
+		let io = require('socket.io-client')(`https://orkunsocket.herokuapp.com/`);
 		this.io = io
 		this.queuedCandidates = []
 		this.localstream = []
