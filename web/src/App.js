@@ -29,6 +29,7 @@ import Privacy from "./components/modules/Privacy"
 import ProfileEdit from "./components/modules/ProfileEdit"
 import Terms from "./components/modules/Terms"
 import Onboarding from "./components/onboarding/index"
+import OnboardingClient from "./components/onboarding/onboardingClient"
 import Profile from "./components/profile/Profile"
 import CreateProject from "./components/projects/CreateProject"
 import ProjectDetails from './components/projects/ProjectDetails'
@@ -79,6 +80,7 @@ class App extends Component {
                 <Route exact path="/terms-of-use" component={Terms} />
                 <Route exact path="/privacy-policy" component={Privacy} />
                 <Route exact path="/onboarding" component={Onboarding} />
+                <Route exact path="/onboarding-client" component={OnboardingClient} />
                 <Route exact path="/social" component={Social} />
                 <Route exact path="/how-it-works" component={HowItWorks} />
                 <Route exact path="/how-ctby-works-for-pros" component={HowProWorks} />

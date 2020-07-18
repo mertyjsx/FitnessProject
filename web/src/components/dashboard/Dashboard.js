@@ -44,7 +44,7 @@ class Dashboard extends Component {
 		const { users, auth, profile, notifications } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
 		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
-
+		if (!profile.isOnboardingClientCompleted && (profile.isPro==false)) return <Redirect to='/onboarding-client' />
 		const data = [
 			{ name: 'Jan', uv: 5, pv: 25, amt: 25 },
 			{ name: 'Feb', uv: 10, pv: 25, amt: 25 },
@@ -107,6 +107,10 @@ class Dashboard extends Component {
 							<div className={`dashboard__head`}>
 								{this.renderFirstName(profile.firstName)}
 								<p style={{ paddingBottom: '10px' }}>Be the best version of YOU</p>
+{profile.personalGoal&&
+	<p style={{ paddingBottom: '10px' ,color:"red"}}>{profile.personalGoal}</p>
+}
+								
 							</div>
 						</div>
 						<div className="col col--4">
