@@ -42,7 +42,7 @@ class Booking extends Component {
 			To: 25,
 			spesific: [],
 			timesExlude: [],
-			callType:""
+			callType: ""
 		}
 	}
 
@@ -76,7 +76,7 @@ class Booking extends Component {
 		// e.preventDefault()
 		// console.log(e.target.id);
 		this.setState({
-		callType:e.target.value
+			callType: e.target.value
 		})
 	}
 
@@ -427,9 +427,9 @@ class Booking extends Component {
 		let $this = this
 		this.setState({
 			total: this.calculateTotal(),
-			callType:this.state.callType,
+			callType: this.state.callType,
 			formSubmitting: true,
-			clientFullAdress:this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
+			clientFullAdress: this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
 			proBusinessName: this.props.pro.businessName,
 			proFullAddress: this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
 			paypal: {
@@ -493,14 +493,14 @@ class Booking extends Component {
 		const perMinute = rate / 60
 		let total = perMinute * duration
 
-		
+
 		return total
 	}
 
 	calculateTotalwithOutCall = () => {
 		// console.log('entered');
-		let total=this.calculateTotal()
-		return total+1
+		let total = this.calculateTotal()
+		return total + 1
 	}
 	render() {
 		console.log(this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip)
@@ -525,20 +525,16 @@ class Booking extends Component {
 								<label>In Person</label>
 							</div>
 						</Form.Field>
-						{this.state.bookingType==="inPerson"&&
-					<Form.Field >
-					<select  name="duration" id="duration" onChange={this.handleCallType} required>
-						<option value="">Call type</option>
-						<option value="inCall">Incall</option>
-						<option value="outCall">Outcall</option>
-						
-					</select>
-				</Form.Field>
-						
-						
-						
+						{this.state.bookingType === "inPerson" &&
+							<Form.Field >
+								<select name="inPersonType" id="inPersonType" onChange={this.handleCallType} required>
+									<option value="">In Person Type</option>
+									<option value="inCall">Go to Pro</option>
+									<option value="outCall">Come to me</option>
+								</select>
+							</Form.Field>
 						}
-						
+
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>
 							<select className={this.state.callType === '' ? 'inactive' : ''} name="profession" id="profession" value={this.state.profession ? this.state.profession : ''} onChange={this.handleChange} required>
@@ -593,13 +589,11 @@ class Booking extends Component {
 						<div className={'field field--review text--left'}>
 							<div style={{ width: '100%' }}>
 								<h3 className="text--uppercase">Price</h3>
-								{this.state.callType==="outCall"&&
-								<p><span className="text--lowercase">Outcall Fee</span> <span>$1</span></p>
-								
-								}
-								
 								<p><span className="text--lowercase">${this.state.rate} x {this.calculateDuration()} hours</span> <span>${this.calculateTotal()}</span></p>
-								<p className="field--review-total text--uppercase text--bold">Total<span>${this.state.callType==="outCall"?this.calculateTotalwithOutCall():this.calculateTotal()}</span></p>
+								{this.state.callType === "outCall" &&
+									<p><span>Pro Travel Fee</span> <span>$1</span></p>
+								}
+								<p className="field--review-total text--uppercase text--bold">Total<span>${this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()}</span></p>
 							</div>
 						</div>
 						<Form.Field className="field--justify-center">

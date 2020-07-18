@@ -28,11 +28,11 @@ class Onboarding extends Component {
 	}
 
 	renderStates = (allStates) => {
-		const agg = [];
+		const states = [];
 		allStates.forEach(st => {
-			agg.push(<option value={st.abbreviation}>{st.name}</option>);
+			states.push(<option value={st.abbreviation}>{st.name}</option>);
 		});
-		return agg;
+		return states;
 	}
 
 	componentDidMount() {

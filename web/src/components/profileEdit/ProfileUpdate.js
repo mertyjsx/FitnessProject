@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, Input, Label, TextArea } from 'semantic-ui-react'
+import states from '../../json/states.json'
 import { updateProfile } from '../../store/actions/profileActions'
 
 class ProfileUpdate extends Component {
@@ -18,6 +19,14 @@ class ProfileUpdate extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.updateProfile(this.state);
+	}
+
+	renderStates = (allStates) => {
+		const states = [];
+		allStates.forEach(st => {
+			states.push(<option value={st.abbreviation}>{st.name}</option>);
+		});
+		return states;
 	}
 
 	render() {
@@ -65,7 +74,11 @@ class ProfileUpdate extends Component {
 								<Input id="businessCity" type="text" label="City" defaultValue={this.props.profile.businessCity} onChange={this.onChange} />
 							</Form.Field>
 							<Form.Field className="field--half">
-								<Input id="businessState" type="text" label="State" defaultValue={this.props.profile.businessState} onChange={this.onChange} />
+								<label htmlFor="businessState">State</label>
+								<select id="businessState" defaultValue={this.props.profile.personalState} onChange={this.handleChange} required>
+									<option>Select State</option>
+									{this.renderStates(states)}
+								</select>
 							</Form.Field>
 							<Form.Field className="field--half">
 								<Input id="businessZip" type="text" label="Zip Code" defaultValue={this.props.profile.businessZip} onChange={this.onChange} />
@@ -87,7 +100,11 @@ class ProfileUpdate extends Component {
 							<Input id="personalCity" type="text" label="City" defaultValue={this.props.profile.personalCity} onChange={this.onChange} />
 						</Form.Field>
 						<Form.Field className="field--half">
-							<Input id="personalState" type="text" label="State" defaultValue={this.props.profile.personalState} onChange={this.onChange} />
+							<label htmlFor="personalState">State</label>
+							<select id="personalState" defaultValue={this.props.profile.personalState} onChange={this.handleChange} required>
+								<option>Select State</option>
+								{this.renderStates(states)}
+							</select>
 						</Form.Field>
 						<Form.Field className="field--half">
 							<Input id="personalZip" type="text" label="Zip Code" defaultValue={this.props.profile.personalZip} onChange={this.onChange} />

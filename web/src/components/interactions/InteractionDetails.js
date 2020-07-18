@@ -1,11 +1,12 @@
 import axios from 'axios'
 import moment from 'moment'
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { Redirect } from 'react-router-dom'
 import { compose } from 'redux'
 import { Button } from 'semantic-ui-react'
+import { db } from '../../config/fbConfig'
 import PaypalConfig from '../../config/paypal.json'
 import {
 	cancelBookingInteraction,
@@ -25,6 +26,7 @@ const InteractionDetails = (props) => {
 	let callEnabled = false;
 	const { interaction, auth } = props;
 	const iid = props.match.params.id
+	const [addy, setAddy] = useState('');
 
 	if (!auth.uid) return <Redirect to='/signin' />
 
@@ -43,6 +45,23 @@ const InteractionDetails = (props) => {
 		if (typeof rate === 'undefined' || rate === 0) { return 0 }
 		const total = rate * perMinute
 		return total
+	}
+
+	const getClientAddress = (clientUID) => {
+		const $this = this
+		var collection = db.collection('users').doc(clientUID).get()
+		var content = {
+			prop: ''
+		}
+		collection.then(doc => {
+			const data = doc.data();
+			if (data.personalAddress) {
+				setAddy(data.personalAddress + ' ' + data.personalAddress2 + ' ' + data.personalCity + ', ' + data.personalState + ' ' + data.personalZip)
+			} else {
+				setAddy('No address listed on profile. Please update your personal address.')
+			}
+		});
+		return addy
 	}
 
 	const cancelSession = () => {
@@ -129,8 +148,7 @@ const InteractionDetails = (props) => {
 	}
 
 	if (interaction) {
-		console.log(moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD"))
-	
+		// console.log(moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD"))
 		return (
 			<div className="interaction-details">
 				<div className="container  container--top-bottom-padding">
@@ -181,7 +199,7 @@ const InteractionDetails = (props) => {
 								<div className="interaction-details__buttons text--center">
 									{/* <p>THe Pro</p> */}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status === 'active' && moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD")===moment().format("YYYY-MM-DD") ? <Button className={'button--secondary button--full'} onClick={completeSession}>Complete Session</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status === 'active' && moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD") === moment().format("YYYY-MM-DD") ? <Button className={'button--secondary button--full'} onClick={completeSession}>Complete Session</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'button--secondary button--full'} onClick={confirmSession}>Confirm Booking</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' && interaction.status !== 'completed' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
 								</div>
@@ -209,10 +227,16 @@ const InteractionDetails = (props) => {
 								<div className="interaction-details__location">
 									<h3>Location</h3>
 									{interaction.bookingType === 'online' ? 'Online' :
-										<div>
-											<p>{interaction.proBusinessName}</p>
-											<p>{interaction.proFullAddress}</p>
-										</div>
+										interaction.inPersonType === 'inCall' ?
+											<div>
+												<p>{interaction.proBusinessName}</p>
+												<p>{interaction.proFullAddress}</p>
+											</div>
+											:
+											<div>
+												<p>Pro will go to:</p>
+												<p>{getClientAddress(interaction.userUID)}</p>
+											</div>
 									}
 								</div>
 								<div className="interaction-details__summary-date">
