@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import where from '../../assets/images/where.png';
+import Modal from "../modal/newModal";
 
 function getSortOrderValue(sortOrder) {
 	return sortOrder.replace(' ', '').toLowerCase()
@@ -132,33 +133,37 @@ class Filter extends Component {
 								</select>
 							</div>
 							<div className="col">
-								<label htmlFor="businessCity" className="screen-reader-text">Search By City,ZipCode,State</label>
+								<label htmlFor="businessCity" className="screen-reader-text">Search by City, State or Zipcode</label>
 								<input id={`businessCity`}
 									style={{ backgroundImage: `url(${where})` }}
 									value={this.state.businessCity}
 									type="text"
 									name="businessCity"
-									placeholder="Search By City"
+									placeholder="City, State -OR- Zipcode"
 									onChange={(e) => this.handleChange('businessCity', e.target.value)} />
 							</div>
-
-
-							<div className="col">
-								<label htmlFor="pph" className="screen-reader-text">Search By Price</label>
-								<select
-									id={`pph`}
-									// style={{ backgroundImage: `url(${dollar})` }}
-									value={this.state.pph}
-									onChange={e => this.handleChange('pph', e.target.value)}>
-									<option value="">Price Per Hour</option>
-									<option value="25">Up to $25</option>
-									<option value="50">Up to $50</option>
-									<option value="75">Up to $75</option>
-									<option value="100">Up to $100</option>
-									<option value="10000">$101 +</option>
-								</select>
-							</div>
-
+							<Modal
+								buttonText={'More Filters'} buttonStyle={'button button--md button--secondary'}
+								buttonIcon="filter"
+								className="col col--shrink"
+								view={this.props.Number}
+								content={(
+									<div className="col">
+										<label htmlFor="pph" className="screen-reader-text">Search By Price</label>
+										<select
+											id={`pph`}
+											// style={{ backgroundImage: `url(${dollar})` }}
+											value={this.state.pph}
+											onChange={e => this.handleChange('pph', e.target.value)}>
+											<option value="">Price Per Hour</option>
+											<option value="25">Up to $25</option>
+											<option value="50">Up to $50</option>
+											<option value="75">Up to $75</option>
+											<option value="100">Up to $100</option>
+											<option value="10000">$101 +</option>
+										</select>
+									</div>
+								)}></Modal>
 							<div className="col">
 								<button
 									className="button"

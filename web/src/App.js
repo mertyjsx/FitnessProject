@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import ScrollToTop from 'react-router-scroll-top'
 import AdminView from "./components/admin/AdminView"
 import SignUp from "./components/auth/client/SignUp"
+import ClientToPro from "./components/auth/clientToPro"
 import SignUpPro from "./components/auth/pro/SignUpPro"
 import SignIn from './components/auth/SignIn'
 import CalenderView from "./components/calendar/CalenderView"
@@ -18,6 +19,7 @@ import Footer from "./components/layout/Footer"
 import Navbar from './components/layout/Navbar'
 import About from "./components/modules/About"
 import Bookings from "./components/modules/Bookings"
+import CancellationPolicy from "./components/modules/CancellationPolicy"
 import ContactUs from "./components/modules/ContactUs"
 import FAQClient from "./components/modules/FAQClient"
 import FAQPro from "./components/modules/FAQPro"
@@ -25,6 +27,7 @@ import FindAPro from "./components/modules/FindAPro"
 import Home from './components/modules/Home'
 import HowItWorks from './components/modules/HowItWorks'
 import HowProWorks from "./components/modules/HowProWorks"
+import Payments from "./components/modules/Payments"
 import Privacy from "./components/modules/Privacy"
 import ProfileEdit from "./components/modules/ProfileEdit"
 import Terms from "./components/modules/Terms"
@@ -51,7 +54,7 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter >
         <ScrollToTop />
         <div className="App">
           <Navbar splash={this.state.splash} />
@@ -90,6 +93,9 @@ class App extends Component {
                 <Route exact path="/client-faq" component={FAQClient} />
                 <Route exact path="/file-claim" component={FileClaim} />
                 <Route exact path="/contact" component={ContactUs} />
+                <Route exact path="/upgrade-pro" component={ClientToPro} />
+                <Route exact path="/cancellation-policy" component={CancellationPolicy} />
+                <Route exact path="/payments" component={Payments} />
                 {/* <Route path="*" component={NotFound} /> */}
               </> :
               <>

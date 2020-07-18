@@ -59,6 +59,7 @@ class FindAPro extends Component {
 									<Filter
 										updateFilter={updateFilter}
 										count={proActiveListings.length}
+										Number={ListPros.length}
 										businessCity={proActiveListings
 											.map(pro => pro.businessCity)
 											.filter((item, i, arr) => arr.indexOf(item) === i)}

@@ -64,7 +64,7 @@ class ImageUpload extends Component {
 			<form onSubmit={this.handleUpload} className={'profile-image__upload'}>
 				<progress value={this.state.progress} max="100" />
 				<input type="file" onChange={this.handleChange} required />
-				<button className={`button button--primary text--uppercase ${this.state.progress === 100 ? 'button--inactive' : ''}`}>{this.state.progress === 100 ? 'Image Successfully Uploaded' : 'Upload Image'}</button>
+				<button className={`button button--primary text--uppercase `}>{this.state.progress === 100 ? 'Upload new Image' : 'Upload Image'}</button>
 			</form>
 		);
 	}

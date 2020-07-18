@@ -1,9 +1,8 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Radio, Button, Checkbox, Input, TextArea, Label } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
-import { updateProfile } from '../../store/actions/profileActions'
+import { Button, Form, Input } from 'semantic-ui-react'
 import ellipses from '../../assets/images/ellipsis.gif'
+import { updateProfile } from '../../store/actions/profileActions'
 
 
 class SocialUpdate extends Component {
@@ -39,6 +38,12 @@ class SocialUpdate extends Component {
 		return (
 			<div className={`profile-edit__profile`}>
 
+				{!this.props.profile.isProPremium &&
+					<div className="status status--success mb--double">
+						Upgrade to Pro Premium Today
+					</div>
+				}
+
 				<h2>Update Social Accounts</h2>
 
 				<Form onSubmit={this.handleSubmit}>
@@ -49,20 +54,20 @@ class SocialUpdate extends Component {
 						</div>
 					</div>
 					<Form.Field className="field--half">
-						<Input id="socialFacebook" type="url" label="Facebook" placeholder="Enter your Facebook profile url" defaultValue={this.props.profile.socialFacebook} onChange={this.onChange} />
+						<Input disabled={!this.props.profile.isProPremium} id="socialFacebook" type="url" label="Facebook" placeholder="Enter your Facebook profile url" defaultValue={this.props.profile.isProPremium ? this.props.profile.socialFacebook : ''} onChange={this.onChange} />
 					</Form.Field>
 					<Form.Field className="field--half">
-						<Input id="socialTwitter" type="url" placeholder="Enter your Twitter profile url" label="Twitter" defaultValue={this.props.profile.socialTwitter} onChange={this.onChange} />
+						<Input disabled={!this.props.profile.isProPremium} id="socialTwitter" type="url" placeholder="Enter your Twitter profile url" label="Twitter" defaultValue={this.props.profile.isProPremium ? this.props.profile.socialTwitter : ''} onChange={this.onChange} />
 					</Form.Field>
 					<Form.Field className="field--half">
-						<Input id="socialInstagram" type="url" placeholder="Enter your Instagram profile url" label="Instagram" defaultValue={this.props.profile.socialInstagram} onChange={this.onChange} />
+						<Input disabled={!this.props.profile.isProPremium} id="socialInstagram" type="url" placeholder="Enter your Instagram profile url" label="Instagram" defaultValue={this.props.profile.isProPremium ? this.props.profile.socialInstagram : ''} onChange={this.onChange} />
 					</Form.Field>
 					<Form.Field className="field--half">
-						<Input id="socialPinterest" type="url" placeholder="Enter your Pinterest profile url" label="Pinterest" defaultValue={this.props.profile.socialPinterest} onChange={this.onChange} />
+						<Input disabled={!this.props.profile.isProPremium} id="socialPinterest" type="url" placeholder="Enter your Pinterest profile url" label="Pinterest" defaultValue={this.props.profile.isProPremium ? this.props.profile.socialPinterest : ''} onChange={this.onChange} />
 					</Form.Field>
 
 					<Form.Field>
-						<Button className={'button button--secondary text--uppercase text--font-secondary text--sm'}>Update Social Accounts</Button>
+						<Button disabled={!this.props.profile.isProPremium} className={`button  text--uppercase text--font-secondary text--sm ${!this.props.profile.isProPremium ? 'disabledButton' : 'button--secondary'}`}>Update Social Accounts</Button>
 					</Form.Field>
 				</Form>
 			</div>

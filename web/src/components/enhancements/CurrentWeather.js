@@ -6,6 +6,7 @@ const Forecast = (props) => {
      const [isLoaded, setIsLoaded] = useState(false);
      const [items, setItems] = useState({});
 
+     console.log(items)
      useEffect(() => {
           fetch(`https://community-open-weather-map.p.rapidapi.com/weather?q=${props.city ? props.city : 'Miami'}`, {
                "method": "GET",
@@ -33,6 +34,11 @@ const Forecast = (props) => {
      } else {
           return (
                <div className="current-weather">
+                    {items.main && (
+                         <div className="current-weather__icon">
+                              <img src={`http://openweathermap.org/img/wn/${items.weather[0].icon}.png`}></img>
+                         </div>
+                    )}
                     <div className="current-weather__city">
                          {props.city ? props.city : ''}
                     </div>
@@ -46,7 +52,9 @@ const Forecast = (props) => {
                     <div className="current-weather__description">
                          {items.main && (
                               <div>
+
                                    {items.weather[0].description}
+
                               </div>
                          )}
                     </div>

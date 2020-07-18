@@ -1,6 +1,6 @@
 import React from "react"
-import { Button } from "semantic-ui-react"
 import { connect } from 'react-redux'
+import { Button } from "semantic-ui-react"
 import { deleteAccount } from '../../store/actions/authActions'
 import Modal from '../modal/Modal'
 
@@ -20,7 +20,7 @@ const DeleteAccount = (props) => {
 
 	return (
 		<div className={'delete-account blocked'}>
-			<h3>Delete Account</h3>
+			<h2>Delete Account</h2>
 			<p>Permanently delete your account and all of your content.</p>
 			<Modal
 				buttonText={'Delete Account'}

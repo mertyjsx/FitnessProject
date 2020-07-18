@@ -1,14 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { connect } from 'react-redux'
-import { Redirect, Link } from 'react-router-dom'
-import SpecialtiesEdit from '../profileEdit/SpecialtiesEdit';
-import ProfileUpdate from '../profileEdit/ProfileUpdate';
-import RenderImage from '../profileEdit/imageUpload/RenderImage'
-import ImageUpload from '../profileEdit/imageUpload/ImageUpload'
-import SocialUpdate from '../profileEdit/SocialUpdate';
 import FAQUpdate from '../profileEdit/FAQUpdate';
+import ImageUpload from '../profileEdit/imageUpload/ImageUpload';
+import RenderImage from '../profileEdit/imageUpload/RenderImage';
 import InterestsUpdate from '../profileEdit/InterestsUpdate';
+import ProfileUpdate from '../profileEdit/ProfileUpdate';
+import SocialUpdate from '../profileEdit/SocialUpdate';
+import SpecialtiesEdit from '../profileEdit/SpecialtiesEdit';
+import PhotosVideos from "./PhotosVideos";
 
 class ProfileEdit extends Component {
 	constructor(props) {
@@ -35,7 +36,7 @@ class ProfileEdit extends Component {
 				{profile.isApproved !== true && profile.isPro ?
 					<div className="status status--warning">
 						<div className="container">
-							<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
+							<p>Your profile is currently being reviewed by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
 						</div>
 					</div>
 					: null}
@@ -54,10 +55,11 @@ class ProfileEdit extends Component {
 								<TabList>
 									<Tab>Profile</Tab>
 									<Tab>Image</Tab>
-									<Tab>Personal Goals</Tab>
+									<Tab>Interests</Tab>
 									{profile.isPro && (<Tab>Specialties</Tab>)}
 									{profile.isPro && (<Tab>Social</Tab>)}
 									{profile.isPro && (<Tab>FAQ</Tab>)}
+									{profile.isPro && (<Tab>Photos/Videos</Tab>)}
 								</TabList>
 								<TabPanel>
 									<ProfileUpdate />
@@ -84,6 +86,11 @@ class ProfileEdit extends Component {
 								{profile.isPro && (
 									<TabPanel>
 										<FAQUpdate />
+									</TabPanel>
+								)}
+								{profile.isPro && (
+									<TabPanel>
+										<PhotosVideos />
 									</TabPanel>
 								)}
 							</Tabs>

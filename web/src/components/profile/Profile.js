@@ -13,21 +13,26 @@ import GetFullReviews from '../rating/GetFullReviews'
 import GetRating from '../rating/GetRating'
 import Booking from './Booking'
 import Inquiry from './Inquiry'
+import Photos from "./Photos"
+import Videos from "./Videos"
 
 const Profile = (props, state) => {
 
 	const { auth, user } = props;
 	// console.log(user);
+	
 
 	// if (!auth.uid) return <Redirect to='/signin' />
 
-	const renderProfileNav = (about, background, credentials, faq, reviews) => {
+	const renderProfileNav = (about, background, credentials, faq, photos, videos, reviews) => {
 		// console.log(typeof credentials);
 		var navItems = [];
 		if (typeof about === 'string') { navItems.push(<li key={'about'}><a href="#about">About</a></li>) }
 		if (typeof background === 'string') { navItems.push(<li key={'background'}><a href="#background">Background</a></li>) }
 		if (typeof credentials === 'string') { navItems.push(<li key={'credentials'}><a href="#credentials">Credentials</a></li>) }
 		if (typeof faq === 'string') { navItems.push(<li key={'faq'}><a href="#faq">FAQs</a></li>) }
+		if (photos === true) { navItems.push(<li key={'photos'}><a href="#photos">Photos</a></li>) }
+		if (videos === true) { navItems.push(<li key={'videos'}><a href="#videos">Videos</a></li>) }
 		if (reviews === true) { navItems.push(<li key={'reviews'}><a href="#reviews">Reviews</a></li>) }
 		return (<ul className="list list--inline">{navItems.splice('')}</ul>)
 	}
@@ -45,7 +50,7 @@ const Profile = (props, state) => {
 	const renderSecondSpecialties = () => {
 		var secondItems = [];
 		for (const [key, value] of Object.entries(user.specialties)) {
-			if(value === true) {
+			if (value === true) {
 				secondItems.push(convertToCapitalizeCase(key))
 			}
 		}
@@ -89,9 +94,9 @@ const Profile = (props, state) => {
 			</div>
 		)
 	}
-	
+
 	const sendMessage = () => (
-		<Modal buttonStyle="button button--inverted" buttonText={`Message Pro`} content={( <Inquiry pro={user} user={auth} /> )} />
+		<Modal buttonStyle="button button--inverted" buttonText={`Message Pro`} content={(<Inquiry pro={user} user={auth} />)} />
 	)
 
 	const renderCredentials = (cred) => {
@@ -110,7 +115,7 @@ const Profile = (props, state) => {
 			<img src={image} />
 		)
 	}
-	
+
 	const renderFAQ = () => {
 		if (typeof user.faq1Question !== 'string') { return null }
 		return (
@@ -134,7 +139,14 @@ const Profile = (props, state) => {
 					<div className="row row--flex-start">
 						<div className="col col--8">
 							<div className={`profile__nav`}>
-								{renderProfileNav(user.about, user.background, user.credentials, user.faq1Question, true)}
+								{renderProfileNav(
+									user.about,
+									user.background,
+									user.credentials,
+									user.faq1Question,
+									user.premiumPhotos ? true : false,
+									user.videoUrls ? true : false,
+									true)}
 							</div>
 							<div className={`profile__image`}>
 								{renderImage(user.photoURL)}
@@ -142,8 +154,8 @@ const Profile = (props, state) => {
 							<div className={`profile__meta`}>
 								<div className={`profile__meta-inner`}>
 									<div className={`profile__meta-title`}>
-										<h1 className={`text--no-margin text--capitalize`}>{`${user.firstName} ${user.lastName}`} { renderBlueCheck(user)}</h1>
-										<ul className={'list list--inline'} style={{width:'100%'}}> 
+										<h1 className={`text--no-margin text--capitalize`}>{`${user.firstName} ${user.lastName}`} {renderBlueCheck(user)}</h1>
+										<ul className={'list list--inline'} style={{ width: '100%' }}>
 											<li>{user.socialFacebook ? <div><a href={user.socialFacebook} target="_blank"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></div> : null}</li>
 											<li>{user.socialTwitter ? <div><a href={user.socialTwitter} target="_blank"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></div> : null}</li>
 											<li>{user.socialInstagram ? <div><a href={user.socialInstagram} target="_blank"><FontAwesomeIcon icon={["fab", "instagram"]} /></a></div> : null}</li>
@@ -153,27 +165,27 @@ const Profile = (props, state) => {
 
 									<GetRating proInteractions={user.proInteractions} />
 									<div className={`profile__meta-btns`}>
-										{ auth.uid ?
+										{auth.uid ?
 											(<div className="profile__meta-btn">
-												{ sendMessage() }
+												{sendMessage()}
 											</div>)
 											:
 											null
 										}
 										<div className="profile__meta-btn">
-										<Modal
-											buttonStyle="button button--secondary"
-											buttonText={`Share Profile`}
-											content={(
-												<div>
-													<p className="text--sm" style={{ textAlign: 'center' }}>Share {user.firstName}'s profile on your favorite social medium</p>
-													<div className="share__btns">
-														<a href={'http://www.facebook.com/sharer/sharer.php?u=' + window.location.href} target="_blank" className="share__btn">Share on Facebook <FontAwesomeIcon icon={["fab", "facebook-f"]} /></a>
-														<a href={'https://twitter.com/intent/tweet?text=Choose%20To%20Be%20You&url=' + window.location.href} target="_blank" className="share__btn">Share on Twitter <FontAwesomeIcon icon={["fab", "twitter"]} /></a>
-														<a href={'http://pinterest.com/pin/create/button/?url=' + window.location.href} target="_blank" className="share__btn">Share on Pinterest <FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a>
+											<Modal
+												buttonStyle="button button--secondary"
+												buttonText={`Share Profile`}
+												content={(
+													<div>
+														<p className="text--sm" style={{ textAlign: 'center' }}>Share {user.firstName}'s profile on your favorite social medium</p>
+														<div className="share__btns">
+															<a href={'http://www.facebook.com/sharer/sharer.php?u=' + window.location.href} target="_blank" className="share__btn">Share on Facebook <FontAwesomeIcon icon={["fab", "facebook-f"]} /></a>
+															<a href={'https://twitter.com/intent/tweet?text=Choose%20To%20Be%20You&url=' + window.location.href} target="_blank" className="share__btn">Share on Twitter <FontAwesomeIcon icon={["fab", "twitter"]} /></a>
+															<a href={'http://pinterest.com/pin/create/button/?url=' + window.location.href} target="_blank" className="share__btn">Share on Pinterest <FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a>
+														</div>
 													</div>
-												</div>
-											)} />
+												)} />
 										</div>
 									</div>
 									<div className={`profile__meta-specialties`}>
@@ -182,10 +194,12 @@ const Profile = (props, state) => {
 											<h3 className="mb--0"><strong>Main</strong></h3>
 											{renderMainSpecialties(user.professions)}
 										</div>
-										<div className="profile__meta-spec text--capitalize">
-											<h3 className="mb--0"><strong>Specializing In:</strong></h3>
-											{renderSecondSpecialties()}
-										</div>
+										{user.specialties && (
+											<div className="profile__meta-spec text--capitalize">
+												<h3 className="mb--0"><strong>Specializing In:</strong></h3>
+												{renderSecondSpecialties()}
+											</div>
+										)}
 									</div>
 								</div>
 							</div>
@@ -198,6 +212,18 @@ const Profile = (props, state) => {
 
 							{renderFAQ()}
 
+							{user.isProPremium &&
+								[<div id="photos" className={`profile__photos`}>
+									<h2 className={`text--uppercase`}>Photos</h2>
+									<Photos id={user.uid} photos={user.premiumPhotos} />
+								</div>,
+								<div id="videos" className={`profile__videos`}>
+									<h2 className={`text--uppercase`}>Videos</h2>
+									<Videos id={user.uid} videoUrls={user.videoUrls} />
+								</div>
+								]
+							}
+
 							<div id="reviews" className={`profile__reviews`}>
 								<h2 className={`text--uppercase`}>Reviews</h2>
 								<GetFullReviews proInteractions={user.proInteractions} />
@@ -205,15 +231,15 @@ const Profile = (props, state) => {
 
 						</div>
 						<div className={`col col--4`}>
-							{ auth.uid ?
-							<Booking pro={user} user={auth} />
-							:
-							(
-								<div style={{border:'#cecece solid 1px'}}>
-									<p className="text--center" style={{padding:'10px', margin: '0'}}>You must be signed in the contact the Pro.</p>
-									<SignIn />
-								</div>
-							) }
+							{auth.uid ?
+								<Booking pro={user} user={auth} />
+								:
+								(
+									<div style={{ border: '#cecece solid 1px' }}>
+										<p className="text--center" style={{ padding: '10px', margin: '0' }}>You must be signed in the contact the Pro.</p>
+										<SignIn />
+									</div>
+								)}
 							<div className={'profile__cancellation text--center'}>
 								<Link to="/cancellation-policy">Cancellation Policy</Link>
 							</div>

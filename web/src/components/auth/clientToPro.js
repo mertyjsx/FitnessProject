@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect, withRouter } from 'react-router-dom'
 import { Form } from 'semantic-ui-react'
-import { signUpPro } from '../../../store/actions/authActions'
+import { ClientToPro } from '../../store/actions/authActions'
 
-class SignUpPro extends Component {
+class UpgradePremium extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -13,10 +13,7 @@ class SignUpPro extends Component {
 			city: '',
 			state: '',
 			zip: '',
-			firstName: '',
-			lastName: '',
-			email: '',
-			password: '',
+
 			data: '',
 			pageTwoActive: false,
 			professionFitnessTrainer: false,
@@ -129,13 +126,13 @@ class SignUpPro extends Component {
 	}
 
 	render() {
-		const { auth, authError } = this.props
-		if (auth.uid) return <Redirect to='/dashboard' />
-
+		const { auth, authError, profile } = this.props
+		if (profile.isPro) return <Redirect to='/dashboard' />
+		if (!auth.uid) return <Redirect to='/signin' />
 		return (
 			<div className="signup">
 				<div className="container container--small container--top-bottom-padding">
-					<h1 className={'text--center text--bold'}>Join As Pro</h1>
+					<h1 className={'text--center text--bold'}>Upgrade to Pro</h1>
 					<Form onSubmit={this.handleSubmit}>
 						{this.state.pageTwoActive !== true ?
 							<div className={'form__inner'}>
@@ -174,36 +171,18 @@ class SignUpPro extends Component {
 										{this.state.state}
 									</div>
 								</Form.Field>
-								<Form.Field>
-									<label htmlFor="firstName">First Name <sup className="red">*</sup></label>
-									<input className={this.state.firstName !== '' ? 'input--filled' : ''} type="text" name="firstName" id="firstName" placeholder="Enter your first name" onChange={this.handleChange} required></input>
-								</Form.Field>
-								<Form.Field>
-									<label htmlFor="lastName">Last Name <sup className="red">*</sup></label>
-									<input className={this.state.lastName !== '' ? 'input--filled' : ''} type="text" name="lastName" id="lastName" placeholder="Enter your last name" onChange={this.handleChange} required></input>
-								</Form.Field>
+
 								<Form.Field>
 									<label htmlFor="phoneNumber">Phone Number <sup className="red">*</sup>(ex. ##########)</label>
 									<input className={this.state.phoneNumber !== '' ? 'input--filled' : ''} type="tel" pattern="[0-9]{10}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone (ex. ##########)" onChange={this.handleChange} required></input>
 								</Form.Field>
+
+
 								<Form.Field>
-									<label htmlFor="email">Email <sup className="red">*</sup></label>
-									<input className={this.state.email !== '' ? 'input--filled' : ''} type="email" name="email" id="email" placeholder="Enter your email" onChange={this.handleChange} required></input>
+									<p className="text--center">By clicking <strong>Upgrade to Pro</strong>, you agree to the <Link to={'/terms-of-use'}>Terms of Use</Link> and <Link to={'/privacy-policy'}>Privacy Policy</Link>.</p>
 								</Form.Field>
 								<Form.Field>
-									<label htmlFor="password">Password <sup className="red">*</sup> <small>(min. 8 characters)</small></label>
-									<input className={this.state.password !== '' ? 'input--filled' : ''} type="password" name="password" id="password" placeholder="Enter password" onChange={this.handleChange} required></input>
-								</Form.Field>
-								<Form.Field>
-									<label htmlFor="password">Confirm Password</label>
-									<input className={this.state.passwordConfirm ? this.state.passwordConfirm === this.state.password ? 'input--filled' : 'input--error' : ''} type="password" name="password" id="passwordConfirm" placeholder="Retype password" onChange={this.handleChange} pattern=".{8,}" required title="8 characters minimum" />
-									<span className={'error-span'}>Passwords do not match</span>
-								</Form.Field>
-								<Form.Field>
-									<p className="text--center">By clicking <strong>Create Account</strong>, you agree to the <Link to={'/terms-of-use'}>Terms of Use</Link> and <Link to={'/privacy-policy'}>Privacy Policy</Link>.</p>
-								</Form.Field>
-								<Form.Field>
-									<button type="submit" className={`button button--secondary text--uppercase text--bold text--font-secondary ${this.state.email === '' && this.state.password === '' ? 'button--inactive' : ''}`}>Join</button>
+									<button type="submit" className={`button button--secondary text--uppercase text--bold text--font-secondary  `}>Upgrade to Pro</button>
 									<div className="warning">
 										{authError ? <p>{authError}</p> : null}
 									</div>
@@ -220,14 +199,15 @@ class SignUpPro extends Component {
 const mapStateToProps = (state) => {
 	return {
 		auth: state.firebase.auth,
-		authError: state.auth.authError
+		authError: state.auth.authError,
+		profile: state.firebase.profile
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		signUpPro: (newUser) => dispatch(signUpPro(newUser))
+		signUpPro: (newUser) => dispatch(ClientToPro(newUser))
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUpPro))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UpgradePremium))

@@ -48,6 +48,9 @@ body.dimmed {
 		background: $gray-lighter;
 		position: relative;
 		overflow: scroll;
+		&--secondary {
+			overflow: unset;
+		}
 	}
 	&__btn {
 		position: absolute;

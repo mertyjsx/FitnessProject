@@ -16,7 +16,9 @@ class Dashboard extends Component {
 		super(props)
 		this.state = {
 			Booking: 0,
-			Inbox: 0
+			Inbox: 0,
+			DiscoverPros:[],
+			PendingBookings:0
 		}
 	}
 
@@ -25,8 +27,50 @@ class Dashboard extends Component {
 			if (this.props.interactions) {
 				const BookingArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
 				const InboxArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "inquiry" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
-				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length })
+				const PendingBookings =  this.props.interactions.filter(item => item.status === "pending" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
+				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length ,PendingBookings:PendingBookings.length})
 			}
+
+
+			const { users, auth, profile, notifications } = this.props
+
+let DiscoverPros=[]
+			
+				users && users.map(pro => {
+				
+					if (pro.isPro && pro.isApproved) {
+						var interests = profile.interests?profile.interests:{}
+						var specialties = pro.specialties
+					
+						for (const [key, value] of Object.entries(interests)) {
+							if (specialties) {
+								for (const [key2, value2] of Object.entries(specialties)) {
+									if (key === key2 && value === value2) {
+									
+									DiscoverPros.push(pro)
+									
+									}
+								}
+							}
+						}
+					}
+				})
+
+
+	this.setState({DiscoverPros:DiscoverPros})
+
+
+
+
+
+
+
+
+
+
+
+
+
 		}
 	}
 
@@ -40,11 +84,15 @@ class Dashboard extends Component {
 	}
 
 	render() {
-		// console.log(this.props)
+
+
 		const { users, auth, profile, notifications } = this.props
+		// console.log(auth)
+		// console.log("bibak buna,", !profile.isOnboardingClientCompleted && !profile.isPro)
+
 		if (!auth.uid) return <Redirect to='/signin' />
 		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
-		if (!profile.isOnboardingClientCompleted && (profile.isPro==false)) return <Redirect to='/onboarding-client' />
+		if (!profile.isOnboardingClientCompleted && (profile.isPro == false)) return <Redirect to='/onboarding-client' />
 		const data = [
 			{ name: 'Jan', uv: 5, pv: 25, amt: 25 },
 			{ name: 'Feb', uv: 10, pv: 25, amt: 25 },
@@ -70,13 +118,17 @@ class Dashboard extends Component {
 									<div className="container ">
 										<p>Your account has been declined. Review the Admin notes and resubmit when completed.</p>
 									</div>
-								
+
 									<div className="buttons buttons--inline">
-									{
-										profile.declineMessage&&
-										<Modal buttonStyle="button" buttonText={`Review Notes`} content={profile.declineMessage} />
-									}
-										
+										{
+											profile.declineMessage &&
+											<Modal buttonStyle="button" buttonText={`Review Notes`} content={(
+												<>
+													<h2>Review Notes</h2>
+													{profile.declineMessage}
+												</>
+											)} />
+										}
 										<button className="button" onClick={() => this.props.onboardingAgain()}>Resubmit</button>
 									</div>
 								</div>
@@ -84,7 +136,7 @@ class Dashboard extends Component {
 							(
 								<div className="status status--warning">
 									<div className="container">
-										<p>Your profile is currently being approved by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
+										<p>Your profile is currently being reviewed by one our admins. <Link to="/contact">Contact us</Link> if you have any questions.</p>
 									</div>
 								</div>
 							)
@@ -106,17 +158,15 @@ class Dashboard extends Component {
 						<div className="col col--8">
 							<div className={`dashboard__head`}>
 								{this.renderFirstName(profile.firstName)}
-								<p style={{ paddingBottom: '10px' }}>Be the best version of YOU</p>
-{profile.personalGoal&&
-	<p style={{ paddingBottom: '10px' ,color:"red"}}>{profile.personalGoal}</p>
-}
-								
+								<p style={{ marginBottom: '0' }}>Be the best version of YOU</p>
+								{profile.personalGoal &&
+									<p className="dashboard__head-goal"><strong>Personal Goal:</strong> {profile.personalGoal}</p>
+								}
+
 							</div>
 						</div>
 						<div className="col col--4">
-							{this.props.profile.personalCity || this.props.profile.businessCity && (
-								<Forecast city={this.props.profile.personalCity ? this.props.profile.personalCity : this.props.profile.businessCity} />
-							)}
+							<Forecast city={this.props.profile.businessCity ? this.props.profile.businessCity : this.props.profile.personalCity} />
 						</div>
 					</div>
 
@@ -151,6 +201,14 @@ class Dashboard extends Component {
 								<div className={`dashboard__glance-requests`}>
 									<div className={`dashboard__glance--standout`}>{this.state.Booking}</div>
 									Active Bookings
+								</div>
+							</a>
+						</div>
+						<div className="col">
+							<a href={'/bookings'} className={`dashboard__glance`}>
+								<div className={`dashboard__glance-requests`}>
+									<div className={`dashboard__glance--standout`}>{this.state.PendingBookings}</div>
+									Pending Bookings
 								</div>
 							</a>
 						</div>
@@ -214,27 +272,17 @@ class Dashboard extends Component {
 								</div>
 							</div>
 							<div className={'row'}>
-								{profile.interests ?
-									users && users.map(pro => {
+								{this.state.DiscoverPros.length>0 ?
+									
 
-										if (pro.isPro && pro.isApproved) {
-											var interests = profile.interests
-											var specialties = pro.specialties
-											for (const [key, value] of Object.entries(interests)) {
-												if (specialties) {
-													for (const [key2, value2] of Object.entries(specialties)) {
-														if (key === key2 && value === value2) {
-															return (
-																<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
-																	<ProCard pro={pro} compact={true} />
-																</Link>
-															)
-														}
-													}
-												}
-											}
-										}
-									})
+										this.state.DiscoverPros.map(pro=>
+										<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
+										<ProCard pro={pro} compact={true} />
+									    </Link>
+										
+											)
+									
+									
 									:
 									<div className="col">
 										<p>No pros found. <Link to={'/profile-edit#2'}>Click here</Link> to update your interests to discover pros.</p>
@@ -251,7 +299,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log(state);
+
 	return {
 		// projects: state.firestore.ordered.projects,
 		auth: state.firebase.auth,

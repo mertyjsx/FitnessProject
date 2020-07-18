@@ -100,7 +100,7 @@ class Home extends Component {
 								<div className="col col--7">
 									<h2 className="text--lg text--uppercase">Are you a five-star pro?</h2>
 									<p className="text--sm" style={{ flex: '0 1 100%' }}>Join our platform to reach thousands of potential clients.</p>
-									<Link to="/join-as-pro" className="button button--accent button--md">Learn More</Link>
+									<Link to="/how-ctby-works-for-pros" className="button button--accent button--md">Learn More</Link>
 								</div>
 							</div>
 						</div>

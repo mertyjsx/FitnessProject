@@ -1,11 +1,12 @@
 import axios from 'axios'
 import moment from 'moment'
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { Redirect } from 'react-router-dom'
 import { compose } from 'redux'
 import { Button } from 'semantic-ui-react'
+import { db } from '../../config/fbConfig'
 import PaypalConfig from '../../config/paypal.json'
 import {
 	cancelBookingInteraction,
@@ -18,14 +19,15 @@ import { renderProfileImage } from '../helpers/HelpersProfile'
 import Loading from '../modules/Loading'
 import GetSingleReview from '../rating/GetSingleReview'
 import SetRating from '../rating/SetRating'
-import InteractionMessages from './InteractionMessages'
 import InteractionCall from './InteractionCall'
+import InteractionMessages from './InteractionMessages'
 
 const InteractionDetails = (props) => {
 	let $this = this;
 	let callEnabled = false;
 	const { interaction, auth } = props;
 	const iid = props.match.params.id
+	const [addy, setAddy] = useState('');
 
 	if (!auth.uid) return <Redirect to='/signin' />
 
@@ -46,51 +48,68 @@ const InteractionDetails = (props) => {
 		return total
 	}
 
+	const getClientAddress = (clientUID) => {
+		const $this = this
+		var collection = db.collection('users').doc(clientUID).get()
+		var content = {
+			prop: ''
+		}
+		collection.then(doc => {
+			const data = doc.data();
+			if (data.personalAddress) {
+				setAddy(data.personalAddress + ' ' + data.personalAddress2 + ' ' + data.personalCity + ', ' + data.personalState + ' ' + data.personalZip)
+			} else {
+				setAddy('No address listed on profile. Please update your personal address.')
+			}
+		});
+		return addy
+	}
+
 	const cancelSession = () => {
 		// console.log('cancel btn clicked')
 		let paypal_base_uri = `https://api.paypal.com/`;
 		if (PaypalConfig.sandbox) paypal_base_uri = `https://api.sandbox.paypal.com/`;
 		axios.post(paypal_base_uri + 'v1/oauth2/token',
-				   "grant_type=client_credentials",
-				   {
-				   	  "headers": {
-				   	  		"Accept" : "application/json",
-				   	  		"Accept-Language" : "en_US",
-				   	  		'Access-Control-Allow-Origin': 'localhost:3000'
-				   	  },
-				   	  // "withCredentials": true,
-				   	  "auth":{
-				   	  	"username":PaypalConfig.client_id,
-				   	  	"password":PaypalConfig.client_secret
-				   	  }
-				   }).then((response)=>{
-				   		let paypal_access_token = response.data.access_token;
-				   		let paypal_token_type = response.data.token_type;
-				   		let paypalid = interaction.paypal.id;
-				   		axios.get(`${paypal_base_uri}v2/checkout/orders/${paypalid}`,
-					   		{
-					   			headers: { 
-					   				"Content-Type":"application/json",
-					   				"Authorization":`${paypal_token_type} ${paypal_access_token}`
-					   			},
-					   		}).then(response=>{
-					   			response.data.purchase_units.forEach(purchase_unit=>{
-					   				purchase_unit.payments.captures.forEach(capture=>{
-					   					axios.post(`${paypal_base_uri}v2/payments/captures/${capture.id}/refund`,
-									   		{},
-									   		{
-									   			headers: { 
-									   				"Content-Type":"application/json",
-									   				"Authorization":`${paypal_token_type} ${paypal_access_token}`
-									   			},
-									   		}).then(response=>{
-									   			console.log(response);
-									   			props.cancelBookingInteraction(iid)
-									   		})
-					   				});
-					   			});
-					   		});
-				   });
+			"grant_type=client_credentials",
+			{
+				"headers": {
+					"Accept": "application/json",
+					"Accept-Language": "en_US",
+					'Access-Control-Allow-Origin': 'localhost:3000'
+				},
+				// "withCredentials": true,
+				"auth": {
+					"username": PaypalConfig.client_id,
+					"password": PaypalConfig.client_secret
+				}
+			}).then((response) => {
+				let paypal_access_token = response.data.access_token;
+				let paypal_token_type = response.data.token_type;
+				let paypalid = interaction.paypal.id;
+				axios.get(`${paypal_base_uri}v2/checkout/orders/${paypalid}`,
+					{
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `${paypal_token_type} ${paypal_access_token}`
+						},
+					}).then(response => {
+						response.data.purchase_units.forEach(purchase_unit => {
+							purchase_unit.payments.captures.forEach(capture => {
+								axios.post(`${paypal_base_uri}v2/payments/captures/${capture.id}/refund`,
+									{},
+									{
+										headers: {
+											"Content-Type": "application/json",
+											"Authorization": `${paypal_token_type} ${paypal_access_token}`
+										},
+									}).then(response => {
+										console.log(response);
+										props.cancelBookingInteraction(iid)
+									})
+							});
+						});
+					});
+			});
 		console.log(interaction);
 		// props.cancelBookingInteraction(iid)
 		// console.log('session has been cancelled')
@@ -130,7 +149,7 @@ const InteractionDetails = (props) => {
 	}
 
 	if (interaction) {
-
+		// console.log(moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD"))
 		return (
 			<div className="interaction-details">
 				<div className="container  container--top-bottom-padding">
@@ -148,7 +167,9 @@ const InteractionDetails = (props) => {
 							<InteractionMessages groupID={iid} meta={interaction} />
 						</div>
 						<div className="col col--5">
-							<InteractionCall iid={iid} interaction={interaction} auth={auth}/>
+
+							<InteractionCall iid={iid} interaction={interaction} auth={auth} />
+
 							{interaction.ratingCompleted === false && interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && (
 								<div className="rating">
 									<div className="rating__inner">
@@ -158,7 +179,7 @@ const InteractionDetails = (props) => {
 								</div>
 							)}
 
-							{ interaction.ratingCompleted === true && (
+							{interaction.ratingCompleted === true && (
 								<div className="rating">
 									<div className="rating__inner">
 										<h2 className="text--uppercase text--bold">Rating Completed</h2>
@@ -166,6 +187,24 @@ const InteractionDetails = (props) => {
 									</div>
 								</div>
 							)}
+
+							{interaction.userUID === auth.uid ?
+								<div className="interaction-details__buttons text--center">
+									{/* <p>Person Booking</p> */}
+									{/* <Link to={'/pro/' + interaction.proUID}>Start a new inquiry</Link> */}
+									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' && interaction.status !== 'completed' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--secondary button--full'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'archived' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
+								</div>
+								:
+								<div className="interaction-details__buttons text--center">
+									{/* <p>THe Pro</p> */}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status === 'active' && moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD") === moment().format("YYYY-MM-DD") ? <Button className={'button--secondary button--full'} onClick={completeSession}>Complete Session</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'button--secondary button--full'} onClick={confirmSession}>Confirm Booking</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' && interaction.status !== 'completed' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
+								</div>
+							}
 
 							<div className="interaction-details__summary">
 								<h2 className="text--uppercase mn--double">{interaction.interactionType} Details</h2>
@@ -188,11 +227,17 @@ const InteractionDetails = (props) => {
 								</div>
 								<div className="interaction-details__location">
 									<h3>Location</h3>
-									{interaction.bookingType === 'online' ? 'Online' : 
-										<div>
-											<p>{interaction.proBusinessName}</p>
-											<p>{interaction.proFullAddress}</p>
-										</div>
+									{interaction.bookingType === 'online' ? 'Online' :
+										interaction.inPersonType === 'inCall' ?
+											<div>
+												<p>{interaction.proBusinessName}</p>
+												<p>{interaction.proFullAddress}</p>
+											</div>
+											:
+											<div>
+												<p>Pro will go to:</p>
+												<p>{getClientAddress(interaction.userUID)}</p>
+											</div>
 									}
 								</div>
 								<div className="interaction-details__summary-date">
@@ -210,24 +255,6 @@ const InteractionDetails = (props) => {
 									<p className="field--review-total text--uppercase text--bold"><span>Total</span> <span>${calculateTotal()}</span></p>
 								</div>
 							</div>
-
-							{interaction.userUID === auth.uid ?
-								<div className="interaction-details__buttons text--center">
-									{/* <p>Person Booking</p> */}
-									{/* <Link to={'/pro/' + interaction.proUID}>Start a new inquiry</Link> */}
-									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'link'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'archived' ? <Button className={'link'} onClick={closeInquiry}>Close Inquiry</Button> : null}
-								</div>
-								:
-								<div className="interaction-details__buttons text--center">
-									{/* <p>THe Pro</p> */}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'link'} onClick={closeInquiry}>Close Inquiry</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' ? <Button className={'link'} onClick={cancelSession}>Cancel Booking</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status === 'active' ? <Button className={'link'} onClick={completeSession}>Complete Session</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'link'} onClick={confirmSession}>Confirm Booking</Button> : null}
-								</div>
-							}
 						</div>
 					</div>
 				</div>

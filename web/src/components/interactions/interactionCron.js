@@ -1,20 +1,18 @@
 import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
-import { firestoreConnect, getFirebase } from 'react-redux-firebase'
-import { compose } from 'redux'
 import PaypalConfig from '../../config/paypal.json'
 import { completeInteractionPayout, getInteractionsForCron, getProForPayout } from '../../store/actions/interactionActions'
 
 
 // Real setup //
-let interactionCompletionTime = 1000 * 60 * 60 * 48 // 48 hours;
-let payoutDelayTime = 1000 * 60 * 60 * 24 * 7 // 7 days;
+// let interactionCompletionTime = 1000 * 60 * 60 * 48 // 48 hours;
+// let payoutDelayTime = 1000 * 60 * 60 * 24 * 7 // 7 days;
 // End Real setup //
 
 // Development Setup //
-// let interactionCompletionTime = 1000*60*15 // auto Complete in 15 minutes;
-// let payoutDelayTime = 1000*60*15 // auto payout in 15 minutes;
+let interactionCompletionTime = 1000 * 60 * 15 // auto Complete in 15 minutes;
+let payoutDelayTime = 1000 * 60 * 15 // auto payout in 15 minutes;
 // End Development Setup //
 
 let payoutrate = 0.75; // 75%
@@ -58,7 +56,7 @@ class InteractionCron extends React.Component {
 								},
 								"note": "This is a test message", // Update for paypal invoice message
 								"sender_item_id": new Date().getTime(),
-								"receiver": pro.paypalPremium.email,
+								"receiver": pro.preferredPaypalEmail ? pro.preferredPaypalEmail : pro.email,
 								"notification_language": "en-US",
 							})
 						}

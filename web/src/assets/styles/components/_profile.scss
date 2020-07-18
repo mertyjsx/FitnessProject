@@ -1,3 +1,52 @@
+// Start Revision
+.flexrow{
+	display: flex;
+    flex-flow: row wrap;
+    flex: 0 1 100%;
+}
+.zindex-{
+
+	z-index: -1;
+}
+.imageCard{
+object-fit:cover;
+margin:20px 10px;
+height: 110px;
+flex: 0 1 200px;
+
+
+}
+.relative{
+	position: relative;
+}
+
+
+.imageDeleteIcon{
+	z-index: 20;
+position: absolute;
+top: 10px;
+right: 10px;
+
+font-size: 25px;
+text-align: center;
+color: red;
+}
+.imageDeleteIcon:hover{
+	cursor: pointer;
+}
+
+.disabledButton{
+	margin-top: 20px;
+background-color: #757575;
+
+}
+.disabledButton:hover{
+	cursor: not-allowed !important ;
+}
+
+// End
+
+
 .profile {
 	&__booking {
 		background-color: $gray-lighter;
@@ -59,6 +108,8 @@
 	&__professional-background,
 	&__credentials,
 	&__faq,
+	&__photos,
+	&__videos,
 	&__reviews {
 		width: 100%;
 	}
@@ -68,6 +119,8 @@
 	&__professional-background,
 	&__credentials,
 	&__faq,
+	&__photos,
+	&__videos,
 	&__reviews {
 		margin-bottom: $gutter * 2;
 		@media screen and (min-width: $md-min) {
@@ -150,6 +203,13 @@
 		margin-bottom: $gutter;
 		@media screen and (min-width: $md-min) {
 			flex: 0 1 49%;
+		}
+	}
+	&__photos {
+		.row {
+			> div {
+				@extend .col, .col--3;
+			}
 		}
 	}
 }

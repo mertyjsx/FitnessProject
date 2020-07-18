@@ -1,9 +1,11 @@
-import axios from 'axios'
+import axios from 'axios';
+import { db } from "../../config/fbConfig";
 
 
 export const signIn = (credentials) => {
 	return (dispatch, getState, { getFirebase }) => {
 		const firebase = getFirebase()
+
 		firebase.auth().signInWithEmailAndPassword(
 			credentials.email,
 			credentials.password
@@ -75,17 +77,49 @@ export const resendEmail = () => {
 	}
 }
 
+export const signInClientWithFacebook = (newUser) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		const fb = new firebase.auth.FacebookAuthProvider()
+		// console.log('su w/ fb', newUser, fb )
+		firebase.auth().signInWithPopup(fb)
+			.then(async ({ user }) => {
+
+				console.log(user.uid)
+				const userExist = await db.collection('users').doc(user.uid).get()
+
+				if (userExist.exists) {
+
+					dispatch({ type: 'LOGIN_SUCCESS' })
+
+				} else {
+
+					user.sendEmailVerification()
+						.then(function () {
+							dispatch({ type: 'SIGNUP_SUCCESS' });
+							return firestore.collection('users').doc(user.uid).set({
+								firstName: user.displayName,
+								initials: user.displayName[0] + user.displayName[1],
+								isPro: false,
+								photoURL: user.photoURL,
+								isProPremium: false,
+								emailVerified: false
+							})
+						}).catch(err => {
+							dispatch({ type: 'SIGNUP_ERROR', err })
+						})
 
 
+				}
 
+				// console.log('fb', user);
 
-
-
-
-
-
-
-
+			}).catch(err => {
+				dispatch({ type: 'LOGIN_ERROR', err })
+			})
+	}
+}
 
 export const signUpClientWithFacebook = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
@@ -94,25 +128,43 @@ export const signUpClientWithFacebook = (newUser) => {
 		const fb = new firebase.auth.FacebookAuthProvider()
 		// console.log('su w/ fb', newUser, fb )
 		firebase.auth().signInWithPopup(fb)
-			.then(({ user }) => {
-				// console.log('fb', user);
-				user.sendEmailVerification()
-					.then(function () {
-						dispatch({ type: 'SIGNUP_SUCCESS' });
-						return firestore.collection('users').doc(user.uid).set({
-							firstName: user.displayName,
-							initials: user.displayName[0] + user.displayName[1],
-							isPro: false,
-							photoURL: user.photoURL,
-							isProPremium: false,
-							emailVerified: false
+			.then(async ({ user }) => {
+
+				console.log(user.uid)
+				const userExist = await db.collection('users').doc(user.uid).get()
+
+				if (userExist.exists) {
+
+					dispatch({ type: 'LOGIN_SUCCESS' })
+
+				} else {
+
+					user.sendEmailVerification()
+						.then(function () {
+							dispatch({ type: 'SIGNUP_SUCCESS' });
+							return firestore.collection('users').doc(user.uid).set({
+								firstName: user.displayName,
+								initials: user.displayName[0] + user.displayName[1],
+								isPro: false,
+								photoURL: user.photoURL,
+								isProPremium: false,
+								emailVerified: false
+							})
+						}).catch(err => {
+							dispatch({ type: 'SIGNUP_ERROR', err })
 						})
-					})
+
+
+				}
+
+				// console.log('fb', user);
+
 			}).catch(err => {
-				dispatch({ type: 'SIGNUP_ERROR', err })
+				dispatch({ type: 'LOGIN_ERROR', err })
 			})
 	}
 }
+
 
 export const signUpClientWithGoogle = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
@@ -121,35 +173,125 @@ export const signUpClientWithGoogle = (newUser) => {
 		const google = new firebase.auth.GoogleAuthProvider()
 		// console.log('su w/ fb', newUser, fb )
 		firebase.auth().signInWithPopup(google)
-			.then((result) => {
+			.then(async (result) => {
 				console.log('google', result);
+				console.log(result.user.uid)
+				const userExist = await db.collection('users').doc(result.user.uid).get()
+				// console.log(userExist.exists)
+				if (userExist.exists) {
+					console.log(userExist)
+					dispatch({ type: 'LOGIN_SUCCESS' })
+				} else {
+					var token = result.credential.accessToken
+					var user = result.user
+					var user_id = result.user.uid
+					var user_first_name = result.additionalUserInfo.profile.given_name
+					var user_last_name = result.additionalUserInfo.profile.family_name
+					var user_image_url = result.additionalUserInfo.profile.picture
+					var user_creation_time = result.user.creationTime
 
-				var token = result.credential.accessToken
-				var user = result.user
-				var user_id = result.user.uid
-				var user_first_name = result.additionalUserInfo.profile.given_name
-				var user_last_name = result.additionalUserInfo.profile.family_name
-				var user_image_url = result.additionalUserInfo.profile.picture
-				var user_creation_time = result.user.creationTime
-
-				user.sendEmailVerification()
-					.then(function () {
-						dispatch({ type: 'SIGNUP_SUCCESS' });
-						return firestore.collection('users').doc(user_id).set({
-							firstName: user_first_name,
-							lastName: user_last_name,
-							initials: user_first_name[0] + user_last_name[0],
-							isPro: false,
-							photoURL: user_image_url,
-							isProPremium: false,
-							emailVerified: false
+					user.sendEmailVerification()
+						.then(function () {
+							dispatch({ type: 'SIGNUP_SUCCESS' });
+							return firestore.collection('users').doc(user_id).set({
+								firstName: user_first_name,
+								lastName: user_last_name,
+								initials: user_first_name[0] + user_last_name[0],
+								isPro: false,
+								photoURL: user_image_url,
+								isProPremium: false,
+								emailVerified: false
+							})
+						}).catch(err => {
+							dispatch({ type: 'SIGNUP_ERROR', err })
 						})
-					})
+				}
 			}).catch(err => {
-				dispatch({ type: 'SIGNUP_ERROR', err })
+				dispatch({ type: 'LOGIN_ERROR', err })
 			})
 	}
 }
+
+export const signInClientWithGoogle = (newUser) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		const google = new firebase.auth.GoogleAuthProvider()
+		// console.log('su w/ fb', newUser, fb )
+		firebase.auth().signInWithPopup(google)
+			.then(async (result) => {
+				console.log('google', result);
+				console.log(result.user.uid)
+
+				const userExist = await db.collection('users').doc(result.user.uid).get()
+				console.log(userExist.exists)
+				if (userExist.exists) {
+					// console.log(userExist)
+					dispatch({ type: 'LOGIN_SUCCESS' })
+				} else {
+					var token = result.credential.accessToken
+					var user = result.user
+					var user_id = result.user.uid
+					var user_first_name = result.additionalUserInfo.profile.given_name
+					var user_last_name = result.additionalUserInfo.profile.family_name
+					var user_image_url = result.additionalUserInfo.profile.picture
+					var user_creation_time = result.user.creationTime
+					user.sendEmailVerification()
+						.then(function () {
+							dispatch({ type: 'SIGNUP_SUCCESS' });
+							return firestore.collection('users').doc(user_id).set({
+								firstName: user_first_name,
+								lastName: user_last_name,
+								initials: user_first_name[0] + user_last_name[0],
+								isPro: false,
+								photoURL: user_image_url,
+								isProPremium: false,
+								emailVerified: false
+							})
+						}).catch(err => {
+							dispatch({ type: 'SIGNUP_ERROR', err })
+						})
+				}
+			}).catch(err => {
+				dispatch({ type: 'LOGIN_ERROR', err })
+			})
+	}
+}
+
+
+export const ClientToPro = (newUser) => {
+	return (dispatch, getState, { getFirebase, getFirestore }) => {
+		const firebase = getFirebase()
+		const firestore = getFirestore()
+		// console.log('in action', newUser);
+		const userID = getState().firebase.auth.uid
+		// console.log(newUser)
+		// console.log(userID)
+		firestore.collection('users').doc(userID).set({
+			phoneNumber: newUser.phoneNumber,
+			personalCity: newUser.city,
+			personalState: newUser.state,
+			personalZip: newUser.zip,
+			isPro: true,
+			isProPremium: false,
+			isApproved: false,
+			onboardingCompleted: false,
+			proInteractions: [],
+			uid: userID,
+			professions: {
+				chef: newUser.professionChef,
+				fitnessTrainer: newUser.professionFitnessTrainer,
+				massageTherapist: newUser.professionMassageTherapist,
+				nutritionist: newUser.professionNutritionist
+			}
+		}, { merge: true })
+
+		// dispatch({ type: 'SIGNUP_SUCCESS' })
+
+
+	}
+}
+
 
 export const signUpPro = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
@@ -200,70 +342,70 @@ export const signUpPro = (newUser) => {
 	}
 }
 
-export const completeOnboarding = (newInfo,isDeclined) => {
+export const completeOnboarding = (newInfo, isDeclined) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
 		const userID = getState().firebase.auth.uid
 		const currentUser = firebase.auth().currentUser;
 
-		
+
 		console.log(isDeclined)
-if(isDeclined){
-	console.log("resubmit")
-//resubmit
-firestore.collection('users').doc(userID).update({
-	...newInfo,
-	declineMessage:"",
-	reSubmit:true,
-	declineMessage:"",
-	isDeclined:false
+		if (isDeclined) {
+			console.log("resubmit")
+			//resubmit
+			firestore.collection('users').doc(userID).update({
+				...newInfo,
+				declineMessage: "",
+				reSubmit: true,
+				declineMessage: "",
+				isDeclined: false
 
-})
-	.then(function () {
-		// console.log("Booking successfully cancelled!");
-	//	currentUser.sendEmailVerification().then(function () {
-			// Email sent.
-			dispatch({ type: 'CLOSE_INQUIRY', newInfo });
-		//}).catch(function (error) {
-			// An error happened.
-	//		console.log('error');
-	//	});
-	})
-	.catch(function (error) {
-		// The document probably doesn't exist.
-		// console.error("Error cancelling document: ", error);
-		dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
-	})
-}else{
-//firstsubmit
-console.log("first submit")
-firestore.collection('users').doc(userID).update({
-	...newInfo,
-	declineMessage:""
-})
-	.then(function () {
-		// console.log("Booking successfully cancelled!");
-	//	currentUser.sendEmailVerification().then(function () {
-			// Email sent.
-			dispatch({ type: 'CLOSE_INQUIRY', newInfo });
-		//}).catch(function (error) {
-			// An error happened.
-	//		console.log('error');
-	//	});
-	})
-	.catch(function (error) {
-		// The document probably doesn't exist.
-		// console.error("Error cancelling document: ", error);
-		dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
-	})
-
-
-}
+			})
+				.then(function () {
+					// console.log("Booking successfully cancelled!");
+					//	currentUser.sendEmailVerification().then(function () {
+					// Email sent.
+					dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+					//}).catch(function (error) {
+					// An error happened.
+					//		console.log('error');
+					//	});
+				})
+				.catch(function (error) {
+					// The document probably doesn't exist.
+					// console.error("Error cancelling document: ", error);
+					dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
+				})
+		} else {
+			//firstsubmit
+			console.log("first submit")
+			firestore.collection('users').doc(userID).update({
+				...newInfo,
+				declineMessage: ""
+			})
+				.then(function () {
+					// console.log("Booking successfully cancelled!");
+					//	currentUser.sendEmailVerification().then(function () {
+					// Email sent.
+					dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+					//}).catch(function (error) {
+					// An error happened.
+					//		console.log('error');
+					//	});
+				})
+				.catch(function (error) {
+					// The document probably doesn't exist.
+					// console.error("Error cancelling document: ", error);
+					dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
+				})
 
 
+		}
 
-	
+
+
+
 	}
 }
 
@@ -274,41 +416,41 @@ export const completeOnboardingClient = (newInfo) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
 		const userID = getState().firebase.auth.uid
-		
-
-		
-		
-
-//firstsubmit
-console.log("first submit")
-firestore.collection('users').doc(userID).update({
-	...newInfo,
-	isOnboardingClientCompleted:true
-	
-	
-})
-	.then(function () {
-		// console.log("Booking successfully cancelled!");
-	//	currentUser.sendEmailVerification().then(function () {
-			// Email sent.
-			dispatch({ type: 'CLOSE_INQUIRY', newInfo });
-		//}).catch(function (error) {
-			// An error happened.
-	//		console.log('error');
-	//	});
-	})
-	.catch(function (error) {
-		// The document probably doesn't exist.
-		// console.error("Error cancelling document: ", error);
-		dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
-	})
 
 
 
 
 
+		//firstsubmit
+		console.log("first submit")
+		firestore.collection('users').doc(userID).update({
+			...newInfo,
+			isOnboardingClientCompleted: true
 
-	
+
+		})
+			.then(function () {
+				// console.log("Booking successfully cancelled!");
+				//	currentUser.sendEmailVerification().then(function () {
+				// Email sent.
+				dispatch({ type: 'CLOSE_INQUIRY', newInfo });
+				//}).catch(function (error) {
+				// An error happened.
+				//		console.log('error');
+				//	});
+			})
+			.catch(function (error) {
+				// The document probably doesn't exist.
+				// console.error("Error cancelling document: ", error);
+				dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
+			})
+
+
+
+
+
+
+
 	}
 }
 
@@ -349,28 +491,28 @@ export const onboardingAgain = () => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
 		const user = firebase.auth().currentUser
-		const firestore=getFirestore()
+		const firestore = getFirestore()
 		// console.log(user);
 		firestore.collection('users').doc(user.uid).update({
-			onboardingCompleted:false
+			onboardingCompleted: false
 		})
 			.then(function () {
 				// console.log("Booking successfully cancelled!");
-			//	currentUser.sendEmailVerification().then(function () {
-					// Email sent.
-					console.log("onboarding : false")
+				//	currentUser.sendEmailVerification().then(function () {
+				// Email sent.
+				console.log("onboarding : false")
 				//}).catch(function (error) {
-					// An error happened.
-			//		console.log('error');
-			//	});
+				// An error happened.
+				//		console.log('error');
+				//	});
 			})
 			.catch(function (error) {
 				// The document probably doesn't exist.
 				// console.error("Error cancelling document: ", error);
 				console.log(error)
 			})
-		
-		}
+
+	}
 
 }
 
@@ -425,23 +567,23 @@ export const approveProfile = (proUID) => {
 		firestore.collection('users').doc(userID).update({
 			isApproved: true,
 		}).then(async () => {
-		
-
-	const ref=await firestore.collection('users').doc(userID).get()
- 
-	let data=ref.data()
-	
-	let phoneNumber=`+1${data.phoneNumber}`
-	console.log("phonenumber",phoneNumber)
-	let firstName=data.firstName
-	console.log(firstName)
-
-		
-			
 
 
-		
-		// change for production release
+			const ref = await firestore.collection('users').doc(userID).get()
+
+			let data = ref.data()
+
+			let phoneNumber = `+1${data.phoneNumber}`
+			console.log("phonenumber", phoneNumber)
+			let firstName = data.firstName
+			console.log(firstName)
+
+
+
+
+
+
+			// change for production release
 
 			let message_body = encodeURI(`${firstName}, your profile has been approved and is now searchable on ChooseToBeYou.com`) // Update the message
 			let from_number = encodeURI("+17865749377") // Update from number
@@ -463,21 +605,12 @@ export const approveProfile = (proUID) => {
 
 		}).catch((error) => {
 			console.log('nah');
-			
+
 		})
 	}
 }
 
-
-
-
-
-
-
-
-
-
-export const declineProfile = (proUID,message) => {
+export const declineProfile = (proUID, message) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firestore = getFirestore()
 		const userID = proUID
@@ -486,8 +619,8 @@ export const declineProfile = (proUID,message) => {
 		console.log(message)
 		firestore.collection('users').doc(userID).update({
 			isApproved: false,
-			declineMessage:message,
-			isDeclined:true
+			declineMessage: message,
+			isDeclined: true
 		}).then(() => {
 			console.log('success');
 			dispatch({ type: 'CREATE_INTERACTION', proUID });

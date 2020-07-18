@@ -6,15 +6,11 @@
 	margin: 40px;
 }
 
-.alertDialog{
-
-	color:red;
-	text-align: center;
-}
-
-
 .dashboard {
 	&__head {
+	}
+	&__head-goal {
+		color: $green;
 	}
 	&__glance {
 		background-color: $gray-lighter;
@@ -69,6 +65,10 @@
 	&__city {
 		@extend .text--sm;
 		font-weight: bold;
+		text-transform: capitalize;
+	}
+	&__description {
+		text-transform: capitalize;
 	}
 }
 
