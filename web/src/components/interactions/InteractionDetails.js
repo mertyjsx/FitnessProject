@@ -168,7 +168,9 @@ const InteractionDetails = (props) => {
 						</div>
 						<div className="col col--5">
 
-							<InteractionCall iid={iid} interaction={interaction} auth={auth} />
+							{interaction.interactionType === 'booking' && interaction.status === 'active' && (
+								<InteractionCall iid={iid} interaction={interaction} auth={auth} />
+							)}
 
 							{interaction.ratingCompleted === false && interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && (
 								<div className="rating">

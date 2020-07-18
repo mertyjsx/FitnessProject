@@ -1,53 +1,18 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
 	faFacebookF, faGoogle,
-
-
-
 	faInstagram,
 	faPinterestP, faTwitter,
 	faYoutube
 } from '@fortawesome/free-brands-svg-icons';
 import {
 	faBook, faCheckCircle,
-
-
-
-
-
-	faChevronDown, faDollarSign,
-
-
-
-	faFile, faFilter, faGrin,
-
-
-
-
-
-
-
-
-
+	faChevronDown, faCompressArrowsAlt,
+	faDollarSign,
+	faExpandArrowsAlt, faFile, faFilter, faGrin,
 	faHandPeace, faHandshake, faList,
-
-
-
-
-
-
-
-
-
 	faPencilAlt, faQuoteLeft, faStar, faStar as faStarRegular, faStar as faStarSolid, faStarHalfAlt,
-
-
-
-
-
-	faTimesCircle, faUser,
-
-
+	faTimes, faTimesCircle, faUser,
 	faUserCheck, faUsers
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -69,8 +34,11 @@ library.add(
 	faUsers,
 	faDollarSign,
 	faCheckCircle,
+	faTimes,
 	faTimesCircle,
 	faBook,
+	faCompressArrowsAlt,
+	faExpandArrowsAlt,
 	faPencilAlt,
 	faHandshake,
 	faHandPeace,

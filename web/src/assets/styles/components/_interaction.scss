@@ -147,3 +147,20 @@ $user-image-size: 80px;
 		margin-bottom: $gutter;
 	}
 }
+
+.call-status {
+	margin-top: $gutter/2;
+}
+
+.chat {
+	&__video {
+		width: 100%;
+		height: auto;
+		background-color: $gray-light;
+		background-image: url(../../images/ellipsis.gif);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: 20px;
+		border: $theme-black solid 1px;
+	}
+}
