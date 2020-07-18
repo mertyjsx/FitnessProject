@@ -604,10 +604,11 @@ class Booking extends Component {
 								content={(
 									<div style={{ textTransform: 'none' }}>
 										<h2>Complete Booking</h2>
-										<p>Your total of ${this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
+										<p>Your total of ${this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
 										<p>Please choose your preferred method of payment below.</p>
 										<PayPalButton
-											amount={this.calculateTotal()}
+											// amount={this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()}
+											amount={1} // testing
 											shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
 											onSuccess={(details, data) => {
 												// alert("Transaction completed by " + details.payer.name.given_name);
