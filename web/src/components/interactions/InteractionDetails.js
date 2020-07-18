@@ -19,6 +19,7 @@ import { renderProfileImage } from '../helpers/HelpersProfile'
 import Loading from '../modules/Loading'
 import GetSingleReview from '../rating/GetSingleReview'
 import SetRating from '../rating/SetRating'
+import InteractionCall from './InteractionCall'
 import InteractionMessages from './InteractionMessages'
 
 const InteractionDetails = (props) => {
@@ -167,7 +168,7 @@ const InteractionDetails = (props) => {
 						</div>
 						<div className="col col--5">
 
-							{/* STILL WORKING <InteractionCall iid={iid} interaction={interaction} auth={auth}/> */}
+							<InteractionCall iid={iid} interaction={interaction} auth={auth} />
 
 							{interaction.ratingCompleted === false && interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && (
 								<div className="rating">
