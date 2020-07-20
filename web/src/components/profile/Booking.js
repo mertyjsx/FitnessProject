@@ -13,6 +13,7 @@ import spinner from '../../assets/images/spinner.gif';
 import PaypalConfig from '../../config/paypal.json';
 import { createInteraction } from '../../store/actions/interactionActions';
 import Modal from '../modal/Modal';
+import AutoComplete from "./AutoComplete"
 
 
 class Booking extends Component {
@@ -42,7 +43,9 @@ class Booking extends Component {
 			To: 25,
 			spesific: [],
 			timesExlude: [],
-			callType: ""
+			callType: "",
+			adressType:"onFile",
+			googleAdress:"there is no google adress "
 		}
 	}
 
@@ -79,7 +82,13 @@ class Booking extends Component {
 			callType: e.target.value
 		})
 	}
+	handleAdressType=(e)=>{
 
+		this.setState({
+			adressType: e.target.value
+		})
+
+	}
 
 	getHours = () => {
 
@@ -400,6 +409,16 @@ class Booking extends Component {
 			startTime: time
 		});
 	}
+	
+
+
+	onSelectAdress=(val)=>{
+
+this.setState({
+	googleAdress:val
+})
+
+	}
 
 	renderStartTime = () => {
 
@@ -428,6 +447,10 @@ class Booking extends Component {
 		this.setState({
 			total: this.calculateTotal(),
 			callType: this.state.callType,
+			
+			adressType:this.state.adressType,
+	googleAdress:this.state.googleAdress,
+
 			formSubmitting: true,
 			clientFullAdress: this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
 			proBusinessName: this.props.pro.businessName,
@@ -503,7 +526,7 @@ class Booking extends Component {
 		return total + 1
 	}
 	render() {
-		console.log(this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip)
+	
 
 		return (
 			<div className={`profile__booking ${this.state.formSubmitting ? 'profile__booking--submitting' : ''}`}>
@@ -534,6 +557,21 @@ class Booking extends Component {
 								</select>
 							</Form.Field>
 						}
+						{this.state.callType === "outCall" &&
+							<Form.Field >
+								<select name="adressType" id="adressType" onChange={this.handleAdressType} required>
+									
+									<option value="onFile">personal address on file</option>
+									<option value="otherAdress">other address/landmark</option>
+								</select>
+							</Form.Field>
+						}
+							{this.state.adressType === "otherAdress" &&
+							<Form.Field >
+						<AutoComplete onSelected={this.onSelectAdress}></AutoComplete>
+							</Form.Field>
+						}
+
 
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>
