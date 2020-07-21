@@ -30,12 +30,23 @@ class SetRating extends Component {
 
 	onSubmit = (e) => {
 		e.preventDefault()
-		this.props.completeReview(this.state)
+
+if(this.props.profile.isPro){
+	console.log(this.props.interaction.clientPhoneNumber)
+	this.props.completeReview(this.state,this.props.interaction.clientPhoneNumber)
+	//I am pro so I sent review to Client
+}else{
+	this.props.completeReview(this.state,this.props.interaction.proPhoneNumber)
+//I am Client so I sent review to Pro
+}
+
+		
 	}
 
 	render() {
 		const { rating } = this.state;
-		const { iid } = this.props;
+		const { iid,interaction} = this.props;
+		console.log(interaction)
 
 		return (
 			<div className="rating__stars">
@@ -70,7 +81,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		completeReview: (onboard) => dispatch(completeReview(onboard))
+		completeReview: (onboard,phoneNumber) => dispatch(completeReview(onboard,phoneNumber))
 	}
 }
 

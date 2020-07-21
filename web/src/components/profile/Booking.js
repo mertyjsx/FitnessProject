@@ -452,6 +452,8 @@ this.setState({
 	googleAdress:this.state.googleAdress,
 
 			formSubmitting: true,
+			clientPhoneNumber:this.props.profile.phoneNumber,
+			proPhoneNumber:this.props.pro.phoneNumber,
 			clientFullAdress: this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
 			proBusinessName: this.props.pro.businessName,
 			proFullAddress: this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,

@@ -12,6 +12,7 @@ export const createInteraction = (interaction) => {
 		if (!interaction.proBusinessName) {
 			interaction.proBusinessName = '';
 		}
+		console.log(interaction)
 
 		firestore.collection('interactions').add({
 			...interaction,

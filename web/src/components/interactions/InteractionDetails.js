@@ -176,7 +176,7 @@ const InteractionDetails = (props) => {
 								<div className="rating">
 									<div className="rating__inner">
 										<h2 className="text--uppercase text--bold">Leave a review for {interaction.proFirstName} {interaction.proLastName[0]}.</h2>
-										<SetRating iid={iid} />
+										<SetRating iid={iid}  interaction={interaction}/>
 									</div>
 								</div>
 							)}
