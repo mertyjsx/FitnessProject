@@ -149,17 +149,25 @@ class Onboarding extends Component {
 									<h2>Media</h2>
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<div>
+									<div style={{width:"100%",height:100}}>
 										<h2>Profile Image</h2>
 										<p>Upload your profile image below.</p>
+										
 									</div>
+									<img 
+									style={{width:300,height:300,border:"1px solid black"}}
+									 src={profile.photoURL}></img>
 									<ImageUpload />
 								</Form.Field>
 								<Form.Field className={'field--half'}>
-									<div>
+									<div style={{width:"100%",height:100}}>
 										<h2>License Image</h2>
 										<p>Upload an image of any certification you'd like displayed in your profile.</p>
+									
 									</div>
+									<img 
+									style={{width:300,height:300,border:"1px solid black"}}
+									></img>
 									<LicenseImageUpload />
 								</Form.Field>
 							</div>

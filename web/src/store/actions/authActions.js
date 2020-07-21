@@ -321,6 +321,7 @@ export const signUpPro = (newUser) => {
 						isProPremium: false,
 						isApproved: false,
 						uid: response.user.uid,
+						isOnboardingClientCompleted:true,
 						onboardingCompleted: false,
 						proInteractions: [],
 						professions: {

@@ -31,13 +31,13 @@ class SetRating extends Component {
 	onSubmit = (e) => {
 		e.preventDefault()
 
-if(this.props.profile.isPro){
+if(this.props.profile.uid===this.props.interaction.proUID){
 	console.log(this.props.interaction.clientPhoneNumber)
 	this.props.completeReview(this.state,this.props.interaction.clientPhoneNumber)
-	//I am pro so I sent review to Client
+	//I am pro of this interaction so I sent review to Client of this interaction
 }else{
 	this.props.completeReview(this.state,this.props.interaction.proPhoneNumber)
-//I am Client so I sent review to Pro
+//I am Client of this interaction so I sent review to Pro of this interaction
 }
 
 		

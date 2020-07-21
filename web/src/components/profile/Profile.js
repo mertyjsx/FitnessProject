@@ -231,8 +231,13 @@ const Profile = (props, state) => {
 
 						</div>
 						<div className={`col col--4`}>
-							{auth.uid ?
-								<Booking pro={user} user={auth} />
+							{auth.uid ?(
+user.uid!==auth.uid&&(<Booking pro={user} user={auth} />)
+							) 
+								
+							
+							
+								
 								:
 								(
 									<div style={{ border: '#cecece solid 1px' }}>
