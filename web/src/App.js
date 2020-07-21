@@ -44,12 +44,14 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      splash: false
+      splash: false,
+      calling:false
     }
   }
-
+  
   componentDidMount() {
     loadReCaptcha();
+
   }
 
   render() {
@@ -58,7 +60,9 @@ class App extends Component {
         <ScrollToTop />
         <div className="App">
           <Navbar splash={this.state.splash} />
-
+{this.state.calling&&
+<div>Calling.....</div>
+}
           <Switch>
             <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
             <Route exact path="/social" component={Social} />

@@ -254,3 +254,29 @@ export const updateSeen = (iid) => {
 		})
 	}
 }
+
+export const Calling = (iid,payload) => {
+	return (dispatch, getState, { getFirestore }) => {
+		console.log('Update Seen by user');
+
+		const firestore = getFirestore()
+		const profile = getState().firebase.profile
+		const userID = getState().firebase.auth.uid
+		// console.log('inside action', iid);
+console.log(iid)
+console.log(payload)
+		firestore.collection('users').doc(iid).update({
+			Calling: payload,
+
+		}).then(function () {
+
+			console.log('Calling');
+			// console.log("Booking successfully cancelled!");
+			dispatch({ type: 'UPDATE_SEEN', iid });
+		}).catch(function (error) {
+			// The document probably doesn't exist.
+			// console.error("Error cancelling document: ", error);
+			dispatch({ type: 'COMPLETED_ERROR', error })
+		})
+	}
+}

@@ -1,8 +1,20 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react';
+import Modal from 'react-modal';
 
 
-class Modal extends Component {
+const customStyles = {
+    content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+    }
+  };
+   
+class Modalreact extends Component {
 
 	constructor(props) {
 		super(props);
@@ -12,38 +24,29 @@ class Modal extends Component {
 		}
 	}
 	
-		
-	componentDidUpdate(prevProps) {
-		
-		if (prevProps !== this.props) {
-			console.log(this.props.call)
-			if(this.props.call)
-	
-				this.setState({modalOpen:this.props.call})
-			}
 			
 	
-		}
+		
 	
 		
 	
 		
 	onModalOpen = (event) => {
-		event.preventDefault();
-		document.body.style.overflow = 'hidden'
+	
+		//this.setState({modalOpen:true})
 	
 		if (this.props.openEvent) this.props.openEvent()
 	}
 
 	onModalClose = (event) => {
-		event && event.preventDefault();
-		document.body.style.overflow = 'unset'
-		
+	
+	
+       // this.setState({modalOpen:false})
 		if (this.props.closeEvent) this.props.closeEvent()
 	}
 
 	toggleFullscreen = (event) => {
-		event && event.preventDefault();
+		
 		// document.body.style.overflow = ''
 		const currentState = this.state.toggleFullscreen;
 		this.setState({
@@ -57,7 +60,11 @@ class Modal extends Component {
 			<div>
 				<button onClick={this.onModalOpen} className={this.props.buttonStyle ? `modal__trigger ${this.props.buttonStyle}` : `modal__trigger`}>{this.props.buttonIcon ? <FontAwesomeIcon icon={["fa", this.props.buttonIcon]} /> : null}{this.props.buttonText}</button>
 
-				<div className={this.state.modalOpen ? `modal modal--active ${this.state.toggleFullscreen ? 'modal--fullscreen' : ''}` : 'modal'}>
+                <Modal
+          isOpen={this.props.isOpen}
+           style={customStyles}
+          contentLabel="Example Modal"
+        >
 					<div className="modal__inner">
 						<div className="modal__btn">
 							{this.props.fullScreenOptions && (
@@ -89,10 +96,10 @@ class Modal extends Component {
 							<button onClick={this.onModalClose} className="button button--secondary " style={{ marginBottom: '10px' }}>View {this.props.View} Pros</button>
 						}
 					</div>
-				</div>
+                    </Modal>
 			</div >
 		)
 	}
 }
 
-export default Modal
+export default Modalreact

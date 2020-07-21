@@ -1,4 +1,7 @@
-const initState = {}
+const initState = {
+
+	calling:false
+}
 
 const interactionReducer = (state = initState, action) => {
 	switch (action.type) {
@@ -32,6 +35,9 @@ const interactionReducer = (state = initState, action) => {
 		case 'COMPLETED_ERROR':
 			console.log('completed error', action.error);
 			return state;
+		case 'calling':
+			console.log('calling', action.payload);
+			return {...state,calling:action.payload}
 		default:
 			return state;
 	}

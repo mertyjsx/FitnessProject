@@ -18,9 +18,10 @@ const Navbar = (props) => {
 	}
 
 	const links = auth.uid ? <SignedInLinks profile={profile} menuActive={toggleMenu} /> : <SignedOutLinks menuActive={toggleMenu} />
-
+console.log(props)
 	return (
 		<header className="header">
+			
 			<div className="container container--full">
 				<div className="row">
 					<div className="col col__2">
@@ -48,6 +49,10 @@ const Navbar = (props) => {
 					</div>
 				</div>
 			</div>
+			{props.profile.Calling&&(
+				<Link to={`/session/${props.profile.Calling}`}
+				style={{width:"100%",fontSize:30,backgroundColor:"green",textAlign:"center",color:"white"}}>Calling Notification !!!</Link>
+			)}
 		</header >
 	)
 }

@@ -6,6 +6,16 @@ import { NavLink } from 'react-router-dom'
 
 
 const SignedOutLinks = (props) => {
+
+
+
+
+
+
+
+
+
+
 	const navClick = () => { props.menuActive(false) }
 
 	return (
