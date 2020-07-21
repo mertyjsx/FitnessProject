@@ -57,7 +57,7 @@ class Modal extends Component {
 			<div>
 				<button onClick={this.onModalOpen} className={this.props.buttonStyle ? `modal__trigger ${this.props.buttonStyle}` : `modal__trigger`}>{this.props.buttonIcon ? <FontAwesomeIcon icon={["fa", this.props.buttonIcon]} /> : null}{this.props.buttonText}</button>
 
-				<div className={this.state.modalOpen ? `modal modal--active ${this.state.toggleFullscreen ? 'modal--fullscreen' : ''}` : 'modal'}>
+				<div className={true ? `modal modal--active ${this.state.toggleFullscreen ? 'modal--fullscreen' : ''}` : 'modal'}>
 					<div className="modal__inner">
 						<div className="modal__btn">
 							{this.props.fullScreenOptions && (

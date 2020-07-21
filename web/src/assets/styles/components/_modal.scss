@@ -3,7 +3,10 @@ $button-close-size: 45px;
 body.dimmed {
 	overflow: hidden;
 }
-
+.modal--fullscreen-new{
+	width: 100%;
+	
+}
 .modals {
 	position: fixed;
 	top: 0;
