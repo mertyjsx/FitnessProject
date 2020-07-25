@@ -6,13 +6,13 @@ import { completeInteractionPayout, getInteractionsForCron, getProForPayout } fr
 
 
 // Real setup //
-// let interactionCompletionTime = 1000 * 60 * 60 * 48 // 48 hours;
-// let payoutDelayTime = 1000 * 60 * 60 * 24 * 7 // 7 days;
+let interactionCompletionTime = 1000 * 60 * 60 * 48 // 48 hours;
+let payoutDelayTime = 1000 * 60 * 60 * 24 * 7 // 7 days;
 // End Real setup //
 
 // Development Setup //
-let interactionCompletionTime = 1000 * 60 * 15 // auto Complete in 15 minutes;
-let payoutDelayTime = 1000 * 60 * 15 // auto payout in 15 minutes;
+// let interactionCompletionTime = 1000 * 60 * 15 // auto Complete in 15 minutes;
+// let payoutDelayTime = 1000 * 60 * 15 // auto payout in 15 minutes;
 // End Development Setup //
 
 let payoutrate = 0.75; // 75%
@@ -48,13 +48,14 @@ class InteractionCron extends React.Component {
 						let pro = data.data()
 
 						if (interaction.total * payoutrate > 0) {
+							// console.log('hgh', interaction.paypalTip ? interaction.total * payoutrate + interaction.paypalTip.amount : interaction.total * payoutrate);
 							paypal_payout_items.push({
 								"recipient_type": "EMAIL",
 								"amount": {
-									"value": interaction.total * payoutrate,
+									"value": interaction.paypalTip ? interaction.total * payoutrate + interaction.paypalTip.amount : interaction.total * payoutrate,
 									"currency": "USD"
 								},
-								"note": "This is a test message", // Update for paypal invoice message
+								"note": "CTBY Payout", // Update for paypal invoice message
 								"sender_item_id": new Date().getTime(),
 								"receiver": pro.preferredPaypalEmail ? pro.preferredPaypalEmail : pro.email,
 								"notification_language": "en-US",

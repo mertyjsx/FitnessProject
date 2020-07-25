@@ -199,3 +199,25 @@ textarea {
 		padding-top: $gutter;
 	}
 }
+
+.tip {
+	width: 100%;
+	margin-bottom: $gutter*3;
+	&__inner {
+
+	}
+	form {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
+	.rating__message {
+		width: 69%;
+	}
+	.rating__button {
+		width: 30%;
+	}
+	.button {
+		width: 100%;
+	}
+}

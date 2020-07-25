@@ -108,3 +108,11 @@
 		}
 	}
 }
+
+.autocomplete-dropdown-container {
+	text-transform: none;
+}
+.suggestion-item span {
+	// display: block;
+	// padding: $gutter;
+}

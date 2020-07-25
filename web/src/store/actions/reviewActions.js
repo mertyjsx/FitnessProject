@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { db } from "../../config/fbConfig";
 
 
-export const completeReview = (review,phoneNumber) => {
+export const completeReview = (review, phoneNumber) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		// Make async call to db
 
@@ -11,11 +10,11 @@ export const completeReview = (review,phoneNumber) => {
 		// const authorId = getState().firebase.auth.uid
 		const twilio = require('twilio');
 		const twilioConfig = require('../../config/twilio.json')
-		
+
 		let phoneNumber0 = `+1${phoneNumber}`
 		console.log("phonenumber", phoneNumber)
-	
-	
+
+
 		firestore.collection('reviews').doc(review.ratingID).set({
 			...review,
 			reviewerImage: profile.photoURL,
@@ -31,23 +30,23 @@ export const completeReview = (review,phoneNumber) => {
 			//sending text message
 
 			let message_body = encodeURI(`You got a ${review.rating} star review by ${profile.firstName} on ChooseToBeYou.com`) // Update the message
-	
+
 			let from_number = encodeURI("+17865749377") // Update from number
 			let to_number = encodeURI(phoneNumber0) // Pro or Client number
-		
+
 			axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
-			`Body=${message_body}&From=${from_number}&To=${to_number}`,
-			{
-				auth: {
-					username: twilioConfig.account_sid,
-					password: twilioConfig.auth_token
-				},
-				headers: {
-					accept: "application/json"
-				}
-			}).then(response => {
-				console.log(response)
-			})
+				`Body=${message_body}&From=${from_number}&To=${to_number}`,
+				{
+					auth: {
+						username: twilioConfig.account_sid,
+						password: twilioConfig.auth_token
+					},
+					headers: {
+						accept: "application/json"
+					}
+				}).then(response => {
+					console.log(response)
+				})
 
 
 

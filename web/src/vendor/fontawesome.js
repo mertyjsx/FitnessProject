@@ -11,7 +11,8 @@ import {
 	faDollarSign,
 	faExpandArrowsAlt, faFile, faFilter, faGrin,
 	faHandPeace, faHandshake, faList,
-	faPencilAlt, faQuoteLeft, faStar, faStar as faStarRegular, faStar as faStarSolid, faStarHalfAlt,
+	faPencilAlt, faQuestionCircle,
+	faQuoteLeft, faStar, faStar as faStarRegular, faStar as faStarSolid, faStarHalfAlt,
 	faTimes, faTimesCircle, faUser,
 	faUserCheck, faUsers
 } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +28,7 @@ library.add(
 	faGrin,
 	faFile,
 	faQuoteLeft,
+	faQuestionCircle,
 	faFilter,
 	faList,
 	faYoutube,

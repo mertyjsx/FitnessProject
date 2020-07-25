@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { addDays, setHours, setMinutes } from "date-fns";
 import moment from 'moment';
 import React, { Component } from 'react';
@@ -13,7 +14,7 @@ import spinner from '../../assets/images/spinner.gif';
 import PaypalConfig from '../../config/paypal.json';
 import { createInteraction } from '../../store/actions/interactionActions';
 import Modal from '../modal/Modal';
-import AutoComplete from "./AutoComplete"
+import AutoComplete from "./AutoComplete";
 
 
 class Booking extends Component {
@@ -44,8 +45,8 @@ class Booking extends Component {
 			spesific: [],
 			timesExlude: [],
 			callType: "",
-			adressType:"onFile",
-			googleAdress:"there is no google adress "
+			adressType: "onFile",
+			googleAdress: "there is no google adress "
 		}
 	}
 
@@ -82,7 +83,7 @@ class Booking extends Component {
 			callType: e.target.value
 		})
 	}
-	handleAdressType=(e)=>{
+	handleAdressType = (e) => {
 
 		this.setState({
 			adressType: e.target.value
@@ -409,14 +410,14 @@ class Booking extends Component {
 			startTime: time
 		});
 	}
-	
 
 
-	onSelectAdress=(val)=>{
 
-this.setState({
-	googleAdress:val
-})
+	onSelectAdress = (val) => {
+
+		this.setState({
+			googleAdress: val
+		})
 
 	}
 
@@ -447,13 +448,11 @@ this.setState({
 		this.setState({
 			total: this.calculateTotal(),
 			callType: this.state.callType,
-			
-			adressType:this.state.adressType,
-	googleAdress:this.state.googleAdress,
-
+			adressType: this.state.adressType,
+			googleAdress: this.state.googleAdress,
 			formSubmitting: true,
-			clientPhoneNumber:this.props.profile.phoneNumber,
-			proPhoneNumber:this.props.pro.phoneNumber,
+			clientPhoneNumber: this.props.profile.phoneNumber,
+			proPhoneNumber: this.props.pro.phoneNumber,
 			clientFullAdress: this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
 			proBusinessName: this.props.pro.businessName,
 			proFullAddress: this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
@@ -528,7 +527,7 @@ this.setState({
 		return total + 1
 	}
 	render() {
-	
+
 
 		return (
 			<div className={`profile__booking ${this.state.formSubmitting ? 'profile__booking--submitting' : ''}`}>
@@ -562,15 +561,15 @@ this.setState({
 						{this.state.callType === "outCall" &&
 							<Form.Field >
 								<select name="adressType" id="adressType" onChange={this.handleAdressType} required>
-									
-									<option value="onFile">personal address on file</option>
-									<option value="otherAdress">other address/landmark</option>
+
+									<option value="onFile">Personal address on file</option>
+									<option value="otherAdress">Other address/landmark</option>
 								</select>
 							</Form.Field>
 						}
-							{this.state.adressType === "otherAdress" &&
+						{this.state.adressType === "otherAdress" &&
 							<Form.Field >
-						<AutoComplete onSelected={this.onSelectAdress}></AutoComplete>
+								<AutoComplete onSelected={this.onSelectAdress}></AutoComplete>
 							</Form.Field>
 						}
 
@@ -631,7 +630,25 @@ this.setState({
 								<h3 className="text--uppercase">Price</h3>
 								<p><span className="text--lowercase">${this.state.rate} x {this.calculateDuration()} hours</span> <span>${this.calculateTotal()}</span></p>
 								{this.state.callType === "outCall" &&
-									<p><span>Pro Travel Fee</span> <span>$1</span></p>
+									<p><span className="text--capitalize" style={{ display: 'flex' }}>Fees <Modal
+										buttonText={<FontAwesomeIcon icon="question-circle" />}
+										buttonStyle={`link`}
+										content={(
+											<div style={{ textTransform: 'none' }}>
+												<h2>Detailed Fees</h2>
+												<table class="table">
+													<tr>
+														<th>Fee Type</th>
+														<th>Cost</th>
+													</tr>
+													<tr>
+														<td>Travel Fee</td>
+														<td>$1</td>
+													</tr>
+												</table>
+											</div>
+										)}
+									/></span> <span>$1</span></p>
 								}
 								<p className="field--review-total text--uppercase text--bold">Total<span>${this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()}</span></p>
 							</div>
