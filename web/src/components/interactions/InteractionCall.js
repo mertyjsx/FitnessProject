@@ -11,7 +11,9 @@ class InteractionCall extends React.Component {
 			isCaller: false,
 			open: false,
 			state: '',
-			io: false
+			io: false,
+			mute:false,
+			stop:false
 		};
 		this.io = false
 		this.peerConnections = []
@@ -93,7 +95,22 @@ class InteractionCall extends React.Component {
 			console.log(stream.getAudioTracks()[1])
 		stream.getAudioTracks()[0].enabled =
 		!(stream.getAudioTracks()[0].enabled);
-	
+		this.setState({mute:!stream.getAudioTracks()[0].enabled})
+		}
+		
+	}
+	videoToggle=()=>{
+		console.log("hello")
+		let video = document.getElementById('current-user-video')
+		
+		let stream = video.srcObject
+		
+		
+		if(stream){
+			
+		stream.getVideoTracks()[0].enabled =
+		!(stream.getVideoTracks()[0].enabled);
+	this.setState({stop:!stream.getVideoTracks()[0].enabled})
 		}
 		
 	}
@@ -444,7 +461,8 @@ class InteractionCall extends React.Component {
 				<div className="col col--12 call-status">
 					{this.statusContent()}
 				</div>
-				<Button onClick={this.muteToggle}>Mute</Button>
+				<Button onClick={this.muteToggle}>{this.state.mute?"unmute":"mute"}</Button>
+				<Button onClick={this.videoToggle}>{this.state.stop?"play":"stop"}</Button>
 			</div>
 		)
 	}
