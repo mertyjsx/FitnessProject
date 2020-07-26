@@ -164,3 +164,40 @@ $user-image-size: 80px;
 		border: $theme-black solid 1px;
 	}
 }
+
+.incoming-call {
+	position: fixed;
+	top: 15vh;
+	right: -50%;
+	background-color: $primary-darker;
+	line-height: 1;
+	padding: 10px;
+	border-left: $gray-dark solid 3px;
+	border-top: $gray-dark solid 1px;
+	border-bottom: $gray-dark solid 1px;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	color: $white;
+	font-size: 16px;
+	transition: 300ms;
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+	z-index: 999999;
+	&:hover {
+		background-color: $primary;
+	}
+	&--calling {
+		right: 0;
+	}
+	.phoning {
+		margin-right: 10px;
+		svg {
+			animation: phonering-alo-circle-img-anim 1s infinite ease-in-out;
+			transform-origin:50% 50%
+		}
+	}
+	span {
+		margin-top: 2px;
+	}
+}

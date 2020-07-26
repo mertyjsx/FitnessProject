@@ -1,9 +1,10 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import imageLogo from '../../assets/images/logo-emblem.png'
 import SignedInLinks from './SignedInLinks'
 import SignedOutLinks from './SignedOutLinks'
-import { connect } from 'react-redux'
-import imageLogo from '../../assets/images/logo-emblem.png'
 
 
 
@@ -18,10 +19,10 @@ const Navbar = (props) => {
 	}
 
 	const links = auth.uid ? <SignedInLinks profile={profile} menuActive={toggleMenu} /> : <SignedOutLinks menuActive={toggleMenu} />
-console.log(props)
+	console.log(props)
 	return (
 		<header className="header">
-			
+
 			<div className="container container--full">
 				<div className="row">
 					<div className="col col__2">
@@ -49,10 +50,13 @@ console.log(props)
 					</div>
 				</div>
 			</div>
-			{props.profile.Calling&&(
-				<Link to={`/session/${props.profile.Calling}`}
-				style={{width:"100%",fontSize:30,backgroundColor:"green",textAlign:"center",color:"white"}}>Calling Notification !!!</Link>
-			)}
+			<Link class={props.profile.Calling ? `incoming-call incoming-call--calling` : `incoming-call`} to={`/session/${props.profile.Calling}`}>
+				<div class="phoning">
+					<div class="phoning__circle"></div>
+					<div class="phoning__circle-fill"></div>
+					<FontAwesomeIcon icon="phone-volume" />
+				</div><span>Incoming Video Call</span>
+			</Link>
 		</header >
 	)
 }

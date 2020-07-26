@@ -11,7 +11,8 @@ import {
 	faDollarSign,
 	faExpandArrowsAlt, faFile, faFilter, faGrin,
 	faHandPeace, faHandshake, faList,
-	faPencilAlt, faQuestionCircle,
+	faPencilAlt, faPhoneVolume,
+	faQuestionCircle,
 	faQuoteLeft, faStar, faStar as faStarRegular, faStar as faStarSolid, faStarHalfAlt,
 	faTimes, faTimesCircle, faUser,
 	faUserCheck, faUsers
@@ -33,6 +34,7 @@ library.add(
 	faList,
 	faYoutube,
 	faUser,
+	faPhoneVolume,
 	faUsers,
 	faDollarSign,
 	faCheckCircle,
