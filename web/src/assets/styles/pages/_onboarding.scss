@@ -22,6 +22,65 @@
 			}
 		}
 	}
+
+	&__step {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__step-image {
+		min-height: 100vh;
+		flex: 1 0 400px;
+		display: flex;
+		background-color: $black;
+		img {
+			opacity: 0.7;
+		}
+	}
+	&__step-content {
+		padding: $gutter*2;
+		flex: 1 0 calc(100% - 400px - #{$gutter*4});
+		position: relative;
+		// height: 100%;
+		overflow: hidden;
+		height: 100vh;
+		min-height: 500px;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	&__step-content-container {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	&__step-content-area {
+		// position: absolute;
+		z-index: 0;
+		padding: $gutter*2 $gutter*6 $gutter*2 $gutter*2;
+		// left: 50%;
+		transition: 500ms;
+		// opacity: 0;
+		// top: 50%;
+		// transform: translateY(-50%);
+		// height: 0;
+		&.active {
+			// z-index: 1;
+			// left: 0;
+			// opacity: 1;
+
+			// height: 100%;
+		}
+		&--1 {
+			position: relative;
+		}
+	}
+
+	&__profile-image {
+
+	}
 }
 
 .uploading {

@@ -95,11 +95,16 @@ class OnboardingClient extends Component {
 						</div>
 						: null}
 
-					<div className="container container--small container--top-bottom-padding">
-						<h1 className="text--bold">Onboarding Client</h1>
-						<h2>Hi <span className="text--capitalize">{profile.firstName}</span>,</h2>
-						<p>Welcome to the onboarding process! Please fill out as much information as possible   <Link to="/contact">Contact us</Link> if you have any questions.</p>
+					<div class="onboarding__step onboarding__step--1 active">
+						<div className="onboarding__step-container">
+							<h1 className="text--bold">Onboarding Client</h1>
+							<h2>Hi <span className="text--capitalize">{profile.firstName}</span>,</h2>
+							<p>Welcome to the onboarding process! Please fill out as much information as possible   <Link to="/contact">Contact us</Link> if you have any questions.</p>
+							<button>Next</button>
+						</div>
+					</div>
 
+					<div className="container container--small container--top-bottom-padding" style={{ display: 'none' }}>
 
 						<Form className="form__secondary" onSubmit={this.handleSubmit}>
 							<h2>Select Interests</h2>
