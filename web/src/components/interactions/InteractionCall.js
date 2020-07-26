@@ -82,9 +82,26 @@ class InteractionCall extends React.Component {
 		this.clearNotification()
 	}
 
+	muteToggle=()=>{
+		console.log("hello")
+		let video = document.getElementById('current-user-video')
+		
+		let stream = video.srcObject
+		
+		
+		if(stream){
+			console.log(stream.getAudioTracks()[1])
+		stream.getAudioTracks()[0].enabled =
+		!(stream.getAudioTracks()[0].enabled);
+	
+		}
+		
+	}
+
 	componentDidUpdate(prevProps) {
 
-		if (prevProps !== this.props) {
+		if (prevProps !== this.props) { 
+
 
 			if (this.props.profile.Calling)
 				this.setState({ open: true, state: "callincoming" })
@@ -427,6 +444,7 @@ class InteractionCall extends React.Component {
 				<div className="col col--12 call-status">
 					{this.statusContent()}
 				</div>
+				<Button onClick={this.muteToggle}>Mute</Button>
 			</div>
 		)
 	}
