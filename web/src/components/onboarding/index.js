@@ -39,8 +39,10 @@ class Onboarding extends Component {
 
 	componentDidMount() {
 		// console.log("hello", this.props.profile.specialties)
+		window.addEventListener('resize', this.renderOnboardingSlider);
 		let specialties = this.props.profile.specialties ? this.props.profile.specialties : {}
 		this.setState({ specialties: specialties })
+
 	}
 
 	componentDidUpdate(prevProps) {
@@ -125,7 +127,30 @@ class Onboarding extends Component {
 		console.log('t', e);
 		this.setState({
 			currentPage: num
+		},()=>{
+			
+			const sliders = document.getElementsByClassName('onboarding__step-content-container');
+			const sliderItemWidth = document.getElementsByClassName(`onboarding__step-content-area--${(num)}`)[0].clientWidth
+			console.log(num-1)
+				console.log(sliderItemWidth)
+
+			
+
+					sliders[0].setAttribute('style', 'transform:' +`translateX(-${(sliderItemWidth*(num-1)+90)}px)`  + '!important;');
+			
+				
+				
+
+
+			
+
+
+
 		})
+
+
+
+
 	}
 
 	goBack = (num, e) => {
@@ -135,6 +160,18 @@ class Onboarding extends Component {
 		// console.log('====================================');
 		this.setState({
 			currentPage: num
+		},()=>{
+
+			const sliders = document.getElementsByClassName('onboarding__step-content-container');
+			const sliderItemWidth = document.getElementsByClassName(`onboarding__step-content-area--${(num)}`)[0].clientWidth
+			console.log(num-1)
+				console.log(sliderItemWidth)
+
+			
+				sliders[0].setAttribute('style', 'transform:' +`translateX(-${(sliderItemWidth*(num-1)+90)}px)`  + '!important;');
+
+			
+
 		})
 	}
 
