@@ -110,6 +110,18 @@ class ProfileUpdate extends Component {
 							<Input id="personalZip" type="text" label="Zip Code" defaultValue={this.props.profile.personalZip} onChange={this.onChange} />
 						</Form.Field>
 					</div>
+					<div className="form__inner" style={{ marginBottom: '50px' }}>
+						<div style={{ marginBottom: '50px' }} className={'col col--12'}></div>
+						<div className="field">
+							<h2>Phone Number</h2>
+						</div>
+						<Form.Field>
+						<input  type="tel" pattern="[0-9]{10}" name="phoneNumber" id="phoneNumber"  defaultValue={this.props.profile.phoneNumber} placeholder="Enter your cell phone (ex. ##########)" onChange={this.onChange} required></input>
+						</Form.Field>
+					
+						
+					</div>
+
 
 					<Form.Field>
 						<Button className={'button button--secondary text--uppercase text--font-secondary text--sm'}>Update Profile</Button>

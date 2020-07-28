@@ -336,6 +336,21 @@ class OnboardingClient extends Component {
 									<Input id="personalZip" type="text" label="Zip Code" defaultValue={this.props.profile.personalZip} onChange={this.onChange} required />
 								</Form.Field>
 							</div>
+							{
+								this.props.profile.googleOrFacebook && (
+									<div className="form__inner">
+										<div style={{ marginBottom: '50px' }} className={'col col--12'}></div>
+										<div className="field">
+											<h2>Phone Number</h2>
+										</div>
+										<Form.Field>
+											<label htmlFor="phoneNumber">Mobile Number <sup className="red">*</sup>(ex. ##########)</label>
+											<input  type="tel" pattern="[0-9]{10}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone (ex. ##########)" onChange={this.onChange} required></input>
+										</Form.Field>
+									</div>
+
+								)
+							}
 
 							<div className={'form__inner--2'}>
 								<div className="form__inner">

@@ -104,7 +104,8 @@ export const signInClientWithFacebook = (newUser) => {
 								isPro: false,
 								photoURL: user.photoURL,
 								isProPremium: false,
-								emailVerified: false
+								emailVerified: false,
+								googleOrFacebook:true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -148,7 +149,8 @@ export const signUpClientWithFacebook = (newUser) => {
 								isPro: false,
 								photoURL: user.photoURL,
 								isProPremium: false,
-								emailVerified: false
+								emailVerified: false,
+								googleOrFacebook:true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -200,7 +202,8 @@ export const signUpClientWithGoogle = (newUser) => {
 								isPro: false,
 								photoURL: user_image_url,
 								isProPremium: false,
-								emailVerified: false
+								emailVerified: false,
+								googleOrFacebook:true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -246,7 +249,8 @@ export const signInClientWithGoogle = (newUser) => {
 								isPro: false,
 								photoURL: user_image_url,
 								isProPremium: false,
-								emailVerified: false
+								emailVerified: false,
+								googleOrFacebook:true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
