@@ -50,10 +50,10 @@ const Navbar = (props) => {
 					</div>
 				</div>
 			</div>
-			<Link class={props.profile.Calling ? `incoming-call incoming-call--calling` : `incoming-call`} to={`/session/${props.profile.Calling}`}>
-				<div class="phoning">
-					<div class="phoning__circle"></div>
-					<div class="phoning__circle-fill"></div>
+			<Link className={props.profile.Calling ? `incoming-call incoming-call--calling` : `incoming-call`} to={`/session/${props.profile.Calling}`}>
+				<div className="phoning">
+					<div className="phoning__circle"></div>
+					<div className="phoning__circle-fill"></div>
 					<FontAwesomeIcon icon="phone-volume" />
 				</div><span>Incoming Video Call</span>
 			</Link>

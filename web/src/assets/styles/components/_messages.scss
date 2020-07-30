@@ -1,8 +1,11 @@
+$message-image-size: 68px;
+
 .message {
 	width: 100%;
 	&__history {
 	}
 	&__create {
+		margin-bottom: $gutter*2;
 		form {
 			display: flex;
 			flex-flow: row wrap;
@@ -20,7 +23,7 @@
 		}
 	}
 	&__content {
-		flex: 0 1 calc(89% - #{$gutter});
+		flex: 0 1 calc(100% - #{$gutter} - #{$message-image-size});
 	}
 	&__content-time {
 		padding-top: $gutter/2;
@@ -54,13 +57,13 @@
 		}
 	}
 	&__sender {
-		flex: 0 1 10%;
+		flex: 0 1 $message-image-size;
 		font-size: 12px;
 		img {
 			border-radius: 50%;
 			border: $red solid 1px;
-			width: 68px;
-			height: 68px;
+			width: $message-image-size;
+			height: $message-image-size;
 			object-fit: cover;
 		}
 	}

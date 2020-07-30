@@ -316,10 +316,10 @@ class OnboardingClient extends Component {
 									<h2>Personal Address</h2>
 								</div>
 								<Form.Field>
-									<Input id="personalAddress1" type="text" label="Address 1" defaultValue={this.props.profile.personalAddress1} onChange={this.onChange} />
+									<Input id="personalAddress1" type="text" label="Address 1" defaultValue={this.props.profile.personalAddress1} onChange={this.onChange} required />
 								</Form.Field>
 								<Form.Field className="field--half">
-									<Input id="personalAddress2" type="text" label="Address 2" defaultValue={this.props.profile.personalAddress2} onChange={this.onChange} />
+									<Input id="personalAddress2" type="text" label="Address 2" defaultValue={this.props.profile.personalAddress2} onChange={this.onChange} required />
 								</Form.Field>
 								<Form.Field className="field--half">
 									<Input id="personalCity" type="text" label="City" defaultValue={this.props.profile.personalCity} onChange={this.onChange} required />
@@ -345,7 +345,7 @@ class OnboardingClient extends Component {
 										</div>
 										<Form.Field>
 											<label htmlFor="phoneNumber">Mobile Number <sup className="red">*</sup>(ex. ##########)</label>
-											<input  type="tel" pattern="[0-9]{10}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone (ex. ##########)" onChange={this.onChange} required></input>
+											<input type="tel" pattern="[0-9]{10}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone (ex. ##########)" onChange={this.onChange} required></input>
 										</Form.Field>
 									</div>
 
