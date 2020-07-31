@@ -659,7 +659,7 @@ class Onboarding extends Component {
 												<div className={`onboarding__step-content-area onboarding__step-content-area--8 ${this.state.currentPage === 8 ? 'active' : null}`}>
 													<h2>What's your favorite quote?</h2>
 													<Form.Field>
-														<label class="screen-reader-text" htmlFor="favQuote">Favorite Quote</label>
+														<label className="screen-reader-text" htmlFor="favQuote">Favorite Quote</label>
 														<textarea required id={'favQuote'} placeholder="Tell us Your favorite quote." defaultValue={profile.favQuote} onChange={this.handleChange}></textarea>
 													</Form.Field>
 													<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
@@ -781,13 +781,17 @@ class Onboarding extends Component {
 									{this.state.currentPage == 13 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<div className={`onboarding__step-content-area onboarding__step-content-area--13 ${this.state.currentPage === 13 ? 'active' : null}`}>
+												<div style={{ marginBottom: '0px' }}>
+													<h2>You did it!</h2>
+												</div>
+												<div className="form__inner">
+													<p>Once you complete the onboarding, you're profile will be sent to our admins in which they will review and approved within 2 business days.</p>
+													<p>Don't worry, you'll still be able to use the website and update your profile!</p>
+												</div>
 												<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 													<button onClick={(e) => this.goBack(9, e)} className="button">Previous</button>
-													<button onClick={(e) => this.goNext(13, e)} className="button">Next</button>
-												</div>
-												<Form.Field>
 													<button type="submit" onClick={this.handleSubmit} className="button button--secondary text--md text--font-secondary text--uppercase">Complete Onboarding</button>
-												</Form.Field>
+												</div>
 											</div>
 										</Fade>}
 								</Form>
