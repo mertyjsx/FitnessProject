@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Fade from 'react-reveal/Fade';
 import { Link, Redirect, withRouter } from 'react-router-dom';
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Form, Input } from 'semantic-ui-react';
 import imageChef from '../../assets/images/chef-cutting-veggies.jpeg';
 import ellipses from '../../assets/images/ellipsis.gif';
 import states from '../../json/states.json';
@@ -10,7 +11,6 @@ import Loading from '../modules/Loading';
 import ImageUpload from '../profileEdit/imageUpload/ImageUpload';
 import LicenseImageUpload from '../profileEdit/imageUpload/LicenseImageUpload';
 import PaypalModal from "./paypalModal";
-import Fade from 'react-reveal/Fade';
 
 class Onboarding extends Component {
 
@@ -25,8 +25,8 @@ class Onboarding extends Component {
 			specialties: {},
 			checkboxValidation: false,
 			currentPage: 1,
-			right:true,
-			left:false
+			right: true,
+			left: false
 		}
 		this.handleSpecialities = this.handleSpecialities.bind(this)
 		this.handleChange = this.handleChange.bind(this)
@@ -35,7 +35,7 @@ class Onboarding extends Component {
 	renderStates = (allStates) => {
 		const states = [];
 		allStates.forEach(st => {
-			states.push(<option value={st.abbreviation}>{st.name}</option>);
+			states.push(<option key={st.abbreviation} value={st.abbreviation}>{st.name}</option>);
 		});
 		return states;
 	}
@@ -129,6 +129,7 @@ class Onboarding extends Component {
 
 	goNext = (num, e,validation) => {
 		e.preventDefault()
+<<<<<<< HEAD
 		let error=false
 				if (validation && validation.length > 0) {
 		
@@ -170,6 +171,22 @@ class Onboarding extends Component {
 				}
 		
 	
+=======
+		console.log('t', e);
+		this.setState({
+			left: false,
+			right: true,
+			currentPage: num
+		}, () => {
+			/*
+			const sliders = document.getElementsByClassName('onboarding__step-content-container');
+			const sliderItemWidth = document.getElementsByClassName(`onboarding__step-content-area--${(num)}`)[0].clientWidth
+			console.log(num-1)
+				console.log(sliderItemWidth)
+					sliders[0].setAttribute('style', 'transform:' +`translateX(-${(sliderItemWidth*(num-1)+90)}px)`  + '!important;');
+				*/
+		})
+>>>>>>> 287fe511deed87b65d9fcaac80e85fbe87765d71
 	}
 
 	goBack = (num, e) => {
@@ -178,8 +195,8 @@ class Onboarding extends Component {
 		console.log('t', e);
 		// console.log('====================================');
 		this.setState({
-			left:true,
-			right:false,
+			left: true,
+			right: false,
 			currentPage: num
 		}, () => {
 			/*
@@ -230,14 +247,14 @@ class Onboarding extends Component {
 							</div>
 						</div>
 						: null}
-					<div class="onboarding__step">
+					<div className="onboarding__step">
 						<div className="onboarding__step-image">
 							{profile.professions.chef ?
 								<img src={imageChef} />
 								: null}
-							{/* { profile.professions.massageTherapist ? : null } */}
-							{/* { profile.professions.nutritionist ? : null } */}
-							{/* { profile.professions.fitnessTrainer ? : null } */}
+							{profile.professions.massageTherapist ? <img src={imageChef} /> : null}
+							{profile.professions.nutritionist ? <img src={imageChef} /> : null}
+							{profile.professions.fitnessTrainer ? <img src={imageChef} /> : null}
 						</div>
 						<div className="onboarding__step-content">
 							<div className='onboarding__step-content-container'>
@@ -292,35 +309,35 @@ class Onboarding extends Component {
 												<Form.Field className={'field--cols'}>
 													<div className="ui checkbox">
 														<input id="seafood" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.seafood} onChange={this.handleSpecialities} />
-														<label for="seafood">Seafood</label>
+														<label htmlFor="seafood">Seafood</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="american" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.american} onChange={this.handleSpecialities} />
-														<label for="american">American</label>
+														<label htmlFor="american">American</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="breakfastOrBrunch" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.breakfastOrBrunch} onChange={this.handleSpecialities} />
-														<label for="breakfastOrBrunch">Breakfast or Brunch</label>
+														<label htmlFor="breakfastOrBrunch">Breakfast or Brunch</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="international" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.international} onChange={this.handleSpecialities} />
-														<label for="international">International</label>
+														<label htmlFor="international">International</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="southern" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.southern} onChange={this.handleSpecialities} />
-														<label for="southern">Southern</label>
+														<label htmlFor="southern">Southern</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="healthy" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.healthy} onChange={this.handleSpecialities} />
-														<label for="healthy">Healthy</label>
+														<label htmlFor="healthy">Healthy</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="desserts" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.desserts} onChange={this.handleSpecialities} />
-														<label for="desserts">Desserts</label>
+														<label htmlFor="desserts">Desserts</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="juicesAndSmoothies" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.juicesAndSmoothies} onChange={this.handleSpecialities} />
-														<label for="juicesAndSmoothies">Juices and Smoothies</label>
+														<label htmlFor="juicesAndSmoothies">Juices and Smoothies</label>
 													</div>
 												</Form.Field>
 											)}
@@ -329,27 +346,27 @@ class Onboarding extends Component {
 												<Form.Field className={'field--cols'}>
 													<div className="ui checkbox">
 														<input id="deepTissue" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.deepTissue} onChange={this.handleSpecialities} />
-														<label for="deepTissue">Deep Tissue</label>
+														<label htmlFor="deepTissue">Deep Tissue</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="swedish" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.swedish} onChange={this.handleSpecialities} />
-														<label for="swedish">Swedish</label>
+														<label htmlFor="swedish">Swedish</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="stone" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.stone} onChange={this.handleSpecialities} />
-														<label for="stone">Stone</label>
+														<label htmlFor="stone">Stone</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="pregnancy" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pregnancy} onChange={this.handleSpecialities} />
-														<label for="pregnancy">Pregnancy</label>
+														<label htmlFor="pregnancy">Pregnancy</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="sports" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.sports} onChange={this.handleSpecialities} />
-														<label for="sports">Sports</label>
+														<label htmlFor="sports">Sports</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="reflexology" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.reflexology} onChange={this.handleSpecialities} />
-														<label for="reflexology">Reflexology</label>
+														<label htmlFor="reflexology">Reflexology</label>
 													</div>
 												</Form.Field>
 											)}
@@ -358,43 +375,43 @@ class Onboarding extends Component {
 												<Form.Field className={'field--cols'}>
 													<div className="ui checkbox">
 														<input id="normalNutrition" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.normalNutrition} onChange={this.handleSpecialities} />
-														<label htmlFor="normalNutrition">Normal Nutrition</label>
+														<label htmlhtmlFor="normalNutrition">Normal Nutrition</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="veganOrVegetarian" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.veganOrVegetarian} onChange={this.handleSpecialities} />
-														<label htmlFor="veganOrVegetarian">Vegan or Vegetarian</label>
+														<label htmlhtmlFor="veganOrVegetarian">Vegan or Vegetarian</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="paleo" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.paleo} onChange={this.handleSpecialities} />
-														<label htmlFor="paleo">Paleo</label>
+														<label htmlhtmlFor="paleo">Paleo</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="publicHealth" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.publicHealth} onChange={this.handleSpecialities} />
-														<label htmlFor="publicHealth">Public Health</label>
+														<label htmlhtmlFor="publicHealth">Public Health</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="sports" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.sports} onChange={this.handleSpecialities} />
-														<label htmlFor="sports">Sports</label>
+														<label htmlhtmlFor="sports">Sports</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="pediatric" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pediatric} onChange={this.handleSpecialities} />
-														<label htmlFor="pediatric">Pediatric</label>
+														<label htmlhtmlFor="pediatric">Pediatric</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="diabetes" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.diabetes} onChange={this.handleSpecialities} />
-														<label htmlFor="diabetes">Diabetes</label>
+														<label htmlhtmlFor="diabetes">Diabetes</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="heartHealth" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.heartHealth} onChange={this.handleSpecialities} />
-														<label htmlFor="heartHealth">Heart Health</label>
+														<label htmlhtmlFor="heartHealth">Heart Health</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="autoimmuneDisease" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.autoimmuneDisease} onChange={this.handleSpecialities} />
-														<label htmlFor="autoimmuneDisease">Autoimmune Disease</label>
+														<label htmlhtmlFor="autoimmuneDisease">Autoimmune Disease</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="foodAllergies" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.foodAllergies} onChange={this.handleSpecialities} />
-														<label htmlFor="foodAllergies">Food Allergies</label>
+														<label htmlhtmlFor="foodAllergies">Food Allergies</label>
 													</div>
 												</Form.Field>
 											)}
@@ -403,59 +420,59 @@ class Onboarding extends Component {
 												<Form.Field className={'field--cols'}>
 													<div className="ui checkbox">
 														<input id="competitionPrep" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.competitionPrep} onChange={this.handleSpecialities} />
-														<label htmlFor="competitionPrep">Competition Prep</label>
+														<label htmlhtmlFor="competitionPrep">Competition Prep</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="powerLifting" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.powerLifting} onChange={this.handleSpecialities} />
-														<label htmlFor="powerLifting">Powerlifting</label>
+														<label htmlhtmlFor="powerLifting">Powerlifting</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="weightLoss" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.weightLoss} onChange={this.handleSpecialities} />
-														<label htmlFor="weightLoss">Weight Loss</label>
+														<label htmlhtmlFor="weightLoss">Weight Loss</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="bodyFatLoss" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.bodyFatLoss} onChange={this.handleSpecialities} />
-														<label htmlFor="bodyFatLoss">Body Fat Loss</label>
+														<label htmlhtmlFor="bodyFatLoss">Body Fat Loss</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="sizeGaining" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.sizeGaining} onChange={this.handleSpecialities} />
-														<label htmlFor="sizeGaining">Size Gaining</label>
+														<label htmlhtmlFor="sizeGaining">Size Gaining</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="enduranceTraining" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.enduranceTraining} onChange={this.handleSpecialities} />
-														<label htmlFor="enduranceTraining">Endurance Training</label>
+														<label htmlhtmlFor="enduranceTraining">Endurance Training</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="formingAndToning" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.formingAndToning} onChange={this.handleSpecialities} />
-														<label htmlFor="formingAndToning">Forming and Toning</label>
+														<label htmlhtmlFor="formingAndToning">Forming and Toning</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="flexibility" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.flexibility} onChange={this.handleSpecialities} />
-														<label htmlFor="flexibility">Flexibility</label>
+														<label htmlhtmlFor="flexibility">Flexibility</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="aerobicFitness" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.aerobicFitness} onChange={this.handleSpecialities} />
-														<label htmlFor="aerobicFitness">Aerobic Fitness</label>
+														<label htmlhtmlFor="aerobicFitness">Aerobic Fitness</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="pregnancy" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pregnancy} onChange={this.handleSpecialities} />
-														<label htmlFor="pregnancy">Pregnancy</label>
+														<label htmlhtmlFor="pregnancy">Pregnancy</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="rehabilitation" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.rehabilitation} onChange={this.handleSpecialities} />
-														<label htmlFor="rehabilitation">Rehabilitation</label>
+														<label htmlhtmlFor="rehabilitation">Rehabilitation</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="pilates" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pilates} onChange={this.handleSpecialities} />
-														<label htmlFor="pilates">Pilates</label>
+														<label htmlhtmlFor="pilates">Pilates</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="yoga" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.yoga} onChange={this.handleSpecialities} />
-														<label htmlFor="yoga">Yoga</label>
+														<label htmlhtmlFor="yoga">Yoga</label>
 													</div>
 													<div className="ui checkbox">
 														<input id="athletic" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.athletic} onChange={this.handleSpecialities} />
-														<label htmlFor="athletic">Athletic</label>
+														<label htmlhtmlFor="athletic">Athletic</label>
 													</div>
 												</Form.Field>
 											)}
@@ -463,9 +480,9 @@ class Onboarding extends Component {
 												<button onClick={(e) => this.goBack(3, e)} className="button">Previous</button>
 												<button onClick={(e) => this.goNext(5, e)} className="button">Next</button>
 											</div>
-											
+
 										</div>
-										</Fade>}
+									</Fade>}
 								{this.state.currentPage == 5 &&
 									<Fade right={this.state.right} left={this.state.left} >
 										<Form onSubmit={(e) => this.goNext(6, e)}>
@@ -477,15 +494,15 @@ class Onboarding extends Component {
 													<Form.Field className={'field--cols'} style={{ padding: '0' }} >
 														<div className="ui checkbox">
 															<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
-															<label htmlFor="online">Online</label>
+															<label htmlhtmlFor="online">Online</label>
 														</div>
 														<div className="ui checkbox">
 															<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
-															<label htmlFor="inperson">In-Person</label>
+															<label htmlhtmlFor="inperson">In-Person</label>
 														</div>
 														<div className="ui checkbox">
 															<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
-															<label htmlFor="both">Both</label>
+															<label htmlhtmlFor="both">Both</label>
 														</div>
 													</Form.Field>
 													{(this.state.online || this.state.both) &&
@@ -507,15 +524,15 @@ class Onboarding extends Component {
 													<Form.Field className={'field--cols'} style={{ padding: '0' }} >
 														<div className="ui checkbox">
 															<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
-															<label htmlFor="online">Online</label>
+															<label htmlhtmlFor="online">Online</label>
 														</div>
 														<div className="ui checkbox">
 															<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
-															<label htmlFor="inperson">In Person</label>
+															<label htmlhtmlFor="inperson">In Person</label>
 														</div>
 														<div className="ui checkbox">
 															<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
-															<label htmlFor="both">Both</label>
+															<label htmlhtmlFor="both">Both</label>
 														</div>
 
 													</Form.Field>
@@ -539,15 +556,15 @@ class Onboarding extends Component {
 													<Form.Field className={'field--cols'} style={{ padding: '0' }} >
 														<div className="ui checkbox">
 															<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
-															<label htmlFor="online">Online</label>
+															<label htmlhtmlFor="online">Online</label>
 														</div>
 														<div className="ui checkbox">
 															<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
-															<label htmlFor="inperson">In Person</label>
+															<label htmlhtmlFor="inperson">In Person</label>
 														</div>
 														<div className="ui checkbox">
 															<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
-															<label htmlFor="both">Both</label>
+															<label htmlhtmlFor="both">Both</label>
 														</div>
 
 													</Form.Field>
@@ -572,15 +589,15 @@ class Onboarding extends Component {
 													<Form.Field className={'field--cols'} style={{ padding: '0' }}>
 														<div className="ui checkbox">
 															<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
-															<label htmlFor="online">Online</label>
+															<label htmlhtmlFor="online">Online</label>
 														</div>
 														<div className="ui checkbox">
 															<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
-															<label htmlFor="inperson">In Person</label>
+															<label htmlhtmlFor="inperson">In Person</label>
 														</div>
 														<div className="ui checkbox">
 															<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
-															<label htmlFor="both">Both</label>
+															<label htmlhtmlFor="both">Both</label>
 														</div>
 
 													</Form.Field>
@@ -617,7 +634,7 @@ class Onboarding extends Component {
 											<h2>About You</h2>
 											<p>We'd like to know more about you! The information you provide here will be part of your profile.</p>
 											<Form.Field>
-												<label class="screen-reader-text" htmlFor="about">About / Experience *</label>
+												<label className="screen-reader-text" htmlhtmlFor="about">About / Experience *</label>
 												<textarea id={'about'} placeholder="Tell us about You." defaultValue={profile.about} onChange={this.handleChange} required></textarea>
 											</Form.Field>
 											<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
@@ -637,7 +654,7 @@ class Onboarding extends Component {
 										<div className={`onboarding__step-content-area onboarding__step-content-area--7 ${this.state.currentPage === 7 ? 'active' : null}`}>
 											<h2>What's a fun fact about you?</h2>
 											<Form.Field>
-												<label class="screen-reader-text" htmlFor="funFact">Fun Fact</label>
+												<label className="screen-reader-text" htmlhtmlFor="funFact">Fun Fact</label>
 												<textarea id={'funFact'} placeholder="Tell us a fun fact about You." defaultValue={profile.funFact} onChange={this.handleChange}></textarea>
 											</Form.Field>
 											<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
@@ -794,12 +811,12 @@ class Onboarding extends Component {
 							</div>
 
 						</div>
-						</div>
-					</div >
+					</div>
+				</div >
 			)
 		} else {
 			return (
-					<Loading />
+				<Loading />
 			)
 		}
 	}
@@ -807,14 +824,14 @@ class Onboarding extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-						auth: state.firebase.auth,
+		auth: state.firebase.auth,
 		profile: state.firebase.profile
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-						completeOnboarding: (onboard, isDeclined) => dispatch(completeOnboarding(onboard, isDeclined))
+		completeOnboarding: (onboard, isDeclined) => dispatch(completeOnboarding(onboard, isDeclined))
 	}
 }
 

@@ -15,7 +15,7 @@ import {
 	faQuestionCircle,
 	faQuoteLeft, faStar, faStar as faStarRegular, faStar as faStarSolid, faStarHalfAlt,
 	faTimes, faTimesCircle, faUser,
-	faUserCheck, faUsers
+	faUserCheck, faUsers, faVideo, faVideoSlash, faVolumeMute, faVolumeUp
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -34,6 +34,7 @@ library.add(
 	faList,
 	faYoutube,
 	faUser,
+	faVideo, faVideoSlash, faVolumeUp, faVolumeMute,
 	faPhoneVolume,
 	faUsers,
 	faDollarSign,

@@ -24,7 +24,11 @@ $font-size: 16px;
 $gutter: 15px;
 
 // Breakpoints
+$lg-max: 992px;
+$lg-min: $lg-max - 1;
+
 $md-max: 768px;
 $md-min: $md-max - 1;
+
 $sm-max: 480px;
 $sm-min: $sm-max - 1;

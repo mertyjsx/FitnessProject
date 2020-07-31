@@ -1,6 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from "react-redux";
-import { Button } from 'semantic-ui-react';
 import { Calling } from "../../store/actions/interactionActions";
 import Modal from '../modal/Modalreact';
 class InteractionCall extends React.Component {
@@ -12,8 +12,8 @@ class InteractionCall extends React.Component {
 			open: false,
 			state: '',
 			io: false,
-			mute:false,
-			stop:false
+			mute: false,
+			stop: false
 		};
 		this.io = false
 		this.peerConnections = []
@@ -84,40 +84,33 @@ class InteractionCall extends React.Component {
 		this.clearNotification()
 	}
 
-	muteToggle=()=>{
-		console.log("hello")
+	muteToggle = () => {
+		// console.log("hello")
 		let video = document.getElementById('current-user-video')
-		
 		let stream = video.srcObject
-		
-		
-		if(stream){
-			console.log(stream.getAudioTracks()[1])
-		stream.getAudioTracks()[0].enabled =
-		!(stream.getAudioTracks()[0].enabled);
-		this.setState({mute:!stream.getAudioTracks()[0].enabled})
+		if (stream) {
+			// console.log(stream.getAudioTracks()[1])
+			stream.getAudioTracks()[0].enabled =
+				!(stream.getAudioTracks()[0].enabled);
+			this.setState({ mute: !stream.getAudioTracks()[0].enabled })
 		}
-		
+
 	}
-	videoToggle=()=>{
-		console.log("hello")
+	videoToggle = () => {
+		// console.log("hello")
 		let video = document.getElementById('current-user-video')
-		
 		let stream = video.srcObject
-		
-		
-		if(stream){
-			
-		stream.getVideoTracks()[0].enabled =
-		!(stream.getVideoTracks()[0].enabled);
-	this.setState({stop:!stream.getVideoTracks()[0].enabled})
+		if (stream) {
+			stream.getVideoTracks()[0].enabled =
+				!(stream.getVideoTracks()[0].enabled);
+			this.setState({ stop: !stream.getVideoTracks()[0].enabled })
 		}
-		
+
 	}
 
 	componentDidUpdate(prevProps) {
 
-		if (prevProps !== this.props) { 
+		if (prevProps !== this.props) {
 
 
 			if (this.props.profile.Calling)
@@ -435,11 +428,11 @@ class InteractionCall extends React.Component {
 			case 'callpending':
 				return (<p>Calling...</p>)
 			case 'callincoming':
-				return (<Button className={"button button--full button--primary"} onClick={this.answerCall}>Answer Video Call</Button>)
+				return (<button className={"button button--full button--primary"} onClick={this.answerCall}>Answer Video Call</button>)
 			case 'callactive':
-				return (<Button className={"button button--full button--primary"} onClick={this.dropCall}>End Video Call</Button>)
+				return (<button className={"button button--full button--primary"} onClick={this.dropCall}>End Video Call</button>)
 			case 'callended':
-				return (<Button className={"button button--full button--primary"} onClick={this.closeModal}>Close</Button>)
+				return (<button className={"button button--full button--primary"} onClick={this.closeModal}>Close</button>)
 		}
 	}
 
@@ -459,10 +452,38 @@ class InteractionCall extends React.Component {
 					<p class="text--capitalize">{this.props.profile.firstName + " " + this.props.profile.lastName}</p>
 				</div>
 				<div className="col col--12 call-status">
-					{this.statusContent()}
+					<div className="call-status__container">
+						<div class="call-status__col">
+							<button class="button button--primary" onClick={this.muteToggle}>
+								{this.state.mute ?
+									<>
+										<FontAwesomeIcon icon="volume-up" style={{ marginRight: '10px', marginTop: '-2px' }} /> Unmute Audio
+									</>
+									:
+									<>
+										<FontAwesomeIcon icon="volume-mute" style={{ marginRight: '10px', marginTop: '-2px' }} /> Mute Audio
+									</>
+								}
+							</button>
+						</div>
+						<div class="call-status__col call-status__col--center">
+							{this.statusContent()}
+						</div>
+						<div class="call-status__col">
+							<button class="button button--primary" onClick={this.videoToggle}>
+								{this.state.stop ?
+									<>
+										<FontAwesomeIcon icon="video" style={{ marginRight: '10px', marginTop: '-2px' }} />  Play Video
+									</>
+									:
+									<>
+										<FontAwesomeIcon icon="video-slash" style={{ marginRight: '10px', marginTop: '-2px' }} /> Pause Video
+									</>
+								}
+							</button>
+						</div>
+					</div>
 				</div>
-				<Button onClick={this.muteToggle}>{this.state.mute?"unmute":"mute"}</Button>
-				<Button onClick={this.videoToggle}>{this.state.stop?"play":"stop"}</Button>
 			</div>
 		)
 	}

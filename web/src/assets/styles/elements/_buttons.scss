@@ -89,6 +89,12 @@ a.button,
 		justify-content: center;
 		.button {
 			margin: 0 $gutter;
+			&:first-child {
+				margin: 0 $gutter 0 0;
+			}
+			&:last-child {
+				margin: 0 0 0 $gutter;
+			}
 		}
 	}	
 }
