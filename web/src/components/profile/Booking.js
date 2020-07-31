@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { addDays, setHours, setMinutes } from "date-fns";
 import moment from 'moment';
 import React, { Component } from 'react';
@@ -13,6 +14,7 @@ import spinner from '../../assets/images/spinner.gif';
 import PaypalConfig from '../../config/paypal.json';
 import { createInteraction } from '../../store/actions/interactionActions';
 import Modal from '../modal/Modal';
+import AutoComplete from "./AutoComplete";
 
 
 class Booking extends Component {
@@ -42,7 +44,9 @@ class Booking extends Component {
 			To: 25,
 			spesific: [],
 			timesExlude: [],
-			callType: ""
+			callType: "",
+			adressType: "onFile",
+			googleAdress: "there is no google adress "
 		}
 	}
 
@@ -79,7 +83,13 @@ class Booking extends Component {
 			callType: e.target.value
 		})
 	}
+	handleAdressType = (e) => {
 
+		this.setState({
+			adressType: e.target.value
+		})
+
+	}
 
 	getHours = () => {
 
@@ -401,6 +411,16 @@ class Booking extends Component {
 		});
 	}
 
+
+
+	onSelectAdress = (val) => {
+
+		this.setState({
+			googleAdress: val
+		})
+
+	}
+
 	renderStartTime = () => {
 
 		const { startTime } = this.state
@@ -428,7 +448,11 @@ class Booking extends Component {
 		this.setState({
 			total: this.calculateTotal(),
 			callType: this.state.callType,
+			adressType: this.state.adressType,
+			googleAdress: this.state.googleAdress,
 			formSubmitting: true,
+			clientPhoneNumber: this.props.profile.phoneNumber,
+			proPhoneNumber: this.props.pro.phoneNumber,
 			clientFullAdress: this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
 			proBusinessName: this.props.pro.businessName,
 			proFullAddress: this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
@@ -503,7 +527,7 @@ class Booking extends Component {
 		return total + 1
 	}
 	render() {
-		console.log(this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip)
+
 
 		return (
 			<div className={`profile__booking ${this.state.formSubmitting ? 'profile__booking--submitting' : ''}`}>
@@ -534,6 +558,21 @@ class Booking extends Component {
 								</select>
 							</Form.Field>
 						}
+						{this.state.callType === "outCall" &&
+							<Form.Field >
+								<select name="adressType" id="adressType" onChange={this.handleAdressType} required>
+
+									<option value="onFile">Personal address on file</option>
+									<option value="otherAdress">Other address/landmark</option>
+								</select>
+							</Form.Field>
+						}
+						{this.state.adressType === "otherAdress" &&
+							<Form.Field >
+								<AutoComplete onSelected={this.onSelectAdress}></AutoComplete>
+							</Form.Field>
+						}
+
 
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>
@@ -591,7 +630,25 @@ class Booking extends Component {
 								<h3 className="text--uppercase">Price</h3>
 								<p><span className="text--lowercase">${this.state.rate} x {this.calculateDuration()} hours</span> <span>${this.calculateTotal()}</span></p>
 								{this.state.callType === "outCall" &&
-									<p><span>Pro Travel Fee</span> <span>$1</span></p>
+									<p><span className="text--capitalize" style={{ display: 'flex' }}>Fees <Modal
+										buttonText={<FontAwesomeIcon icon="question-circle" />}
+										buttonStyle={`link`}
+										content={(
+											<div style={{ textTransform: 'none' }}>
+												<h2>Detailed Fees</h2>
+												<table class="table">
+													<tr>
+														<th>Fee Type</th>
+														<th>Cost</th>
+													</tr>
+													<tr>
+														<td>Travel Fee</td>
+														<td>$1</td>
+													</tr>
+												</table>
+											</div>
+										)}
+									/></span> <span>$1</span></p>
 								}
 								<p className="field--review-total text--uppercase text--bold">Total<span>${this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()}</span></p>
 							</div>
@@ -604,10 +661,11 @@ class Booking extends Component {
 								content={(
 									<div style={{ textTransform: 'none' }}>
 										<h2>Complete Booking</h2>
-										<p>Your total of ${this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
+										<p>Your total of ${this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
 										<p>Please choose your preferred method of payment below.</p>
 										<PayPalButton
-											amount={this.calculateTotal()}
+											// amount={this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()}
+											amount={1} // testing
 											shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
 											onSuccess={(details, data) => {
 												// alert("Transaction completed by " + details.payer.name.given_name);

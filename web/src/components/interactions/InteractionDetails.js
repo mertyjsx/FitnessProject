@@ -3,7 +3,7 @@ import moment from 'moment'
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
 import { Button } from 'semantic-ui-react'
 import { db } from '../../config/fbConfig'
@@ -16,7 +16,9 @@ import {
 	sendBookingRequestFromInquiry
 } from '../../store/actions/interactionActions'
 import { renderProfileImage } from '../helpers/HelpersProfile'
+import Modal from '../modal/Modal'
 import Loading from '../modules/Loading'
+import SendTip from '../payments/SendTip'
 import GetSingleReview from '../rating/GetSingleReview'
 import SetRating from '../rating/SetRating'
 import InteractionCall from './InteractionCall'
@@ -168,13 +170,15 @@ const InteractionDetails = (props) => {
 						</div>
 						<div className="col col--5">
 
-							<InteractionCall iid={iid} interaction={interaction} auth={auth} />
+							{interaction.interactionType === 'booking' && interaction.status === 'active' && (
+								<InteractionCall iid={iid} interaction={interaction} auth={auth} />
+							)}
 
 							{interaction.ratingCompleted === false && interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && (
 								<div className="rating">
 									<div className="rating__inner">
 										<h2 className="text--uppercase text--bold">Leave a review for {interaction.proFirstName} {interaction.proLastName[0]}.</h2>
-										<SetRating iid={iid} />
+										<SetRating iid={iid} interaction={interaction} />
 									</div>
 								</div>
 							)}
@@ -188,11 +192,41 @@ const InteractionDetails = (props) => {
 								</div>
 							)}
 
+							{interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && !interaction.paypalTip && (
+								<div className="tip">
+									<div className="tip__inner">
+										<h2 className="text--uppercase text--bold">Send a tip to {interaction.proFirstName} {interaction.proLastName[0]}.</h2>
+										<SendTip iid={iid} interaction={interaction} />
+									</div>
+								</div>
+							)}
+
+							{interaction.userUID === auth.uid && interaction.interactionType === 'booking' && interaction.status === 'completed' && interaction.paypalTip && (
+								<div className="tip">
+									<div className="tip__inner">
+										<h2 className="text--uppercase text--bold">Thank you for tipping your pro</h2>
+										<p>You tipped <span class="text--capitalize">{interaction.proFirstName} {interaction.proLastName[0]}.</span> ${interaction.paypalTip.amount}</p>
+									</div>
+								</div>
+							)}
+
 							{interaction.userUID === auth.uid ?
 								<div className="interaction-details__buttons text--center">
 									{/* <p>Person Booking</p> */}
 									{/* <Link to={'/pro/' + interaction.proUID}>Start a new inquiry</Link> */}
-									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' && interaction.status !== 'completed' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' && interaction.status !== 'completed' ?
+										<Modal
+											buttonText={`Cancel Booking`}
+											buttonStyle={`button button--primary button--full`}
+											content={
+												<>
+													<h2>Confirm Cancellation</h2>
+													<p style={{ marginBottom: '10px' }}>If you cancel 24 hours or more after the confirmed date and time, you will recieve a full refund. For more information about our cancellation policy, <Link to="/cancellation-policy">click here</Link>.</p>
+													<Button className={'button--secondary button--full'} onClick={cancelSession}>Confirm Cancel Booking</Button>
+												</>
+											}
+										/>
+										: null}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--secondary button--full'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'archived' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
 								</div>

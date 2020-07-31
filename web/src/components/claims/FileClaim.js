@@ -15,6 +15,32 @@ class FileClaim extends Component {
 			formSent: false
 		}
 	}
+	componentWillMount() {
+		let script = document.createElement('script');
+		script.setAttribute('id', '_agile_min_js');
+		script.onload = (function (a) {
+			var b = a.onload;
+			var p = false;
+			var isCaptcha = false;
+			if (p) {
+				a.onload = "function" != typeof b ?
+					function () { try { this._agile_load_form_fields() } catch (a) { } }
+					:
+					function () { b(); try { this._agile_load_form_fields() } catch (a) { } }
+			};
+			var formLen = document.forms.length;
+			for (var i = 0; i < formLen; i++) {
+				if (document.forms.item(i).getAttribute("id") == "agile-form") {
+					a.document.forms.item(i).onsubmit = function (a) {
+						a.preventDefault();
+						try { this._agile_synch_form_v5(this) }
+						catch (b) { this.submit() }
+					}
+				}
+			}
+		})(window);
+		document.getElementsByTagName('head')[0].appendChild(script);
+	}
 
 	handleChange = (e) => {
 		this.setState({ [e.target.id]: e.target.value })
@@ -33,77 +59,80 @@ class FileClaim extends Component {
 						</div>
 					</div>
 
+					{/* // <script type="text/javascript">
+		// 	(function(a){var b=a.onload,p=false;isCaptcha=false;if(p){a.onload="function"!=typeof b?function(){try{_agile_load_form_fields()}catch(a){}}:function(){b();try{_agile_load_form_fields()}catch(a){}}};var formLen=document.forms.length;for(i=0;i<formLen;i++){if(document.forms.item(i).getAttribute("id")== "agile-form"){a.document.forms.item(i).onsubmit=function(a){a.preventDefault();try{_agile_synch_form_v5(this)}catch(b){this.submit()}}}}})(window);
+		// </script> */}
 					<div className="row">
 						<div className="col" style={{ marginBottom: '50px' }}>
-							<div>
-								{/* <p>As we build this website / app, we need your help.  If there is a feature you'd like added or a bug to report, let us know.  Your experience is vital and we strive to deliever the most user friendly web app possible.</p> */}
-
-								<form className="modal__form" action="https://choosetobeyou.us20.list-manage.com/subscribe/post" method="POST" noValidate>
-									<input type="hidden" name="u" value="0c2f5384fdef29a5a9b9956dd" />
-									<input type="hidden" name="id" value="441bbab02d" />
-
-									<div className="field-shift" aria-label="Please leave the following three fields empty" style={{ display: 'none' }}>
-										<label for="b_name">Name: </label>
-										<input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie" id="b_name" />
-
-										<label for="b_email">Email: </label>
-										<input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email" />
-
-										<label for="b_comment">Comment: </label>
-										<textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
+							{/* <p>As we build this website / app, we need your help.  If there is a feature you'd like added or a bug to report, let us know.  Your experience is vital and we strive to deliever the most user friendly web app possible.</p> */}
+							<form className="form form-view agile-form-blck-transparent " id="agile-form" action="https://choosetobeyou.agilecrm.com/formsubmit" method="GET" style={{ width: '100%' }}>
+								<legend className="screen-reader-text agile-hide-formname">File a Claim Form</legend>
+								<p className="screen-reader-text agile-form-description">This form is intended to capture all the claims filed on ChooseToBeYou.com</p>
+								<div style={{ display: 'none', height: '0px', width: '0px' }}>
+									<input type="hidden" id="_agile_form_name" name="_agile_form_name" value="File a Claim" />
+									<input type="hidden" id="_agile_domain" name="_agile_domain" value="choosetobeyou" />
+									<input type="hidden" id="_agile_api" name="_agile_api" value="3h6emnq5000gjh577j9gk2ca9n" />
+									<input type="hidden" id="_agile_redirect_url" name="_agile_redirect_url" value="http://ctby.angelcenteno.com/file-claim" />
+									<input type="hidden" id="_agile_document_url" name="_agile_document_url" value="" />
+									<input type="hidden" id="_agile_confirmation_msg" name="_agile_confirmation_msg" value="Great! Thanks for filling out the form." />
+									<input type="hidden" id="_agile_form_id_tags" name="tags" value="" />
+									<input type="hidden" id="_agile_form_id" name="_agile_form_id" value="4741466289143808" />
+								</div>
+								<div className="field agile-group required-control">
+									<label className="agile-label" htmlFor="agilefield-7">Interaction ID<span className="agile-span-asterisk"> *</span></label>
+									<div className="agile-field-xlarge agile-field">
+										<select id="SESSIONID" name="SESSIONID" onChange={this.handleChange} required>
+											<option value="">Choose Session</option>
+											{
+												profile.userInteractions && profile.userInteractions.map(interaction => {
+													console.log(interaction);
+													return (
+														<option key={interaction} value={interaction}>{interaction}</option>
+													)
+												})
+											}
+										</select>
+										<input type="hidden" id="agilefield-7" name="interaction_id" placeholder="Interaction ID" className="agile-height-default" required="" defaultValue={this.state.SESSIONID} />
 									</div>
-
-									<div className="form">
-										<div className="field">
-											<label>Select the Session *</label>
-											<select id="SESSIONID" name="SESSIONID" required>
-												<option value="">Choose Session</option>
-												{
-													profile.userInteractions && profile.userInteractions.map(interaction => {
-														console.log(interaction);
-														return (
-															<option key={interaction} value={interaction}>Interaction ID: {interaction}</option>
-														)
-													})
-												}
-											</select>
-										</div>
-
-										<div className="field field--half">
-											<label for="MERGE1">First Name <span class="req asterisk">*</span></label>
-											<input type="text" name="MERGE1" id="MERGE1" size="25" defaultValue={profile.firstName} />
-										</div>
-
-										<div className="field field--half">
-											<label for="MERGE2">Last Name</label>
-											<input type="text" name="MERGE2" id="MERGE2" size="25" defaultValue={profile.lastName} />
-										</div>
-
-										<div className="field">
-											<label for="MERGE0">Email Address <span class="req asterisk">*</span></label>
-											<input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" size="25" defaultValue={this.props.auth.email} />
-										</div>
-
-										<div className="field">
-											<label>Explain the issue</label>
-											<textarea
-												type="textarea"
-												name="message"
-												id="message"
-												value={this.state.message}
-												onChange={this.handleChange}
-												placeholder="Enter description"
-											></textarea>
-										</div>
-										<div className="field">
-											<button type="submit" className="button button--accent">Report Claim</button>
-										</div>
+								</div>
+								<div className="field field--half agile-group required-control">
+									<label className="agile-label" htmlFor="agilefield-3">First Name<span className="agile-span-asterisk"> *</span></label>
+									<div className="agile-field-xlarge agile-field">
+										<input id="agilefield-3" name="first_name" type="text" placeholder="First Name" className="agile-height-default" required="" defaultValue={profile.firstName} />
 									</div>
-									<input type="hidden" name="ht" value="55209d6062e11710190fe24f97a2eb8dca147b51:MTU5Mzg2NzEyNS43ODIx" />
-									<input type="hidden" name="mc_signupsource" value="hosted" />
-								</form>
-								<div className="modal__status modal__status--sent" style={this.state.formSent ? { display: 'block' } : { display: 'none' }}>Thank you! The report has been sent. Please allow up to 2 business days for our team to review.</div>
-							</div>
+								</div>
+								<div className="field field--half agile-group required-control">
+									<label className="agile-label" htmlFor="agilefield-5">Last Name<span className="agile-span-asterisk"> *</span></label>
+									<div className="agile-field-xlarge agile-field">
+										<input id="agilefield-5" name="last_name" type="text" placeholder="Last Name" className="agile-height-default" required="" defaultValue={profile.lastName} />
+									</div>
+								</div>
+
+								<div className="field agile-group required-control">
+									<label className="agile-label" htmlFor="agilefield-6">Email<span className="agile-span-asterisk"> *</span></label>
+									<div className="agile-field-xlarge agile-field">
+										<input id="agilefield-6" name="email" type="email" placeholder="Email" className="agile-height-default" required="" defaultValue={this.props.auth.email} />
+									</div>
+									<div className="agile-custom-clear"></div>
+								</div>
+
+								<div className="field agile-group required-control">
+									<label className="agile-label" htmlFor="agilefield-8">Explain the issue<span className="agile-span-asterisk"> *</span></label>
+									<div className="agile-field-xlarge agile-field">
+										<textarea id="agilefield-8" name="Claim Comments" placeholder="Explain the issue" required="" className="agile-height-default"></textarea>
+									</div>
+									<div className="agile-custom-clear"></div>
+								</div>
+
+								<div className="field agile-group">
+									<label className="agile-label screen-reader-text">Submit</label>
+									<div className="agile-field agile-button-field">
+										<button type="submit" className="button button--primary agile-button">Submit</button>
+										<br /><span id="agile-error-msg"></span>
+									</div>
+								</div>
+							</form>
+
 						</div>
 					</div>
 				</div>

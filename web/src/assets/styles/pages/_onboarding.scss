@@ -22,6 +22,77 @@
 			}
 		}
 	}
+
+	&__step {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		align-items: center;
+		@media screen and (min-width: $lg-max) { 
+			flex-flow: row nowrap;
+		}
+	}
+
+	&__step-image {
+		display: none;
+		flex: 1 0 400px;
+		min-height: 100vh;
+		background-color: $black;
+		img {
+			opacity: 0.7;
+			object-fit: cover;
+			object-position: center;
+		}
+		@media screen and (min-width: $lg-max) {
+			display: flex;
+		}
+	}
+	&__step-content {
+		flex: 1 0 calc(100% - 400px - #{$gutter*4});
+		position: relative;
+		// height: 100%;
+		overflow: hidden;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		@media screen and (min-width: $lg-max) { 
+			max-height: 800px;
+			padding: 0 $gutter*2;
+			min-height: 500px;
+			height: 100vh;
+		}
+	}
+	&__step-content-container {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	&__step-content-area {
+		// position: absolute;
+		z-index: 0;
+		padding: $gutter*2 $gutter*6 $gutter*2 $gutter*2;
+		// left: 50%;
+		transition: 500ms;
+		// opacity: 0;
+		// top: 50%;
+		// transform: translateY(-50%);
+		// height: 0;
+		&.active {
+			// z-index: 1;
+			// left: 0;
+			// opacity: 1;
+
+			// height: 100%;
+		}
+		&--1 {
+			position: relative;
+		}
+	}
+
+	&__profile-image {
+		width: 100%;
+		max-width: 300px;
+	}
 }
 
 .uploading {

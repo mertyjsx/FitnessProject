@@ -12,6 +12,7 @@ export const createInteraction = (interaction) => {
 		if (!interaction.proBusinessName) {
 			interaction.proBusinessName = '';
 		}
+		console.log(interaction)
 
 		firestore.collection('interactions').add({
 			...interaction,
@@ -39,7 +40,7 @@ export const createInteraction = (interaction) => {
 
 				let message_body = encodeURI(`New pending booking, http://${baseUri}/session/${docRef.id}`) // Update the message
 				let from_number = encodeURI("+17865749377") // Update from number
-				let to_number = encodeURI("+18722056181") // I can't find the number from the interaction or the pro user
+				let to_number = encodeURI(pro.phoneNumber) // I can't find the number from the interaction or the pro user
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
 					`Body=${message_body}&From=${from_number}&To=${to_number}`,
 					{
@@ -214,7 +215,7 @@ export const completeInteractionPayout = (iid) => {
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
-		// console.log('inside action', iid);
+		console.log('inside action', iid);
 
 		firestore.collection('interactions').doc(iid).update({
 			status: 'payoutcompleted',
@@ -227,6 +228,29 @@ export const completeInteractionPayout = (iid) => {
 			// console.error("Error cancelling document: ", error);
 			dispatch({ type: 'COMPLETED_ERROR', error })
 		})
+	}
+}
+
+export const sendTip = (tip, iid) => {
+	return (dispatch, getState, { getFirestore }) => {
+		console.log('complete tip');
+		const firestore = getFirestore()
+		const profile = getState().firebase.profile
+		const userID = getState().firebase.auth.uid
+		console.log('inside action', iid);
+		// if (iid) {
+		console.log('inside id', iid);
+		firestore.collection('interactions').doc(iid).update({
+			...tip
+		}).then(function () {
+			// console.log("Booking successfully cancelled!");
+			dispatch({ type: 'PAYOUT_COMPLETED', iid });
+		}).catch(function (error) {
+			// The document probably doesn't exist.
+			// console.error("Error cancelling document: ", error);
+			dispatch({ type: 'COMPLETED_ERROR', error })
+		})
+		// }
 	}
 }
 
@@ -245,6 +269,31 @@ export const updateSeen = (iid) => {
 		}).then(function () {
 
 			console.log('Update Seen by user');
+			// console.log("Booking successfully cancelled!");
+			dispatch({ type: 'UPDATE_SEEN', iid });
+		}).catch(function (error) {
+			// The document probably doesn't exist.
+			// console.error("Error cancelling document: ", error);
+			dispatch({ type: 'COMPLETED_ERROR', error })
+		})
+	}
+}
+
+export const Calling = (iid, payload) => {
+	return (dispatch, getState, { getFirestore }) => {
+		console.log('Update Seen by user');
+
+		const firestore = getFirestore()
+		const profile = getState().firebase.profile
+		const userID = getState().firebase.auth.uid
+		// console.log('inside action', iid);
+		console.log(iid)
+		console.log(payload)
+		firestore.collection('users').doc(iid).update({
+			Calling: payload,
+		}).then(function () {
+
+			console.log('Calling');
 			// console.log("Booking successfully cancelled!");
 			dispatch({ type: 'UPDATE_SEEN', iid });
 		}).catch(function (error) {

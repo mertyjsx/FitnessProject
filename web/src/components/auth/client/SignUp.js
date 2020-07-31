@@ -62,9 +62,9 @@ class SignUp extends Component {
 							<input className={this.state.email !== '' ? 'input--filled' : ''} type="email" name="email" id="email" placeholder="Enter your email" onChange={this.handleChange} />
 						</Form.Field>
 						<Form.Field>
-									<label htmlFor="phoneNumber">Phone Number <sup className="red">*</sup>(ex. ##########)</label>
-									<input className={this.state.phoneNumber !== '' ? 'input--filled' : ''} type="tel" pattern="[0-9]{10}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone (ex. ##########)" onChange={this.handleChange} required></input>
-								</Form.Field>
+							<label htmlFor="phoneNumber">Mobile Number <sup className="red">*</sup>(ex. ##########)</label>
+							<input className={this.state.phoneNumber !== '' ? 'input--filled' : ''} type="tel" pattern="[0-9]{10}" name="phoneNumber" id="phoneNumber" placeholder="Enter your cell phone (ex. ##########)" onChange={this.handleChange} required></input>
+						</Form.Field>
 						<Form.Field>
 							<label htmlFor="password">Password <small>(min. 8 characters)</small></label>
 							<input className={this.state.password !== '' ? 'input--filled' : ''} type="password" name="password" id="password" placeholder="Enter password" onChange={this.handleChange} pattern=".{8,}" required title="8 characters minimum" />

@@ -1,9 +1,10 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import imageLogo from '../../assets/images/logo-emblem.png'
 import SignedInLinks from './SignedInLinks'
 import SignedOutLinks from './SignedOutLinks'
-import { connect } from 'react-redux'
-import imageLogo from '../../assets/images/logo-emblem.png'
 
 
 
@@ -18,9 +19,10 @@ const Navbar = (props) => {
 	}
 
 	const links = auth.uid ? <SignedInLinks profile={profile} menuActive={toggleMenu} /> : <SignedOutLinks menuActive={toggleMenu} />
-
+	console.log(props)
 	return (
 		<header className="header">
+
 			<div className="container container--full">
 				<div className="row">
 					<div className="col col__2">
@@ -48,6 +50,13 @@ const Navbar = (props) => {
 					</div>
 				</div>
 			</div>
+			<Link className={props.profile.Calling ? `incoming-call incoming-call--calling` : `incoming-call`} to={`/session/${props.profile.Calling}`}>
+				<div className="phoning">
+					<div className="phoning__circle"></div>
+					<div className="phoning__circle-fill"></div>
+					<FontAwesomeIcon icon="phone-volume" />
+				</div><span>Incoming Video Call</span>
+			</Link>
 		</header >
 	)
 }

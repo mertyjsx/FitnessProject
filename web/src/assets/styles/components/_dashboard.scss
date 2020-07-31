@@ -5,7 +5,9 @@
 .m-40{
 	margin: 40px;
 }
-
+.m-5{
+	margin: 5px;
+}
 .dashboard {
 	&__head {
 	}
@@ -105,4 +107,12 @@
 			align-items: center;
 		}
 	}
+}
+
+.autocomplete-dropdown-container {
+	text-transform: none;
+}
+.suggestion-item span {
+	// display: block;
+	// padding: $gutter;
 }

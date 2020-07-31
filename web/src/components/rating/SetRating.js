@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import StarRatingComponent from 'react-star-rating-component'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import StarRatingComponent from 'react-star-rating-component';
 import { Button } from 'semantic-ui-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { connect } from 'react-redux'
-import { completeReview } from '../../store/actions/reviewActions'
+import { completeReview } from '../../store/actions/reviewActions';
 
 class SetRating extends Component {
 	constructor(props) {
@@ -30,12 +30,23 @@ class SetRating extends Component {
 
 	onSubmit = (e) => {
 		e.preventDefault()
-		this.props.completeReview(this.state)
+
+		if (this.props.profile.uid === this.props.interaction.proUID) {
+			console.log(this.props.interaction.clientPhoneNumber)
+			this.props.completeReview(this.state, this.props.interaction.clientPhoneNumber)
+			//I am pro of this interaction so I sent review to Client of this interaction
+		} else {
+			this.props.completeReview(this.state, this.props.interaction.proPhoneNumber)
+			//I am Client of this interaction so I sent review to Pro of this interaction
+		}
+
+
 	}
 
 	render() {
 		const { rating } = this.state;
-		const { iid } = this.props;
+		const { iid, interaction } = this.props;
+		console.log(interaction)
 
 		return (
 			<div className="rating__stars">
@@ -70,7 +81,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		completeReview: (onboard) => dispatch(completeReview(onboard))
+		completeReview: (onboard, phoneNumber) => dispatch(completeReview(onboard, phoneNumber))
 	}
 }
 

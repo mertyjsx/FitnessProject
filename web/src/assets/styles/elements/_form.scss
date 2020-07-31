@@ -142,6 +142,9 @@ textarea {
 	&--justify-center {
 		justify-content: center;
 	}
+	> label {
+		width: 100%;
+	}
 	> input {
 		position: relative;
 		z-index: 1;
@@ -198,4 +201,31 @@ textarea {
 		border-top: $gray-light solid 1px;
 		padding-top: $gutter;
 	}
+}
+
+.tip {
+	width: 100%;
+	margin-bottom: $gutter*3;
+	&__inner {
+
+	}
+	form {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
+	.rating__message {
+		width: 69%;
+	}
+	.rating__button {
+		width: 30%;
+	}
+	.button {
+		width: 100%;
+	}
+}
+
+.agile-field {
+	display: flex;
+	width: 100%;
 }

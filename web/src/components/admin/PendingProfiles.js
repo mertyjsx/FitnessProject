@@ -18,8 +18,7 @@ const PendingProfiles = (props) => {
 					<p><strong>Profession:</strong> {user.professions.chef ? 'Chef' : null} {user.professions.chef ? 'Chef' : null} {user.professions.fitnessTrainer ? 'Fitness Trainer' : null} {user.professions.massageTherapist ? 'Massage Therapist' : null} {user.professions.nutritionist ? 'Nutritionist' : null}</p>
 					<p><strong>Profile Image:</strong> {user.photoURL ? <a href={user.photoURL} target="_blank">Open Image</a> : 'No Profile Image Added'}</p>
 					<p><strong>License Image:</strong> {user.photoLicenseURL ? <a href={user.photoLicenseURL} target="_blank">Open Image</a> : 'No License Image Added'}</p>
-					<p><strong>About:</strong> {user.about}</p>
-					<p><strong>Background:</strong> {user.background}</p>
+					<p><strong>About/Experience:</strong> {user.about}</p>
 					<p><strong>Favorite Quote:</strong> {user.favQuote}</p>
 					<p><strong>Fun Fact:</strong> {user.funFact}</p>
 					<p><strong>Business Name:</strong> {user.businessName}</p>

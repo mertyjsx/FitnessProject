@@ -104,7 +104,8 @@ export const signInClientWithFacebook = (newUser) => {
 								isPro: false,
 								photoURL: user.photoURL,
 								isProPremium: false,
-								emailVerified: false
+								emailVerified: false,
+								googleOrFacebook:true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -148,7 +149,8 @@ export const signUpClientWithFacebook = (newUser) => {
 								isPro: false,
 								photoURL: user.photoURL,
 								isProPremium: false,
-								emailVerified: false
+								emailVerified: false,
+								googleOrFacebook:true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -200,7 +202,8 @@ export const signUpClientWithGoogle = (newUser) => {
 								isPro: false,
 								photoURL: user_image_url,
 								isProPremium: false,
-								emailVerified: false
+								emailVerified: false,
+								googleOrFacebook:true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -246,7 +249,8 @@ export const signInClientWithGoogle = (newUser) => {
 								isPro: false,
 								photoURL: user_image_url,
 								isProPremium: false,
-								emailVerified: false
+								emailVerified: false,
+								googleOrFacebook:true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -321,6 +325,7 @@ export const signUpPro = (newUser) => {
 						isProPremium: false,
 						isApproved: false,
 						uid: response.user.uid,
+						isOnboardingClientCompleted: true,
 						onboardingCompleted: false,
 						proInteractions: [],
 						professions: {
@@ -574,17 +579,10 @@ export const approveProfile = (proUID) => {
 			let data = ref.data()
 
 			let phoneNumber = `+1${data.phoneNumber}`
-			console.log("phonenumber", phoneNumber)
+			// console.log("phonenumber", phoneNumber)
 			let firstName = data.firstName
-			console.log(firstName)
-
-
-
-
-
-
+			// console.log(firstName)
 			// change for production release
-
 			let message_body = encodeURI(`${firstName}, your profile has been approved and is now searchable on ChooseToBeYou.com`) // Update the message
 			let from_number = encodeURI("+17865749377") // Update from number
 			let to_number = encodeURI(phoneNumber) // Pro's number
