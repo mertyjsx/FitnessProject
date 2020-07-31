@@ -81,26 +81,37 @@ class FileClaim extends Component {
 								<div className="field agile-group required-control">
 									<label className="agile-label" htmlFor="agilefield-7">Interaction ID<span className="agile-span-asterisk"> *</span></label>
 									<div className="agile-field-xlarge agile-field">
-										<input id="agilefield-7" name="Interaction ID" type="text" placeholder="Interaction ID" className="agile-height-default" required="" />
+										<select id="SESSIONID" name="SESSIONID" onChange={this.handleChange} required>
+											<option value="">Choose Session</option>
+											{
+												profile.userInteractions && profile.userInteractions.map(interaction => {
+													console.log(interaction);
+													return (
+														<option key={interaction} value={interaction}>{interaction}</option>
+													)
+												})
+											}
+										</select>
+										<input type="hidden" id="agilefield-7" name="interaction_id" placeholder="Interaction ID" className="agile-height-default" required="" defaultValue={this.state.SESSIONID} />
 									</div>
 								</div>
 								<div className="field field--half agile-group required-control">
-									<label className="agile-label screen-reader-text" htmlFor="agilefield-3">First Name<span className="agile-span-asterisk"> *</span></label>
+									<label className="agile-label" htmlFor="agilefield-3">First Name<span className="agile-span-asterisk"> *</span></label>
 									<div className="agile-field-xlarge agile-field">
-										<input id="agilefield-3" name="first_name" type="text" placeholder="First Name" className="agile-height-default" required="" />
+										<input id="agilefield-3" name="first_name" type="text" placeholder="First Name" className="agile-height-default" required="" defaultValue={profile.firstName} />
 									</div>
 								</div>
 								<div className="field field--half agile-group required-control">
-									<label className="agile-label screen-reader-text" htmlFor="agilefield-5">Last Name<span className="agile-span-asterisk"> *</span></label>
+									<label className="agile-label" htmlFor="agilefield-5">Last Name<span className="agile-span-asterisk"> *</span></label>
 									<div className="agile-field-xlarge agile-field">
-										<input id="agilefield-5" name="last_name" type="text" placeholder="Last Name" className="agile-height-default" required="" />
+										<input id="agilefield-5" name="last_name" type="text" placeholder="Last Name" className="agile-height-default" required="" defaultValue={profile.lastName} />
 									</div>
 								</div>
 
 								<div className="field agile-group required-control">
 									<label className="agile-label" htmlFor="agilefield-6">Email<span className="agile-span-asterisk"> *</span></label>
 									<div className="agile-field-xlarge agile-field">
-										<input id="agilefield-6" name="email" type="email" placeholder="Email" className="agile-height-default" required="" />
+										<input id="agilefield-6" name="email" type="email" placeholder="Email" className="agile-height-default" required="" defaultValue={this.props.auth.email} />
 									</div>
 									<div className="agile-custom-clear"></div>
 								</div>

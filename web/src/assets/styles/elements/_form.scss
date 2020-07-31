@@ -142,6 +142,9 @@ textarea {
 	&--justify-center {
 		justify-content: center;
 	}
+	> label {
+		width: 100%;
+	}
 	> input {
 		position: relative;
 		z-index: 1;
@@ -220,4 +223,9 @@ textarea {
 	.button {
 		width: 100%;
 	}
+}
+
+.agile-field {
+	display: flex;
+	width: 100%;
 }

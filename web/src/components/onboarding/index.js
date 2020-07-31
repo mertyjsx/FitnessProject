@@ -127,46 +127,46 @@ class Onboarding extends Component {
 		}
 	}
 
-	
-	goNext = (num, e,validation) => {
+
+	goNext = (num, e, validation) => {
 		e.preventDefault()
 		console.log(validation)
-				if (validation) {
-					
-let new_array=Object.values(this.state.specialties).filter(item=>item==true)
-console.log(new_array)
-				if(new_array.length===0){
-				
-					this.setState({
-						
-						checkboxValidation:true
-					})
+		if (validation) {
 
-				}else{
-					console.log('t', e);
-					this.setState({
-						left: false,
-						right: true,
-						currentPage: num,
-						checkboxValidation:false
-					})
+			let new_array = Object.values(this.state.specialties).filter(item => item == true)
+			console.log(new_array)
+			if (new_array.length === 0) {
 
-				}
-		
-				} else {
-		
-					console.log('t', e);
-					this.setState({
-						left: false,
-						right: true,
-						currentPage: num,
-						checkboxValidation:false
-					})
-		
-		
-				}
-		
-	
+				this.setState({
+
+					checkboxValidation: true
+				})
+
+			} else {
+				console.log('t', e);
+				this.setState({
+					left: false,
+					right: true,
+					currentPage: num,
+					checkboxValidation: false
+				})
+
+			}
+
+		} else {
+
+			console.log('t', e);
+			this.setState({
+				left: false,
+				right: true,
+				currentPage: num,
+				checkboxValidation: false
+			})
+
+
+		}
+
+
 	}
 
 
@@ -282,193 +282,193 @@ console.log(new_array)
 											</div></Fade>}
 									{this.state.currentPage == 4 &&
 										<Fade right={this.state.right} left={this.state.left}>
-											<Form onSubmit={(e) => this.goNext(5, e,true)}>
-											<div className={`onboarding__step-content-area onboarding__step-content-area--4 ${this.state.currentPage === 4 ? 'active' : null}`}>
-												<h2>Specialties</h2>
-												<p>What are your specialties as a <span className={'text--bold'}>{profile.professions.chef ? 'Chef' : null}{profile.professions.fitnessTrainer ? 'Fitness Trainer' : null}{profile.professions.nutritionist ? 'Nutritionist' : null}{profile.professions.massageTherapist ? 'Massage Therapist' : null}</span>?</p>
-												<p>Please choose atleast 1 specialties.</p>
-												{profile.professions.chef && (
-													<Form.Field className={'field--cols'}>
-														<div className="ui checkbox">
-															<input id="seafood" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.seafood} onChange={this.handleSpecialities} />
-															<label htmlFor="seafood">Seafood</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="american" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.american} onChange={this.handleSpecialities} />
-															<label htmlFor="american">American</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="breakfastOrBrunch" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.breakfastOrBrunch} onChange={this.handleSpecialities} />
-															<label htmlFor="breakfastOrBrunch">Breakfast or Brunch</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="international" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.international} onChange={this.handleSpecialities} />
-															<label htmlFor="international">International</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="southern" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.southern} onChange={this.handleSpecialities} />
-															<label htmlFor="southern">Southern</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="healthy" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.healthy} onChange={this.handleSpecialities} />
-															<label htmlFor="healthy">Healthy</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="desserts" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.desserts} onChange={this.handleSpecialities} />
-															<label htmlFor="desserts">Desserts</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="juicesAndSmoothies" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.juicesAndSmoothies} onChange={this.handleSpecialities} />
-															<label htmlFor="juicesAndSmoothies">Juices and Smoothies</label>
-														</div>
-													</Form.Field>
-												)}
+											<Form onSubmit={(e) => this.goNext(5, e, true)}>
+												<div className={`onboarding__step-content-area onboarding__step-content-area--4 ${this.state.currentPage === 4 ? 'active' : null}`}>
+													<h2>Specialties</h2>
+													<p>What are your specialties as a <span className={'text--bold'}>{profile.professions.chef ? 'Chef' : null}{profile.professions.fitnessTrainer ? 'Fitness Trainer' : null}{profile.professions.nutritionist ? 'Nutritionist' : null}{profile.professions.massageTherapist ? 'Massage Therapist' : null}</span>?</p>
+													<p>Please choose atleast 1 specialties.</p>
+													{profile.professions.chef && (
+														<Form.Field className={'field--cols'} style={{ padding: '0px' }}>
+															<div className="ui checkbox">
+																<input id="seafood" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.seafood} onChange={this.handleSpecialities} />
+																<label htmlFor="seafood">Seafood</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="american" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.american} onChange={this.handleSpecialities} />
+																<label htmlFor="american">American</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="breakfastOrBrunch" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.breakfastOrBrunch} onChange={this.handleSpecialities} />
+																<label htmlFor="breakfastOrBrunch">Breakfast or Brunch</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="international" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.international} onChange={this.handleSpecialities} />
+																<label htmlFor="international">International</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="southern" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.southern} onChange={this.handleSpecialities} />
+																<label htmlFor="southern">Southern</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="healthy" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.healthy} onChange={this.handleSpecialities} />
+																<label htmlFor="healthy">Healthy</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="desserts" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.desserts} onChange={this.handleSpecialities} />
+																<label htmlFor="desserts">Desserts</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="juicesAndSmoothies" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.juicesAndSmoothies} onChange={this.handleSpecialities} />
+																<label htmlFor="juicesAndSmoothies">Juices and Smoothies</label>
+															</div>
+														</Form.Field>
+													)}
 
-												{profile.professions.massageTherapist && (
-													<Form.Field className={'field--cols'}>
-														<div className="ui checkbox">
-															<input id="deepTissue" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.deepTissue} onChange={this.handleSpecialities} />
-															<label htmlFor="deepTissue">Deep Tissue</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="swedish" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.swedish} onChange={this.handleSpecialities} />
-															<label htmlFor="swedish">Swedish</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="stone" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.stone} onChange={this.handleSpecialities} />
-															<label htmlFor="stone">Stone</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="pregnancy" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pregnancy} onChange={this.handleSpecialities} />
-															<label htmlFor="pregnancy">Pregnancy</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="sports" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.sports} onChange={this.handleSpecialities} />
-															<label htmlFor="sports">Sports</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="reflexology" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.reflexology} onChange={this.handleSpecialities} />
-															<label htmlFor="reflexology">Reflexology</label>
-														</div>
-													</Form.Field>
-												)}
+													{profile.professions.massageTherapist && (
+														<Form.Field className={'field--cols'} style={{ padding: '0px' }}>
+															<div className="ui checkbox">
+																<input id="deepTissue" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.deepTissue} onChange={this.handleSpecialities} />
+																<label htmlFor="deepTissue">Deep Tissue</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="swedish" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.swedish} onChange={this.handleSpecialities} />
+																<label htmlFor="swedish">Swedish</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="stone" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.stone} onChange={this.handleSpecialities} />
+																<label htmlFor="stone">Stone</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="pregnancy" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pregnancy} onChange={this.handleSpecialities} />
+																<label htmlFor="pregnancy">Pregnancy</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="sports" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.sports} onChange={this.handleSpecialities} />
+																<label htmlFor="sports">Sports</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="reflexology" tabindex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.reflexology} onChange={this.handleSpecialities} />
+																<label htmlFor="reflexology">Reflexology</label>
+															</div>
+														</Form.Field>
+													)}
 
-												{profile.professions.nutritionist && (
-													<Form.Field className={'field--cols'}>
-														<div className="ui checkbox">
-															<input id="normalNutrition" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.normalNutrition} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="normalNutrition">Normal Nutrition</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="veganOrVegetarian" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.veganOrVegetarian} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="veganOrVegetarian">Vegan or Vegetarian</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="paleo" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.paleo} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="paleo">Paleo</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="publicHealth" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.publicHealth} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="publicHealth">Public Health</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="sports" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.sports} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="sports">Sports</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="pediatric" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pediatric} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="pediatric">Pediatric</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="diabetes" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.diabetes} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="diabetes">Diabetes</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="heartHealth" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.heartHealth} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="heartHealth">Heart Health</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="autoimmuneDisease" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.autoimmuneDisease} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="autoimmuneDisease">Autoimmune Disease</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="foodAllergies" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.foodAllergies} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="foodAllergies">Food Allergies</label>
-														</div>
-													</Form.Field>
-												)}
+													{profile.professions.nutritionist && (
+														<Form.Field className={'field--cols'} style={{ padding: '0px' }}>
+															<div className="ui checkbox">
+																<input id="normalNutrition" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.normalNutrition} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="normalNutrition">Normal Nutrition</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="veganOrVegetarian" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.veganOrVegetarian} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="veganOrVegetarian">Vegan or Vegetarian</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="paleo" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.paleo} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="paleo">Paleo</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="publicHealth" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.publicHealth} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="publicHealth">Public Health</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="sports" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.sports} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="sports">Sports</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="pediatric" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pediatric} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="pediatric">Pediatric</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="diabetes" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.diabetes} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="diabetes">Diabetes</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="heartHealth" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.heartHealth} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="heartHealth">Heart Health</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="autoimmuneDisease" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.autoimmuneDisease} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="autoimmuneDisease">Autoimmune Disease</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="foodAllergies" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.foodAllergies} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="foodAllergies">Food Allergies</label>
+															</div>
+														</Form.Field>
+													)}
 
-												{profile.professions.fitnessTrainer && (
-													<Form.Field className={'field--cols'}>
-														<div className="ui checkbox">
-															<input id="competitionPrep" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.competitionPrep} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="competitionPrep">Competition Prep</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="powerLifting" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.powerLifting} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="powerLifting">Powerlifting</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="weightLoss" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.weightLoss} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="weightLoss">Weight Loss</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="bodyFatLoss" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.bodyFatLoss} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="bodyFatLoss">Body Fat Loss</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="sizeGaining" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.sizeGaining} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="sizeGaining">Size Gaining</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="enduranceTraining" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.enduranceTraining} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="enduranceTraining">Endurance Training</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="formingAndToning" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.formingAndToning} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="formingAndToning">Forming and Toning</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="flexibility" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.flexibility} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="flexibility">Flexibility</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="aerobicFitness" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.aerobicFitness} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="aerobicFitness">Aerobic Fitness</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="pregnancy" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pregnancy} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="pregnancy">Pregnancy</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="rehabilitation" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.rehabilitation} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="rehabilitation">Rehabilitation</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="pilates" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pilates} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="pilates">Pilates</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="yoga" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.yoga} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="yoga">Yoga</label>
-														</div>
-														<div className="ui checkbox">
-															<input id="athletic" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.athletic} onChange={this.handleSpecialities} />
-															<label htmlhtmlFor="athletic">Athletic</label>
-														</div>
-													</Form.Field>
-												)}
-												{this.state.checkboxValidation &&
-														<div className="status status--danger status--full">
-														please select at least 1 specialties
+													{profile.professions.fitnessTrainer && (
+														<Form.Field className={'field--cols'} style={{ padding: '0px' }}>
+															<div className="ui checkbox">
+																<input id="competitionPrep" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.competitionPrep} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="competitionPrep">Competition Prep</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="powerLifting" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.powerLifting} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="powerLifting">Powerlifting</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="weightLoss" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.weightLoss} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="weightLoss">Weight Loss</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="bodyFatLoss" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.bodyFatLoss} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="bodyFatLoss">Body Fat Loss</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="sizeGaining" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.sizeGaining} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="sizeGaining">Size Gaining</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="enduranceTraining" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.enduranceTraining} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="enduranceTraining">Endurance Training</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="formingAndToning" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.formingAndToning} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="formingAndToning">Forming and Toning</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="flexibility" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.flexibility} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="flexibility">Flexibility</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="aerobicFitness" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.aerobicFitness} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="aerobicFitness">Aerobic Fitness</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="pregnancy" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pregnancy} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="pregnancy">Pregnancy</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="rehabilitation" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.rehabilitation} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="rehabilitation">Rehabilitation</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="pilates" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.pilates} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="pilates">Pilates</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="yoga" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.yoga} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="yoga">Yoga</label>
+															</div>
+															<div className="ui checkbox">
+																<input id="athletic" tabIndex="0" type="checkbox" defaultChecked={profile.specialties && profile.specialties.athletic} onChange={this.handleSpecialities} />
+																<label htmlhtmlFor="athletic">Athletic</label>
+															</div>
+														</Form.Field>
+													)}
+													{this.state.checkboxValidation &&
+														<div className="status status--danger status--full" style={{ marginBottom: '20px' }}>
+															Please Select at least 1 specialty.
 														</div>
 													}
-												<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
-													<button onClick={(e) => this.goBack(3, e)} className="button">Previous</button>
-													<button type="submit" className="button">Next</button>
-												</div>
+													<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
+														<button onClick={(e) => this.goBack(3, e)} className="button">Previous</button>
+														<button type="submit" className="button">Next</button>
+													</div>
 
-											</div></Form>
+												</div></Form>
 										</Fade>}
 									{this.state.currentPage == 5 &&
 										<Fade right={this.state.right} left={this.state.left} >
@@ -734,12 +734,9 @@ console.log(new_array)
 											<Form onSubmit={(e) => this.props.profile.isProPremium ? this.goNext(12, e) : this.goNext(13, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--11 ${this.state.currentPage === 11 ? 'active' : null}`}>
 													<PaypalModal></PaypalModal>
-													<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
+													<div className="buttons--inline" style={{ justifyContent: 'flex-start', marginTop: '20px' }}>
 														<button onClick={(e) => this.goBack(9, e)} className="button">Previous</button>
-														{this.props.profile.isProPremium ?
-															<button type="submit" className="button">Next</button>
-															:
-															<button type="submit" className="button">Next</button>}
+														<button type="submit" className="button">Next</button>
 													</div>
 													{this.state.error &&
 														<div className="status status--danger status--full">
@@ -788,7 +785,7 @@ console.log(new_array)
 												<div style={{ marginBottom: '0px' }}>
 													<h2>You did it!</h2>
 												</div>
-												<div className="form__inner">
+												<div className="form__inner" style={{ marginBottom: '10px' }}>
 													<p>Once you complete the onboarding, you're profile will be sent to our admins in which they will review and approved within 2 business days.</p>
 													<p>Don't worry, you'll still be able to use the website and update your profile!</p>
 												</div>
