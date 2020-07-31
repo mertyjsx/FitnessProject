@@ -127,50 +127,48 @@ class Onboarding extends Component {
 		}
 	}
 
-	goNext = (num, e, validation) => {
+	
+	goNext = (num, e,validation) => {
 		e.preventDefault()
-		let error = false
-		if (validation && validation.length > 0) {
+		console.log(validation)
+				if (validation) {
+					
+let new_array=Object.values(this.state.specialties).filter(item=>item==true)
+console.log(new_array)
+				if(new_array.length===0){
+				
+					this.setState({
+						
+						checkboxValidation:true
+					})
 
-			validation.map(item => {
-				console.log(item.which)
-				console.log(this.state[item.which])
-				if (!this.state[item.which]) {
-					this.setState({ error: item.error })
-					error = true
+				}else{
+					console.log('t', e);
+					this.setState({
+						left: false,
+						right: true,
+						currentPage: num,
+						checkboxValidation:false
+					})
+
 				}
-			})
-
-			if (!error) {
-
-				console.log('t', e);
-				this.setState({
-					left: false,
-					right: true,
-					currentPage: num,
-					error: ""
-				})
-
-			}
-
-
-
-
-		} else {
-
-			console.log('t', e);
-			this.setState({
-				left: false,
-				right: true,
-				currentPage: num,
-				error: ""
-			})
-
-
-		}
-
-
+		
+				} else {
+		
+					console.log('t', e);
+					this.setState({
+						left: false,
+						right: true,
+						currentPage: num,
+						checkboxValidation:false
+					})
+		
+		
+				}
+		
+	
 	}
+
 
 	goBack = (num, e) => {
 		e.preventDefault()
@@ -284,6 +282,7 @@ class Onboarding extends Component {
 											</div></Fade>}
 									{this.state.currentPage == 4 &&
 										<Fade right={this.state.right} left={this.state.left}>
+											<Form onSubmit={(e) => this.goNext(5, e,true)}>
 											<div className={`onboarding__step-content-area onboarding__step-content-area--4 ${this.state.currentPage === 4 ? 'active' : null}`}>
 												<h2>Specialties</h2>
 												<p>What are your specialties as a <span className={'text--bold'}>{profile.professions.chef ? 'Chef' : null}{profile.professions.fitnessTrainer ? 'Fitness Trainer' : null}{profile.professions.nutritionist ? 'Nutritionist' : null}{profile.professions.massageTherapist ? 'Massage Therapist' : null}</span>?</p>
@@ -461,10 +460,10 @@ class Onboarding extends Component {
 												)}
 												<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 													<button onClick={(e) => this.goBack(3, e)} className="button">Previous</button>
-													<button onClick={(e) => this.goNext(5, e)} className="button">Next</button>
+													<button type="submit" className="button">Next</button>
 												</div>
 
-											</div>
+											</div></Form>
 										</Fade>}
 									{this.state.currentPage == 5 &&
 										<Fade right={this.state.right} left={this.state.left} >
