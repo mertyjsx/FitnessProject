@@ -85,7 +85,9 @@ class Onboarding extends Component {
 		console.log('next screen');
 	}
 
+
 	handleSubmit = (e) => {
+		
 		e.preventDefault()
 		let speArray = Object.values(this.state.specialties)
 		let CheckArray = speArray.filter(item => item)
@@ -125,37 +127,49 @@ class Onboarding extends Component {
 		}
 	}
 
-	goNext = (num, e) => {
+	goNext = (num, e,validation) => {
 		e.preventDefault()
-		console.log('t', e);
-		this.setState({
-			left:false,
-			right:true,
-			currentPage: num
-		}, () => {
-			/*
-			const sliders = document.getElementsByClassName('onboarding__step-content-container');
-			const sliderItemWidth = document.getElementsByClassName(`onboarding__step-content-area--${(num)}`)[0].clientWidth
-			console.log(num-1)
-				console.log(sliderItemWidth)
-
-			
-
-					sliders[0].setAttribute('style', 'transform:' +`translateX(-${(sliderItemWidth*(num-1)+90)}px)`  + '!important;');
-			
+		let error=false
+				if (validation && validation.length > 0) {
+		
+					validation.map(item => {
+		console.log(item.which)
+		console.log(this.state[item.which])
+						if (!this.state[item.which]) {
+							this.setState({ error: item.error })
+							error=true
+						}
+					})
 				
-				*/
-
-
-
-
-
-
-		})
-
-
-
-
+					if (!error) {
+		
+						console.log('t', e);
+						this.setState({
+							left: false,
+							right: true,
+							currentPage: num,
+							error:""
+						})
+		
+					}
+		
+		
+		
+		
+				} else {
+		
+					console.log('t', e);
+					this.setState({
+						left: false,
+						right: true,
+						currentPage: num,
+						error: ""
+					})
+		
+		
+				}
+		
+	
 	}
 
 	goBack = (num, e) => {
@@ -236,6 +250,7 @@ class Onboarding extends Component {
 										<button onClick={(e) => this.goNext(2, e)} className="button">Next</button>
 									</div>
 								}
+								<Form className="form__secondary">
 								{this.state.currentPage == 2 &&
 									<Fade right={this.state.right} left={this.state.left}>
 										<div className={`onboarding__step-content-area onboarding__step-content-area--2 ${this.state.currentPage === 2 ? 'active' : null}`}>
@@ -249,9 +264,10 @@ class Onboarding extends Component {
 												<>
 													<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 														<button onClick={(e) => this.goBack(1, e)} className="button">Previous</button>
-														<button onClick={(e) => this.goNext(3, e)} className="button">Next</button>
+														<button type="submit" onClick={(e) => this.goNext(3, e)} className="button">Next</button>
 													</div>
 												</> : null}
+											
 										</div>
 									</Fade>}
 								{this.state.currentPage == 3 &&
@@ -264,6 +280,7 @@ class Onboarding extends Component {
 												<button onClick={(e) => this.goBack(2, e)} className="button">Previous</button>
 												<button onClick={(e) => this.goNext(4, e)} className="button">Next</button>
 											</div>
+											
 										</div></Fade>}
 								{this.state.currentPage == 4 &&
 									<Fade right={this.state.right} left={this.state.left}>
@@ -450,7 +467,8 @@ class Onboarding extends Component {
 										</div>
 										</Fade>}
 								{this.state.currentPage == 5 &&
-									<Fade right={this.state.right} left={this.state.left}>
+									<Fade right={this.state.right} left={this.state.left} >
+										<Form onSubmit={(e) => this.goNext(6, e)}>
 										<div className={`onboarding__step-content-area onboarding__step-content-area--5 ${this.state.currentPage === 5 ? 'active' : null}`}>
 											<h2>Rates</h2>
 											<p>What are your rates as a <span className={'text--bold'}>{profile.professions.chef ? 'Chef' : null}{profile.professions.fitnessTrainer ? 'Fitness Trainer' : null}{profile.professions.nutritionist ? 'Nutritionist' : null}{profile.professions.massageTherapist ? 'Massage Therapist' : null}</span>?</p>
@@ -550,6 +568,7 @@ class Onboarding extends Component {
 
 											{profile.professions.fitnessTrainer && (
 												<>
+												
 													<Form.Field className={'field--cols'} style={{ padding: '0' }}>
 														<div className="ui checkbox">
 															<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
@@ -581,12 +600,19 @@ class Onboarding extends Component {
 											)}
 											<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 												<button onClick={(e) => this.goBack(4, e)} className="button">Previous</button>
-												<button onClick={(e) => this.goNext(6, e)} className="button">Next</button>
+												<button type="submit"  className="button">Next</button>
 											</div>
-										</div>
+											{this.state.error &&
+											<div className="status status--danger status--full">
+												{this.state.error}
+											</div>
+										}
+									
+										</div>	</Form>
 									</Fade>}
 								{this.state.currentPage == 6 &&
 									<Fade right={this.state.right} left={this.state.left}>
+											<Form onSubmit={(e) => this.goNext(7, e)}>
 										<div className={`onboarding__step-content-area onboarding__step-content-area--6 ${this.state.currentPage === 6 ? 'active' : null}`}>
 											<h2>About You</h2>
 											<p>We'd like to know more about you! The information you provide here will be part of your profile.</p>
@@ -596,12 +622,18 @@ class Onboarding extends Component {
 											</Form.Field>
 											<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 												<button onClick={(e) => this.goBack(5, e)} className="button">Previous</button>
-												<button onClick={(e) => this.goNext(7, e)} className="button">Next</button>
+												<button  type="submit" className="button">Next</button>
 											</div>
-										</div>
+											{this.state.error &&
+											<div className="status status--danger status--full">
+												{this.state.error}
+											</div>
+										}
+										</div></Form>
 									</Fade>}
 								{this.state.currentPage == 7 &&
 									<Fade right={this.state.right} left={this.state.left}>
+										<Form onSubmit={(e) => this.goNext(8, e)}>
 										<div className={`onboarding__step-content-area onboarding__step-content-area--7 ${this.state.currentPage === 7 ? 'active' : null}`}>
 											<h2>What's a fun fact about you?</h2>
 											<Form.Field>
@@ -610,37 +642,52 @@ class Onboarding extends Component {
 											</Form.Field>
 											<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 												<button onClick={(e) => this.goBack(6, e)} className="button">Previous</button>
-												<button onClick={(e) => this.goNext(8, e)} className="button">Next</button>
+												<button type="submit" className="button">Next</button>
 											</div>
-										</div>
-										</Fade>}
+											{this.state.error &&
+											<div className="status status--danger status--full">
+												{this.state.error}
+											</div>
+										}
+										</div></Form>
+										</Fade>
+										
+										}
 										{this.state.currentPage == 8 &&
 											<Fade right={this.state.right} left={this.state.left}>
+												<Form onSubmit={(e) => this.goNext(9, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--8 ${this.state.currentPage === 8 ? 'active' : null}`}>
 													<h2>What's your favorite quote?</h2>
 													<Form.Field>
 														<label class="screen-reader-text" htmlFor="favQuote">Favorite Quote</label>
-														<textarea id={'favQuote'} placeholder="Tell us Your favorite quote." defaultValue={profile.favQuote} onChange={this.handleChange}></textarea>
+														<textarea required id={'favQuote'} placeholder="Tell us Your favorite quote." defaultValue={profile.favQuote} onChange={this.handleChange}></textarea>
 													</Form.Field>
 													<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 														<button onClick={(e) => this.goBack(7, e)} className="button">Previous</button>
-														<button onClick={(e) => this.goNext(9, e)} className="button">Next</button>
+														<button  type="submit" className="button">Next</button>
 													</div>
-												</div>
+												</div></Form>
 											</Fade>}
 										{this.state.currentPage == 9 &&
 											<Fade right={this.state.right} left={this.state.left}>
+													<Form onSubmit={(e) => this.goNext(10, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--9 ${this.state.currentPage === 9 ? 'active' : null}`}>
 													<h2>Business Info</h2>
 													<p>All business fields are required for your profile to be approved. This information will be provided to the client when they book with you.</p>
 													<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 														<button onClick={(e) => this.goBack(8, e)} className="button">Previous</button>
-														<button onClick={(e) => this.goNext(10, e)} className="button">Next</button>
+														<button  type="submit" className="button">Next</button>
 													</div>
-												</div>
+													{this.state.error &&
+											<div className="status status--danger status--full">
+												{this.state.error}
+											</div>
+										}
+												</div></Form>
 											</Fade>}
 										{this.state.currentPage == 10 &&
 											<Fade right={this.state.right} left={this.state.left}>
+													<Form onSubmit={(e) => this.goNext(11, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--10 ${this.state.currentPage === 10 ? 'active' : null}`}>
 													<h2>Business Info</h2>
 													<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
@@ -669,26 +716,38 @@ class Onboarding extends Component {
 													</div>
 													<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 														<button onClick={(e) => this.goBack(9, e)} className="button">Previous</button>
-														<button onClick={(e) => this.goNext(11, e)} className="button">Next</button>
+														<button type="submit" className="button">Next</button>
 													</div>
-												</div>
+													{this.state.error &&
+											<div className="status status--danger status--full">
+												{this.state.error}
+											</div>
+										}
+												</div></Form>
 											</Fade>}
 										{this.state.currentPage == 11 &&
 											<Fade right={this.state.right} left={this.state.left}>
+													<Form onSubmit={(e) =>this.props.profile.isProPremium ? this.goNext(12, e): this.goNext(13, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--11 ${this.state.currentPage === 11 ? 'active' : null}`}>
 													<PaypalModal></PaypalModal>
 													<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 														<button onClick={(e) => this.goBack(9, e)} className="button">Previous</button>
 														{this.props.profile.isProPremium ?
-															<button onClick={(e) => this.goNext(12, e)} className="button">Next</button>
+															<button type="submit" className="button">Next</button>
 															:
-															<button onClick={(e) => this.goNext(13, e)} className="button">Next</button>}
+															<button type="submit" className="button">Next</button>}
 													</div>
-												</div>
+													{this.state.error &&
+											<div className="status status--danger status--full">
+												{this.state.error}
+											</div>
+										}
+												</div></Form>
 											</Fade>}
 										{this.props.profile.isProPremium &&
 											this.state.currentPage == 12 &&
 											<Fade right={this.state.right} left={this.state.left}>
+													<Form onSubmit={(e) => this.goNext(13, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--12 ${this.state.currentPage === 12 ? 'active' : null}`}>
 													<div style={{ marginBottom: '0px' }}>
 														<h2>Social Accounts</h2>
@@ -707,12 +766,17 @@ class Onboarding extends Component {
 															<Input id="socialPinterest" type="url" placeholder="Enter your Pinterest profile url" label="Pinterest" defaultValue={this.props.profile.socialPinterest} onChange={this.handleChange} />
 														</Form.Field>
 													</div>
+													{this.state.error &&
+											<div className="status status--danger status--full">
+												{this.state.error}
+											</div>
+										}
 
 													<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 														<button onClick={(e) => this.goBack(9, e)} className="button">Previous</button>
-														<button onClick={(e) => this.goNext(13, e)} className="button">Next</button>
+														<button type="submit" className="button">Next</button>
 													</div>
-												</div>
+												</div></Form>
 											</Fade>}
 										{this.state.currentPage == 13 &&
 											<Fade right={this.state.right} left={this.state.left}>
@@ -726,6 +790,7 @@ class Onboarding extends Component {
 													</Form.Field>
 												</div>
 											</Fade>}
+											</Form>
 							</div>
 
 						</div>
