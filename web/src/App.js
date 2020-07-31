@@ -45,13 +45,35 @@ class App extends Component {
     super();
     this.state = {
       splash: false,
-      calling:false
+      calling: false
     }
   }
-  
+
   componentDidMount() {
     loadReCaptcha();
+  }
 
+  componentWillMount() {
+    let script = document.createElement('script');
+    script.setAttribute('id', '_agile_min_js');
+    script.onload = function () {
+      let newScript = document.createElement('script');
+      let inlineScript = document.createTextNode("var Agile_API = Agile_API || {}; Agile_API.on_after_load = function(){_agile.set_account('3h6emnq5000gjh577j9gk2ca9n', 'choosetobeyou', false);_agile.track_page_view();_agile_execute_web_rules();}");
+      newScript.setAttribute('id', '_agile_js');
+      newScript.appendChild(inlineScript);
+      document.getElementsByTagName('head')[0].appendChild(newScript);
+    };
+    script.src = "https://choosetobeyou.agilecrm.com/stats/min/agile-min.js";
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  componentWillUnmount() {
+    let agileMinJS = document.getElementById('_agile_min_js');
+    let agileJS = document.getElementById('_agile_js');
+    if (agileMinJS && agileJS) {
+      agileMinJS.remove();
+      agileJS.remove();
+    }
   }
 
   render() {
@@ -60,9 +82,9 @@ class App extends Component {
         <ScrollToTop />
         <div className="App">
           <Navbar splash={this.state.splash} />
-{this.state.calling&&
-<div>Calling.....</div>
-}
+          {this.state.calling &&
+            <div>Calling.....</div>
+          }
           <Switch>
             <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
             <Route exact path="/social" component={Social} />
