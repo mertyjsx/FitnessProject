@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Fade from 'react-reveal/Fade';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import { Button, Form, Input } from 'semantic-ui-react';
 import ellipses from '../../assets/images/ellipsis.gif';
 import states from '../../json/states.json';
 import { completeOnboardingClient } from '../../store/actions/authActions';
 import Loading from '../modules/Loading';
-import Fade from 'react-reveal/Fade';
 class OnboardingClient extends Component {
 
 	constructor(props) {
@@ -84,18 +84,18 @@ class OnboardingClient extends Component {
 
 	goNext = (num, e, validation) => {
 		e.preventDefault()
-let error=false
+		let error = false
 		if (validation && validation.length > 0) {
 
 			validation.map(item => {
-console.log(item.which)
-console.log(this.state[item.which])
+				console.log(item.which)
+				console.log(this.state[item.which])
 				if (!this.state[item.which]) {
 					this.setState({ error: item.error })
-					error=true
+					error = true
 				}
 			})
-		
+
 			if (!error) {
 
 				console.log('t', e);
@@ -103,7 +103,7 @@ console.log(this.state[item.which])
 					left: false,
 					right: true,
 					currentPage: num,
-					error:""
+					error: ""
 				})
 
 			}
@@ -230,16 +230,16 @@ console.log(this.state[item.which])
 												<input id="juicesAndSmoothies" tabindex="0" type="checkbox" defaultChecked={profile.interests && profile.interests.juicesAndSmoothies} onChange={this.handleInterests} />
 												<label for="juicesAndSmoothies">Juices and Smoothies</label>
 											</div>
-										
+
 											{this.state.error &&
 												<div className="status status--danger status--full">{this.state.error}</div>
 											}
 										</Form.Field>
 
 										<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
-												<button onClick={(e) => this.goBack(1, e)} className="button">Previous</button>
-												<button onClick={(e) => this.goNext(3, e)} className="button">Next</button>
-											</div>
+											<button onClick={(e) => this.goBack(1, e)} className="button">Previous</button>
+											<button onClick={(e) => this.goNext(3, e)} className="button">Next</button>
+										</div>
 									</div></Fade>}
 							{this.state.currentPage == 3 &&
 								<Fade right={this.state.right} left={this.state.left}>
@@ -487,8 +487,8 @@ console.log(this.state[item.which])
 													this.goBack(6, e)
 												}} className="button">Previous</button>
 											</Form.Field>
-											{this.state.error&&
-											<div className="status status--danger status--full">{this.state.error}</div>
+											{this.state.error &&
+												<div className="status status--danger status--full">{this.state.error}</div>
 											}
 										</div>
 										<div className={'form__inner--2'}>
