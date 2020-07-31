@@ -458,6 +458,11 @@ console.log(new_array)
 														</div>
 													</Form.Field>
 												)}
+												{this.state.checkboxValidation &&
+														<div className="status status--danger status--full">
+														please select at least 1 specialties
+														</div>
+													}
 												<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 													<button onClick={(e) => this.goBack(3, e)} className="button">Previous</button>
 													<button type="submit" className="button">Next</button>
