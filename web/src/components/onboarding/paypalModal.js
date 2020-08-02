@@ -73,6 +73,13 @@ class UpgradeProPremium extends Component {
 						<Modal buttonText={'Become a Pro Premium'} buttonStyle={'button button--md button--secondary'} content={(
 							<>
 								<h2>Become a Pro Premium</h2>
+								<p>Upgrade today to add the following features to your profile:</p>
+								<ul>
+									<li>Website / Social Links</li>
+									<li>Recognition</li>
+									<li>Additional Photos and Videos</li>
+									<li>Additional Client Leads</li>
+								</ul>
 								<PayPalButton
 									options={{
 										clientId: paypalConfig.client_id,
@@ -80,7 +87,6 @@ class UpgradeProPremium extends Component {
 									}}
 									createSubscription={(data, actions) => {
 										return actions.subscription.create({
-											// plan_id: 'PROD-97A271950K7441738' // This has the product ID instead of plan ID
 											plan_id: paypalConfig.plan_id
 										});
 									}}

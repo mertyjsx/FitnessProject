@@ -1,20 +1,34 @@
-import React from "react"
+import React, { useState } from "react"
 import { connect } from 'react-redux'
-import { Button } from "semantic-ui-react"
 import { deleteAccount } from '../../store/actions/authActions'
 import Modal from '../modal/Modal'
 
 const DeleteAccount = (props) => {
+	const [password, setPassword] = useState('');
 
-	const remove = () => {
-		// console.log('removed', props);
-		props.deleteAccount()
+	const handleChange = (e) => {
+		setPassword(e.target.value)
+	}
+
+	const remove = (e) => {
+		e.preventDefault()
+		password && props.deleteAccount(password)
 	}
 
 	const modalContent = (
 		<>
 			<h2>Confirm Deletion</h2>
-			<Button onClick={remove}>Delete</Button>
+			<p>To delete your acccount, enter your password and submit below.</p>
+			<form onSubmit={remove}>
+				<div className="form__inner">
+					<div className="field">
+						<input type="password" defaultValue={password} onChange={handleChange} required />
+					</div>
+					<div className="field">
+						<button className={'button'}>Delete</button>
+					</div>
+				</div>
+			</form>
 		</>
 	)
 
@@ -33,7 +47,7 @@ const DeleteAccount = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		deleteAccount: () => dispatch(deleteAccount())
+		deleteAccount: (password) => dispatch(deleteAccount(password))
 	}
 }
 

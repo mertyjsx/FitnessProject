@@ -105,7 +105,7 @@ export const signInClientWithFacebook = (newUser) => {
 								photoURL: user.photoURL,
 								isProPremium: false,
 								emailVerified: false,
-								googleOrFacebook:true
+								googleOrFacebook: true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -150,7 +150,7 @@ export const signUpClientWithFacebook = (newUser) => {
 								photoURL: user.photoURL,
 								isProPremium: false,
 								emailVerified: false,
-								googleOrFacebook:true
+								googleOrFacebook: true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -166,7 +166,6 @@ export const signUpClientWithFacebook = (newUser) => {
 			})
 	}
 }
-
 
 export const signUpClientWithGoogle = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
@@ -203,7 +202,7 @@ export const signUpClientWithGoogle = (newUser) => {
 								photoURL: user_image_url,
 								isProPremium: false,
 								emailVerified: false,
-								googleOrFacebook:true
+								googleOrFacebook: true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -223,9 +222,8 @@ export const signInClientWithGoogle = (newUser) => {
 		// console.log('su w/ fb', newUser, fb )
 		firebase.auth().signInWithPopup(google)
 			.then(async (result) => {
-				console.log('google', result);
-				console.log(result.user.uid)
-
+				// console.log('google', result);
+				// console.log(result.user.uid)
 				const userExist = await db.collection('users').doc(result.user.uid).get()
 				console.log(userExist.exists)
 				if (userExist.exists) {
@@ -250,7 +248,7 @@ export const signInClientWithGoogle = (newUser) => {
 								photoURL: user_image_url,
 								isProPremium: false,
 								emailVerified: false,
-								googleOrFacebook:true
+								googleOrFacebook: true
 							})
 						}).catch(err => {
 							dispatch({ type: 'SIGNUP_ERROR', err })
@@ -261,7 +259,6 @@ export const signInClientWithGoogle = (newUser) => {
 			})
 	}
 }
-
 
 export const ClientToPro = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
@@ -289,13 +286,8 @@ export const ClientToPro = (newUser) => {
 				nutritionist: newUser.professionNutritionist
 			}
 		}, { merge: true })
-
-		// dispatch({ type: 'SIGNUP_SUCCESS' })
-
-
 	}
 }
-
 
 export const signUpPro = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
@@ -309,7 +301,7 @@ export const signUpPro = (newUser) => {
 			const currentUser = response.user
 			const newUserID = response.user.uid
 
-			console.log('the response', response);
+			// console.log('the response', response);
 
 			currentUser.sendEmailVerification()
 				.then(function () {
@@ -404,58 +396,32 @@ export const completeOnboarding = (newInfo, isDeclined) => {
 					// console.error("Error cancelling document: ", error);
 					dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
 				})
-
-
 		}
-
-
-
-
 	}
 }
-
-
 
 export const completeOnboardingClient = (newInfo) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
 		const firestore = getFirestore()
 		const userID = getState().firebase.auth.uid
-
-
-
-
-
 		//firstsubmit
-		console.log("first submit")
+		// console.log("first submit")
 		firestore.collection('users').doc(userID).update({
 			...newInfo,
 			isOnboardingClientCompleted: true
-
-
 		})
 			.then(function () {
 				// console.log("Booking successfully cancelled!");
 				//	currentUser.sendEmailVerification().then(function () {
 				// Email sent.
 				dispatch({ type: 'CLOSE_INQUIRY', newInfo });
-				//}).catch(function (error) {
-				// An error happened.
-				//		console.log('error');
-				//	});
 			})
 			.catch(function (error) {
 				// The document probably doesn't exist.
 				// console.error("Error cancelling document: ", error);
 				dispatch({ type: 'CLOSE_INQUIRY_ERROR', newInfo })
 			})
-
-
-
-
-
-
-
 	}
 }
 
@@ -477,18 +443,23 @@ export const passwordReset = (email) => {
 	}
 }
 
-export const deleteAccount = () => {
+export const deleteAccount = (password) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase()
 		const user = firebase.auth().currentUser
-		// console.log(user);
-		user.delete().then((response) => {
-			// User deleted
-			console.log(response);
-		}).catch(err => {
-			// user error
-			dispatch({ type: 'SIGNUP_ERROR', err })
-		})
+		var credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+		user.reauthenticateWithCredential(credential).then(function () {
+			// User re-authenticated.
+			user.delete().then((response) => {
+				// User deleted
+				console.log(response);
+			}).catch(err => {
+				// user error
+				dispatch({ type: 'SIGNUP_ERROR', err })
+			})
+		}).catch(function (error) {
+			// An error happened.
+		});
 	}
 }
 

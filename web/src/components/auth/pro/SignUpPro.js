@@ -130,7 +130,7 @@ class SignUpPro extends Component {
 
 	render() {
 		const { auth, authError } = this.props
-		if (auth.uid) return <Redirect to='/dashboard' />
+		if (auth.uid) return <Redirect to='/onboarding' />
 
 		return (
 			<div className="signup">

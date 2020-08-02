@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { compose } from 'redux'
 import { Button } from "semantic-ui-react"
 import DeleteAccount from '../auth/DeleteAccount'
@@ -14,6 +14,8 @@ class Settings extends Component {
 	}
 
 	render() {
+		const { auth, profile } = this.props
+		if (!auth.uid) return <Redirect to='/signup' />
 		return (
 			<div className="settings">
 				<div className="container container--top-bottom-padding">

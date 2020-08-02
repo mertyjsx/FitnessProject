@@ -25,26 +25,26 @@ class UpgradeProPremium extends Component {
 
 		console.log('btn clicked')
 		let $this = this
-		axios.post(`${paypalBaseUri}v1/oauth2/token`,"grant_type=client_credentials",{
-			headers:{
-				"Accept" : "application/json",
-	   	  		"Accept-Language" : "en_US",
-	   	  		'Access-Control-Allow-Origin': 'localhost:3000'
+		axios.post(`${paypalBaseUri}v1/oauth2/token`, "grant_type=client_credentials", {
+			headers: {
+				"Accept": "application/json",
+				"Accept-Language": "en_US",
+				'Access-Control-Allow-Origin': 'localhost:3000'
 			},
 			auth: {
 				username: paypalConfig.client_id,
 				password: paypalConfig.client_secret
 			}
-		}).then(response=>{
+		}).then(response => {
 			let paypal_access_token = response.data.access_token;
-	   		let paypal_token_type = response.data.token_type;
+			let paypal_token_type = response.data.token_type;
 
 			axios({
 				url: `${paypalBaseUri}v1/billing/subscriptions/${this.props.profile.paypalPremium.id}/cancel`,
 				method: 'post',
 				headers: {
 					"Content-Type": "application/json",
-					"Authorization":`${paypal_token_type} ${paypal_access_token}`
+					"Authorization": `${paypal_token_type} ${paypal_access_token}`
 				},
 				data: { "reason": "test -- Not satisfied with the service" }
 			})
@@ -64,7 +64,7 @@ class UpgradeProPremium extends Component {
 	}
 
 	handleSubmit = (details, data) => {
-		console.log("nnn",details)
+		console.log("nnn", details)
 		let $this = this
 		this.setState({
 			isProPremium: true,
@@ -108,7 +108,7 @@ class UpgradeProPremium extends Component {
 						content={(
 							<>
 								<h2>Confirm Downgrade</h2>
-								<button onClick={this.cancelSubscription}>Downgrade</button>
+								<button class="button button--md button--primary" onClick={this.cancelSubscription}>Downgrade</button>
 							</>
 						)}
 					/>
@@ -119,6 +119,13 @@ class UpgradeProPremium extends Component {
 						content={(
 							<>
 								<h2>Confirm Upgrade</h2>
+								<p>Upgrade today to add the following features to your profile:</p>
+								<ul>
+									<li>Website / Social Links</li>
+									<li>Recognition</li>
+									<li>Additional Photos and Videos</li>
+									<li>Additional Client Leads</li>
+								</ul>
 								<PayPalButton
 									options={{
 										clientId: paypalConfig.client_id,

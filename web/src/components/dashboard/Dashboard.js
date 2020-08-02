@@ -17,8 +17,8 @@ class Dashboard extends Component {
 		this.state = {
 			Booking: 0,
 			Inbox: 0,
-			DiscoverPros:[],
-			PendingBookings:0
+			DiscoverPros: [],
+			PendingBookings: 0
 		}
 	}
 
@@ -27,50 +27,36 @@ class Dashboard extends Component {
 			if (this.props.interactions) {
 				const BookingArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
 				const InboxArray = this.props.interactions.filter(item => item.status === "active" && item.interactionType === "inquiry" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
-				const PendingBookings =  this.props.interactions.filter(item => item.status === "pending" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
-				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length ,PendingBookings:PendingBookings.length})
+				const PendingBookings = this.props.interactions.filter(item => item.status === "pending" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
+				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length, PendingBookings: PendingBookings.length })
 			}
 
 
 			const { users, auth, profile, notifications } = this.props
 
-let DiscoverPros=[]
-			
-				users && users.map(pro => {
-				
-					if (pro.isPro && pro.isApproved) {
-						var interests = profile.interests?profile.interests:{}
-						var specialties = pro.specialties
-					
-						for (const [key, value] of Object.entries(interests)) {
-							if (specialties) {
-								for (const [key2, value2] of Object.entries(specialties)) {
-									if (key === key2 && value === value2) {
-									
+			let DiscoverPros = []
+
+			users && users.map(pro => {
+
+				if (pro.isPro && pro.isApproved) {
+					var interests = profile.interests ? profile.interests : {}
+					var specialties = pro.specialties
+
+					for (const [key, value] of Object.entries(interests)) {
+						if (specialties) {
+							for (const [key2, value2] of Object.entries(specialties)) {
+								if (key === key2 && value === value2) {
+
 									DiscoverPros.push(pro)
-									
-									}
+
 								}
 							}
 						}
 					}
-				})
+				}
+			})
 
-
-	this.setState({DiscoverPros:DiscoverPros})
-
-
-
-
-
-
-
-
-
-
-
-
-
+			this.setState({ DiscoverPros: DiscoverPros })
 		}
 	}
 
@@ -93,6 +79,7 @@ let DiscoverPros=[]
 		if (!auth.uid) return <Redirect to='/signin' />
 		if (!profile.onboardingCompleted && profile.isPro) return <Redirect to='/onboarding' />
 		if (!profile.isOnboardingClientCompleted && (profile.isPro == false)) return <Redirect to='/onboarding-client' />
+
 		const data = [
 			{ name: 'Jan', uv: 5, pv: 25, amt: 25 },
 			{ name: 'Feb', uv: 10, pv: 25, amt: 25 },
@@ -272,17 +259,17 @@ let DiscoverPros=[]
 								</div>
 							</div>
 							<div className={'row'}>
-								{this.state.DiscoverPros.length>0 ?
-									
+								{this.state.DiscoverPros.length > 0 ?
 
-										this.state.DiscoverPros.map(pro=>
+
+									this.state.DiscoverPros.map(pro =>
 										<Link className={`pro-list__card col col--4`} to={'/pro/' + pro.uid} key={pro.uid}>
-										<ProCard pro={pro} compact={true} />
-									    </Link>
-										
-											)
-									
-									
+											<ProCard pro={pro} compact={true} />
+										</Link>
+
+									)
+
+
 									:
 									<div className="col">
 										<p>No pros found. <Link to={'/profile-edit#2'}>Click here</Link> to update your interests to discover pros.</p>
