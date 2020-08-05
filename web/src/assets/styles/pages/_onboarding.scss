@@ -51,10 +51,13 @@
 		flex: 1 0 calc(100% - 400px - #{$gutter*4});
 		position: relative;
 		// height: 100%;
-		overflow: hidden;
+		overflow: scroll;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+		@media screen and (max-height: 500px) and (min-width: $lg-max){ 
+			align-items: flex-start;
+		}
 		@media screen and (min-width: $lg-max) { 
 			max-height: 800px;
 			padding: 0 $gutter*2;

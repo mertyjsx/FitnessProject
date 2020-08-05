@@ -99,7 +99,7 @@ class UpgradeProPremium extends Component {
 		const { handleSubmit } = this
 		return (
 			<div className={'pro-premium'}>
-				<h3>Pro Premium</h3>
+				<h2>Pro Premium</h2>
 				<p>You are currently <strong>{this.props.profile.isProPremium ? 'enrolled' : 'not enrolled'}</strong> in the Pro Premium program.</p>
 				{this.props.profile.isProPremium ?
 					<Modal

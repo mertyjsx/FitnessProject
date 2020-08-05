@@ -19,10 +19,6 @@ import Videos from "./Videos"
 const Profile = (props, state) => {
 
 	const { auth, user } = props;
-	// console.log(user);
-	
-
-	// if (!auth.uid) return <Redirect to='/signin' />
 
 	const renderProfileNav = (about, background, credentials, faq, photos, videos, reviews) => {
 		// console.log(typeof credentials);
@@ -104,7 +100,17 @@ const Profile = (props, state) => {
 		return (
 			<div id="credentials" className={`profile__credentials`}>
 				<h2 className={`text--uppercase`}>Credentials</h2>
-				<p><FontAwesomeIcon icon={["fa", "file"]} className="yellow" /> <a href={cred} target="_blank" style={{ fontWeight: 'bold' }}>License</a></p>
+				<Modal
+					buttonIcon={'file'}
+					buttonText={`License`}
+					buttonStyle={'link text--bold text--sm text--font-secondary'}
+					buttonIconColor={'yellow'}
+					content={
+						<div>
+							<img src={cred} alt={`${user.firstName}'s license`} />
+						</div>
+					}
+				/>
 			</div>
 		)
 	}
@@ -112,7 +118,7 @@ const Profile = (props, state) => {
 	const renderImage = (image) => {
 		if (typeof image !== 'string') { return null }
 		return (
-			<img src={image} />
+			<img src={image} alt="Pro's profile" />
 		)
 	}
 
@@ -156,10 +162,10 @@ const Profile = (props, state) => {
 									<div className={`profile__meta-title`}>
 										<h1 className={`text--no-margin text--capitalize`}>{`${user.firstName} ${user.lastName}`} {renderBlueCheck(user)}</h1>
 										<ul className={'list list--inline'} style={{ width: '100%' }}>
-											<li>{user.socialFacebook ? <div><a href={user.socialFacebook} target="_blank"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></div> : null}</li>
-											<li>{user.socialTwitter ? <div><a href={user.socialTwitter} target="_blank"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></div> : null}</li>
-											<li>{user.socialInstagram ? <div><a href={user.socialInstagram} target="_blank"><FontAwesomeIcon icon={["fab", "instagram"]} /></a></div> : null}</li>
-											<li>{user.socialPinterest ? <div><a href={user.socialPinterest} target="_blank"><FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a></div> : null}</li>
+											<li>{user.socialFacebook ? <div><a href={user.socialFacebook} rel="noopener noreferrer" target="_blank"><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></div> : null}</li>
+											<li>{user.socialTwitter ? <div><a href={user.socialTwitter} rel="noopener noreferrer" target="_blank"><FontAwesomeIcon icon={["fab", "twitter"]} /></a></div> : null}</li>
+											<li>{user.socialInstagram ? <div><a href={user.socialInstagram} rel="noopener noreferrer" target="_blank"><FontAwesomeIcon icon={["fab", "instagram"]} /></a></div> : null}</li>
+											<li>{user.socialPinterest ? <div><a href={user.socialPinterest} rel="noopener noreferrer" target="_blank"><FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a></div> : null}</li>
 										</ul>
 									</div>
 
@@ -180,9 +186,9 @@ const Profile = (props, state) => {
 													<div>
 														<p className="text--sm" style={{ textAlign: 'center' }}>Share {user.firstName}'s profile on your favorite social medium</p>
 														<div className="share__btns">
-															<a href={'http://www.facebook.com/sharer/sharer.php?u=' + window.location.href} target="_blank" className="share__btn">Share on Facebook <FontAwesomeIcon icon={["fab", "facebook-f"]} /></a>
-															<a href={'https://twitter.com/intent/tweet?text=Choose%20To%20Be%20You&url=' + window.location.href} target="_blank" className="share__btn">Share on Twitter <FontAwesomeIcon icon={["fab", "twitter"]} /></a>
-															<a href={'http://pinterest.com/pin/create/button/?url=' + window.location.href} target="_blank" className="share__btn">Share on Pinterest <FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a>
+															<a href={'http://www.facebook.com/sharer/sharer.php?u=' + window.location.href} target="_blank" rel="noopener noreferrer" className="share__btn">Share on Facebook <FontAwesomeIcon icon={["fab", "facebook-f"]} /></a>
+															<a href={'https://twitter.com/intent/tweet?text=Choose%20To%20Be%20You&url=' + window.location.href} target="_blank" rel="noopener noreferrer" className="share__btn">Share on Twitter <FontAwesomeIcon icon={["fab", "twitter"]} /></a>
+															<a href={'http://pinterest.com/pin/create/button/?url=' + window.location.href} target="_blank" rel="noopener noreferrer" className="share__btn">Share on Pinterest <FontAwesomeIcon icon={["fab", "pinterest-p"]} /></a>
 														</div>
 													</div>
 												)} />
@@ -213,11 +219,11 @@ const Profile = (props, state) => {
 							{renderFAQ()}
 
 							{user.isProPremium &&
-								[<div id="photos" className={`profile__photos`}>
+								[<div id="photos" key="photos" className={`profile__photos`}>
 									<h2 className={`text--uppercase`}>Photos</h2>
 									<Photos id={user.uid} photos={user.premiumPhotos} />
 								</div>,
-								<div id="videos" className={`profile__videos`}>
+								<div id="videos" key="videos" className={`profile__videos`}>
 									<h2 className={`text--uppercase`}>Videos</h2>
 									<Videos id={user.uid} videoUrls={user.videoUrls} />
 								</div>
@@ -231,13 +237,10 @@ const Profile = (props, state) => {
 
 						</div>
 						<div className={`col col--4`}>
-							{auth.uid ?(
-user.uid!==auth.uid&&(<Booking pro={user} user={auth} />)
-							) 
-								
-							
-							
-								
+							{auth.uid ?
+								(
+									<Booking pro={user} user={auth} />
+								)
 								:
 								(
 									<div style={{ border: '#cecece solid 1px' }}>

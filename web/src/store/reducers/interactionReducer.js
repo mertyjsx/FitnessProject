@@ -1,6 +1,6 @@
 const initState = {
 
-	calling:false
+	calling: false
 }
 
 const interactionReducer = (state = initState, action) => {
@@ -37,7 +37,13 @@ const interactionReducer = (state = initState, action) => {
 			return state;
 		case 'calling':
 			console.log('calling', action.payload);
-			return {...state,calling:action.payload}
+			return { ...state, calling: action.payload }
+		case 'DECLINE_INTERACTION':
+			console.log('Decline message sent', action.interaction);
+			return state;
+		case 'DECLINE_INTERACTION_ERROR':
+			console.log('Decline message error', action.error);
+			return state;
 		default:
 			return state;
 	}

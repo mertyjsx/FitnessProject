@@ -14,7 +14,7 @@ class Settings extends Component {
 	}
 
 	render() {
-		const { auth, profile } = this.props
+		const { auth } = this.props
 		if (!auth.uid) return <Redirect to='/signup' />
 		return (
 			<div className="settings">

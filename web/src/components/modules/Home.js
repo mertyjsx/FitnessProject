@@ -10,7 +10,7 @@ import { compose } from 'redux'
 class Home extends Component {
 	render() {
 		// console.log(this.props)
-		const { projects, auth, notifications, splash } = this.props
+		const { splash } = this.props
 		// if (!auth.uid) return <Redirect to='/signin' />
 		if (splash === true) {
 			return (
@@ -120,7 +120,7 @@ class Home extends Component {
 									<div className="col col--12">
 										<div className="video video--responsive video--small">
 											<div className="video__iframe">
-												<iframe src="https://www.youtube.com/embed/uz1wLTFXidA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+												<iframe title="Who We Are" src="https://www.youtube.com/embed/uz1wLTFXidA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 											</div>
 										</div>
 									</div>

@@ -9,7 +9,7 @@ import SetQuote from './quote/SetQuote'
 
 class AdminView extends Component {
 	render() {
-		const { users, projects, auth, profile, notifications } = this.props
+		const { users, notifications } = this.props
 		return (
 			<div className="admin">
 				<div className="container container--top-bottom-padding">

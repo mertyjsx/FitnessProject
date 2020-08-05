@@ -11,17 +11,12 @@ class Modal extends Component {
 			toggleFullscreen: false
 		}
 	}
-	
-		
 
-	
-		
-	
-		
 	onModalOpen = (event) => {
 		event.preventDefault();
 		document.body.style.overflow = 'hidden'
-		this.setState({modalOpen:true
+		this.setState({
+			modalOpen: true
 		})
 		if (this.props.openEvent) this.props.openEvent()
 	}
@@ -29,8 +24,9 @@ class Modal extends Component {
 	onModalClose = (event) => {
 		event && event.preventDefault();
 		document.body.style.overflow = 'unset'
-		this.setState({modalOpen:false
-				})
+		this.setState({
+			modalOpen: false
+		})
 		if (this.props.closeEvent) this.props.closeEvent()
 	}
 
@@ -47,7 +43,7 @@ class Modal extends Component {
 		console.log(this.state.modalOpen)
 		return (
 			<div>
-				<button onClick={this.onModalOpen} className={this.props.buttonStyle ? `modal__trigger ${this.props.buttonStyle}` : `modal__trigger`}>{this.props.buttonIcon ? <FontAwesomeIcon icon={["fa", this.props.buttonIcon]} /> : null}{this.props.buttonText}</button>
+				<button onClick={this.onModalOpen} className={this.props.buttonStyle ? `modal__trigger ${this.props.buttonStyle}` : `modal__trigger`}>{this.props.buttonIcon ? <FontAwesomeIcon style={{ marginRight: '10px' }} className={this.props.buttonIconColor} icon={["fa", this.props.buttonIcon]} /> : null}{this.props.buttonText}</button>
 
 				<div className={this.state.modalOpen ? `modal modal--active ${this.state.toggleFullscreen ? 'modal--fullscreen' : ''}` : 'modal'}>
 					<div className="modal__inner">

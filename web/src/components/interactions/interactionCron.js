@@ -43,7 +43,7 @@ class InteractionCron extends React.Component {
 			for (let id in interactions) {
 				let interaction = interactions[id]
 
-				if (interaction && interaction.status == 'completed' && interaction.endTime + payoutDelayTime <= new Date().getTime()) {
+				if (interaction && interaction.status === 'completed' && interaction.endTime + payoutDelayTime <= new Date().getTime()) {
 					$this.props.getProForPayout(interaction.proUID).then(data => {
 						let pro = data.data()
 

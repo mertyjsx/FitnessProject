@@ -38,136 +38,85 @@ class Booking extends Component {
 			total: 0,
 			formSubmitting: false,
 			blockedDays: [],
-			Blockeddaysname: [],
-			Blockedtimes: [],
+			blockedDaysName: [],
+			blockedTimes: [],
 			From: -1,
 			To: 25,
 			spesific: [],
 			timesExlude: [],
 			callType: "",
-			adressType: "onFile",
-			googleAdress: "there is no google adress "
+			addressType: "onFile",
+			googleAddress: "No google address."
 		}
 	}
 
-	renderPriceChange = (profession) => {
-		const bookingType = this.state.bookingType
-
-		if (profession === 'chef' && bookingType === 'online') {
-			console.log('chef & online checked');
-			this.setState({ rate: this.props.pro.rates.chef.online });
-		}
-		if (profession === 'chef' && bookingType === 'inPerson') {
-			console.log('chef & inPerson checked');
-			this.setState({ rate: this.props.pro.rates.chef.inPerson });
-		}
-	}
 
 	handleBookingTypeChange = (e) => {
-		// e.preventDefault()
-		// console.log(e.target.id);
 		this.setState({
 			bookingType: e.target.id,
 			profession: ''
 		})
 	}
 
-
-
-
-
 	handleCallType = (e) => {
-		// e.preventDefault()
-		// console.log(e.target.id);
 		this.setState({
 			callType: e.target.value
 		})
 	}
-	handleAdressType = (e) => {
 
+	handleAddressType = (e) => {
 		this.setState({
-			adressType: e.target.value
+			addressType: e.target.value
 		})
-
 	}
 
 	getHours = () => {
-
-
-
-		let Blockeddaysname = []
-		let Blockedtimes = []
-		console.log(this.props.pro.Hours)
-
-
+		let blockedDaysName = []
+		let blockedTimes = []
+		// console.log(this.props.pro.Hours)
 		this.props.pro.Hours &&
 			Object.entries(this.props.pro.Hours).forEach(([key, value]) => {
 				if (!value.from) {
 					//there are no hour Restriction
-
 					if (!value.state) {
-
 						//full day	
-						Blockeddaysname.push(key)
-
+						blockedDaysName.push(key)
 					}
-
-
-
 				} else {
 					//there are hour Restriction
-					Blockedtimes.push({ value, key })
-
+					blockedTimes.push({ value, key })
 				}
-
-
-
 			});
 		let newArr = []
 		let newArr2 = []
 		this.props.pro.blockedArray &&
 			this.props.pro.blockedArray.map(item => {
-
 				if (item.type === "blockHours") {
 					//if there are block hours
 					let dat = new Date(`${item.date.split("-")[2]}/${item.date.split("-")[1]}/${item.date.split("-")[0]}`)
-
 					newArr.push({ date: dat, from: item.from, to: item.to })
-
 				}
 				else {
 					//if this days full blocked
 					newArr2.push(new Date(`${item.date.split("-")[2]}/${item.date.split("-")[1]}/${item.date.split("-")[0]}`))
 				}
-
-
-
 			})
-
 		let blockedDays = [...this.state.blockedDays, ...newArr2]
 		let blockDaysWithHours = [...this.state.spesific, ...newArr]
 
-
 		this.setState({
-			Blockeddaysname: Blockeddaysname
-			, Blockedtimes: Blockedtimes,
+			blockedDaysName: blockedDaysName
+			, blockedTimes: blockedTimes,
 			blockedDays: blockedDays,
 			spesific: blockDaysWithHours
 		}, () => this.createdaysInweek(new Date()))
-
-
 	}
 
-
 	calculateTimes = (date) => {
-
 		//Check selected dates has blocked hours or not and calculate 2Pm to 14:00
 		//and we have to determine its regular blocked hours or just spesific blocked hour
-
 		this.setState({ timesExlude: [] })
 		let name = moment(date).format('dddd');
-
-
 		let item = this.state.spesific.find(item => {
 			let date1 = `${item.date.getUTCDate()}-${item.date.getMonth()}-${item.date.getFullYear()}`
 			let date2 = `${date.getUTCDate()}-${date.getMonth()}-${date.getFullYear()}`
@@ -180,47 +129,33 @@ class Booking extends Component {
 		let numberTo;
 
 		if (item) {
-			console.log(item)
-
+			// console.log(item)
 			let from = item.from
 			let to = item.to
 
 			if (from.split(" ")[1] === "pm") {
-
 				numberFrom = Number(from.split(":")[0]) + 12
-
 			} else {
-
 				numberFrom = Number(from.split(":")[0])
-
 			}
 
 			if (to.split(" ")[1] === "pm") {
-
 				numberTo = Number(to.split(":")[0]) + 12
-
 			} else {
-
 				numberTo = Number(to.split(":")[0])
-
 			}
+
 			let NA = []
 			for (let i = numberFrom; i <= numberTo; i++) {
-
 				NA.push(setHours(setMinutes(new Date(), 0), i))
 				if (i != numberTo) {
 					NA.push(setHours(setMinutes(new Date(), 30), i))
-
 				}
 			}
-
 			this.setState({ timesExlude: NA })
-
 		}
 
-
-		let itemWorkHours = this.state.Blockedtimes.find(item => item.key === name.toLowerCase())
-
+		let itemWorkHours = this.state.blockedTimes.find(item => item.key === name.toLowerCase())
 		let numberFromWorkHours;
 		let numberToWorkHours;
 
@@ -229,63 +164,40 @@ class Booking extends Component {
 			let ToWorkHours = itemWorkHours.value.to
 
 			if (FromWorkHours.split(" ")[1] === "pm") {
-
 				numberFromWorkHours = Number(FromWorkHours.split(":")[0]) + 12
-
 			} else {
-
 				numberFromWorkHours = Number(FromWorkHours.split(":")[0])
-
 			}
 
 			if (ToWorkHours.split(" ")[1] === "pm") {
-
 				numberToWorkHours = Number(ToWorkHours.split(":")[0]) + 12
-
 			} else {
-
 				numberToWorkHours = Number(ToWorkHours.split(":")[0])
-
 			}
 
-
 			this.setState({ From: numberFromWorkHours, To: numberToWorkHours })
-
 		}
-
 	}
 
-
-
 	componentDidMount() {
-
-
 		this.getHours()
 	}
 
 
 	componentDidUpdate(prevProps) {
-
 		if (prevProps !== this.props) {
-			console.log("update")
+			// console.log("update")
 			this.getHours()
-
 		}
 	}
-
-
-
-
 
 	createdaysInweek(n) {
 
 		let NewArray = this.state.blockedDays
-		this.state.Blockeddaysname.map(day => {
-
+		this.state.blockedDaysName.map(day => {
 			//convert DAYS to week numbers to find how many mondays are there  inside a month 
 			// so we can blocked all mondays in July
 			let selectedday;
-
 			switch (day) {
 				case "sunday":
 					selectedday = 0;
@@ -308,16 +220,10 @@ class Booking extends Component {
 				case "saturday":
 					selectedday = 6;
 			}
-
-			console.log(selectedday)
-
-
-
-
+			// console.log(selectedday)
 			var d = new Date(n),
 				month = d.getMonth(),
 				days = [];
-
 			d.setDate(1);
 
 			// Get the first Monday in the month
@@ -330,32 +236,13 @@ class Booking extends Component {
 				days.push(new Date(d.getTime()));
 				d.setDate(d.getDate() + 7);
 			}
-
-
 			NewArray.push(...days)
-
 		})
-
 		this.setState({ blockedDays: NewArray });
-
 	}
-
-
-
-
-
-
-
-
-
 
 	handleChange = (e) => {
 		const bookingType = this.state.bookingType
-		// console.log('handle change activated', e.target.value, bookingType);
-		// if (bookingType === '') {
-		// 	alert('Choose a booking Type')
-		// 	return
-		// }
 
 		if (e.target.value === 'chef' && bookingType === 'online') {
 			console.log('chef & online checked');
@@ -392,48 +279,35 @@ class Booking extends Component {
 	}
 
 	handleDateChange = date => {
-		console.log("date changed")
-		console.log(date)
 		this.calculateTimes(date)
-
-
-
 		this.setState({
 			startDate: date
 		});
 	};
 
 	handleStartTimeChange = time => {
-
-
 		this.setState({
 			startTime: time
 		});
 	}
 
-
-
 	onSelectAdress = (val) => {
-
 		this.setState({
-			googleAdress: val
+			googleAddress: val
 		})
-
 	}
 
 	renderStartTime = () => {
-
 		const { startTime } = this.state
 		if (startTime === '') { return null }
 		var time = moment(startTime).format('hh:mm a')
-		console.log(time);
+		// console.log(time);
 		this.createdaysInweek(time)
 		return 0
 		// return moment(time).format()
 	}
 
 	handleDurationChange = (e) => {
-
 		this.setState({
 			duration: e.target.value
 		})
@@ -443,19 +317,20 @@ class Booking extends Component {
 	}
 
 	handleSubmit = (details, data) => {
-		// console.log('inside func', details, data);
+		console.log('inside sub', details, data);
 		let $this = this
 		this.setState({
 			total: this.calculateTotal(),
 			callType: this.state.callType,
-			adressType: this.state.adressType,
-			googleAdress: this.state.googleAdress,
+			addressType: this.state.addressType,
+			googleAddress: this.state.googleAddress,
 			formSubmitting: true,
 			clientPhoneNumber: this.props.profile.phoneNumber,
 			proPhoneNumber: this.props.pro.phoneNumber,
 			clientFullAdress: this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
 			proBusinessName: this.props.pro.businessName,
 			proFullAddress: this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
+			update: true,
 			paypal: {
 				timeCreated: details.create_time,
 				id: details.id,
@@ -466,9 +341,8 @@ class Booking extends Component {
 				status: details.status
 			}
 		})
-
 		setTimeout(function () {
-			// console.log('wait 3 secs', $this.props);
+			console.log('wait 3 secs');
 			$this.props.createInteraction($this.state)
 			document.body.style.overflow = 'unset'
 			$this.props.history.push('/bookings')
@@ -516,8 +390,6 @@ class Booking extends Component {
 		if (typeof rate === 'undefined' || rate === 0) { return 0 }
 		const perMinute = rate / 60
 		let total = perMinute * duration
-
-
 		return total
 	}
 
@@ -526,8 +398,10 @@ class Booking extends Component {
 		let total = this.calculateTotal()
 		return total + 1
 	}
+
 	render() {
 
+		const { pro, user } = this.props;
 
 		return (
 			<div className={`profile__booking ${this.state.formSubmitting ? 'profile__booking--submitting' : ''}`}>
@@ -537,15 +411,15 @@ class Booking extends Component {
 
 				<div className={`profile__booking-price`}>
 					<p className={`mb--0`}>Starting at</p>
-					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.getStartingRates()}</p>
+					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.state.rate}</p>
 					<Form onSubmit={this.validate()}>
 						<Form.Field className={'field--inline'}>
 							<div className="field--half">
-								<input type="radio" id="online" defaultValue="online" name="bookingType" onChange={this.handleBookingTypeChange} />
+								<input className={pro.online === true || pro.both === true ? '' : 'inactive'} type="radio" id="online" defaultValue="online" name="bookingType" onChange={this.handleBookingTypeChange} />
 								<label>Online</label>
 							</div>
 							<div className="field--half">
-								<input type="radio" id="inPerson" defaultValue="inPerson" name="bookingType" onChange={this.handleBookingTypeChange} />
+								<input className={pro.inperson === true || pro.both === true ? '' : 'inactive'} type="radio" id="inPerson" defaultValue="inPerson" name="bookingType" onChange={this.handleBookingTypeChange} />
 								<label>In Person</label>
 							</div>
 						</Form.Field>
@@ -558,25 +432,23 @@ class Booking extends Component {
 								</select>
 							</Form.Field>
 						}
-						{this.state.callType === "outCall" &&
+						{this.state.bookingType === "inPerson" && this.state.callType === "outCall" &&
 							<Form.Field >
-								<select name="adressType" id="adressType" onChange={this.handleAdressType} required>
+								<select name="addressType" id="addressType" onChange={this.handleAddressType} required>
 
 									<option value="onFile">Personal address on file</option>
-									<option value="otherAdress">Other address/landmark</option>
+									<option value="otherAddress">Other address/landmark</option>
 								</select>
 							</Form.Field>
 						}
-						{this.state.adressType === "otherAdress" &&
+						{this.state.bookingType === "inPerson" && this.state.callType === "outCall" && this.state.addressType === "otherAddress" &&
 							<Form.Field >
 								<AutoComplete onSelected={this.onSelectAdress}></AutoComplete>
 							</Form.Field>
 						}
-
-
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>
-							<select className={this.state.callType === '' ? 'inactive' : ''} name="profession" id="profession" value={this.state.profession ? this.state.profession : ''} onChange={this.handleChange} required>
+							<select className={this.state.bookingType === 'online' || this.state.callType !== '' ? '' : 'inactive'} name="profession" id="profession" value={this.state.profession ? this.state.profession : ''} onChange={this.handleChange} required>
 								<option value="">Choose Service</option>
 								{this.renderServices(this.props.pro.professions)}
 							</select>
@@ -593,9 +465,7 @@ class Booking extends Component {
 								maxDate={moment().endOf('month')}
 								dateFormat="MMMM d, yyyy"
 								required={true}
-
 								excludeDates={this.state.blockedDays}
-
 							/>
 						</Form.Field>
 						<Form.Field className="field--half">
@@ -612,7 +482,6 @@ class Booking extends Component {
 								dateFormat="hh:mm a"
 								placeholderText={'Start Time'}
 								required={true}
-								// excludeDates={[new Date(), subDays(new Date(), 1)]}
 								excludeTimes={this.state.timesExlude}
 							/>
 						</Form.Field>
@@ -653,33 +522,40 @@ class Booking extends Component {
 								<p className="field--review-total text--uppercase text--bold">Total<span>${this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()}</span></p>
 							</div>
 						</div>
-						<Form.Field className="field--justify-center">
-							{this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? null : <p style={{ marginBottom: '10px' }}>Please enter all the fields</p>}
-							<Modal
-								buttonText={!this.props.profile.isOnboardingClientCompleted ? 'you must complete onboarding' : 'Request to book'}
-								buttonStyle={`button button--primary text--uppercase text--font-secondary text--sm ${this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' && this.props.profile.isOnboardingClientCompleted ? 'button--active' : 'button--inactive'}`}
-								content={(
-									<div style={{ textTransform: 'none' }}>
-										<h2>Complete Booking</h2>
-										<p>Your total of ${this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
-										<p>Please choose your preferred method of payment below.</p>
-										<PayPalButton
-											// amount={this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()}
-											amount={1} // testing
-											shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-											onSuccess={(details, data) => {
-												// alert("Transaction completed by " + details.payer.name.given_name);
-												this.handleSubmit(details, data)
-											}}
-											options={{
-												clientId: PaypalConfig.client_id
-											}}
-										/>
-									</div>
-								)}
-							/>
-
-						</Form.Field>
+						{user.uid === pro.uid ?
+							<Form.Field className="field--justify-center">
+								<p>Preview Mode</p>
+							</Form.Field>
+							:
+							<Form.Field className="field--justify-center">
+								{this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' ? null : <p style={{ marginBottom: '10px' }}>Please enter all the fields</p>}
+								<Modal
+									buttonText={!this.props.profile.isOnboardingClientCompleted ? 'Complete onboarding before booking' : 'Request to book'}
+									buttonStyle={`button button--primary text--uppercase text--font-secondary text--sm ${this.state.bookingType !== '' && this.state.profession !== '' && this.state.duration !== 0 && this.state.startDate !== '' && this.state.startTime !== '' && this.props.profile.isOnboardingClientCompleted ? 'button--active' : 'button--inactive'}`}
+									content={(
+										<div style={{ textTransform: 'none' }}>
+											<h2>Complete Booking</h2>
+											<p>Your total of ${this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()} will be processed to book the session with <span className="text--capitalize">{this.state.proFirstName}</span>.</p>
+											<p>Please choose your preferred method of payment below.</p>
+											<PayPalButton
+												options={{
+													clientId: PaypalConfig.client_id,
+													vault: true
+												}}
+												// amount={this.state.callType === "outCall" ? this.calculateTotalwithOutCall() : this.calculateTotal()}
+												amount={1} // testing
+												shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+												onSuccess={(details, data) => {
+													console.log('in success', details, data)
+													// alert("Transaction completed by " + details.payer.name.given_name);
+													this.handleSubmit(details, data)
+												}}
+											/>
+										</div>
+									)}
+								/>
+							</Form.Field>
+						}
 					</Form>
 				</div>
 			</div >
@@ -700,9 +576,6 @@ const mapDispatchToProps = (dispatch) => {
 		createInteraction: (interaction) => dispatch(createInteraction(interaction))
 	}
 }
-
-
-
 
 export default compose(
 	connect(mapStateToProps, mapDispatchToProps),

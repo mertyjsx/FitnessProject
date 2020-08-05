@@ -36,7 +36,7 @@ const Forecast = (props) => {
                <div className="current-weather">
                     {items.main && (
                          <div className="current-weather__icon">
-                              <img src={`http://openweathermap.org/img/wn/${items.weather[0].icon}.png`}></img>
+                              <img src={`http://openweathermap.org/img/wn/${items.weather[0].icon}.png`} alt=""></img>
                          </div>
                     )}
                     <div className="current-weather__city">

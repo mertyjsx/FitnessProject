@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Component } from 'react';
 
 class Social extends Component {
 	render() {
@@ -15,9 +15,9 @@ class Social extends Component {
 						<div className="col">
 							<ul className="list list--inline" style={{ flex: '0 1 100%', justifyContent: 'center', marginBottom: '20px' }}>
 
-								<li><a href="#" target={'_blank'} style={{ fontSize: '22px' }}><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></li>
-								<li><a href="#" target={'_blank'} style={{ fontSize: '22px' }}><FontAwesomeIcon icon={["fab", "twitter"]} /></a></li>
-								<li><a href="#" target={'_blank'} style={{ fontSize: '22px' }}><FontAwesomeIcon icon={["fab", "youtube"]} /></a></li>
+								<li><a href="#home" target={'_blank'} style={{ fontSize: '22px' }}><FontAwesomeIcon icon={["fab", "facebook-f"]} /></a></li>
+								<li><a href="#home" target={'_blank'} style={{ fontSize: '22px' }}><FontAwesomeIcon icon={["fab", "twitter"]} /></a></li>
+								<li><a href="#home" target={'_blank'} style={{ fontSize: '22px' }}><FontAwesomeIcon icon={["fab", "youtube"]} /></a></li>
 							</ul>
 							<div className={'callout'}>
 								<a className={'callout__button'} href={'#'}>Shop Official Store</a>

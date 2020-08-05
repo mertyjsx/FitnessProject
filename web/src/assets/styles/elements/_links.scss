@@ -4,6 +4,8 @@
 	border: none;
 	color: $primary-darker;
 	text-decoration: underline;
+	font-family: $font-primary;
+	font-size: $font-size;
 	&:hover {
 		color: $theme-black;
 	}

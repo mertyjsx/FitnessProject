@@ -14,6 +14,9 @@ class SpecialtiesEdit extends Component {
 				massageTherapist: this.props.profile.professions.massageTherapist
 			},
 			specialties: {},
+			both: this.props.profile.both,
+			inperson: this.props.profile.inperson,
+			online: this.props.profile.online,
 		}
 	}
 
@@ -21,6 +24,23 @@ class SpecialtiesEdit extends Component {
 		this.setState({
 			[e.target.id]: e.target.value
 		});
+	}
+
+	handleSelector = (name, e) => {
+		console.log(name)
+		console.log(e.target.checked)
+		if (name === "both") {
+			let bool = e.target.checked
+			this.setState({ both: bool, inperson: !bool, online: !bool })
+		}
+		if (name === "inperson") {
+			let bool = e.target.checked
+			this.setState({ both: !bool, inperson: bool, online: !bool })
+		}
+		if (name === "online") {
+			let bool = e.target.checked
+			this.setState({ both: !bool, inperson: !bool, online: bool })
+		}
 	}
 
 	handleSpecialities = (e) => {
@@ -58,7 +78,6 @@ class SpecialtiesEdit extends Component {
 
 	render() {
 		const { auth, profile } = this.props
-
 		// console.log(profile)
 
 		if (profile.isEmpty !== true) {
@@ -72,6 +91,23 @@ class SpecialtiesEdit extends Component {
 							<Checkbox id="chef" label={'Chef'} defaultChecked={profile.professions.chef} onChange={this.handleProfessionChange} />
 							<Checkbox id="nutritionist" label={'Nutritionist'} defaultChecked={profile.professions.nutritionist} onChange={this.handleProfessionChange} />
 							<Checkbox id="massageTherapist" label={'Massage Therapist'} defaultChecked={profile.professions.massageTherapist} onChange={this.handleProfessionChange} />
+						</Form.Field>
+						<div className={`divider`} style={{ margin: '50px 0' }}></div>
+
+						<h2>Select Booking Type(s)</h2>
+						<Form.Field className={'field'} style={{ padding: '0' }} >
+							<div className="ui checkbox">
+								<input id="online" name="bookingType" tabIndex="0" type="radio" defaultChecked={profile.online} onChange={(e) => this.handleSelector("online", e)} />
+								<label htmlhtmlFor="online">Online</label>
+							</div>
+							<div className="ui checkbox">
+								<input id="inperson" name="bookingType" tabIndex="0" type="radio" defaultChecked={profile.inperson} onChange={(e) => this.handleSelector("inperson", e)} />
+								<label htmlhtmlFor="inperson">In-Person</label>
+							</div>
+							<div className="ui checkbox">
+								<input id="both" name="bookingType" tabIndex="0" type="radio" defaultChecked={profile.both} onChange={(e) => this.handleSelector("both", e)} />
+								<label htmlhtmlFor="both">Both</label>
+							</div>
 						</Form.Field>
 
 						{this.state.professions.chef && (
@@ -112,12 +148,16 @@ class SpecialtiesEdit extends Component {
 										<label for="juicesAndSmoothies">Juices and Smoothies</label>
 									</div>
 								</Form.Field>
-								<Form.Field className={'field--half'}>
-									<Input id={'ratesOnlineChef'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required defaultValue={profile.ratesOnlineChef} onChange={this.handleRateChange} />
-								</Form.Field>
-								<Form.Field className={'field--half'}>
-									<Input id={'ratesInPersonChef'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required defaultValue={profile.ratesInPersonChef} onChange={this.handleRateChange} />
-								</Form.Field>
+								{(profile.online || profile.both) &&
+									<Form.Field className={'field--half'}>
+										<Input id={'ratesOnlineChef'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={50} defaultValue={profile.ratesOnlineChef} onChange={this.handleRateChange} />
+									</Form.Field>
+								}
+								{(profile.inperson || profile.both) &&
+									<Form.Field className={'field--half'}>
+										<Input id={'ratesInPersonChef'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} defaultValue={profile.ratesInPersonChef} onChange={this.handleRateChange} />
+									</Form.Field>
+								}
 							</div>
 						)}
 
@@ -183,12 +223,16 @@ class SpecialtiesEdit extends Component {
 										<label htmlFor="athletic">Athletic</label>
 									</div>
 								</Form.Field>
-								<Form.Field className={'field--half'}>
-									<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required defaultValue={profile.ratesOnlineFitnessTrainer} onChange={this.handleRateChange} />
-								</Form.Field>
-								<Form.Field className={'field--half'}>
-									<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required defaultValue={profile.ratesInPersonFitnessTrainer} onChange={this.handleRateChange} />
-								</Form.Field>
+								{(this.state.online || this.state.both) &&
+									<Form.Field className={'field--half'}>
+										<Input id={'ratesOnlineFitnessTrainer'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={50} defaultValue={profile.ratesOnlineFitnessTrainer} onChange={this.handleRateChange} />
+									</Form.Field>
+								}
+								{(this.state.inperson || this.state.both) &&
+									<Form.Field className={'field--half'}>
+										<Input id={'ratesInPersonFitnessTrainer'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} defaultValue={profile.ratesInPersonFitnessTrainer} onChange={this.handleRateChange} />
+									</Form.Field>
+								}
 							</div>
 						)}
 
@@ -238,12 +282,16 @@ class SpecialtiesEdit extends Component {
 										<label htmlFor="foodAllergies">Food Allergies</label>
 									</div>
 								</Form.Field>
-								<Form.Field className={'field--half'}>
-									<Input id={'ratesOnlineNutitionist'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required defaultValue={profile.ratesOnlineNutitionist} onChange={this.handleRateChange} />
-								</Form.Field>
-								<Form.Field className={'field--half'}>
-									<Input id={'ratesInPersonNutitionist'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required defaultValue={profile.ratesInPersonNutitionist} onChange={this.handleRateChange} />
-								</Form.Field>
+								{(profile.online || profile.both) &&
+									<Form.Field className={'field--half'}>
+										<Input id={'ratesOnlineNutitionist'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={50} defaultValue={profile.ratesOnlineNutitionist} onChange={this.handleRateChange} />
+									</Form.Field>
+								}
+								{(profile.inperson || profile.both) &&
+									<Form.Field className={'field--half'}>
+										<Input id={'ratesInPersonNutitionist'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} defaultValue={profile.ratesInPersonNutitionist} onChange={this.handleRateChange} />
+									</Form.Field>
+								}
 							</div>
 						)}
 
@@ -277,12 +325,16 @@ class SpecialtiesEdit extends Component {
 										<label for="reflexology">Reflexology</label>
 									</div>
 								</Form.Field>
-								<Form.Field className={'field--half'}>
-									<Input id={'ratesOnlineMassageTherapist'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={25} required defaultValue={profile.ratesOnlineMassageTherapist} onChange={this.handleRateChange} />
-								</Form.Field>
-								<Form.Field className={'field--half'}>
-									<Input id={'ratesInPersonMassageTherapist'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} required defaultValue={profile.ratesInPersonMassageTherapist} onChange={this.handleRateChange} />
-								</Form.Field>
+								{(profile.online || profile.both) &&
+									<Form.Field className={'field--half'}>
+										<Input id={'ratesOnlineMassageTherapist'} type={'number'} placeholder={'e.g. 25'} label={'Your Online Rates'} min={50} defaultValue={profile.ratesOnlineMassageTherapist} onChange={this.handleRateChange} />
+									</Form.Field>
+								}
+								{(profile.inperson || profile.both) &&
+									<Form.Field className={'field--half'}>
+										<Input id={'ratesInPersonMassageTherapist'} type={'number'} placeholder={'e.g. 35'} label={'Your In-Person Rates'} min={50} defaultValue={profile.ratesInPersonMassageTherapist} onChange={this.handleRateChange} />
+									</Form.Field>
+								}
 							</div>
 						)}
 

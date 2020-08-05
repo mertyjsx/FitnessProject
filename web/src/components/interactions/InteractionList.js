@@ -5,13 +5,6 @@ import { updateSeen } from '../../store/actions/interactionActions'
 import InteractionSummary from './InteractionSummary'
 
 const InteractionList = ({ update, interactions, auth, interactionType, status }) => {
-	// if (interactionType !== '') {
-
-	// const interactionCount = (interaction) => {
-	// 	const count = interaction.length
-	// 	// count.push(interaction)
-	// 	console.log('length', count);
-	// }
 
 	return (
 		<div className="interaction-list">
@@ -31,22 +24,6 @@ const InteractionList = ({ update, interactions, auth, interactionType, status }
 
 		</div>
 	)
-	// } else {
-	// 	return (
-	// 		<div className="interaction-list">
-
-	// 			{interactions && interactions.map(interaction => {
-	// 				return (
-	// 					<Link to={'/session/' + interaction.id} iid={interaction.id} key={interaction.id} className={'row'} style={{ marginBottom: 25 }}>
-	// 						<InteractionSummary iid={interaction.id} auth={auth} interaction={interaction} />
-	// 					</Link>
-	// 				)
-	// 			})}
-
-	// 		</div>
-	// 	)
-	// }
-
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -30,25 +30,17 @@ class Dashboard extends Component {
 				const PendingBookings = this.props.interactions.filter(item => item.status === "pending" && item.interactionType === "booking" && (item.proUID === this.props.auth.uid || item.userUID === this.props.auth.uid))
 				this.setState({ Booking: BookingArray.length, Inbox: InboxArray.length, PendingBookings: PendingBookings.length })
 			}
-
-
 			const { users, auth, profile, notifications } = this.props
-
 			let DiscoverPros = []
-
 			users && users.map(pro => {
-
 				if (pro.isPro && pro.isApproved) {
 					var interests = profile.interests ? profile.interests : {}
 					var specialties = pro.specialties
-
 					for (const [key, value] of Object.entries(interests)) {
 						if (specialties) {
 							for (const [key2, value2] of Object.entries(specialties)) {
 								if (key === key2 && value === value2) {
-
 									DiscoverPros.push(pro)
-
 								}
 							}
 						}

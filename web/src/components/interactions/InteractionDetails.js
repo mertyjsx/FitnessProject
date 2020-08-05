@@ -71,6 +71,64 @@ const InteractionDetails = (props) => {
 		// console.log('cancel btn clicked')
 		let paypal_base_uri = `https://api.paypal.com/`;
 		if (PaypalConfig.sandbox) paypal_base_uri = `https://api.sandbox.paypal.com/`;
+		if (interaction.paypal) {
+
+			axios.post(paypal_base_uri + 'v1/oauth2/token',
+				"grant_type=client_credentials",
+				{
+					"headers": {
+						"Accept": "application/json",
+						"Accept-Language": "en_US",
+						'Access-Control-Allow-Origin': 'localhost:3000'
+					},
+					// "withCredentials": true,
+					"auth": {
+						"username": PaypalConfig.client_id,
+						"password": PaypalConfig.client_secret
+					}
+				}).then((response) => {
+					let paypal_access_token = response.data.access_token;
+					let paypal_token_type = response.data.token_type;
+					let paypalid = interaction.paypal.id;
+					axios.get(`${paypal_base_uri}v2/checkout/orders/${paypalid}`,
+						{
+							headers: {
+								"Content-Type": "application/json",
+								"Authorization": `${paypal_token_type} ${paypal_access_token}`
+							},
+						}).then(response => {
+							response.data.purchase_units.forEach(purchase_unit => {
+								purchase_unit.payments.captures.forEach(capture => {
+									axios.post(`${paypal_base_uri}v2/payments/captures/${capture.id}/refund`,
+										{},
+										{
+											headers: {
+												"Content-Type": "application/json",
+												"Authorization": `${paypal_token_type} ${paypal_access_token}`
+											},
+										}).then(response => {
+											console.log(response);
+											props.cancelBookingInteraction(iid)
+											document.body.style.overflow = 'unset'
+										})
+								});
+							});
+						});
+				});
+		} else {
+			props.cancelBookingInteraction(iid)
+			document.body.style.overflow = 'unset'
+		}
+		console.log(interaction);
+		// props.cancelBookingInteraction(iid)
+		// console.log('session has been cancelled')
+	}
+
+	const cancelSessionAsPro = () => {
+		// console.log('cancel btn clicked')
+		let paypal_base_uri = `https://api.paypal.com/`;
+		if (PaypalConfig.sandbox) paypal_base_uri = `https://api.sandbox.paypal.com/`;
+
 		axios.post(paypal_base_uri + 'v1/oauth2/token',
 			"grant_type=client_credentials",
 			{
@@ -107,14 +165,12 @@ const InteractionDetails = (props) => {
 									}).then(response => {
 										console.log(response);
 										props.cancelBookingInteraction(iid)
+										document.body.style.overflow = 'unset'
 									})
 							});
 						});
 					});
 			});
-		console.log(interaction);
-		// props.cancelBookingInteraction(iid)
-		// console.log('session has been cancelled')
 	}
 
 	const confirmSession = () => {
@@ -151,7 +207,7 @@ const InteractionDetails = (props) => {
 	}
 
 	if (interaction) {
-		// console.log(moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD"))
+		// console.log(moment.unix(interaction.createdAt.seconds).format("YYYY-MM-DD HH:mm:ss"), moment.unix(interaction.createdAt.seconds).add(1, 'days').format("YYYY-MM-DD HH:mm:ss"))
 		return (
 			<div className="interaction-details">
 				<div className="container  container--top-bottom-padding">
@@ -227,15 +283,15 @@ const InteractionDetails = (props) => {
 											}
 										/>
 										: null}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--secondary button--full'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'archived' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'pending' ? <Button className={'button--secondary button--full'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'pending' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
 								</div>
 								:
 								<div className="interaction-details__buttons text--center">
 									{/* <p>THe Pro</p> */}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'active' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'pending' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status === 'active' && moment.unix(interaction.startDate.seconds).format("YYYY-MM-DD") === moment().format("YYYY-MM-DD") ? <Button className={'button--secondary button--full'} onClick={completeSession}>Complete Session</Button> : null}
-									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'button--secondary button--full'} onClick={confirmSession}>Confirm Booking</Button> : null}
+									{interaction.interactionType === 'booking' && interaction.status === 'pending' ? <Button className={'button--secondary button--full'} onClick={cancelSessionAsPro}>Confirm Booking</Button> : null}
 									{interaction.interactionType === 'booking' && interaction.status !== 'cancelled' && interaction.status !== 'completed' ? <Button className={'button--primary button--full'} onClick={cancelSession}>Cancel Booking</Button> : null}
 								</div>
 							}
@@ -269,8 +325,17 @@ const InteractionDetails = (props) => {
 											</div>
 											:
 											<div>
-												<p>Pro will go to:</p>
-												<p>{getClientAddress(interaction.userUID)}</p>
+												{interaction.googleAddress ? (
+													<>
+														<p>Requested Location:</p>
+														<p>{interaction.googleAddress}</p>
+													</>
+												) : (
+														<>
+															<p>Pro will go to:</p>
+															<p>{getClientAddress(interaction.userUID)}</p>
+														</>
+													)}
 											</div>
 									}
 								</div>
@@ -288,6 +353,11 @@ const InteractionDetails = (props) => {
 									<p className="mb--double pb--double"><span className="text--lowercase">${interaction.rate} x {interaction.duration / 60} hours</span> <span>${calculateTotal()}</span></p>
 									<p className="field--review-total text--uppercase text--bold"><span>Total</span> <span>${calculateTotal()}</span></p>
 								</div>
+							</div>
+
+							<div class="interaction-details__time-booked">
+								{interaction.inquiryCreatedAt && <p>Inquiry Created: {moment.unix(interaction.inquiryCreatedAt.seconds).format("dddd, MMMM Do YYYY hh:mm A")}</p>}
+								{interaction.createdAt && <p>Booking Created: {moment.unix(interaction.createdAt.seconds).format("dddd, MMMM Do YYYY hh:mm A")}</p>}
 							</div>
 						</div>
 					</div>

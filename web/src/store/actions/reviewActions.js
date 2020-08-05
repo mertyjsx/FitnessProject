@@ -8,7 +8,7 @@ export const completeReview = (review, phoneNumber) => {
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		// const authorId = getState().firebase.auth.uid
-		const twilio = require('twilio');
+		// const twilio = require('twilio');
 		const twilioConfig = require('../../config/twilio.json')
 
 		let phoneNumber0 = `+1${phoneNumber}`

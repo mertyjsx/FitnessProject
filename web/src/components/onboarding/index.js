@@ -133,7 +133,7 @@ class Onboarding extends Component {
 		console.log(validation)
 		if (validation) {
 
-			let new_array = Object.values(this.state.specialties).filter(item => item == true)
+			let new_array = Object.values(this.state.specialties).filter(item => item === true)
 			console.log(new_array)
 			if (new_array.length === 0) {
 
@@ -171,59 +171,24 @@ class Onboarding extends Component {
 
 
 	goBack = (num, e) => {
-		e.preventDefault()
-		// console.log('====================================');
-		console.log('t', e);
-		// console.log('====================================');
+		e.preventDefault();
 		this.setState({
 			left: true,
 			right: false,
 			currentPage: num
-		}, () => {
-			/*
-
-			const sliders = document.getElementsByClassName('onboarding__step-content-container');
-			const sliderItemWidth = document.getElementsByClassName(`onboarding__step-content-area--${(num)}`)[0].clientWidth
-			console.log(num-1)
-				console.log(sliderItemWidth)
-
-			
-				sliders[0].setAttribute('style', 'transform:' +`translateX(-${(sliderItemWidth*(num-1)+90)}px)`  + '!important;');
-
-			*/
-
 		})
 	}
 
-	renderOnboardingSlider = () => {
-		/*
-		const sliders = document.getElementsByClassName('onboarding__step-content-container');
-		const $this = this;
-		for (var i = 0; i < sliders.length; i++) {
-			var sliderWidth = sliders[i].parentElement.offsetWidth;
-			var sliderItems = sliders[i].children.length;
-			var totalWidth = sliderWidth * sliderItems;
-			sliders[i].setAttribute('style', 'width:' + totalWidth + 'px;');
-			sliders[i].setAttribute('data-slides', sliderWidth + 'px;');
-			for (var j = 0; j < sliders[i].children.length; j++) {
-				sliders[i].children[j].setAttribute('style', 'width:' + sliderWidth + 'px;');
-			}
-		}
-		*/
-	}
-
 	render() {
-		// console.log(this.state)
-		const { projects, auth, profile, notifications } = this.props
+		const { profile } = this.props
 		if (profile.onboardingCompleted) return <Redirect to='/dashboard' />
 		if (profile.isEmpty !== true) {
-			//window.onresize = this.renderOnboardingSlider();
 			return (
 				<div className="onboarding">
 					{this.state.onboardingUploading ?
 						<div className="uploading">
 							<div className="uploading__content">
-								<img src={ellipses} />
+								<img src={ellipses} alt="" />
 								<p>Profile Uploading</p>
 							</div>
 						</div>
@@ -231,33 +196,39 @@ class Onboarding extends Component {
 
 					<div className="onboarding__step">
 						<div className="onboarding__step-image">
-							{profile.professions.chef ?
-								<img src={imageChef} />
-								: null}
+							<img src={imageChef} alt="" />
+							{/* 
+								Feature for next time:
+								Images change depending on profession
+							{profile.professions.chef ? <img src={imageChef} /> : null}
 							{profile.professions.massageTherapist ? <img src={imageChef} /> : null}
 							{profile.professions.nutritionist ? <img src={imageChef} /> : null}
-							{profile.professions.fitnessTrainer ? <img src={imageChef} /> : null}
+							{profile.professions.fitnessTrainer ? <img src={imageChef} /> : null} */}
 						</div>
 						<div className="onboarding__step-content">
 							<div className='onboarding__step-content-container'>
 
-								{this.state.currentPage == 1 &&
+								{this.state.currentPage === 1 &&
 									<div className={`onboarding__step-content-area onboarding__step-content-area--1 ${this.state.currentPage === 1 ? 'active' : null}`}>
 										<h1 className="text--bold">Onboarding</h1>
 										<h2>Hi <span className="text--capitalize">{profile.firstName}</span>,</h2>
-										<p>Welcome to the onboarding process! A verificaton email has been sent to your inbox.</p>
-										<p>Please fill out as much information as possible so out admins can approve your profile as soon as possible.  <Link to="/contact">Contact us</Link> if you have any questions.</p>
+										{profile.isPro ?
+											<p>Welcome to the onboarding process! A verificaton email has been sent to your inbox.</p>
+											:
+											<p>Welcome to the onboarding process!</p>
+										}
+										<p>Please fill out as much information as possible so our admins can approve your profile as soon as possible.  <Link to="/contact">Contact us</Link> if you have any questions.</p>
 										<button onClick={(e) => this.goNext(2, e)} className="button">Next</button>
 									</div>
 								}
 								<Form className="form__secondary">
-									{this.state.currentPage == 2 &&
+									{this.state.currentPage === 2 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<div className={`onboarding__step-content-area onboarding__step-content-area--2 ${this.state.currentPage === 2 ? 'active' : null}`}>
 												<h2>Profile Image</h2>
 												<p>Upload your profile image.</p>
 												{profile.photoURL ?
-													<img className="onboarding__profile-image" src={profile.photoURL} />
+													<img className="onboarding__profile-image" src={profile.photoURL} alt="Uploaded file to represent how you look" />
 													: null}
 												<ImageUpload />
 												{profile.photoURL ?
@@ -270,11 +241,14 @@ class Onboarding extends Component {
 
 											</div>
 										</Fade>}
-									{this.state.currentPage == 3 &&
+									{this.state.currentPage === 3 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<div className={`onboarding__step-content-area onboarding__step-content-area--3 ${this.state.currentPage === 3 ? 'active' : null}`}>
 												<h2>License Image</h2>
 												<p>Upload an image of any certification you'd like displayed in your profile.</p>
+												{profile.photoURL ?
+													<img className="onboarding__profile-image" src={profile.licenseURL} alt="Uploaded file to represent your license" />
+													: null}
 												<LicenseImageUpload />
 												<div className="buttons--inline" style={{ justifyContent: 'flex-start' }}>
 													<button onClick={(e) => this.goBack(2, e)} className="button">Previous</button>
@@ -282,7 +256,7 @@ class Onboarding extends Component {
 												</div>
 
 											</div></Fade>}
-									{this.state.currentPage == 4 &&
+									{this.state.currentPage === 4 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<Form onSubmit={(e) => this.goNext(5, e, true)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--4 ${this.state.currentPage === 4 ? 'active' : null}`}>
@@ -472,7 +446,7 @@ class Onboarding extends Component {
 
 												</div></Form>
 										</Fade>}
-									{this.state.currentPage == 5 &&
+									{this.state.currentPage === 5 &&
 										<Fade right={this.state.right} left={this.state.left} >
 											<Form onSubmit={(e) => this.goNext(6, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--5 ${this.state.currentPage === 5 ? 'active' : null}`}>
@@ -482,15 +456,15 @@ class Onboarding extends Component {
 														<>
 															<Form.Field className={'field--cols'} style={{ padding: '0' }} >
 																<div className="ui checkbox">
-																	<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
+																	<input id="online" tabIndex="0" type="radio" defaultChecked={profile.online} onChange={(e) => this.handleSelector("online", e)} />
 																	<label htmlhtmlFor="online">Online</label>
 																</div>
 																<div className="ui checkbox">
-																	<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
+																	<input id="inperson" tabIndex="0" type="radio" defaultChecked={profile.inperson} onChange={(e) => this.handleSelector("inperson", e)} />
 																	<label htmlhtmlFor="inperson">In-Person</label>
 																</div>
 																<div className="ui checkbox">
-																	<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
+																	<input id="both" tabIndex="0" type="radio" defaultChecked={profile.both} onChange={(e) => this.handleSelector("both", e)} />
 																	<label htmlhtmlFor="both">Both</label>
 																</div>
 															</Form.Field>
@@ -512,15 +486,15 @@ class Onboarding extends Component {
 														<>
 															<Form.Field className={'field--cols'} style={{ padding: '0' }} >
 																<div className="ui checkbox">
-																	<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
+																	<input id="online" tabIndex="0" type="radio" defaultChecked={profile.online} onChange={(e) => this.handleSelector("online", e)} />
 																	<label htmlhtmlFor="online">Online</label>
 																</div>
 																<div className="ui checkbox">
-																	<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
+																	<input id="inperson" tabIndex="0" type="radio" defaultChecked={profile.inperson} onChange={(e) => this.handleSelector("inperson", e)} />
 																	<label htmlhtmlFor="inperson">In Person</label>
 																</div>
 																<div className="ui checkbox">
-																	<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
+																	<input id="both" tabIndex="0" type="radio" defaultChecked={profile.both} onChange={(e) => this.handleSelector("both", e)} />
 																	<label htmlhtmlFor="both">Both</label>
 																</div>
 
@@ -544,15 +518,15 @@ class Onboarding extends Component {
 														<>
 															<Form.Field className={'field--cols'} style={{ padding: '0' }} >
 																<div className="ui checkbox">
-																	<input id="online" tabIndex="0" type="radio" checked={this.state.online} defaultChecked={false} onChange={(e) => this.handleSelector("online", e)} />
+																	<input id="online" tabIndex="0" type="radio" checked={profile ? profile.online : this.state.online} defaultChecked={profile ? profile.online : false} onChange={(e) => this.handleSelector("online", e)} />
 																	<label htmlhtmlFor="online">Online</label>
 																</div>
 																<div className="ui checkbox">
-																	<input id="inperson" tabIndex="0" checked={this.state.inperson} type="radio" defaultChecked={false} onChange={(e) => this.handleSelector("inperson", e)} />
+																	<input id="inperson" tabIndex="0" checked={profile ? profile.inperson : this.state.inperson} type="radio" defaultChecked={profile ? profile.inperson : false} onChange={(e) => this.handleSelector("inperson", e)} />
 																	<label htmlhtmlFor="inperson">In Person</label>
 																</div>
 																<div className="ui checkbox">
-																	<input id="both" tabIndex="0" checked={this.state.both} type="radio" defaultChecked={true} onChange={(e) => this.handleSelector("both", e)} />
+																	<input id="both" tabIndex="0" checked={profile ? profile.both : this.state.both} type="radio" defaultChecked={profile ? profile.both : true} onChange={(e) => this.handleSelector("both", e)} />
 																	<label htmlhtmlFor="both">Both</label>
 																</div>
 
@@ -616,7 +590,7 @@ class Onboarding extends Component {
 
 												</div>	</Form>
 										</Fade>}
-									{this.state.currentPage == 6 &&
+									{this.state.currentPage === 6 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<Form onSubmit={(e) => this.goNext(7, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--6 ${this.state.currentPage === 6 ? 'active' : null}`}>
@@ -637,7 +611,7 @@ class Onboarding extends Component {
 													}
 												</div></Form>
 										</Fade>}
-									{this.state.currentPage == 7 &&
+									{this.state.currentPage === 7 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<Form onSubmit={(e) => this.goNext(8, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--7 ${this.state.currentPage === 7 ? 'active' : null}`}>
@@ -659,7 +633,7 @@ class Onboarding extends Component {
 										</Fade>
 
 									}
-									{this.state.currentPage == 8 &&
+									{this.state.currentPage === 8 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<Form onSubmit={(e) => this.goNext(9, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--8 ${this.state.currentPage === 8 ? 'active' : null}`}>
@@ -674,7 +648,7 @@ class Onboarding extends Component {
 													</div>
 												</div></Form>
 										</Fade>}
-									{this.state.currentPage == 9 &&
+									{this.state.currentPage === 9 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<Form onSubmit={(e) => this.goNext(10, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--9 ${this.state.currentPage === 9 ? 'active' : null}`}>
@@ -691,7 +665,7 @@ class Onboarding extends Component {
 													}
 												</div></Form>
 										</Fade>}
-									{this.state.currentPage == 10 &&
+									{this.state.currentPage === 10 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<Form onSubmit={(e) => this.goNext(11, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--10 ${this.state.currentPage === 10 ? 'active' : null}`}>
@@ -731,7 +705,7 @@ class Onboarding extends Component {
 													}
 												</div></Form>
 										</Fade>}
-									{this.state.currentPage == 11 &&
+									{this.state.currentPage === 11 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<Form onSubmit={(e) => this.props.profile.isProPremium ? this.goNext(12, e) : this.goNext(13, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--11 ${this.state.currentPage === 11 ? 'active' : null}`}>
@@ -748,7 +722,7 @@ class Onboarding extends Component {
 												</div></Form>
 										</Fade>}
 									{this.props.profile.isProPremium &&
-										this.state.currentPage == 12 &&
+										this.state.currentPage === 12 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<Form onSubmit={(e) => this.goNext(13, e)}>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--12 ${this.state.currentPage === 12 ? 'active' : null}`}>
@@ -781,7 +755,7 @@ class Onboarding extends Component {
 													</div>
 												</div></Form>
 										</Fade>}
-									{this.state.currentPage == 13 &&
+									{this.state.currentPage === 13 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<div className={`onboarding__step-content-area onboarding__step-content-area--13 ${this.state.currentPage === 13 ? 'active' : null}`}>
 												<div style={{ marginBottom: '0px' }}>

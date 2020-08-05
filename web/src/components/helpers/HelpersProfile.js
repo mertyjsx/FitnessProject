@@ -9,22 +9,22 @@ export function renderProfileImage(image, alt) {
 	if (typeof image !== 'string') { return null }
 	var pattern = /^((http|https|ftp):\/\/)/;
 	if (!pattern.test(image)) {
-		return (<img src={imageDefaultUser} alt={`No self portrait picture provided`} />)
+		return (<img src={imageDefaultUser} alt={`No self portrait provided`} />)
 	}
 	return (<img src={image} alt={altTag} />)
 }
 
 export function renderBlueCheck(profile) {
-	if(
+	if (
 		profile.about === '',
 		profile.background === '',
 		profile.businessCity === '',
 		profile.firstName === '',
 		profile.isApproved !== true,
 		profile.isPro !== true,
-		profile.isProPremium !== true 
+		profile.isProPremium !== true
 	) return null
-	
+
 	return <span className="blue-check"><FontAwesomeIcon size={'xs'} icon={["fa", "user-check"]} /></span>
 }
 

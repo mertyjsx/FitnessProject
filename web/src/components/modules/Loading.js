@@ -6,7 +6,7 @@ class Loading extends Component {
 		return (
 			<div className="loading page">
 				<div>
-					<img src={ellipses} />
+					<img src={ellipses} alt="" />
 					{/* Loading */}
 				</div>
 			</div>

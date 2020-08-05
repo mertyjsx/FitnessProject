@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { fileStorage, db } from '../../../config/fbConfig'
-import { Redirect, Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class RenderImage extends Component {
 
@@ -17,8 +16,7 @@ class RenderImage extends Component {
 	}
 
 	render() {
-		const { projects, auth, profile, notifications } = this.props
-		// console.log(profile);
+		const { profile } = this.props
 
 		return (
 			<div className={'profile-image__current'}>

@@ -60,12 +60,12 @@ class SignIn extends Component {
 						</Form.Field>
 
 						<Form.Field className={'field--half'}>
-							<button onClick={this.handleFacebookSubmit} className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
+							<button onClick={this.handleFacebookSubmit} className={`button button--secondary button--center text--uppercase text--bold text--font-secondary`} type="submit">
 								Sign In with Facebook <FontAwesomeIcon style={{ marginLeft: '10px', transform: 'translateY(-2px)' }} icon={["fab", "facebook-f"]} />
 							</button>
 						</Form.Field>
 						<Form.Field className={'field--half'}>
-							<button onClick={this.handleGoogleSubmit} className={`button button--secondary text--uppercase text--bold text--font-secondary`} type="submit">
+							<button onClick={this.handleGoogleSubmit} className={`button button--secondary button--center text--uppercase text--bold text--font-secondary`} type="submit">
 								Sign In with Google
 								<FontAwesomeIcon style={{ marginLeft: '10px', transform: 'translateY(-2px)' }} icon={["fab", "google"]} />
 							</button>

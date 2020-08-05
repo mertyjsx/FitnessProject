@@ -1,16 +1,7 @@
-import React, { Component, useState } from 'react'
-import { connect } from 'react-redux'
-import { Form, Radio, Button } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom';
-import DatePicker from 'react-datepicker'
+import moment from 'moment';
+import React, { Component } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
-import { setSeconds, setMinutes, setHours, addDays } from "date-fns";
-import { db, auth, rtdb } from '../../config/fbConfig';
-import TimeRange from 'react-time-range';
-import moment from 'moment'
-import { createInteraction } from '../../store/actions/interactionActions'
-import { renderProfileImage } from '../helpers/HelpersProfile'
-import RenderImage from '../profileEdit/imageUpload/RenderImage';
+import { auth, rtdb } from '../../config/fbConfig';
 
 class InteractionMessages extends Component {
 
@@ -102,26 +93,28 @@ class InteractionMessages extends Component {
 	}
 
 	render() {
-
+		const { meta } = this.props
 		return (
 			<div className={`message`}>
 				<div className={`message__history`}>
-					{this.props.meta.message && (
+					{meta.message && (
 						<div className={`message__item message__item--init`}>
 							<div className="message__content-sent">
 								<h2><span className={'text--capitalize'}>{this.props.meta.userFirstName}</span> has inquired about {this.props.meta.proFirstName}'s services:</h2>
 								<p>{this.props.meta.message}</p>
 							</div>
-							<div className="message__content-time">
-								<p>{moment.unix(this.props.meta.createdAt.seconds + '.' + this.props.meta.createdAt.nanoseconds).format("dddd, MMMM Do YYYY h:mm A")}</p>
-							</div>
+							{meta.createdAt && (
+								<div className="message__content-time">
+									<p>{moment.unix(meta.createdAt.seconds + '.' + meta.createdAt.nanoseconds).format("dddd, MMMM Do YYYY h:mm A")}</p>
+								</div>
+							)}
 						</div>
 					)}
 					{this.state.chats.map(chat => {
 						return this.renderMessage(chat.timestamp, chat.content, chat.uid)
 					})}
 				</div>
-				{this.props.meta.status !== 'completed' ?
+				{meta.status === 'active' || meta.status === 'pending' ?
 					<div className={`message__create`}>
 						<form onSubmit={this.handleSubmit}>
 							<textarea onChange={this.handleChange} value={this.state.content} placeholder={`Message`}></textarea>

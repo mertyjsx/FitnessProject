@@ -138,4 +138,8 @@
 .inactive {
 	pointer-events: none;
 	opacity: 0.5;
+	+ label {
+		color: $gray;
+		text-decoration: line-through;
+	}
 }

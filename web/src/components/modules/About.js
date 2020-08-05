@@ -1,12 +1,17 @@
-import React, { Component } from 'react'
-import audric from '../../assets/images/audric.png'
-import justen from '../../assets/images/justen.png'
+import React, { Component } from 'react';
+import { Helmet } from "react-helmet";
 import { Carousel } from 'react-responsive-carousel';
+import audric from '../../assets/images/audric.png';
+import justen from '../../assets/images/justen.png';
 
 class About extends Component {
 	render() {
 		return (
 			<div className="about page">
+				<Helmet>
+					<title>About</title>
+					<meta name="description" content="Learn about CTBY and its founders." />
+				</Helmet>
 				<div className="container container--top-bottom-padding">
 					<div className="row">
 						<div className="col">

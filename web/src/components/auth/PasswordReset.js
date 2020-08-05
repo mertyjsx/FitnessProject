@@ -29,7 +29,7 @@ class PasswordReset extends Component {
 	}
 
 	render() {
-		const { authError, auth } = this.props
+		const { authError } = this.props
 		return (
 			<div className={'password-reset'}>
 				<Modal

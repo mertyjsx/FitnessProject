@@ -1,4 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## FOR SEO
+Using [React Helmet](https://www.npmjs.com/package/react-helmet) for SEO
 
 ## Available Scripts
 

@@ -45,6 +45,7 @@ export const signUp = (newUser) => {
 						firstName: newUser.firstName,
 						lastName: newUser.lastName,
 						initials: newUser.firstName[0] + newUser.lastName[0],
+						phoneNumber: newUser.phoneNumber,
 						isPro: false,
 						isProPremium: false,
 						emailVerified: false
@@ -543,12 +544,8 @@ export const approveProfile = (proUID) => {
 		firestore.collection('users').doc(userID).update({
 			isApproved: true,
 		}).then(async () => {
-
-
 			const ref = await firestore.collection('users').doc(userID).get()
-
 			let data = ref.data()
-
 			let phoneNumber = `+1${data.phoneNumber}`
 			// console.log("phonenumber", phoneNumber)
 			let firstName = data.firstName
@@ -582,20 +579,18 @@ export const approveProfile = (proUID) => {
 export const declineProfile = (proUID, message) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firestore = getFirestore()
-		const userID = proUID
-
 		console.log(proUID)
 		console.log(message)
-		firestore.collection('users').doc(userID).update({
+		firestore.collection('users').doc(proUID).update({
 			isApproved: false,
 			declineMessage: message,
 			isDeclined: true
 		}).then(() => {
 			console.log('success');
-			dispatch({ type: 'CREATE_INTERACTION', proUID });
+			dispatch({ type: 'DECLINE_INTERACTION', proUID });
 		}).catch((error) => {
 			console.log('nah');
-			dispatch({ type: 'CREATE_INTERACTION_ERROR', error })
+			dispatch({ type: 'DECLINE_INTERACTION_ERROR', error })
 		})
 	}
 }

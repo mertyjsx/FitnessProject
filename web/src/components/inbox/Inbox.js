@@ -10,7 +10,7 @@ class Inbox extends Component {
 
 	render() {
 		// console.log(this.props)
-		const { interactions, auth, profile, notifications } = this.props
+		const { interactions, auth, profile } = this.props
 		if (!auth.uid) return <Redirect to='/signin' />
 
 		return (
@@ -41,7 +41,7 @@ class Inbox extends Component {
 									<Tab>Archived</Tab>
 								</TabList>
 								<TabPanel>
-									<InteractionList auth={auth} interactions={interactions} interactionType={'inquiry'} status={'active'} />
+									<InteractionList auth={auth} interactions={interactions} interactionType={'inquiry'} status={'pending'} />
 								</TabPanel>
 								<TabPanel>
 									<InteractionList auth={auth} interactions={interactions} interactionType={'inquiry'} status={'archived'} />
