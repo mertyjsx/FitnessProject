@@ -6,7 +6,14 @@
 	text-decoration: underline;
 	font-family: $font-primary;
 	font-size: $font-size;
+	transition: 300ms;
 	&:hover {
 		color: $theme-black;
+	}
+	&--light {
+		color: $white;
+		&:hover {
+			color: $gray-light;
+		}
 	}
 }

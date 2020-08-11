@@ -17,7 +17,7 @@ class CalendarView extends Component {
 		super(props)
 		this.state = {
 			dates: [],
-			selectedDate: new Date(),
+			selectedDate: moment().add(1, 'day').toDate(),
 			months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 			modal: false,
 			currentTime: ""
@@ -186,10 +186,10 @@ class CalendarView extends Component {
 							<div className="calendar-wrapper">
 								<DatePicker
 									className="test"
-									selected={this.state.startDate}
+									selected={this.state.startDate ? this.state.startDate : this.state.selectedDate}
 									onChange={this.handleDateChange}
 									placeholderText={'Select Date'}
-									minDate={new Date()}
+									minDate={moment().add(1, 'day').toDate()}
 									dateFormat="MMMM d, yyyy"
 									inline
 									onMonthChange={(n) => this.getDaysInMonth(n)}

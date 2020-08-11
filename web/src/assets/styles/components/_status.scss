@@ -12,7 +12,15 @@
 	}
 	&--success {
 		background-color: $green;
-		color: white;
+		color: $white;
+		font-weight: bold;
+		a {
+			color: $white;
+			transition: 300ms;
+			&:hover {
+				color: $black;
+			}
+		}
 	}
 	&--full {
 		width: 100%;

@@ -14,6 +14,12 @@
 	&__head-goal {
 		color: $green;
 	}
+	&__callout {
+		background-color: $primary-darker;
+		color: $white;
+		padding: $gutter 0;
+		text-align: center;
+	}
 	&__glance {
 		background-color: $gray-lighter;
 		border: $theme-black solid 1px;

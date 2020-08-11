@@ -41,101 +41,101 @@ import './vendor/fontawesome'
 
 class App extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      splash: false,
-      calling: false
-    }
-  }
+	constructor() {
+		super();
+		this.state = {
+			splash: false,
+			calling: false
+		}
+	}
 
-  componentDidMount() {
-    loadReCaptcha();
-  }
+	componentDidMount() {
+		loadReCaptcha();
+	}
 
-  componentWillMount() {
-    let script = document.createElement('script');
-    script.setAttribute('id', '_agile_min_js');
-    script.onload = function () {
-      let newScript = document.createElement('script');
-      let inlineScript = document.createTextNode("var Agile_API = Agile_API || {}; Agile_API.on_after_load = function(){_agile.set_account('3h6emnq5000gjh577j9gk2ca9n', 'choosetobeyou', false);_agile.track_page_view();_agile_execute_web_rules();}");
-      newScript.setAttribute('id', '_agile_js');
-      newScript.appendChild(inlineScript);
-      document.getElementsByTagName('head')[0].appendChild(newScript);
-    };
-    script.src = "https://choosetobeyou.agilecrm.com/stats/min/agile-min.js";
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
+	componentWillMount() {
+		let script = document.createElement('script');
+		script.setAttribute('id', '_agile_min_js');
+		script.onload = function () {
+			let newScript = document.createElement('script');
+			let inlineScript = document.createTextNode("var Agile_API = Agile_API || {}; Agile_API.on_after_load = function(){_agile.set_account('3h6emnq5000gjh577j9gk2ca9n', 'choosetobeyou', false);_agile.track_page_view();_agile_execute_web_rules();}");
+			newScript.setAttribute('id', '_agile_js');
+			newScript.appendChild(inlineScript);
+			document.getElementsByTagName('head')[0].appendChild(newScript);
+		};
+		script.src = "https://choosetobeyou.agilecrm.com/stats/min/agile-min.js";
+		document.getElementsByTagName('head')[0].appendChild(script);
+	}
 
-  componentWillUnmount() {
-    let agileMinJS = document.getElementById('_agile_min_js');
-    let agileJS = document.getElementById('_agile_js');
-    if (agileMinJS && agileJS) {
-      agileMinJS.remove();
-      agileJS.remove();
-    }
-  }
+	componentWillUnmount() {
+		let agileMinJS = document.getElementById('_agile_min_js');
+		let agileJS = document.getElementById('_agile_js');
+		if (agileMinJS && agileJS) {
+			agileMinJS.remove();
+			agileJS.remove();
+		}
+	}
 
-  render() {
-    return (
-      <BrowserRouter >
-        <ScrollToTop />
-        <div className="App">
-          <Navbar splash={this.state.splash} />
-          {this.state.calling &&
-            <div>Calling.....</div>
-          }
-          <Switch>
-            <Route exact path="/" component={() => <Home splash={this.state.splash} />} />
-            <Route exact path="/social" component={Social} />
-            <Route path="/thank-you-for-subscribing" component={ThankYouConvertKit} />
-            <Route exact path="/admin" component={AdminView} />
-            {this.state.splash === false ?
-              <>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/dashboard" component={Dashboard} />
-                <Route exact path="/project/:id" component={ProjectDetails} />
-                <Route exact path="/signin" component={SignIn} />
-                <Route exact path="/signup" component={SignUp} />
-                <Route exact path="/join-as-pro" component={SignUpPro} />
-                <Route exact path="/create-project" component={CreateProject} />
-                <Route exact path="/find-a-pro" component={FindAPro} />
-                <Route exact path="/inbox" component={Inbox} />
-                <Route exact path="/session/:id" component={InteractionDetails} />
-                <Route exact path="/bookings" component={Bookings} />
-                <Route exact path="/pro/:uid" component={Profile} />
-                <Route exact path="/profile-edit" component={ProfileEdit} />
-                <Route exact path="/about" component={About} />
-                <Route exact path="/terms-of-use" component={Terms} />
-                <Route exact path="/privacy-policy" component={Privacy} />
-                <Route exact path="/onboarding" component={Onboarding} />
-                <Route exact path="/onboarding-client" component={OnboardingClient} />
-                <Route exact path="/social" component={Social} />
-                <Route exact path="/how-it-works" component={HowItWorks} />
-                <Route exact path="/how-ctby-works-for-pros" component={HowProWorks} />
-                <Route exact path="/settings" component={Settings} />
-                <Route exact path="/calendar" component={CalenderView} />
-                <Route exact path="/pro-faq" component={FAQPro} />
-                <Route exact path="/client-faq" component={FAQClient} />
-                <Route exact path="/file-claim" component={FileClaim} />
-                <Route exact path="/contact" component={ContactUs} />
-                <Route exact path="/upgrade-pro" component={ClientToPro} />
-                <Route exact path="/cancellation-policy" component={CancellationPolicy} />
-                <Route exact path="/payments" component={Payments} />
-                {/* <Route path="*" component={NotFound} /> */}
-              </> :
-              <>
-                {/* <Route path="*" component={NotFound} /> */}
-              </>
-            }
-          </Switch>
+	render() {
+		return (
+			<BrowserRouter >
+				<ScrollToTop />
+				<div className="App">
+					<Navbar splash={this.state.splash} />
+					{this.state.calling &&
+						<div>Calling.....</div>
+					}
+					<Switch>
+						<Route exact path="/" component={() => <Home splash={this.state.splash} />} />
+						<Route exact path="/social" component={Social} />
+						<Route path="/thank-you-for-subscribing" component={ThankYouConvertKit} />
+						<Route exact path="/admin" component={AdminView} />
+						{this.state.splash === false ?
+							<>
+								<Route exact path="/" component={Home} />
+								<Route exact path="/dashboard" component={Dashboard} />
+								<Route exact path="/project/:id" component={ProjectDetails} />
+								<Route exact path="/signin" component={SignIn} />
+								<Route exact path="/signup" component={SignUp} />
+								<Route exact path="/join-as-pro" component={SignUpPro} />
+								<Route exact path="/create-project" component={CreateProject} />
+								<Route exact path="/find-a-pro" component={FindAPro} />
+								<Route exact path="/inbox" component={Inbox} />
+								<Route exact path="/session/:id" component={InteractionDetails} />
+								<Route exact path="/bookings" component={Bookings} />
+								<Route exact path="/pro/:uid" component={Profile} />
+								<Route exact path="/profile-edit" component={ProfileEdit} />
+								<Route exact path="/about" component={About} />
+								<Route exact path="/terms-of-use" component={Terms} />
+								<Route exact path="/privacy-policy" component={Privacy} />
+								<Route exact path="/onboarding" component={Onboarding} />
+								<Route exact path="/onboarding-client" component={OnboardingClient} />
+								<Route exact path="/social" component={Social} />
+								<Route exact path="/how-it-works" component={HowItWorks} />
+								<Route exact path="/how-ctby-works-for-pros" component={HowProWorks} />
+								<Route exact path="/settings" component={Settings} />
+								<Route exact path="/calendar" component={CalenderView} />
+								<Route exact path="/pro-faq" component={FAQPro} />
+								<Route exact path="/client-faq" component={FAQClient} />
+								<Route exact path="/file-claim" component={FileClaim} />
+								<Route exact path="/contact" component={ContactUs} />
+								<Route exact path="/upgrade-pro" component={ClientToPro} />
+								<Route exact path="/cancellation-policy" component={CancellationPolicy} />
+								<Route exact path="/payments" component={Payments} />
+								{/* <Route path="*" component={NotFound} /> */}
+							</> :
+							<>
+								{/* <Route path="*" component={NotFound} /> */}
+							</>
+						}
+					</Switch>
 
-          <Footer splash={this.state.splash} />
-          <InteractionCron />
-        </div>
-      </BrowserRouter>
-    );
-  }
+					<Footer splash={this.state.splash} />
+					<InteractionCron />
+				</div>
+			</BrowserRouter>
+		);
+	}
 }
 
 export default App;

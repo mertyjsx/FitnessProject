@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { db } from "../../config/fbConfig";
-
+const twilio = require('twilio');
+const twilioConfig = require('../../config/twilio.json')
 
 export const signIn = (credentials) => {
 	return (dispatch, getState, { getFirebase }) => {
@@ -537,10 +538,7 @@ export const approveProfile = (proUID) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firestore = getFirestore()
 		const userID = proUID
-		const twilio = require('twilio');
-		const twilioConfig = require('../../config/twilio.json')
 		console.log('approval called', proUID);
-
 		firestore.collection('users').doc(userID).update({
 			isApproved: true,
 		}).then(async () => {
@@ -585,9 +583,31 @@ export const declineProfile = (proUID, message) => {
 			isApproved: false,
 			declineMessage: message,
 			isDeclined: true
-		}).then(() => {
+		}).then(async () => {
 			console.log('success');
 			dispatch({ type: 'DECLINE_INTERACTION', proUID });
+
+			// Send Message
+			const ref = await firestore.collection('users').doc(proUID).get()
+			let data = ref.data()
+			let phoneNumber = `+1${data.phoneNumber}`
+			let firstName = data.firstName
+			let message_body = encodeURI(`${firstName}, your profile has been declined. Visit your profile for details and resubmit.`) // Update the message
+			let from_number = encodeURI("+17865749377") // Update from number
+			let to_number = encodeURI(phoneNumber) // Pro's number
+			axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+				`Body=${message_body}&From=${from_number}&To=${to_number}`,
+				{
+					auth: {
+						username: twilioConfig.account_sid,
+						password: twilioConfig.auth_token
+					},
+					headers: {
+						accept: "application/json"
+					}
+				}).then(response => {
+					console.log(response)
+				})
 		}).catch((error) => {
 			console.log('nah');
 			dispatch({ type: 'DECLINE_INTERACTION_ERROR', error })

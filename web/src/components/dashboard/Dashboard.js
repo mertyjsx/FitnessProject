@@ -89,6 +89,14 @@ class Dashboard extends Component {
 
 		return (
 			<div className="dashboard">
+				{!profile.isPro && auth.emailVerified && (
+					<div className={`dashboard__callout`}>
+						<div className={'container'}>
+							<p><em><Link to={`upgrade-pro`} className={`link link--light`}>Want to become a Pro? Upgrade your account today.</Link></em></p>
+						</div>
+					</div>
+				)}
+
 				{profile.isApproved !== true && profile.isPro ?
 					(
 						profile.isDeclined ?

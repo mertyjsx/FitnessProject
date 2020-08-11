@@ -36,7 +36,6 @@ class Modal extends Component {
 						</div>
 						<div >
 							<h2>When are you busy?</h2>
-							<p>You'll never auto-pay for leads during times you've blocked off</p>
 						</div>
 						<div className="form__inner">
 							<Form.Field>

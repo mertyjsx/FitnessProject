@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from "react-redux"
+import { Link } from 'react-router-dom'
 import Cards from "../../components/profileEdit/imageCard/imageCard"
 import { db } from '../../config/fbConfig'
 import ImageUpload from "../profileEdit/imageUpload/premiumImageUpload"
@@ -21,7 +22,7 @@ function PhotosVideos({ profile, auth }) {
             {!profile.isProPremium ?
                 (
                     <div className="status status--success mb--double">
-                        Upgrade to Pro Premium Today
+                        <Link to={`/settings`}>Upgrade to Pro Premium Today</Link>
                     </div>
                 ) : (
                     <>
