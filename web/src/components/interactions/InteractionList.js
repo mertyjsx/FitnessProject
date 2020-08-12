@@ -12,7 +12,7 @@ const InteractionList = ({ update, interactions, auth, interactionType, status }
 	// 	// count.push(interaction)
 	// 	console.log('length', count);
 	// }
-
+console.log(interactions)
 	return (
 		<div className="interaction-list">
 

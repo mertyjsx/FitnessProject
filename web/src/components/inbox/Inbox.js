@@ -38,10 +38,14 @@ class Inbox extends Component {
 							<Tabs>
 								<TabList>
 									<Tab>Inquiry</Tab>
+									<Tab>Pending</Tab>
 									<Tab>Archived</Tab>
 								</TabList>
 								<TabPanel>
 									<InteractionList auth={auth} interactions={interactions} interactionType={'inquiry'} status={'active'} />
+								</TabPanel>
+								<TabPanel>
+									<InteractionList auth={auth} interactions={interactions} interactionType={'inquiry'} status={'pending'} />
 								</TabPanel>
 								<TabPanel>
 									<InteractionList auth={auth} interactions={interactions} interactionType={'inquiry'} status={'archived'} />
@@ -57,7 +61,7 @@ class Inbox extends Component {
 }
 
 const mapStateToProps = (state) => {
-	// console.log(state);
+	 console.log(state);
 	return {
 		interactions: state.firestore.ordered.interactions,
 		auth: state.firebase.auth,
@@ -68,6 +72,6 @@ const mapStateToProps = (state) => {
 export default compose(
 	connect(mapStateToProps),
 	firestoreConnect([
-		{ collection: 'interactions', orderBy: ['createdAt', 'desc'] }
+		{ collection: 'interactions'}
 	])
 )(Inbox)
