@@ -6,6 +6,8 @@ import InteractionSummary from './InteractionSummary'
 
 const InteractionList = ({ update, interactions, auth, interactionType, status }) => {
 
+	console.log('here', interactions, interactionType, status)
+
 	return (
 		<div className="interaction-list">
 

@@ -1,9 +1,9 @@
 
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
-import Select from "./Select"
-import { updateHours } from '../../store/actions/profileActions'
+import { connect } from 'react-redux';
+import { updateHours } from '../../store/actions/profileActions';
+import Select from "./Select";
 
 const weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
 
@@ -52,11 +52,11 @@ class OperatingHours extends Component {
     render() {
 
         return (
-            <div class="operating-hours__container">
+            <div className="operating-hours__container">
                 {weekDays.map(item => {
                     return (
-                        <div class="ui fitted toggle checkbox checkbox__container">
-                            <input type="checkbox" class="hidden" checked={this.state[item].state} onClick={() => this.setState({ [item]: { ...this.state[item], state: !this.state[item].state } })} readonly="" tabindex="0" />
+                        <div className="ui fitted toggle checkbox checkbox__container">
+                            <input type="checkbox" className="hidden" checked={this.state[item].state} onClick={() => this.setState({ [item]: { ...this.state[item], state: !this.state[item].state } })} readonly="" tabindex="0" />
                             <label>{item}</label>
                             {
                                 this.state[item].state ? (
@@ -66,12 +66,12 @@ class OperatingHours extends Component {
                                             ,
                                             <Select first={this.state[item].to} handleChange={this.handleChange} id="to" name={item}></Select>
                                             ,
-                                            <p class="link" onClick={this.update}>Done</p>
+                                            <p className="link" onClick={this.update}>Done</p>
                                         ]
                                     ) : (
                                             [
                                                 <label>{this.state[item].from}-{this.state[item].to}</label>,
-                                                <p class="link" onClick={() => this.setState({ [item]: { ...this.state[item], edit: true } })}>Edit</p>
+                                                <p className="link" onClick={() => this.setState({ [item]: { ...this.state[item], edit: true } })}>Edit</p>
                                             ]
                                         )
                                 ) : (

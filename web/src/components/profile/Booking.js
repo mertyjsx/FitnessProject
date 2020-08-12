@@ -148,7 +148,7 @@ class Booking extends Component {
 			let NA = []
 			for (let i = numberFrom; i <= numberTo; i++) {
 				NA.push(setHours(setMinutes(new Date(), 0), i))
-				if (i != numberTo) {
+				if (i !== numberTo) {
 					NA.push(setHours(setMinutes(new Date(), 30), i))
 				}
 			}
