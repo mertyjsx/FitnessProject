@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "choose-to-be-fit"
+  },
+  "targets": {
+    "choose-to-be-fit": {
+      "hosting": {
+        "staging": [
+          "ctbystaging"
+        ],
+        "production": [
+          "choose-to-be-fit"
+        ]
+      }
+    }
   }
 }
