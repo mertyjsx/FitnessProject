@@ -2,6 +2,39 @@ import axios from 'axios';
 const twilio = require('twilio');
 const twilioConfig = require('../../config/twilio.json')
 
+
+
+
+const sendMessage=(message,to)=>{
+
+	let baseUri = 'localhost:3000' // change for production release
+	const twilio = require('twilio');
+	const twilioConfig = require('../../config/twilio.json')
+	let message_body = encodeURI(message) // Update the message
+	let from_number = encodeURI("+17865749377") // Update from number
+	let to_number = encodeURI(to) // I can't find the number from the interaction or the pro user
+
+
+return axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+`Body=${message_body}&From=${from_number}&To=${to_number}`,
+{
+	auth: {
+		username: twilioConfig.account_sid,
+		password: twilioConfig.auth_token
+	},
+	headers: {
+		accept: "application/json"
+	}
+}).then(response => {
+	console.log(response)
+}).catch(e=>console.log(e))
+
+
+}
+
+
+
+
 export const createInteraction = (interaction) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		// Make async call to db
@@ -16,6 +49,7 @@ export const createInteraction = (interaction) => {
 
 		firestore.collection('interactions').add({
 			...interaction,
+			
 			userFirstName: profile.firstName ? profile.firstName : '',
 			userLastName: profile.lastName ? profile.lastName : '',
 			userUID: userID,
@@ -179,8 +213,20 @@ export const confirmBookingInteraction = (bookingID) => {
 			status: 'active',
 			interactionType: 'booking'
 		})
-			.then(function () {
-				console.log("Booking successfully cancelled!");
+			.then( function (e) {
+
+				firestore.collection('interactions').doc(bookingID).get().then(async snap=>{
+
+                let data=snap.data()
+
+await  sendMessage(`your booking has been confirmed pro name :${data.proFirstName} user first name: ${data.userFirstName}`,data.clientPhoneNumber)
+await  sendMessage(`your booking has been confirmed pro name :${data.proFirstName} user first name: ${data.userFirstName}`,data.proPhoneNumber)
+
+
+				})
+
+
+				console.log("Booking successfully confirmed!");
 				dispatch({ type: 'CONFIRM_BOOKING', bookingID });
 			})
 			.catch(function (error) {

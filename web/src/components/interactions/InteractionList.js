@@ -6,7 +6,11 @@ import InteractionSummary from './InteractionSummary'
 
 const InteractionList = ({ update, interactions, auth, interactionType, status }) => {
 
-	console.log('here', interactions, interactionType, status)
+	// const interactionCount = (interaction) => {
+	// 	const count = interaction.length
+	// 	// count.push(interaction)
+	// 	console.log('length', count);
+	// }
 
 	return (
 		<div className="interaction-list">
