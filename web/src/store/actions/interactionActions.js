@@ -2,38 +2,31 @@ import axios from 'axios';
 const twilio = require('twilio');
 const twilioConfig = require('../../config/twilio.json')
 
+//* URLS
+// let baseUri = 'localhost:3000' // testing
+let baseUri = 'https://ctbystaging.firebaseapp.com/' // staging
+// let baseUri = 'https://choosetobeyou.com' //production
 
 
-
-const sendMessage=(message,to)=>{
-
-	let baseUri = 'localhost:3000' // change for production release
-	const twilio = require('twilio');
-	const twilioConfig = require('../../config/twilio.json')
+const sendMessage = (message, to) => {
 	let message_body = encodeURI(message) // Update the message
 	let from_number = encodeURI("+17865749377") // Update from number
 	let to_number = encodeURI(to) // I can't find the number from the interaction or the pro user
 
-
-return axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
-`Body=${message_body}&From=${from_number}&To=${to_number}`,
-{
-	auth: {
-		username: twilioConfig.account_sid,
-		password: twilioConfig.auth_token
-	},
-	headers: {
-		accept: "application/json"
-	}
-}).then(response => {
-	console.log(response)
-}).catch(e=>console.log(e))
-
-
+	return axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+		`Body=${message_body}&From=${from_number}&To=${to_number}`,
+		{
+			auth: {
+				username: twilioConfig.account_sid,
+				password: twilioConfig.auth_token
+			},
+			headers: {
+				accept: "application/json"
+			}
+		}).then(response => {
+			console.log(response)
+		}).catch(e => console.log(e))
 }
-
-
-
 
 export const createInteraction = (interaction) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
@@ -49,7 +42,7 @@ export const createInteraction = (interaction) => {
 
 		firestore.collection('interactions').add({
 			...interaction,
-			
+
 			userFirstName: profile.firstName ? profile.firstName : '',
 			userLastName: profile.lastName ? profile.lastName : '',
 			userUID: userID,
@@ -67,11 +60,30 @@ export const createInteraction = (interaction) => {
 			firestore.collection('users').doc(userID).update({
 				userInteractions: firestore.FieldValue.arrayUnion(docRef.id)
 			})
+			// Send Message Client
+			firestore.collection('users').doc(userID).get().then(snap => {
+				let client = snap.data()
+				let message_body = encodeURI(`New pending booking, ${baseUri}/session/${docRef.id}`) // Update the message
+				let from_number = encodeURI("+17865749377") // Update from number
+				let to_number = encodeURI(client.phoneNumber) // I can't find the number from the interaction or the pro user
+				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+					`Body=${message_body}&From=${from_number}&To=${to_number}`,
+					{
+						auth: {
+							username: twilioConfig.account_sid,
+							password: twilioConfig.auth_token
+						},
+						headers: {
+							accept: "application/json"
+						}
+					}).then(response => {
+						console.log(response)
+					})
+			});
 			// Send message
 			firestore.collection('users').doc(interaction.proUID).get().then(snap => {
 				let pro = snap.data()
-				let baseUri = 'choosetobeyou.com' // change for production release
-				let message_body = encodeURI(`New pending booking, http://${baseUri}/session/${docRef.id}`) // Update the message
+				let message_body = encodeURI(`New pending booking, ${baseUri}/session/${docRef.id}`) // Update the message
 				let from_number = encodeURI("+17865749377") // Update from number
 				let to_number = encodeURI(pro.phoneNumber) // I can't find the number from the interaction or the pro user
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
@@ -126,11 +138,30 @@ export const createInteractionInquiry = (interaction) => {
 			firestore.collection('users').doc(userID).update({
 				userInteractions: firestore.FieldValue.arrayUnion(docRef.id)
 			})
+			// Send message Client
+			firestore.collection('users').doc(userID).get().then(snap => {
+				let client = snap.data()
+				let message_body = encodeURI(`New inquiry, ${baseUri}/session/${docRef.id}`) // Update the message
+				let from_number = encodeURI("+17865749377") // Update from number
+				let to_number = encodeURI(client.phoneNumber) // I can't find the number from the interaction or the pro user
+				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+					`Body=${message_body}&From=${from_number}&To=${to_number}`,
+					{
+						auth: {
+							username: twilioConfig.account_sid,
+							password: twilioConfig.auth_token
+						},
+						headers: {
+							accept: "application/json"
+						}
+					}).then(response => {
+						console.log(response)
+					})
+			});
 			// Send message
 			firestore.collection('users').doc(interaction.proUID).get().then(snap => {
 				let pro = snap.data()
-				let baseUri = 'choosetobeyou.com' // change for production release
-				let message_body = encodeURI(`New inquiry, http://${baseUri}/session/${docRef.id}`) // Update the message
+				let message_body = encodeURI(`New inquiry, ${baseUri}/session/${docRef.id}`) // Update the message
 				let from_number = encodeURI("+17865749377") // Update from number
 				let to_number = encodeURI(pro.phoneNumber) // I can't find the number from the interaction or the pro user
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
@@ -170,10 +201,29 @@ export const cancelBookingInteraction = (bookingID) => {
 			.then(function () {
 				console.log("Booking successfully cancelled!");
 				dispatch({ type: 'CANCEL_INTERACTION', bookingID });
+				// Send Message to Client
+				firestore.collection('users').doc(bookingID.userUID).get().then(snap => {
+					let client = snap.data()
+					let message_body = encodeURI(`Your booking with ${bookingID.proFirstName} has been cancelled`) // Update the message
+					let from_number = encodeURI("+17865749377") // Update from number
+					let to_number = encodeURI(bookingID.clientPhoneNumber) // I can't find the number from the interaction or the pro user
+					axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+						`Body=${message_body}&From=${from_number}&To=${to_number}`,
+						{
+							auth: {
+								username: twilioConfig.account_sid,
+								password: twilioConfig.auth_token
+							},
+							headers: {
+								accept: "application/json"
+							}
+						}).then(response => {
+							console.log(response)
+						})
+				});
 				// Send Message to Pro
 				firestore.collection('users').doc(bookingID.proUID).get().then(snap => {
 					let pro = snap.data()
-					let baseUri = 'choosetobeyou.com' // change for production release
 					let message_body = encodeURI(`Your booking with ${bookingID.userFirstName} has been cancelled`) // Update the message
 					let from_number = encodeURI("+17865749377") // Update from number
 					let to_number = encodeURI(bookingID.proPhoneNumber) // I can't find the number from the interaction or the pro user
@@ -206,27 +256,19 @@ export const confirmBookingInteraction = (bookingID) => {
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
-
 		// console.log('confirm book book', bookingID);
-
 		firestore.collection('interactions').doc(bookingID).update({
 			status: 'active',
 			interactionType: 'booking'
 		})
-			.then( function (e) {
-
-				firestore.collection('interactions').doc(bookingID).get().then(async snap=>{
-
-                let data=snap.data()
-
-await  sendMessage(`your booking has been confirmed pro name :${data.proFirstName} user first name: ${data.userFirstName}`,data.clientPhoneNumber)
-await  sendMessage(`your booking has been confirmed pro name :${data.proFirstName} user first name: ${data.userFirstName}`,data.proPhoneNumber)
-
-
+			.then(function (e) {
+				firestore.collection('interactions').doc(bookingID).get().then(async snap => {
+					let data = snap.data()
+					let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
+					await sendMessage(`Your booking with ${first_name(data.proFirstName)} has been confirmed`, data.clientPhoneNumber)
+					await sendMessage(`Your booking with ${first_name(data.userFirstName)} has been confirmed`, data.proPhoneNumber)
 				})
-
-
-				console.log("Booking successfully confirmed!");
+				// console.log("Booking successfully confirmed!");
 				dispatch({ type: 'CONFIRM_BOOKING', bookingID });
 			})
 			.catch(function (error) {
@@ -251,12 +293,32 @@ export const closeInquiry = (interaction) => {
 		}).then(() => {
 			console.log("inqiury successfully cancelled!", interactionID);
 			// dispatch({ type: 'CLOSE_INQUIRY', interactionID });
-			// Send message
+			// Send message Client
 			firestore.collection('interactions').doc(interactionID).get().then(snap => {
 				let int = snap.data()
-				let baseUri = 'choosetobeyou.com' // change for production release
 				let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
 				let message_body = encodeURI(`Inquiry with ${first_name(int.proFirstName)} has been closed. Interaction ID: ${interactionID}`) // Update the message
+				let from_number = encodeURI("+17865749377") // Update from number
+				let to_number = encodeURI(int.clientPhoneNumber)
+				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+					`Body=${message_body}&From=${from_number}&To=${to_number}`,
+					{
+						auth: {
+							username: twilioConfig.account_sid,
+							password: twilioConfig.auth_token
+						},
+						headers: {
+							accept: "application/json"
+						}
+					}).then(response => {
+						console.log(response)
+					})
+			});
+			// Send message Pro
+			firestore.collection('interactions').doc(interactionID).get().then(snap => {
+				let int = snap.data()
+				let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
+				let message_body = encodeURI(`Inquiry with ${first_name(int.clientFirstName)} has been closed. Interaction ID: ${interactionID}`) // Update the message
 				let from_number = encodeURI("+17865749377") // Update from number
 				let to_number = encodeURI(int.proPhoneNumber) // I can't find the number from the interaction or the pro user
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
@@ -305,9 +367,8 @@ export const sendBookingRequestFromInquiry = (iid) => {
 			dispatch({ type: 'SEND_BOOKING_REQ_FROM_INQUIRY', iid });
 			firestore.collection('interactions').doc(interactionID).get().then(snap => {
 				let int = snap.data()
-				let baseUri = 'choosetobeyou.com' // change for production release
 				let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
-				let message_body = encodeURI(`${first_name(int.proFirstName)} has sent you a request for booking. http://${baseUri}/session/${interactionID}`) // Update the message
+				let message_body = encodeURI(`${first_name(int.proFirstName)} has sent you a request for booking. ${baseUri}/session/${interactionID}`) // Update the message
 				let from_number = encodeURI("+17865749377") // Update from number
 				let to_number = encodeURI(int.proPhoneNumber) // I can't find the number from the interaction or the pro user
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
@@ -348,6 +409,27 @@ export const completeInteraction = (iid) => {
 		}).then(function () {
 			// console.log("Booking successfully cancelled!");
 			dispatch({ type: 'COMPLETED', iid });
+			// Send Msg to Client
+			firestore.collection('interactions').doc(iid).get().then(snap => {
+				let int = snap.data()
+				let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
+				let message_body = encodeURI(`Your session with ${first_name(int.proFirstName)} has been completed! Leave a review about your experience at ${baseUri}/session/${iid}`) // Update the message
+				let from_number = encodeURI("+17865749377") // Update from number
+				let to_number = encodeURI(int.clientPhoneNumber) // I can't find the number from the interaction or the pro user
+				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+					`Body=${message_body}&From=${from_number}&To=${to_number}`,
+					{
+						auth: {
+							username: twilioConfig.account_sid,
+							password: twilioConfig.auth_token
+						},
+						headers: {
+							accept: "application/json"
+						}
+					}).then(response => {
+						console.log(response)
+					})
+			});
 		}).catch(function (error) {
 			// The document probably doesn't exist.
 			// console.error("Error cancelling document: ", error);
@@ -389,6 +471,27 @@ export const completeInteractionPayout = (iid) => {
 		}).then(function () {
 			// console.log("Booking successfully cancelled!");
 			dispatch({ type: 'PAYOUT_COMPLETED', iid });
+			// Send Message to Pro
+			firestore.collection('interactions').doc(iid).get().then(snap => {
+				let int = snap.data()
+				let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
+				let message_body = encodeURI(`Your payout with ${first_name(int.clientFirstName)} has been completed! ${baseUri}/session/${iid}`) // Update the message
+				let from_number = encodeURI("+17865749377") // Update from number
+				let to_number = encodeURI(int.proPhoneNumber) // I can't find the number from the interaction or the pro user
+				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+					`Body=${message_body}&From=${from_number}&To=${to_number}`,
+					{
+						auth: {
+							username: twilioConfig.account_sid,
+							password: twilioConfig.auth_token
+						},
+						headers: {
+							accept: "application/json"
+						}
+					}).then(response => {
+						console.log(response)
+					})
+			});
 		}).catch(function (error) {
 			// The document probably doesn't exist.
 			// console.error("Error cancelling document: ", error);
@@ -411,6 +514,27 @@ export const sendTip = (tip, iid) => {
 		}).then(function () {
 			// console.log("Booking successfully cancelled!");
 			dispatch({ type: 'PAYOUT_COMPLETED', iid });
+			// Send Message to Pro
+			firestore.collection('interactions').doc(iid).get().then(snap => {
+				let int = snap.data()
+				let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
+				let message_body = encodeURI(`${first_name(int.clientFirstName)} has sent you a tip! ${baseUri}/session/${iid}`) // Update the message
+				let from_number = encodeURI("+17865749377") // Update from number
+				let to_number = encodeURI(int.proPhoneNumber) // I can't find the number from the interaction or the pro user
+				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
+					`Body=${message_body}&From=${from_number}&To=${to_number}`,
+					{
+						auth: {
+							username: twilioConfig.account_sid,
+							password: twilioConfig.auth_token
+						},
+						headers: {
+							accept: "application/json"
+						}
+					}).then(response => {
+						console.log(response)
+					})
+			});
 		}).catch(function (error) {
 			// The document probably doesn't exist.
 			// console.error("Error cancelling document: ", error);
