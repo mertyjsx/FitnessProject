@@ -23,6 +23,11 @@
 		&__day {
 			width: 12%;
 		}
+		&__day-name{
+
+			width: 2rem !important;
+		}
+
 	}
 }
 
@@ -43,6 +48,7 @@
 		justify-content: space-between;
 	}
 	&__dates {
+	
 		justify-content: center;
 		align-items: center;
 	}

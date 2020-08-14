@@ -78,12 +78,28 @@ class InteractionMessages extends Component {
 				<div className="message__sender">
 					{this.props.meta.userUID === senderUID ?
 						<div>
-							<img src={this.props.meta.userImage} />
+							{this.props.meta.userImage ?
+								<img src={this.props.meta.userImage} />
+								:
+								<div className={'initials'}>
+									{this.props.name()}
+								</div>
+							}
+
 							<p className="text--capitalize">{this.props.meta.userFirstName + ' ' + this.props.meta.userLastName[0] + '.'}</p>
 						</div>
 						:
 						<div>
-							<img src={this.props.meta.proImage} />
+
+							{
+							this.props.meta.proImage ?
+								<img src={this.props.meta.proImage} />
+								:
+								<div className={'initials'}>
+									{this.props.name()}
+								</div>
+							}
+
 							<p className="text--capitalize">{this.props.meta.proFirstName + ' ' + this.props.meta.proLastName[0] + '.'}</p>
 						</div>
 					}

@@ -54,7 +54,7 @@ class OnboardingClient extends Component {
 
 	handleNext = (e) => {
 		e.preventDefault()
-		console.log('next screen');
+	//	console.log('next screen');
 	}
 
 	handleSubmit = (e) => {
@@ -67,6 +67,7 @@ class OnboardingClient extends Component {
 		// console.log(CheckArray)
 
 		if (CheckArray.length < 1) {
+			console.log("checkbox validation")
 			this.setState({ checkboxValidation: true })
 			setTimeout(function () {
 				// console.log('wait 3 secs', $this.state, $this.props.auth.uid);
@@ -89,8 +90,8 @@ class OnboardingClient extends Component {
 		let error = false
 		if (validation && validation.length > 0) {
 			validation.map(item => {
-				console.log(item.which)
-				console.log(this.state[item.which])
+		//		console.log(item.which)
+		//		console.log(this.state[item.which])
 				if (!this.state[item.which]) {
 					this.setState({ error: item.error })
 					error = true
@@ -98,7 +99,7 @@ class OnboardingClient extends Component {
 			})
 			if (!error) {
 
-				console.log('t', e);
+//console.log('t', e);
 				this.setState({
 					left: false,
 					right: true,
@@ -133,7 +134,7 @@ class OnboardingClient extends Component {
 		})
 	}
 	render() {
-		// console.log(this.state)
+		 console.log(this.state)
 		const { projects, auth, profile, notifications } = this.props
 		if (profile.isOnboardingClientCompleted || profile.isPro) return <Redirect to='/dashboard' />
 
@@ -522,6 +523,9 @@ class OnboardingClient extends Component {
 													<button onClick={(e) => this.goBack(7, e)} className="button">Previous</button>
 													<button type="submit" onClick={this.handleSubmit} className="button button--secondary text--md text--font-secondary text--uppercase">Complete Onboarding</button>
 												</div>
+												{this.state.checkboxValidation &&
+													<div style={{ marginTop: '20px' }} className="status status--danger status--full">You Should select at least one interest !</div>
+												}
 											</div>
 										</Fade>
 									}

@@ -181,6 +181,7 @@ class Onboarding extends Component {
 
 	render() {
 		const { profile } = this.props
+		console.log(this.state)
 		if (profile.onboardingCompleted) return <Redirect to='/dashboard' />
 		if (profile.isEmpty !== true) {
 			return (
@@ -246,7 +247,7 @@ class Onboarding extends Component {
 											<div className={`onboarding__step-content-area onboarding__step-content-area--3 ${this.state.currentPage === 3 ? 'active' : null}`}>
 												<h2>License Image</h2>
 												<p>Upload an image of any certification you'd like displayed in your profile.</p>
-												{profile.photoURL ?
+												{profile.licenseURL ?
 													<img className="onboarding__profile-image" src={profile.licenseURL} alt="Uploaded file to represent your license" />
 													: null}
 												<LicenseImageUpload />
@@ -707,7 +708,7 @@ class Onboarding extends Component {
 										</Fade>}
 									{this.state.currentPage === 11 &&
 										<Fade right={this.state.right} left={this.state.left}>
-											<Form onSubmit={(e) => this.props.profile.isProPremium ? this.goNext(12, e) : this.goNext(13, e)}>
+											<Form onSubmit={(e) => this.goNext(12, e) }>
 												<div className={`onboarding__step-content-area onboarding__step-content-area--11 ${this.state.currentPage === 11 ? 'active' : null}`}>
 													<PaypalModal></PaypalModal>
 													<div className="buttons--inline" style={{ justifyContent: 'flex-start', marginTop: '20px' }}>
@@ -721,7 +722,7 @@ class Onboarding extends Component {
 													}
 												</div></Form>
 										</Fade>}
-									{this.props.profile.isProPremium &&
+									{
 										this.state.currentPage === 12 &&
 										<Fade right={this.state.right} left={this.state.left}>
 											<Form onSubmit={(e) => this.goNext(13, e)}>

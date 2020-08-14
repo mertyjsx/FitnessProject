@@ -8,6 +8,7 @@ import { compose } from 'redux'
 import { Button } from 'semantic-ui-react'
 import { db } from '../../config/fbConfig'
 import PaypalConfig from '../../config/paypal.json'
+
 import {
 	cancelBookingInteraction,
 	closeInquiry,
@@ -38,6 +39,13 @@ const InteractionDetails = (props) => {
 			return interaction.proFirstName + ' ' + interaction.proLastName
 		}
 		return interaction.userFirstName + ' ' + interaction.userLastName
+	}
+
+	const renderFirstLetter = () => {
+		if (auth.uid !== interaction.proUID) {
+			return interaction.proFirstName.charAt(0) + ' ' + interaction.proLastName.charAt(0)
+		}
+		return interaction.userFirstName.charAt(0) + ' ' + interaction.userLastName.charAt(0)
 	}
 
 	const calculateTotal = () => {
@@ -197,6 +205,20 @@ const InteractionDetails = (props) => {
 		// console.log('session has been cancelled')
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	const completeBooking = () => {
 		console.log('clicked');
 		// charge paypal
@@ -222,7 +244,7 @@ const InteractionDetails = (props) => {
 					<div className={`divider`}></div>
 					<div className="row">
 						<div className="col col--7">
-							<InteractionMessages groupID={iid} meta={interaction} />
+							<InteractionMessages groupID={iid} meta={interaction} name={renderFirstLetter} />
 						</div>
 						<div className="col col--5">
 
@@ -336,7 +358,7 @@ const InteractionDetails = (props) => {
 												) : (
 														<>
 															<p>Pro will go to:</p>
-															<p>{getClientAddress(interaction.userUID)}</p>
+												<p>{interaction.clientFullAdress}</p>
 														</>
 													)}
 											</div>
@@ -382,7 +404,8 @@ const mapStateToProps = (state, ownProps) => {
 	// console.log(interactions);
 	return {
 		interaction: interaction,
-		auth: state.firebase.auth
+		auth: state.firebase.auth,
+		profile: state.firebase.profile
 	}
 }
 

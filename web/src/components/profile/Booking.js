@@ -46,7 +46,7 @@ class Booking extends Component {
 			timesExlude: [],
 			callType: "",
 			addressType: "onFile",
-			googleAddress: "No google address."
+			googleAddress: ""
 		}
 	}
 
@@ -54,7 +54,12 @@ class Booking extends Component {
 	handleBookingTypeChange = (e) => {
 		this.setState({
 			bookingType: e.target.id,
-			profession: ''
+			
+			profession: '',
+			startDate: '',
+			startTime: '',
+			endTime: '',
+			callType:'',
 		})
 	}
 
@@ -455,7 +460,7 @@ class Booking extends Component {
 						</Form.Field>
 						<Form.Field>
 							<DatePicker
-								className={this.state.profession === '' ? 'inactive date-picker' : 'date-picker'}
+								className={this.state.profession === ''||(this.state.addressType==="otherAddress"?this.state.googleAddress==='':false) ? 'inactive date-picker' : 'date-picker'}
 								selected={this.state.startDate}
 								onYearChange={(t) => this.createdaysInweek(t)}
 								onMonthChange={(t) => this.createdaysInweek(t)}

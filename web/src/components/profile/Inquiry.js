@@ -43,7 +43,7 @@ class Inquiry extends Component {
 			timesExlude: [],
 			callType: "",
 			addressType: "onFile",
-			googleAddress: "No google address found."
+			googleAddress: ""
 		}
 	}
 
@@ -76,7 +76,11 @@ class Inquiry extends Component {
 	handleBookingTypeChange = (e) => {
 		this.setState({
 			bookingType: e.target.value,
-			profession: ''
+			profession: '',
+			startDate: '',
+			startTime: '',
+			endTime: '',
+			callType:'',
 		})
 	}
 
@@ -395,6 +399,7 @@ class Inquiry extends Component {
 
 	render() {
 		// const { pro, user } = this.props;
+		console.log(this.state)
 		return (
 			<div className={`profile__booking profile__booking--inquiry ${this.state.formSubmitting ? 'profile__booking--submitting' : ''}`}>
 				<div className={`loading ${this.state.formSubmitting ? 'loading--active' : ''}`}>
@@ -439,14 +444,14 @@ class Inquiry extends Component {
 						}
 						<Form.Field>
 							<label htmlFor="profession">Choose service</label>
-							<select className={this.state.callType === '' ? 'inactive' : ''} name="profession" id="profession" value={this.state.profession ? this.state.profession : ''} onChange={this.handleChange} required>
+							<select className={this.state.bookingType === 'online' || this.state.callType !== '' ? '' : 'inactive'} name="profession" id="profession" value={this.state.profession ? this.state.profession : ''} onChange={this.handleChange} required>
 								<option value="">Choose Service</option>
 								{this.renderServices(this.props.pro.professions)}
 							</select>
 						</Form.Field>
 						<Form.Field>
 							<DatePicker
-								className={this.state.profession === '' ? 'inactive date-picker' : 'date-picker'}
+								className={this.state.profession === ''||(this.state.addressType==="otherAddress"?this.state.googleAddress==='':false) ? 'inactive date-picker' : 'date-picker'}
 								selected={this.state.startDate}
 								onYearChange={(t) => this.createdaysInweek(t)}
 								onMonthChange={(t) => this.createdaysInweek(t)}

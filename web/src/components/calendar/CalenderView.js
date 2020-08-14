@@ -84,18 +84,21 @@ class CalendarView extends Component {
 	}
 
 	getDaysInMonth = (n) => {
+		console.log(n)
 		var y = new Date(n ? n : this.state.selectedDate).getFullYear()
 		var m = new Date(n ? n : this.state.selectedDate).getMonth()
-		var d = new Date(this.state.selectedDate).getUTCDate() === new Date().getUTCDate() ? new Date().getUTCDate() : 1
+		var d = new Date(n ? 1 : this.state.selectedDate).getUTCDate() 
+
 		// console.log(y)
 		// console.log(m)
-		// console.log(d)
+		 console.log( new Date().getUTCDate())
 		var date = new Date(y, m, d);
 		var days = [];
 		while (date.getMonth() === m) {
 			days.push(new Date(date));
 			date.setDate(date.getDate() + 1);
 		}
+		console.log(days)
 		this.setState({ dates: days })
 	}
 
@@ -122,10 +125,10 @@ class CalendarView extends Component {
 		var check = moment(date, 'YYYY/MM/DD');
 		console.log("buuuuuuuuuuuuuu", check)
 		this.scrollTo(`${date.getDate()}${this.state.months[date.getMonth()]}`)
-		this.getDaysInMonth()
+	
 		this.setState({
 			selectedDate: date
-		});
+		},()=>this.getDaysInMonth());
 	};
 
 	setModal = () => {
@@ -186,6 +189,7 @@ class CalendarView extends Component {
 							<div className="calendar-wrapper">
 								<DatePicker
 									className="test"
+									
 									selected={this.state.startDate ? this.state.startDate : this.state.selectedDate}
 									onChange={this.handleDateChange}
 									placeholderText={'Select Date'}
