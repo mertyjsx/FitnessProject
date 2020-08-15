@@ -335,7 +335,8 @@ class Booking extends Component {
 			clientFullAdress: this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
 			proBusinessName: this.props.pro.businessName,
 			proFullAddress: this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
-			update: true,
+			userUpdate: true,
+			proUpdate:true,
 			paypal: {
 				timeCreated: details.create_time,
 				id: details.id,
@@ -357,7 +358,7 @@ class Booking extends Component {
 	getStartingRates = () => {
 		const pro = this.props.pro
 		const ratesArray = []
-
+console.log(pro)
 		if (pro.ratesInPersonChef) (ratesArray.push(pro.ratesInPersonChef))
 		if (pro.ratesOnlineChef) (ratesArray.push(pro.ratesOnlineChef))
 		if (pro.ratesInPersonFitnessTrainer) (ratesArray.push(pro.ratesInPersonFitnessTrainer))
@@ -365,9 +366,10 @@ class Booking extends Component {
 		if (pro.ratesInPersonNutritionist) (ratesArray.push(pro.ratesInPersonNutritionist))
 		if (pro.ratesOnlineNutritionist) (ratesArray.push(pro.ratesOnlineNutritionist))
 		if (pro.ratesInPersonMassageTherapist) (ratesArray.push(pro.ratesInPersonMassageTherapist))
-		if (pro.rateOnlineMassageTherapist) (ratesArray.push(pro.rateOnlineMassageTherapist))
+		if (pro.ratesOnlineMassageTherapist) (ratesArray.push(pro.ratesOnlineMassageTherapist))
 
 		ratesArray.sort((a, b) => a - b);
+		console.log(ratesArray)
 		return ratesArray[0]
 	}
 
@@ -416,7 +418,7 @@ class Booking extends Component {
 
 				<div className={`profile__booking-price`}>
 					<p className={`mb--0`}>Starting at</p>
-					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.state.rate}</p>
+					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.getStartingRates()}</p>
 					<Form onSubmit={this.validate()}>
 						<Form.Field className={'field--inline'}>
 							<div className="field--half">

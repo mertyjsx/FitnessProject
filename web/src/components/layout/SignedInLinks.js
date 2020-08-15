@@ -41,8 +41,8 @@ const SignedInLinks = (props) => {
 
 	React.useEffect(() => {
 		if (props.interactions) {
-			const BookingArray = props.interactions.filter(item => item.update == true && item.interactionType === "booking" && (item.proUID === props.auth.uid || item.userUID === props.auth.uid))
-			const InboxArray = props.interactions.filter(item => item.update == true && item.interactionType === "inquiry" && (item.proUID === props.auth.uid || item.userUID === props.auth.uid))
+			const BookingArray = props.interactions.filter(item =>(item.proUID === props.auth.uid?item.proUpdate:item.userUpdate ) && item.interactionType === "booking" && (item.proUID === props.auth.uid || item.userUID === props.auth.uid))
+			const InboxArray = props.interactions.filter(item =>(item.proUID === props.auth.uid?item.proUpdate:item.userUpdate )  && item.interactionType === "inquiry" && (item.proUID === props.auth.uid || item.userUID === props.auth.uid))
 			const DashArray = props.interactions.filter(item => item.status === "active" && (item.proUID === props.auth.uid || item.userUID === props.auth.uid))
 			// console.log(BookingArray)
 			setBookingCount(BookingArray.length)
@@ -119,7 +119,7 @@ const SignedInLinks = (props) => {
 }
 
 const mapStateToProps = (state) => {
-	// console.log(state);
+	console.log(state);
 	return {
 		interactions: state.firestore.ordered.interactions,
 		// interactionType: interactions.interactionType
@@ -141,7 +141,7 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
 	connect(mapStateToProps, mapDispatchToProps),
 	firestoreConnect([
-		{ collection: 'interactions', orderBy: ['createdAt', 'desc'] }
+		{ collection: 'interactions' }
 	]),
 
 )(SignedInLinks)

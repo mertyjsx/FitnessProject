@@ -310,7 +310,7 @@ export default compose(
 	firestoreConnect([
 		// 	{ collection: 'projects', orderBy: ['createdAt', 'desc'] },
 		// 	{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
-		{ collection: 'interactions', orderBy: ['createdAt', 'desc'] },
+		{ collection: 'interactions'},
 		{ collection: 'users' }
 	])
 )(Dashboard)

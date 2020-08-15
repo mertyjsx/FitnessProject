@@ -63,7 +63,8 @@ class Inquiry extends Component {
 			clientFullAdress: $this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
 			proBusinessName: $this.props.pro.businessName,
 			proFullAddress: $this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
-			update: true
+			userUpdate: true,
+			proUpdate:true
 		})
 		setTimeout(function () {
 			// console.log('wait 3 secs', $this.props);
@@ -354,7 +355,7 @@ class Inquiry extends Component {
 		if (pro.ratesInPersonNutritionist) (ratesArray.push(pro.ratesInPersonNutritionist))
 		if (pro.ratesOnlineNutritionist) (ratesArray.push(pro.ratesOnlineNutritionist))
 		if (pro.ratesInPersonMassageTherapist) (ratesArray.push(pro.ratesInPersonMassageTherapist))
-		if (pro.rateOnlineMassageTherapist) (ratesArray.push(pro.rateOnlineMassageTherapist))
+		if (pro.ratesOnlineMassageTherapist) (ratesArray.push(pro.ratesOnlineMassageTherapist))
 
 		ratesArray.sort((a, b) => a - b);
 		return ratesArray[0]
@@ -392,7 +393,7 @@ class Inquiry extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps !== this.props) {
-			// console.log("update")
+			// console.log("s")
 			this.getHours()
 		}
 	}
@@ -408,7 +409,7 @@ class Inquiry extends Component {
 
 				<div className={`profile__booking-price`}>
 					<p className={`mb--0`}>Starting at</p>
-					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.state.rate}</p>
+					<p className={`profile__booking-price-number mb--0 text--font-secondary text--lg`}>${this.getStartingRates()}</p>
 					<Form onSubmit={this.handleSubmit}>
 						<Form.Field className={'field--inline'}>
 							<div className="field--half">

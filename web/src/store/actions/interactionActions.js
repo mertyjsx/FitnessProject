@@ -359,6 +359,8 @@ export const sendBookingRequestFromInquiry = (iid) => {
 		let interactionID = iid;
 		// console.log('inside action', iid);
 		firestore.collection('interactions').doc(iid).update({
+			proUpdate:true,
+			userUpdate:true,
 			status: 'pending',
 			interactionType: 'booking',
 			createdAt: new Date(),
@@ -544,7 +546,7 @@ export const sendTip = (tip, iid) => {
 	}
 }
 
-export const updateSeen = (iid) => {
+export const updateSeen = (iid,isPro) => {
 	return (dispatch, getState, { getFirestore }) => {
 		console.log('Update Seen by user');
 
@@ -553,10 +555,13 @@ export const updateSeen = (iid) => {
 		const userID = getState().firebase.auth.uid
 		// console.log('inside action', iid);
 
-		firestore.collection('interactions').doc(iid).update({
-			update: false,
+let updateObject={}
+if (isPro) updateObject.proUpdate=false
+else updateObject.userUpdate=false
 
-		}).then(function () {
+console.log(updateObject)
+		firestore.collection('interactions').doc(iid).update(updateObject)
+		.then(function () {
 
 			console.log('Update Seen by user');
 			// console.log("Booking successfully cancelled!");

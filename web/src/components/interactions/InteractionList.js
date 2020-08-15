@@ -12,17 +12,22 @@ const InteractionList = ({ update, interactions, auth, interactionType, status }
 	// 	console.log('length', count);
 	// }
 
+
+
+
+
 	return (
 		<div className="interaction-list">
 
 			{interactions && interactions.map(interaction => {
+				let isPro=interaction.proUID === auth.uid
 				// console.log(interaction, auth);
 				if (interaction.proUID !== auth.uid && interaction.userUID !== auth.uid) return null
 
 				if (interaction.interactionType === interactionType && interaction.status === status) {
 					return (
-						<Link onClick={() => update(interaction.id)} to={'/session/' + interaction.id} iid={interaction.id} key={interaction.id} className={'row'} style={{ marginBottom: 25 }}>
-							<InteractionSummary iid={interaction.id} auth={auth} interaction={interaction} isNew={interaction.update} />
+						<Link onClick={() => update(interaction.id,isPro)} to={'/session/' + interaction.id} iid={interaction.id} key={interaction.id} className={'row'} style={{ marginBottom: 25 }}>
+							<InteractionSummary iid={interaction.id} auth={auth} interaction={interaction} isNew={isPro?interaction.proUpdate:interaction.userUpdate} />
 						</Link>
 					)
 				}
@@ -34,7 +39,7 @@ const InteractionList = ({ update, interactions, auth, interactionType, status }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		update: (creds) => dispatch(updateSeen(creds))
+		update: (creds,isPro) => dispatch(updateSeen(creds,isPro))
 	}
 }
 
