@@ -24,8 +24,7 @@
 			width: 12%;
 		}
 		&__day-name{
-
-			width: 2rem !important;
+			width: 12% !important;
 		}
 
 	}
@@ -58,6 +57,9 @@
 }
 
 .operating-hours {
+	&__container {
+		font-size: 14px;
+	}
 	.checkbox {
 		padding-bottom: $gutter/2;
 	}
@@ -68,5 +70,12 @@
 	select {
 		background-position: center right 5px;
 		padding: 10px 25px 10px 10px;
+	}
+	&__is-set {
+		background-color: $green;
+		padding: $gutter/2;
+		color: $white;
+		font-weight: bold;
+		font-size: 12px;
 	}
 }

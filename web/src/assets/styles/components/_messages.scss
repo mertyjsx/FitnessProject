@@ -59,12 +59,13 @@ $message-image-size: 68px;
 	&__sender {
 		flex: 0 1 $message-image-size;
 		font-size: 12px;
-		img {
+		img, .initials {
 			border-radius: 50%;
 			border: $red solid 1px;
 			width: $message-image-size;
 			height: $message-image-size;
 			object-fit: cover;
+			letter-spacing: -2px;
 		}
 	}
 }

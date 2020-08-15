@@ -87,11 +87,11 @@ class CalendarView extends Component {
 		console.log(n)
 		var y = new Date(n ? n : this.state.selectedDate).getFullYear()
 		var m = new Date(n ? n : this.state.selectedDate).getMonth()
-		var d = new Date(n ? 1 : this.state.selectedDate).getUTCDate() 
+		var d = new Date(n ? 1 : this.state.selectedDate).getUTCDate()
 
 		// console.log(y)
 		// console.log(m)
-		 console.log( new Date().getUTCDate())
+		console.log(new Date().getUTCDate())
 		var date = new Date(y, m, d);
 		var days = [];
 		while (date.getMonth() === m) {
@@ -125,10 +125,10 @@ class CalendarView extends Component {
 		var check = moment(date, 'YYYY/MM/DD');
 		console.log("buuuuuuuuuuuuuu", check)
 		this.scrollTo(`${date.getDate()}${this.state.months[date.getMonth()]}`)
-	
+
 		this.setState({
 			selectedDate: date
-		},()=>this.getDaysInMonth());
+		}, () => this.getDaysInMonth());
 	};
 
 	setModal = () => {
@@ -189,7 +189,7 @@ class CalendarView extends Component {
 							<div className="calendar-wrapper">
 								<DatePicker
 									className="test"
-									
+
 									selected={this.state.startDate ? this.state.startDate : this.state.selectedDate}
 									onChange={this.handleDateChange}
 									placeholderText={'Select Date'}
@@ -203,6 +203,9 @@ class CalendarView extends Component {
 							<div className={`divider`}></div>
 							<div className="calendar__operating-hours">
 								<h2 className="text--uppercase">Operating Hours</h2>
+								<div class={`status status--warning`} style={{ marginBottom: '20px' }}>
+									<p>Set your operating hours here.</p>
+								</div>
 								<form className="operating-hours">
 									<EditHours></EditHours>
 								</form>
