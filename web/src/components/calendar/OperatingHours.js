@@ -57,23 +57,17 @@ class OperatingHours extends Component {
                     return (
                         <div className="ui fitted toggle checkbox checkbox__container">
                             <input type="checkbox" className="hidden" checked={this.state[item].state} onClick={() => this.setState({ [item]: { ...this.state[item], state: !this.state[item].state } })} readonly="" tabindex="0" />
-                            <label>{item}</label>
+                            <label className={`text--capitalize`}>{item}</label>
                             {
                                 this.state[item].state ? (
-                                    this.state[item].edit ? (
-                                        [
-                                            <Select first={this.state[item].from} handleChange={this.handleChange} id="from" name={item}></Select>
-                                            ,
-                                            <Select first={this.state[item].to} handleChange={this.handleChange} id="to" name={item}></Select>
-                                            ,
-                                            <p className="link" onClick={this.update}>Done</p>
-                                        ]
-                                    ) : (
-                                            [
-                                                <label>{this.state[item].from}-{this.state[item].to}</label>,
-                                                <p className="link" onClick={() => this.setState({ [item]: { ...this.state[item], edit: true } })}>Edit</p>
-                                            ]
-                                        )
+                                    this.state[item].edit ? ([
+                                        <Select first={this.state[item].from} handleChange={this.handleChange} id="from" name={item}></Select>,
+                                        <Select first={this.state[item].to} handleChange={this.handleChange} id="to" name={item}></Select>,
+                                        <p className="link" onClick={this.update}>Done</p>
+                                    ]) : ([
+                                        <label className={`operating-hours__is-set`}>{this.state[item].from} - {this.state[item].to}</label>,
+                                        <p className="link" onClick={() => this.setState({ [item]: { ...this.state[item], edit: true } })}>Edit</p>
+                                    ])
                                 ) : (
                                         <label>Closed</label>
                                     )

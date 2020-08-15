@@ -1,6 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import React, { useState } from 'react'
+import { PayPalButton } from 'react-paypal-button-v2'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { Link, Redirect } from 'react-router-dom'
@@ -8,7 +9,6 @@ import { compose } from 'redux'
 import { Button } from 'semantic-ui-react'
 import { db } from '../../config/fbConfig'
 import PaypalConfig from '../../config/paypal.json'
-
 import {
 	cancelBookingInteraction,
 	closeInquiry,
@@ -25,12 +25,14 @@ import SetRating from '../rating/SetRating'
 import InteractionCall from './InteractionCall'
 import InteractionMessages from './InteractionMessages'
 
+
 const InteractionDetails = (props) => {
 	let $this = this;
 	let callEnabled = false;
 	const { interaction, auth } = props;
 	const iid = props.match.params.id
 	const [addy, setAddy] = useState('');
+	const [paypalDetails, setPaypalDetails] = useState(null)
 
 	if (!auth.uid) return <Redirect to='/signin' />
 
@@ -192,32 +194,23 @@ const InteractionDetails = (props) => {
 		props.completeInteraction(iid)
 	}
 
-	const sendBookingRequestFromInquiry = () => {
-		// console.log('send booking request', iid);
-		// setTimeout(function () {
-		props.sendBookingRequestFromInquiry(iid)
+	const sendBookingRequestFromInquiryButton = (details) => {
+		setTimeout(function () {
+			// 	console.log('wait 3 secs', paypalDetails.create_time);
+			props.sendBookingRequestFromInquiry(iid, details);
+			document.body.style.overflow = 'unset'
+			props.history.push('/bookings')
+		}, 1000)
+		// props.sendBookingRequestFromInquiry(iid)
 		// }, 3000)
 	}
+
 
 	const closeInquiry = () => {
 		// console.log(this, props)
 		props.closeInquiry(iid)
 		// console.log('session has been cancelled')
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	const completeBooking = () => {
 		console.log('clicked');
@@ -305,7 +298,35 @@ const InteractionDetails = (props) => {
 											}
 										/>
 										: null}
-									{interaction.interactionType === 'inquiry' && interaction.status === 'pending' ? <Button className={'button--secondary button--full'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button> : null}
+									{interaction.interactionType === 'inquiry' && interaction.status === 'pending' ?
+										// <Button className={'button--secondary button--full'} onClick={sendBookingRequestFromInquiry}>Send Booking Request</Button>
+										<Modal
+											buttonText={`Send Booking Request`}
+											buttonStyle={`button button--secondary button--full`}
+											content={(
+												<div style={{ textTransform: 'none' }}>
+													<h2>Complete Booking</h2>
+													<p>Your total of ${interaction.total} will be processed to book the session with <span className="text--capitalize">{interaction.proFirstName}</span>.</p>
+													<p>Please choose your preferred method of payment below.</p>
+													<PayPalButton
+														options={{
+															clientId: PaypalConfig.client_id,
+															vault: true
+														}}
+														// amount={interaction.total}
+														amount={1} // testing
+														shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+														onSuccess={(details, data) => {
+															console.log('in success', details, data)
+															// setPaypalDetails(details)
+															sendBookingRequestFromInquiryButton(details)
+															// props.sendBookingRequestFromInquiry(iid, details)
+														}}
+													/>
+												</div>
+											)}
+										/>
+										: null}
 									{interaction.interactionType === 'inquiry' && interaction.status === 'pending' ? <Button className={'button--primary button--full'} onClick={closeInquiry}>Close Inquiry</Button> : null}
 								</div>
 								:
@@ -358,7 +379,7 @@ const InteractionDetails = (props) => {
 												) : (
 														<>
 															<p>Pro will go to:</p>
-												<p>{interaction.clientFullAdress}</p>
+															<p>{interaction.clientFullAdress}</p>
 														</>
 													)}
 											</div>
@@ -415,7 +436,7 @@ const mapDispatchToProps = (dispatch) => {
 		confirmBookingInteraction: (interaction) => dispatch(confirmBookingInteraction(interaction)),
 		completeInteraction: (interaction) => dispatch(completeInteraction(interaction)),
 		closeInquiry: (interaction) => dispatch(closeInquiry(interaction)),
-		sendBookingRequestFromInquiry: (interaction) => dispatch(sendBookingRequestFromInquiry(interaction))
+		sendBookingRequestFromInquiry: (interaction, details) => dispatch(sendBookingRequestFromInquiry(interaction, details))
 	}
 }
 

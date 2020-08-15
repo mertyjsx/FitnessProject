@@ -113,12 +113,7 @@ export const createInteractionInquiry = (interaction) => {
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
-
-		if (!interaction.proBusinessName) {
-			interaction.proBusinessName = '';
-		}
-		// console.log(interaction)
-
+		// console.log('info past form form', interaction)
 		firestore.collection('interactions').add({
 			...interaction,
 			userFirstName: profile.firstName ? profile.firstName : '',
@@ -350,20 +345,29 @@ export const updateInteractionToBooked = (interaction) => {
 	}
 }
 
-export const sendBookingRequestFromInquiry = (iid) => {
+export const sendBookingRequestFromInquiry = (iid, details) => {
 	return (dispatch, getState, { getFirestore }) => {
 		// console.log('inside action', bookingID, interaction);
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
 		let interactionID = iid;
-		// console.log('inside action', iid);
+		// console.log('inside action', iid, details);
 		firestore.collection('interactions').doc(iid).update({
-			proUpdate:true,
-			userUpdate:true,
+			paypal: {
+				timeCreated: details.create_time,
+				id: details.id,
+				email: details.payer.email_address,
+				firstName: details.payer.name.given_name,
+				lastName: details.payer.name.surname,
+				payerID: details.payer.payer_id,
+				status: details.status
+			},
 			status: 'pending',
 			interactionType: 'booking',
 			createdAt: new Date(),
+			proUpdate:true,
+			userUpdate:true
 		}).then(function () {
 			// console.log("Booking successfully cancelled!");
 			dispatch({ type: 'SEND_BOOKING_REQ_FROM_INQUIRY', iid });

@@ -60,15 +60,43 @@ class Inquiry extends Component {
 			formSubmitting: true,
 			clientPhoneNumber: $this.props.profile.phoneNumber,
 			proPhoneNumber: $this.props.pro.phoneNumber,
-			clientFullAdress: $this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + this.props.profile.personalZip,
-			proBusinessName: $this.props.pro.businessName,
-			proFullAddress: $this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + this.props.pro.businessZip,
+			clientFullAdress: $this.props.profile.personalAddress1 + ' ' + this.props.profile.personalCity + ', ' + this.props.profile.personalState + ' ' + this.props.profile.personalZip,
+			// proFirstName: $this.props.pro.firstName,
+			// proLastName: $this.props.pro.lastName,
+			// proUID: $this.props.pro.uid,
+			// proImage: $this.props.pro.photoURL ? $this.props.pro.photoURL : '',
+			proBusinessName: $this.props.pro.businessName ? $this.props.pro.businessName : '',
+			proFullAddress: $this.props.pro.businessAddress1 + ' ' + this.props.pro.businessCity + ', ' + this.props.pro.businessState + ' ' + this.props.pro.businessZip,
 			userUpdate: true,
 			proUpdate:true
 		})
 		setTimeout(function () {
-			// console.log('wait 3 secs', $this.props);
-			$this.props.createInteractionInquiry($this.state)
+			// In the future, we need to pass less items
+			// $this.props.createInteractionInquiry({
+			// 	addressType: $this.state.addressType,
+			// 	callType: $this.state.callType,
+			// 	clientFullAdress: $this.state.clientFullAdress,
+			// 	clientPhoneNumber: $this.state.clientPhoneNumber,
+			// 	duration: $this.state.duration,
+			// 	endTime: $this.state.endTime,
+			// 	googleAddress: $this.state.googleAddress,
+			// 	interactionType: $this.state.interactionType,
+			// 	message: $this.state.message,
+			// 	profession: $this.state.profession,
+			// 	proFirstName: $this.state.firstName,
+			// 	proLastName: $this.state.lastName,
+			// 	proUID: $this.state.uid,
+			// 	proImage: $this.state.photoURL,
+			// 	proBusinessName: $this.state.proBusinessName,
+			// 	proFullAddress: $this.state.proFullAddress,
+			// 	proPhoneNumber: $this.state.proPhoneNumber,
+			// 	rate: $this.state.rate,
+			// 	startDate: $this.state.startDate,
+			// 	startTime: $this.state.startTime,
+			// 	status: $this.state.status,
+			// 	total: $this.state.total,
+			// })
+			$this.props.createInteractionInquiry($this.state);
 			document.body.style.overflow = 'unset'
 			$this.props.history.push('/inbox')
 		}, 3000)
@@ -81,7 +109,7 @@ class Inquiry extends Component {
 			startDate: '',
 			startTime: '',
 			endTime: '',
-			callType:'',
+			callType: '',
 		})
 	}
 
@@ -452,7 +480,7 @@ class Inquiry extends Component {
 						</Form.Field>
 						<Form.Field>
 							<DatePicker
-								className={this.state.profession === ''||(this.state.addressType==="otherAddress"?this.state.googleAddress==='':false) ? 'inactive date-picker' : 'date-picker'}
+								className={this.state.profession === '' || (this.state.addressType === "otherAddress" ? this.state.googleAddress === '' : false) ? 'inactive date-picker' : 'date-picker'}
 								selected={this.state.startDate}
 								onYearChange={(t) => this.createdaysInweek(t)}
 								onMonthChange={(t) => this.createdaysInweek(t)}
