@@ -30,9 +30,8 @@ $user-image-size: 80px;
 	}
 	&__user-img {
 		margin-right: $gutter;
-		img {
-			width: 100%;
-			max-width: $user-image-size;
+		img, .initials {
+			width: $user-image-size;
 			height: $user-image-size;
 			object-fit: cover;
 			border-radius: 50%;

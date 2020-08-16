@@ -410,7 +410,7 @@ class OnboardingClient extends Component {
 													])} className="button">Next</button>
 												</div>
 												{this.state.error &&
-													<div className="status status--danger status--full">{this.state.error}</div>
+													<div style={{ marginTop: '20px' }} className="status status--danger status--full">{this.state.error}</div>
 												}
 											</div>
 										</Fade>
