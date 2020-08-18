@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {db} from "../../config/fbConfig"
 const twilio = require('twilio');
 const twilioConfig = require('../../config/twilio.json')
 
@@ -588,17 +589,19 @@ export const Calling = (iid, payload) => {
 		// console.log('inside action', iid);
 		console.log(iid)
 		console.log(payload)
-		firestore.collection('users').doc(iid).update({
-			Calling: payload,
+	
+		db.collection('interactions').doc(iid).update({
+			calling:payload
 		}).then(function () {
 
 			console.log('Calling');
 			// console.log("Booking successfully cancelled!");
-			dispatch({ type: 'UPDATE_SEEN', iid });
+			//dispatch({ type: 'UPDATE_SEEN', iid });
 		}).catch(function (error) {
+			console.log(error)
 			// The document probably doesn't exist.
 			// console.error("Error cancelling document: ", error);
-			dispatch({ type: 'COMPLETED_ERROR', error })
+		//	dispatch({ type: 'COMPLETED_ERROR', error })
 		})
 	}
 }
