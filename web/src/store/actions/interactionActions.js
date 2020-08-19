@@ -181,28 +181,28 @@ export const createInteractionInquiry = (interaction) => {
 	}
 }
 
-export const cancelBookingInteraction = (bookingID) => {
+export const cancelBookingInteraction = (iid, interaction) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		// Make async call to db
 		const firestore = getFirestore()
 		const profile = getState().firebase.profile
 		const userID = getState().firebase.auth.uid
 
-		console.log('cancel book', bookingID);
+		// console.log('cancel book', bookingID);
 
-		firestore.collection('interactions').doc(bookingID).update({
+		firestore.collection('interactions').doc(iid).update({
 			status: 'cancelled',
 			interactionType: 'booking'
 		})
 			.then(function () {
-				console.log("Booking successfully cancelled!");
-				dispatch({ type: 'CANCEL_INTERACTION', bookingID });
+				// console.log("Booking successfully cancelled!", interaction);
+				dispatch({ type: 'CANCEL_INTERACTION', interaction });
 				// Send Message to Client
-				firestore.collection('users').doc(bookingID.userUID).get().then(snap => {
+				firestore.collection('users').doc(interaction.userUID).get().then(snap => {
 					let client = snap.data()
-					let message_body = encodeURI(`Your booking with ${bookingID.proFirstName} has been cancelled`) // Update the message
+					let message_body = encodeURI(`Your booking with ${interaction.proFirstName} has been cancelled, ${baseUri}/session/${iid}`) // Update the message
 					let from_number = encodeURI("+17865749377") // Update from number
-					let to_number = encodeURI(bookingID.clientPhoneNumber) // I can't find the number from the interaction or the pro user
+					let to_number = encodeURI(interaction.clientPhoneNumber) // I can't find the number from the interaction or the pro user
 					axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
 						`Body=${message_body}&From=${from_number}&To=${to_number}`,
 						{
@@ -218,11 +218,11 @@ export const cancelBookingInteraction = (bookingID) => {
 						})
 				});
 				// Send Message to Pro
-				firestore.collection('users').doc(bookingID.proUID).get().then(snap => {
+				firestore.collection('users').doc(interaction.proUID).get().then(snap => {
 					let pro = snap.data()
-					let message_body = encodeURI(`Your booking with ${bookingID.userFirstName} has been cancelled`) // Update the message
+					let message_body = encodeURI(`Your booking with ${interaction.userFirstName} has been cancelled, ${baseUri}/session/${iid}`) // Update the message
 					let from_number = encodeURI("+17865749377") // Update from number
-					let to_number = encodeURI(bookingID.proPhoneNumber) // I can't find the number from the interaction or the pro user
+					let to_number = encodeURI(interaction.proPhoneNumber) // I can't find the number from the interaction or the pro user
 					axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
 						`Body=${message_body}&From=${from_number}&To=${to_number}`,
 						{
@@ -261,8 +261,8 @@ export const confirmBookingInteraction = (bookingID) => {
 				firestore.collection('interactions').doc(bookingID).get().then(async snap => {
 					let data = snap.data()
 					let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
-					await sendMessage(`Your booking with ${first_name(data.proFirstName)} has been confirmed`, data.clientPhoneNumber)
-					await sendMessage(`Your booking with ${first_name(data.userFirstName)} has been confirmed`, data.proPhoneNumber)
+					await sendMessage(`Your booking with ${first_name(data.proFirstName)} has been confirmed, ${baseUri}/session/${bookingID}`, data.clientPhoneNumber)
+					// await sendMessage(`Your booking with ${first_name(data.userFirstName)} has been confirmed, ${baseUri}/session/${bookingID}`, data.proPhoneNumber)
 				})
 				// console.log("Booking successfully confirmed!");
 				dispatch({ type: 'CONFIRM_BOOKING', bookingID });
@@ -293,7 +293,7 @@ export const closeInquiry = (interaction) => {
 			firestore.collection('interactions').doc(interactionID).get().then(snap => {
 				let int = snap.data()
 				let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
-				let message_body = encodeURI(`Inquiry with ${first_name(int.proFirstName)} has been closed. Interaction ID: ${interactionID}`) // Update the message
+				let message_body = encodeURI(`Inquiry with ${first_name(int.proFirstName)} has been closed, ${baseUri}/session/${interactionID}`) // Update the message
 				let from_number = encodeURI("+17865749377") // Update from number
 				let to_number = encodeURI(int.clientPhoneNumber)
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
@@ -314,7 +314,7 @@ export const closeInquiry = (interaction) => {
 			firestore.collection('interactions').doc(interactionID).get().then(snap => {
 				let int = snap.data()
 				let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
-				let message_body = encodeURI(`Inquiry with ${first_name(int.clientFirstName)} has been closed. Interaction ID: ${interactionID}`) // Update the message
+				let message_body = encodeURI(`Inquiry with ${first_name(int.clientFirstName)} has been closed, ${baseUri}/session/${interactionID}`) // Update the message
 				let from_number = encodeURI("+17865749377") // Update from number
 				let to_number = encodeURI(int.proPhoneNumber) // I can't find the number from the interaction or the pro user
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
@@ -367,15 +367,15 @@ export const sendBookingRequestFromInquiry = (iid, details) => {
 			status: 'pending',
 			interactionType: 'booking',
 			createdAt: new Date(),
-			proUpdate:true,
-			userUpdate:true
+			proUpdate: true,
+			userUpdate: true
 		}).then(function () {
 			// console.log("Booking successfully cancelled!");
 			dispatch({ type: 'SEND_BOOKING_REQ_FROM_INQUIRY', iid });
 			firestore.collection('interactions').doc(interactionID).get().then(snap => {
 				let int = snap.data()
 				let first_name = s => s.substr(0, 1).toUpperCase() + s.substr(1).toLowerCase();
-				let message_body = encodeURI(`${first_name(int.proFirstName)} has sent you a request for booking. ${baseUri}/session/${interactionID}`) // Update the message
+				let message_body = encodeURI(`${first_name(int.proFirstName)} has sent you a request for booking, ${baseUri}/session/${interactionID}`) // Update the message
 				let from_number = encodeURI("+17865749377") // Update from number
 				let to_number = encodeURI(int.proPhoneNumber) // I can't find the number from the interaction or the pro user
 				axios.post(`https://api.twilio.com/2010-04-01/Accounts/${twilioConfig.account_sid}/Messages.json`,
@@ -551,7 +551,7 @@ export const sendTip = (tip, iid) => {
 	}
 }
 
-export const updateSeen = (iid,isPro) => {
+export const updateSeen = (iid, isPro) => {
 	return (dispatch, getState, { getFirestore }) => {
 		console.log('Update Seen by user');
 
@@ -560,22 +560,22 @@ export const updateSeen = (iid,isPro) => {
 		const userID = getState().firebase.auth.uid
 		// console.log('inside action', iid);
 
-let updateObject={}
-if (isPro) updateObject.proUpdate=false
-else updateObject.userUpdate=false
+		let updateObject = {}
+		if (isPro) updateObject.proUpdate = false
+		else updateObject.userUpdate = false
 
-console.log(updateObject)
+		console.log(updateObject)
 		firestore.collection('interactions').doc(iid).update(updateObject)
-		.then(function () {
+			.then(function () {
 
-			console.log('Update Seen by user');
-			// console.log("Booking successfully cancelled!");
-			dispatch({ type: 'UPDATE_SEEN', iid });
-		}).catch(function (error) {
-			// The document probably doesn't exist.
-			// console.error("Error cancelling document: ", error);
-			dispatch({ type: 'COMPLETED_ERROR', error })
-		})
+				console.log('Update Seen by user');
+				// console.log("Booking successfully cancelled!");
+				dispatch({ type: 'UPDATE_SEEN', iid });
+			}).catch(function (error) {
+				// The document probably doesn't exist.
+				// console.error("Error cancelling document: ", error);
+				dispatch({ type: 'COMPLETED_ERROR', error })
+			})
 	}
 }
 

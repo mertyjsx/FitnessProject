@@ -118,7 +118,7 @@ const InteractionDetails = (props) => {
 											},
 										}).then(response => {
 											console.log(response);
-											props.cancelBookingInteraction(iid)
+											props.cancelBookingInteraction(iid, interaction)
 											document.body.style.overflow = 'unset'
 										})
 								});
@@ -126,7 +126,7 @@ const InteractionDetails = (props) => {
 						});
 				});
 		} else {
-			props.cancelBookingInteraction(iid)
+			props.cancelBookingInteraction(iid, interaction)
 			document.body.style.overflow = 'unset'
 		}
 		console.log(interaction);
@@ -174,7 +174,7 @@ const InteractionDetails = (props) => {
 										},
 									}).then(response => {
 										console.log(response);
-										props.cancelBookingInteraction(iid)
+										props.cancelBookingInteraction(iid, interaction)
 										document.body.style.overflow = 'unset'
 									})
 							});
@@ -292,7 +292,7 @@ const InteractionDetails = (props) => {
 											content={
 												<>
 													<h2>Confirm Cancellation</h2>
-													<p style={{ marginBottom: '10px' }}>If you cancel 24 hours or more after the confirmed date and time, you will recieve a full refund. For more information about our cancellation policy, <Link to="/cancellation-policy">click here</Link>.</p>
+													<p style={{ marginBottom: '10px' }}>If you cancel 24 hours or less after the confirmed date and time, you will recieve a full refund. For more information about our cancellation policy, <Link to="/cancellation-policy">click here</Link>.</p>
 													<Button className={'button--secondary button--full'} onClick={cancelSession}>Confirm Cancel Booking</Button>
 												</>
 											}
@@ -401,7 +401,8 @@ const InteractionDetails = (props) => {
 								</div>
 							</div>
 
-							<div class="interaction-details__time-booked">
+							<div class="interaction-details__time-booked" style={{ width: '100%' }}>
+								<p style={{ fontStyle: 'normal', fontWeight: 'bold' }}><Link to={'/cancellation-policy'}>Cancellation Policy</Link></p>
 								{interaction.inquiryCreatedAt && <p>Inquiry Created: {moment.unix(interaction.inquiryCreatedAt.seconds).format("dddd, MMMM Do YYYY hh:mm A")}</p>}
 								{interaction.createdAt && <p>Booking Created: {moment.unix(interaction.createdAt.seconds).format("dddd, MMMM Do YYYY hh:mm A")}</p>}
 							</div>
@@ -432,7 +433,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		cancelBookingInteraction: (interaction) => dispatch(cancelBookingInteraction(interaction)),
+		cancelBookingInteraction: (iid, interaction) => dispatch(cancelBookingInteraction(iid, interaction)),
 		confirmBookingInteraction: (interaction) => dispatch(confirmBookingInteraction(interaction)),
 		completeInteraction: (interaction) => dispatch(completeInteraction(interaction)),
 		closeInquiry: (interaction) => dispatch(closeInquiry(interaction)),

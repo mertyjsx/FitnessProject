@@ -6,8 +6,6 @@ import paypalConfig from '../../config/paypal.json'
 import { upgrade } from '../../store/actions/authActions'
 import Modal from '../modal/Modal'
 
-
-
 class UpgradeProPremium extends Component {
 
 	constructor(props) {
@@ -15,20 +13,17 @@ class UpgradeProPremium extends Component {
 		this.state = {
 			isProPremium: false,
 			openModal: false,
-
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
-
 	}
 
 	handleSelector = (e) => {
-
 		this.setState({ openModal: e.target.checked })
 	}
 
 
 	handleSubmit = (details, data) => {
-		console.log("nnn", details)
+		// console.log("nnn", details)
 		let $this = this
 		this.setState({
 			isProPremium: true,
@@ -55,8 +50,6 @@ class UpgradeProPremium extends Component {
 			// console.log('please', $this.props, $this.state);
 			$this.props.upgrade($this.state)
 			document.body.style.overflow = 'unset'
-
-
 		}, 3000)
 	}
 
@@ -110,9 +103,7 @@ class UpgradeProPremium extends Component {
 const mapStateToProps = (state) => {
 	// console.log(state);
 	return {
-		// projects: state.firestore.ordered.projects,
 		auth: state.firebase.auth,
-		// notifications: state.firestore.ordered.notifications,
 		profile: state.firebase.profile,
 		settings: state.firebase.settings
 	}
@@ -121,7 +112,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		upgrade: (upgradeParams) => dispatch(upgrade(upgradeParams)),
-
 	}
 }
 

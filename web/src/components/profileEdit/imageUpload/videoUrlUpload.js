@@ -12,21 +12,21 @@ class VideoUpload extends Component {
             videoUrl: "",
             firstUpload: true,
             success: false,
-            MaxUploadError:false,
-            videoError:false
+            MaxUploadError: false,
+            videoError: false
         }
     }
 
 
 
-    CheckMaxUpload=async ()=>{
+    CheckMaxUpload = async () => {
         const currentUserUid = this.props.auth.uid;
-    const userInfo= await db.collection(`users`).doc(currentUserUid).get()
-    const lengthOfVideos=userInfo.data().videoUrls?userInfo.data().videoUrls.length:0
-    
-    console.log(lengthOfVideos)
-    return (lengthOfVideos<5)
-    
+        const userInfo = await db.collection(`users`).doc(currentUserUid).get()
+        const lengthOfVideos = userInfo.data().videoUrls ? userInfo.data().videoUrls.length : 0
+
+        console.log(lengthOfVideos)
+        return (lengthOfVideos < 5)
+
     }
 
 
@@ -38,26 +38,26 @@ class VideoUpload extends Component {
 
 
 
-    handleUpload =async (e) => {
+    handleUpload = async (e) => {
 
         e.preventDefault()
 
-        const Check=await this.CheckMaxUpload()
+        const Check = await this.CheckMaxUpload()
 
-        if(Check){
+        if (Check) {
             const videoOwner = this.props.auth.uid;
             let videoArray = this.props.profile.videoUrls
             if (!videoArray) {
                 videoArray = []
             }
-            let embledUrl=`https://www.youtube.com/embed/${this.state.videoUrl.split("=")[1]}`
-            if(this.state.videoUrl.split("=")[1].length>11){
+            let embledUrl = `https://www.youtube.com/embed/${this.state.videoUrl.split("=")[1]}`
+            if (this.state.videoUrl.split("=")[1].length > 11) {
 
-this.setState({videoError:true})
+                this.setState({ videoError: true })
 
 
-            }else{
-                this.setState({videoError:false})
+            } else {
+                this.setState({ videoError: false })
                 videoArray.push(embledUrl)
                 db.collection(`users`).doc(videoOwner).update({
                     videoUrls: videoArray
@@ -67,33 +67,34 @@ this.setState({videoError:true})
                         this.setState({ success: false })
                     }, 2000);
                 })
-    
+
 
             }
-          
-        }else{
-            const $this=this
+
+        } else {
+            const $this = this
 
             this.setState({
-                MaxUploadError:true
+                MaxUploadError: true
             })
-        
-        setTimeout(() => {
-            $this.setState({
-                MaxUploadError:false
-            })
-        }, 2000);
+
+            setTimeout(() => {
+                $this.setState({
+                    MaxUploadError: false
+                })
+            }, 2000);
 
 
         }
 
-     
+
     }
 
     render() {
+        const { isProPremium } = this.props;
         return (
             <Modal
-                buttonText={'Upload Video Url'} buttonStyle={'button button--md button--secondary'}
+                buttonText={'Upload Video Url'} buttonStyle={`button button--md button--secondary ${isProPremium ? '' : 'inactive'}`}
                 content={(
                     <form onSubmit={this.handleUpload} className={'profile-image__upload'}>
 
@@ -102,28 +103,28 @@ this.setState({videoError:true})
                         {this.state.success &&
                             <div className="alertYellow m-20" >Video url uploaded !!</div>
                         }
-                        {this.state.MaxUploadError&&
-				      	<div
-					    style={{
-						margin:10,
-						backgroundColor:"#F08080",
-						padding:10,
-						color:"white"
+                        {this.state.MaxUploadError &&
+                            <div
+                                style={{
+                                    margin: 10,
+                                    backgroundColor: "#F08080",
+                                    padding: 10,
+                                    color: "white"
 
-					     }}
-					>You cant upload more than 5 !</div>
-					      }
-                           {this.state.videoError&&
-				      	<div
-					    style={{
-						margin:10,
-						backgroundColor:"#F08080",
-						padding:10,
-						color:"white"
+                                }}
+                            >Max uploads allowed</div>
+                        }
+                        {this.state.videoError &&
+                            <div
+                                style={{
+                                    margin: 10,
+                                    backgroundColor: "#F08080",
+                                    padding: 10,
+                                    color: "white"
 
-					     }}
-					>Please upload short link! like: https://www.youtube.com/watch?v=r7xt3u3clGQ</div>
-					      }
+                                }}
+                            >Please upload short link! like: https://www.youtube.com/watch?v=r7xt3u3clGQ</div>
+                        }
                     </form>
                 )}
             ></Modal>

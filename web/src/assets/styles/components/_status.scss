@@ -1,24 +1,73 @@
 .status {
 	text-align: center;
-	padding: $gutter;
-	transition: 500ms;
+	overflow: hidden;
+	position: relative;
+	// transition: 500ms;
+	&:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 175%;
+		height: 100%;
+		transition: 500ms;
+	}
+	&:hover {
+		&:after {
+			transform: translateX(-15%);
+		}
+	}
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+	.container {
+		padding: $gutter;
+	}
 	
+	&--secondary {
+		border-radius: 5px;
+		a, .modal__trigger {
+			cursor: pointer;
+			display: block;
+			padding: $gutter;
+			text-decoration: none;
+			text-shadow: rgba(0, 0, 0, 0.75) 1px 1px 2px;
+			width: 100%;
+		}
+	}
+
 	&--warning {
-		background-color: $yellow;
+		// background-color: $yellow;
+		&:after {
+			content: '';
+			background: $yellow;
+			// background: -moz-linear-gradient(90deg, rgba(75,139,90,1) 0%, rgba(90,166,107,1) 35%, rgba(65,125,78,1) 100%);
+			// background: -webkit-linear-gradient(90deg, rgba(75,139,90,1) 0%, rgba(90,166,107,1) 35%, rgba(65,125,78,1) 100%);
+			background: linear-gradient(90deg, rgba($yellow-darker,1) 0%, rgba($yellow,1) 35%, rgba($yellow,1) 100%);	
+		}
 	}
 	&--danger {
 		background-color: $red;
 		// color: white;
 	}
 	&--success {
-		background-color: $green;
-		color: $white;
-		font-weight: bold;
+		// color: $white;
+		position: relative;
+		overflow: hidden;
+		&:after {
+			content: '';
+			background: $green;
+			background: -moz-linear-gradient(90deg, rgba(75,139,90,1) 0%, rgba(90,166,107,1) 35%, rgba(65,125,78,1) 100%);
+			background: -webkit-linear-gradient(90deg, rgba(75,139,90,1) 0%, rgba(90,166,107,1) 35%, rgba(65,125,78,1) 100%);
+			background: linear-gradient(90deg, rgba(75,139,90,1) 0%, rgba(90,166,107,1) 35%, rgba(65,125,78,1) 100%);	
+		}
 		a {
 			color: $white;
+			text-decoration: none;
 			transition: 300ms;
 			&:hover {
-				color: $black;
+				color: $gray-lighter;
 			}
 		}
 	}

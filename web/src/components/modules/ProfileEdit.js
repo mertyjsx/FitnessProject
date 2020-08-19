@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import PaypalModal from '../paypal/paypalModal';
 import FAQUpdate from '../profileEdit/FAQUpdate';
 import ImageUpload from '../profileEdit/imageUpload/ImageUpload';
 import RenderImage from '../profileEdit/imageUpload/RenderImage';
@@ -10,6 +12,7 @@ import ProfileUpdate from '../profileEdit/ProfileUpdate';
 import SocialUpdate from '../profileEdit/SocialUpdate';
 import SpecialtiesEdit from '../profileEdit/SpecialtiesEdit';
 import PhotosVideos from "./PhotosVideos";
+
 
 class ProfileEdit extends Component {
 	constructor(props) {
@@ -33,6 +36,11 @@ class ProfileEdit extends Component {
 
 		return (
 			<div className="profile-edit">
+				<Helmet>
+					<title>Profile</title>
+					{/* <meta name="description" content="Helmet application" /> */}
+				</Helmet>
+
 				{profile.isApproved !== true && profile.isPro ?
 					<div className="status status--warning">
 						<div className="container">
@@ -40,7 +48,9 @@ class ProfileEdit extends Component {
 						</div>
 					</div>
 					: null}
+
 				<div className="container container--top-bottom-padding container--small">
+
 					<div className="row">
 						<div className="col">
 							<div className={`bookings__head`}>
@@ -48,6 +58,30 @@ class ProfileEdit extends Component {
 							</div>
 						</div>
 					</div>
+
+					{profile.isPro && !profile.isProPremium && (
+						<div className={`row`}>
+							<div className={`col`}>
+								<div className={`status status--secondary status--success`} style={{ width: '100%', marginBottom: '20px' }}>
+									{/* <Link to={`upgrade-pro`} className={`link link--light`}>Want to become a Pro Premium? <strong>Click here</strong> to upgrade your account today.</Link> */}
+									<PaypalModal
+										buttonText={`Want to become a Pro Premium? Click here to upgrade your account today.`}
+										buttonClass={`link link--light`}
+									/>
+								</div>
+							</div>
+						</div>
+					)}
+
+					{profile.isPro && profile.isProPremium && (
+						<div className={`row`}>
+							<div className={`col`}>
+								<div className={``} style={{ width: '100%', marginBottom: '20px' }}>
+									<p>You're a Pro Premium! Enjoy the benefits of Premium with Video, Galleries, and adding your social accounts!</p>
+								</div>
+							</div>
+						</div>
+					)}
 
 					<div className="row">
 						<div className="col">

@@ -23,6 +23,7 @@ const PendingProfiles = (props) => {
 					<p><strong>Fun Fact:</strong> {user.funFact}</p>
 					<p><strong>Business Name:</strong> {user.businessName}</p>
 					<p><strong>Business Address:</strong> {user.businessAddress1} {user.businessAddress2} {user.businessCity}, {user.businessState} {user.businessZip}</p>
+					<p><strong>Social:</strong> {user.socialInstagram && (<a href={user.socialInstagram} target={`_blank`}>Instagram</a>)} {user.socialFacebook && (<a href={user.socialFacebook} target={`_blank`}>Facebook</a>)} {user.socialPinterest && (<a href={user.socialPinterest} target={`_blank`}>Pinterest</a>)} {user.socialTwitter && (<a href={user.socialTwitter} target={`_blank`}>Twitter</a>)}</p>
 
 					<div className="review__buttons">
 						<button onClick={() => {
