@@ -71,9 +71,9 @@ let calling=null
 
 props.interactions&&props.interactions.map(item=>
 	{
-if(	((item.proUID==auth.uid&&item.calling==="user")||(item.userUID==auth.uid&&item.calling==="pro"))){
+if(	((item.proUID===auth.uid&&item.calling==="user")||(item.userUID===auth.uid&&item.calling==="pro"))){
 
-
+console.log(item.calling)
 calling=item.id
 
 
