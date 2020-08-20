@@ -134,29 +134,67 @@ class InteractionCall extends React.Component {
 
 	}
 	videoToggle = (isPro) => {
-let video=null
-let amIpro=this.props.profile.isPro
-		if(isPro&&amIpro){
 
-			video = document.getElementById('current-user-video')
 
-		}else{
+	
+	
+		let	video = document.getElementById('current-user-video')
 
-			video = document.getElementById('call-user-video')
-		}
 		// console.log("hello")
 		
 		let stream = video.srcObject
 		if (stream) {
+			console.log("video enabled değil",	!(stream.getVideoTracks()[0].enabled))
 			stream.getVideoTracks()[0].enabled =
 				!(stream.getVideoTracks()[0].enabled);
 			this.setState({ stop: !stream.getVideoTracks()[0].enabled })
 		}
 
+
+
+
+		let io = this.io;
+		let iid = this.props.iid;
+		if (!io) return
+		io.emit("publish", {
+			"room": iid,
+			"event": "videoMute",
+			"data": {
+isPro:this.props.profile.isPro
+			}
+		})
+
+
+
 	}
 
 	
 
+videoToggleIO=(isPro)=>{
+
+
+console.log(isPro)
+	let video=null
+	let amIpro=this.props.profile.isPro
+			if(isPro&&amIpro){
+	
+				video = document.getElementById('current-user-video')
+	
+			}else{
+	
+				video = document.getElementById('call-user-video')
+			}
+			// console.log("hello")
+			
+			let stream = video.srcObject
+			if (stream) {
+				console.log("video enabled değil",	!(stream.getVideoTracks()[0].enabled))
+				stream.getVideoTracks()[0].enabled =
+					!(stream.getVideoTracks()[0].enabled);
+			
+			}
+
+}
 
 
 
@@ -167,17 +205,9 @@ let amIpro=this.props.profile.isPro
 
 
 
+	componentDidMount() {
 
-	componentDidUpdate(prevProps) {
-
-		if (prevProps !== this.props) {
-
-
-			if (this.props.profile.Calling)
-				this.setState({ open: true, state: "callincoming" })
-		}
-
-
+	
 
 		let targetuid = this.props.interaction.proUID
 		if (targetuid == this.props.auth.uid) { targetuid = this.props.interaction.userUID }
@@ -297,6 +327,16 @@ let amIpro=this.props.profile.isPro
 				// console.log("ICE Candidate received", this.peerConnections[uid])
 			}
 		})
+
+		io.on("videoMute", (data) => {
+			// console.log("connect")
+			
+		
+			this.videoToggleIO(data.isPro)
+				// console.log("ICE Candidate received", this.peerConnections[uid])
+			
+		})
+
 		io.on("offer", data => {
 			// console.log("connect")
 			let uid = data[0]
